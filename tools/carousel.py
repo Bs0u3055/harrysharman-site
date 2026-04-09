@@ -28,7 +28,7 @@ TOOLS_DIR = Path(__file__).resolve().parent
 REPO_ROOT = TOOLS_DIR.parent
 ASSETS_DIR = REPO_ROOT / "assets"
 
-MUSTARD = (245, 203, 60)
+MUSTARD = (232, 168, 32)
 NAVY = (20, 20, 60)
 SLIDE_W, SLIDE_H = 1080, 1350
 

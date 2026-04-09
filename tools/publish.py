@@ -152,7 +152,7 @@ Aspect ratio: 16:9
 Resolution: 1200x675px minimum"""
 
         response = client.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.5-flash-image",
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_modalities=["TEXT", "IMAGE"],
@@ -300,7 +300,7 @@ def _generate_simple_image(post: dict, api_key: str, output_path: Path) -> str |
         info(f"Prompt: {prompt[:120]}...")
 
         response = client.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.5-flash-image",
             contents=prompt,
             config=types.GenerateContentConfig(
                 response_modalities=["TEXT", "IMAGE"],
@@ -399,188 +399,118 @@ def publish_to_site(post: dict, image_path: str | None, dry_run: bool = False) -
 # ---------------------------------------------------------------------------
 # 4. Publish to LinkedIn
 # ---------------------------------------------------------------------------
-def upload_image_to_linkedin(image_path: str, token: str, author: str) -> str | None:
-    """Upload an image to LinkedIn and return the image URN."""
-    base_url = "https://api.linkedin.com/rest"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "LinkedIn-Version": "202502",
-        "Content-Type": "application/json",
-        "X-Restli-Protocol-Version": "2.0.0",
-    }
-
-    try:
-        # Initialize upload
-        init_resp = requests.post(
-            f"{base_url}/images?action=initializeUpload",
-            headers=headers,
-            json={"initializeUploadRequest": {"owner": author}},
-        )
-        init_resp.raise_for_status()
-        upload_data = init_resp.json()["value"]
-        upload_url = upload_data["uploadUrl"]
-        image_urn = upload_data["image"]
-
-        # Upload binary
-        img_bytes = Path(image_path).read_bytes()
-        upload_resp = requests.put(
-            upload_url,
-            headers={"Authorization": f"Bearer {token}", "Content-Type": "application/octet-stream"},
-            data=img_bytes,
-        )
-        upload_resp.raise_for_status()
-        ok(f"Image uploaded to LinkedIn: {image_urn}")
-        return image_urn
-    except Exception as e:
-        warn(f"LinkedIn image upload failed: {e}")
-        return None
-
-
 def publish_to_linkedin(post: dict, image_path: str | None, dry_run: bool = False) -> bool:
     """
-    Publish to LinkedIn using Option B strategy:
-    - Full text as native post (maximum reach)
-    - First comment with link to harrysharman.com
-    - Attached image if available
+    Convert markdown body to formatted text suitable for LinkedIn newsletter
+    and save it locally for manual posting.
     """
-    heading("Publishing to LinkedIn")
+    heading("Preparing LinkedIn text")
 
-    token = os.getenv("LINKEDIN_ACCESS_TOKEN")
-    member_id = os.getenv("LINKEDIN_MEMBER_ID")
-
-    if not token or not member_id:
-        fail("LINKEDIN_ACCESS_TOKEN or LINKEDIN_MEMBER_ID not set — skipping")
-        return False
-
-    author = f"urn:li:person:{member_id}"
-    base_url = "https://api.linkedin.com/rest"
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "LinkedIn-Version": "202502",
-        "Content-Type": "application/json",
-        "X-Restli-Protocol-Version": "2.0.0",
-    }
+    output_dir = TOOLS_DIR / "output"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f"linkedin-{post['slug']}.txt"
 
     post_url = f"https://harrysharman.com/post.html?slug={post['slug']}"
 
-    # Use linkedin_intro if provided, otherwise use the full text
+    # Use linkedin_intro if provided, otherwise convert the full body
     if post.get("linkedin_intro"):
-        text = post["linkedin_intro"]
+        formatted_text = post["linkedin_intro"]
     else:
-        # Option B: full article as text (LinkedIn limit is 3000 chars for posts)
-        full_text = f"{post['title']}\n\n{post['body']}"
-        if len(full_text) > 3000:
-            truncated = full_text[:2800].rsplit(" ", 1)[0]
-            text = f"{truncated}...\n\n📖 Read the full article at {post_url}"
-        else:
-            text = full_text
+        # Strip markdown formatting for LinkedIn plain text
+        body = post["body"]
+        # Remove headers markup but keep the text
+        body = re.sub(r"^#{1,6}\s+", "", body, flags=re.MULTILINE)
+        # Remove bold/italic markers
+        body = re.sub(r"\*\*(.+?)\*\*", r"\1", body)
+        body = re.sub(r"\*(.+?)\*", r"\1", body)
+        # Remove links but keep text
+        body = re.sub(r"\[(.+?)\]\(.+?\)", r"\1", body)
+        # Remove images
+        body = re.sub(r"!\[.*?\]\(.+?\)", "", body)
+        # Clean up extra blank lines
+        body = re.sub(r"\n{3,}", "\n\n", body)
+        formatted_text = f"{post['title']}\n\n{body.strip()}"
+
+    # Truncate if needed for LinkedIn 3000 char limit
+    if len(formatted_text) > 3000:
+        truncated = formatted_text[:2800].rsplit(" ", 1)[0]
+        formatted_text = f"{truncated}...\n\nRead the full article at {post_url}"
 
     if dry_run:
-        info(f"[DRY RUN] Would post to LinkedIn ({len(text)} chars)")
-        info("[DRY RUN] Would add first comment with site link")
+        info(f"[DRY RUN] Would save LinkedIn text to {output_file}")
         return True
 
-    # Upload image if available
-    image_urn = None
-    if image_path and Path(image_path).exists():
-        image_urn = upload_image_to_linkedin(image_path, token, author)
+    # Build the output with instructions
+    output_content = (
+        "=== LinkedIn Newsletter Text ===\n"
+        f"Title: {post['title']}\n"
+        f"Excerpt: {post['excerpt']}\n"
+        f"URL: {post_url}\n"
+        f"Character count: {len(formatted_text)}\n"
+        "\n"
+        "=== Formatted Text (copy below this line) ===\n"
+        "\n"
+        f"{formatted_text}\n"
+        "\n"
+        "=== End of Text ===\n"
+        "\n"
+        "Notes:\n"
+        "- Hero image is generated separately in assets/\n"
+        "- Paste the text above into LinkedIn as a new post or newsletter\n"
+        "- Add the hero image manually when posting\n"
+    )
 
-    # Create post
-    try:
-        post_payload = {
-            "author": author,
-            "commentary": text,
-            "visibility": "PUBLIC",
-            "distribution": {
-                "feedDistribution": "MAIN_FEED",
-                "targetEntities": [],
-                "thirdPartyDistributionChannels": [],
-            },
-            "lifecycleState": "PUBLISHED",
-        }
-
-        if image_urn:
-            post_payload["content"] = {
-                "media": {"title": post["title"], "id": image_urn}
-            }
-
-        resp = requests.post(f"{base_url}/posts", headers=headers, json=post_payload)
-        resp.raise_for_status()
-
-        post_urn = resp.headers.get("x-restli-id", "")
-        ok(f"LinkedIn post created: {post_urn}")
-
-        # Add first comment with site link
-        if post_urn:
-            try:
-                comment_resp = requests.post(
-                    f"{base_url}/socialActions/{post_urn}/comments",
-                    headers=headers,
-                    json={
-                        "actor": author,
-                        "message": {"text": f"Read this and all my articles at harrysharman.com 🧠\n{post_url}"},
-                        "object": post_urn,
-                    },
-                )
-                comment_resp.raise_for_status()
-                ok("First comment added with site link")
-            except Exception as e:
-                warn(f"Failed to add first comment: {e}")
-
-        return True
-
-    except Exception as e:
-        fail(f"LinkedIn post failed: {e}")
-        if hasattr(e, "response") and e.response is not None:
-            fail(f"Response: {e.response.text[:500]}")
-        return False
+    output_file.write_text(output_content, encoding="utf-8")
+    ok(f"LinkedIn text saved to {output_file}")
+    info(f"Character count: {len(formatted_text)}")
+    print(f"LinkedIn text saved to /root/harrysharman-site/tools/output/linkedin-{post['slug']}.txt")
+    return True
 
 
 # ---------------------------------------------------------------------------
 # 5. Publish to Substack (Draft)
 # ---------------------------------------------------------------------------
 def publish_to_substack(post: dict, dry_run: bool = False) -> bool:
-    heading("Creating Substack draft")
+    """
+    Convert markdown body to HTML and save locally for manual Substack upload.
+    """
+    heading("Preparing Substack HTML")
 
-    email = os.getenv("SUBSTACK_EMAIL")
-    password = os.getenv("SUBSTACK_PASSWORD")
-    substack_url = os.getenv("SUBSTACK_URL")
-
-    if not email or not password or not substack_url:
-        fail("SUBSTACK_EMAIL, SUBSTACK_PASSWORD, or SUBSTACK_URL not set — skipping")
-        return False
+    output_dir = TOOLS_DIR / "output"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_file = output_dir / f"substack-{post['slug']}.html"
 
     if dry_run:
-        info("[DRY RUN] Would create Substack draft")
+        info(f"[DRY RUN] Would save Substack HTML to {output_file}")
         return True
 
     try:
-        from substack import Api as SubstackApi
-
-        api = SubstackApi(
-            email=email,
-            password=password,
-            publication_url=substack_url,
-        )
-
         html_body = md_lib.markdown(post["body"], extensions=["extra", "codehilite"])
 
-        draft = api.create_draft(
-            title=post["title"],
-            subtitle=post["excerpt"],
-            body=html_body,
+        html_content = (
+            "<!DOCTYPE html>\n"
+            "<html>\n"
+            "<head>\n"
+            '    <meta charset="utf-8">\n'
+            f"    <title>{post['title']}</title>\n"
+            "</head>\n"
+            "<body>\n"
+            f"    <h1>{post['title']}</h1>\n"
+            f"    <p><em>{post['excerpt']}</em></p>\n"
+            "    <hr>\n"
+            f"    {html_body}\n"
+            "</body>\n"
+            "</html>"
         )
 
-        ok(f"Substack draft created: {draft.get('id', 'unknown')}")
+        output_file.write_text(html_content, encoding="utf-8")
+        ok(f"Substack HTML saved to {output_file}")
+        print(f"Substack HTML saved to /root/harrysharman-site/tools/output/substack-{post['slug']}.html")
         return True
 
-    except ImportError:
-        warn("substack-api package not installed — skipping Substack")
-        return False
     except Exception as e:
-        warn(f"Substack draft creation failed (non-blocking): {e}")
+        fail(f"Substack HTML generation failed: {e}")
         return False
-
 
 # ---------------------------------------------------------------------------
 # 6. CLI interface
