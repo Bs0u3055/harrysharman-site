@@ -1,0 +1,6 @@
+google-generativeai
+requests
+pyyaml
+markdown
+substack-api
+python-dotenv

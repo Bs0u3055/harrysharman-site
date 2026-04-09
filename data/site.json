@@ -1,0 +1,90 @@
+{
+  "projects": [
+    {
+      "title": "AI-Powered Brief Builder",
+      "status": "In Progress",
+      "description": "A tool that helps strategists build better creative briefs using AI — trained on behavioural science principles and real-world brand strategy frameworks.",
+      "link": "",
+      "linkText": "Coming soon"
+    },
+    {
+      "title": "Beautiful Thinking Blog",
+      "status": "Live",
+      "description": "50+ articles exploring the intersection of brand strategy, behavioural science, and how people actually think. Originally on LinkedIn, now finding a proper home.",
+      "link": "blog.html",
+      "linkText": "Read the blog →"
+    },
+    {
+      "title": "Healthcare Comms AI Toolkit",
+      "status": "In Progress",
+      "description": "Experimenting with AI agents that can support the messy, creative, strategic work of healthcare communications — not just the operational bits.",
+      "link": "",
+      "linkText": "Coming soon"
+    },
+    {
+      "title": "harrysharman.com",
+      "status": "Live",
+      "description": "This site. Built as a static site with markdown blog posts, maintained by OpenClaw. A side project about having a proper home on the internet.",
+      "link": "https://github.com/harrysharman/harrysharman.com",
+      "linkText": "View on GitHub →"
+    }
+  ],
+  "caseStudies": [
+    {
+      "category": "Brand Strategy",
+      "title": "Repositioning a Pharma Brand for Patient-Centricity",
+      "description": "Led the strategic repositioning of a top-20 pharma brand, shifting from a clinical efficacy story to one rooted in patient lived experience and behavioural insight.",
+      "result": "Placeholder — add your real results here"
+    },
+    {
+      "category": "Behavioural Science",
+      "title": "Applying Behavioural Frameworks to HCP Engagement",
+      "description": "Designed a behavioural science-informed engagement strategy for a global oncology brand, identifying key decision-making biases in prescribing behaviour.",
+      "result": "Placeholder — add your real results here"
+    },
+    {
+      "category": "AI & Innovation",
+      "title": "Building AI Workflows for a Healthcare Agency",
+      "description": "Designed and built AI-powered tools to support strategic planning, content development, and insight generation within a healthcare communications platform.",
+      "result": "Placeholder — add your real results here"
+    },
+    {
+      "category": "Content Strategy",
+      "title": "Beautiful Thinking: Building a Thought Leadership Platform",
+      "description": "Created and sustained a 50-article thought leadership series on LinkedIn, covering brand strategy, behavioural science, and creative thinking in healthcare.",
+      "result": "50+ articles, consistent engagement"
+    }
+  ],
+  "cv": [
+    {
+      "period": "Present",
+      "role": "Brand Strategist & AI Builder",
+      "company": "Applied Intelligence",
+      "description": "Building AI-powered software within a healthcare communications platform. Bridging brand strategy, behavioural science, and technology."
+    },
+    {
+      "period": "Previous",
+      "role": "Senior Brand Strategist",
+      "company": "[Your previous agency/company]",
+      "description": "Led brand strategy for healthcare and pharmaceutical clients. Integrated behavioural science frameworks into strategic planning."
+    },
+    {
+      "period": "Earlier",
+      "role": "Strategist / Planner",
+      "company": "[Earlier role]",
+      "description": "Developed brand positioning, campaign strategy, and audience insight for a range of healthcare brands."
+    }
+  ],
+  "testimonials": [
+    {
+      "quote": "Harry brings a rare combination of strategic rigour and genuine creativity. He doesn't just think differently — he makes everyone around him think differently too.",
+      "author": "Placeholder Name",
+      "role": "Colleague at Applied Intelligence"
+    },
+    {
+      "quote": "His Beautiful Thinking articles are some of the most thoughtful content I've seen on LinkedIn. Real insight, not just noise.",
+      "author": "Placeholder Name",
+      "role": "LinkedIn connection"
+    }
+  ]
+}
