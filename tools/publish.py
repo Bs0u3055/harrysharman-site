@@ -43,6 +43,14 @@ POSTS_JSON = POSTS_DIR / "posts.json"
 # Brand colours
 MUSTARD_YELLOW = (232, 168, 32)  # #E8A820
 
+
+# ---------------------------------------------------------------------------
+# Custom exceptions
+# ---------------------------------------------------------------------------
+class ImageGenerationError(Exception):
+    """Raised when hero image generation fails and must halt publishing."""
+    pass
+
 # ---------------------------------------------------------------------------
 # ANSI colour helpers
 # ---------------------------------------------------------------------------
@@ -130,7 +138,10 @@ Blog post:
 
 
 def generate_doodle_background(icons: str, api_key: str, output_path: Path) -> bool:
-    """Generate the mustard yellow + white doodle background via Gemini."""
+    """Generate the mustard yellow + white doodle background via Gemini.
+
+    Raises ImageGenerationError if Gemini fails or returns no image.
+    """
     try:
         from google import genai
         from google.genai import types
@@ -166,10 +177,16 @@ Resolution: 1200x675px minimum"""
                 return True
 
         fail("Gemini response did not contain an image")
-        return False
+        raise ImageGenerationError(
+            "Gemini response did not contain an image (no inline_data in any part)"
+        )
+    except ImageGenerationError:
+        raise
     except Exception as e:
         fail(f"Doodle background generation failed: {e}")
-        return False
+        raise ImageGenerationError(
+            f"Doodle background generation failed: {e}"
+        ) from e
 
 
 def remove_background(photo_path: str, output_path: Path) -> bool:
@@ -220,19 +237,24 @@ def composite_hero_image(background_path: Path, cutout_path: Path, output_path: 
         return False
 
 
-def generate_image(post: dict, photo_path: str | None = None, dry_run: bool = False) -> str | None:
+def generate_image(post: dict, photo_path: str | None = None, dry_run: bool = False) -> str:
     """
     Generate a blog header image.
 
     If photo_path is provided: branded workflow (remove bg → doodles → composite)
     If no photo: simple editorial image via Gemini
+
+    Raises ImageGenerationError on any failure. Callers must handle this.
+    Never returns None and never silently falls back without a guaranteed result.
     """
     heading("Generating header image")
 
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
-        fail("GEMINI_API_KEY not set — skipping image generation")
-        return None
+        fail("GEMINI_API_KEY not set")
+        raise ImageGenerationError(
+            "GEMINI_API_KEY not set in environment — cannot generate image"
+        )
 
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
     final_image = ASSETS_DIR / f"{post['slug']}.jpg"
@@ -248,36 +270,57 @@ def generate_image(post: dict, photo_path: str | None = None, dry_run: bool = Fa
         cutout_path = ASSETS_DIR / f"{post['slug']}-cutout.png"
         bg_path = ASSETS_DIR / f"{post['slug']}-bg.png"
 
-        # Step 1: Remove background from photo
-        if not remove_background(photo_path, cutout_path):
-            warn("Falling back to simple image generation")
-            return _generate_simple_image(post, api_key, final_image)
+        try:
+            # Step 1: Remove background from photo
+            if not remove_background(photo_path, cutout_path):
+                raise ImageGenerationError(
+                    f"Background removal failed for photo {photo_path}"
+                )
 
-        # Step 2: Extract visual concepts and generate doodle background
-        icons = extract_visual_concepts(post, api_key)
-        if not generate_doodle_background(icons, api_key, bg_path):
-            warn("Falling back to simple image generation")
-            return _generate_simple_image(post, api_key, final_image)
+            # Step 2: Extract visual concepts and generate doodle background
+            # (propagates ImageGenerationError if Gemini fails)
+            icons = extract_visual_concepts(post, api_key)
+            generate_doodle_background(icons, api_key, bg_path)
 
-        # Step 3: Composite
-        if composite_hero_image(bg_path, cutout_path, final_image):
-            # Clean up intermediate files
+            # Step 3: Composite
+            if not composite_hero_image(bg_path, cutout_path, final_image):
+                raise ImageGenerationError(
+                    "Compositing photo cutout onto doodle background failed"
+                )
+
+            # Verify the final image actually exists on disk
+            if not final_image.exists():
+                raise ImageGenerationError(
+                    f"Composited hero image missing from disk: {final_image}"
+                )
+
+            # Clean up intermediate files on success
             cutout_path.unlink(missing_ok=True)
             bg_path.unlink(missing_ok=True)
             return str(final_image)
-        else:
-            warn("Compositing failed, falling back to simple image")
-            return _generate_simple_image(post, api_key, final_image)
+        except Exception:
+            # Clean up intermediates on failure too — no orphaned files
+            cutout_path.unlink(missing_ok=True)
+            bg_path.unlink(missing_ok=True)
+            raise
 
     # --- Simple workflow (no photo) ---
     else:
         if photo_path:
             warn(f"Photo not found at {photo_path}, using simple image generation")
-        return _generate_simple_image(post, api_key, final_image)
+        result = _generate_simple_image(post, api_key, final_image)
+        if not final_image.exists():
+            raise ImageGenerationError(
+                f"Simple image generation reported success but file missing: {final_image}"
+            )
+        return result
 
 
-def _generate_simple_image(post: dict, api_key: str, output_path: Path) -> str | None:
-    """Fallback: generate a simple editorial-style image."""
+def _generate_simple_image(post: dict, api_key: str, output_path: Path) -> str:
+    """Fallback: generate a simple editorial-style image.
+
+    Raises ImageGenerationError on any failure.
+    """
     try:
         from google import genai
         from google.genai import types
@@ -322,10 +365,14 @@ def _generate_simple_image(post: dict, api_key: str, output_path: Path) -> str |
                 return str(output_path)
 
         fail("Gemini response did not contain an image")
-        return None
+        raise ImageGenerationError(
+            "Gemini response did not contain an image (no inline_data in any part)"
+        )
+    except ImageGenerationError:
+        raise
     except Exception as e:
         fail(f"Image generation failed: {e}")
-        return None
+        raise ImageGenerationError(f"Image generation failed: {e}") from e
 
 
 # ---------------------------------------------------------------------------
@@ -524,6 +571,12 @@ def main():
     parser.add_argument("--site-only", action="store_true", help="Only publish to website")
     parser.add_argument("--image-only", action="store_true", help="Only generate header image")
     parser.add_argument("--dry-run", action="store_true", help="Show what would happen")
+    parser.add_argument(
+        "--skip-image",
+        action="store_true",
+        help="EMERGENCY ONLY: skip hero image generation and publish without it. "
+             "Default behaviour REQUIRES a successful image — this flag bypasses that check.",
+    )
     args = parser.parse_args()
 
     # Load .env
@@ -554,18 +607,44 @@ def main():
 
     results = {}
 
-    # Image only mode
+    # ---- Image generation (MUST succeed unless --skip-image is set) ----
+    image_path: str | None = None
+    if args.skip_image:
+        warn("--skip-image passed: bypassing image generation. "
+             "Post will be published WITHOUT a hero image.")
+        results["Image"] = True  # Explicit bypass, not a failure
+    else:
+        try:
+            image_path = generate_image(
+                post, photo_path=args.photo, dry_run=args.dry_run
+            )
+        except ImageGenerationError as e:
+            fail("ABORTED: Image generation failed.")
+            print(f"   Reason: {e}")
+            print("   Nothing was published. "
+                  "Fix the image generation issue and re-run.")
+            print("   (Use --skip-image to bypass this check in an emergency.)")
+            sys.exit(1)
+
+        # Verify the image file actually landed on disk (skip in dry-run)
+        if not args.dry_run:
+            expected = ASSETS_DIR / f"{post['slug']}.jpg"
+            if not image_path or not Path(image_path).exists() or not expected.exists():
+                fail("ABORTED: Image generation reported success but no file on disk.")
+                print(f"   Expected: {expected}")
+                print("   Nothing was published. "
+                      "Fix the image generation issue and re-run.")
+                sys.exit(1)
+
+        results["Image"] = True
+        ok(f"Hero image verified on disk: {image_path}")
+
+    # Image only mode — stop after image generation
     if args.image_only:
-        image_path = generate_image(post, photo_path=args.photo, dry_run=args.dry_run)
-        results["Image"] = image_path is not None
         print_summary(results, args.dry_run)
         sys.exit(0 if all(results.values()) else 1)
 
-    # Generate image
-    image_path = generate_image(post, photo_path=args.photo, dry_run=args.dry_run)
-    results["Image"] = image_path is not None
-
-    # Publish to site
+    # ---- Publish to site (only reached if image succeeded or was bypassed) ----
     results["Website"] = publish_to_site(post, image_path, dry_run=args.dry_run)
 
     # Site only: stop here
