@@ -411,6 +411,12 @@ def publish_to_site(post: dict, image_path: str | None, dry_run: bool = False) -
         "image": rel_image,
     }
 
+    # Upsert by slug: drop any existing entry for this post, then insert the
+    # fresh one at the top. Prevents duplicate listings when re-publishing.
+    before = len(posts_list)
+    posts_list = [p for p in posts_list if p.get("slug") != post["slug"]]
+    if len(posts_list) < before:
+        info(f"Replacing existing posts.json entry for slug={post['slug']}")
     posts_list.insert(0, new_entry)
 
     featured_count = 0
@@ -425,7 +431,22 @@ def publish_to_site(post: dict, image_path: str | None, dry_run: bool = False) -
 
     try:
         os.chdir(REPO_ROOT)
-        subprocess.run(["git", "add", "-A"], check=True, capture_output=True, text=True)
+        # Stage ONLY the files this publish actually touched. Never `git add -A`
+        # — that previously swept in stray .env backups, __pycache__, and
+        # whatever else happened to be in the working tree, which got blocked
+        # by GitHub push protection when secrets leaked in.
+        files_to_stage = [
+            str(post_file.relative_to(REPO_ROOT)),
+            str(POSTS_JSON.relative_to(REPO_ROOT)),
+        ]
+        if image_path:
+            img = Path(image_path)
+            if img.exists():
+                files_to_stage.append(str(img.relative_to(REPO_ROOT)))
+        subprocess.run(
+            ["git", "add", "--"] + files_to_stage,
+            check=True, capture_output=True, text=True,
+        )
         result = subprocess.run(
             ["git", "commit", "-m", f"New post: {post['title']}"],
             check=True, capture_output=True, text=True,
