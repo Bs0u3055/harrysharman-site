@@ -2,6 +2,20 @@
   {
     "slug": "i-accidentally-got-a-butler",
     "title": "I Accidentally Got a Butler",
+    "date": "2026-04-10",
+    "excerpt": "What happens when a non-technical person sets up their own personal AI assistant — and accidentally builds a farmhouse-hunting database in the process.",
+    "tags": [
+      "ai",
+      "strategy",
+      "innovation",
+      "beautiful-thinking"
+    ],
+    "featured": true,
+    "image": "assets/i-accidentally-got-a-butler.jpg"
+  },
+  {
+    "slug": "i-accidentally-got-a-butler",
+    "title": "I Accidentally Got a Butler",
     "date": "2026-04-09",
     "excerpt": "What happens when a non-technical person sets up their own personal AI assistant — and accidentally builds a farmhouse-hunting database in the process.",
     "tags": [
@@ -38,7 +52,7 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": true
+    "featured": false
   },
   {
     "slug": "the-brains-secret-pharmacy",

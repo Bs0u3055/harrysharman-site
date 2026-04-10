@@ -3,3 +3,11 @@ tools/.env
 
 # Local Netlify folder
 .netlify
+output/
+
+# Defence in depth — never let secret backups or pyc cache enter git
+*.bak
+*.bak-*
+.env.bak*
+__pycache__/
+*.pyc
