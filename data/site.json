@@ -1,111 +1,97 @@
 {
-    "projects": [
-        {
-            "title": "Dream Property",
-            "status": "Live",
-            "description": "A data-mapping project that fuses Ordnance Survey, Land Registry, Companies House, planning data and OpenStreetMap into a single map — scoring and filtering 1,800+ rural holdings across Cheshire. Built to answer one question: how do you find your dream place?",
-            "link": "projects/dream-property/",
-            "linkText": "Explore the map →"
-        },
-        {
-            "title": "Unload",
-            "status": "Live",
-            "description": "A task management app built for how human brains actually work. Auto-scheduling, Brain Mode, and an AI-powered brain dump that turns your thoughts into an organised day.",
-            "link": "unload.html",
-            "linkText": "Read the story →"
-        },
-        {
-            "title": "Tomorrowland",
-            "status": "In Progress",
-            "description": "A book on future-proofing healthcare brands — combining scenario planning, behavioural science, and workshop methodology. Currently 72% written.",
-            "link": "tomorrowland.html",
-            "linkText": "Follow the progress →"
-        },
-        {
-            "title": "AI-Powered Brief Builder",
-            "status": "In Progress",
-            "description": "A tool that helps strategists build better creative briefs using AI — trained on behavioural science principles and real-world brand strategy frameworks.",
-            "link": "",
-            "linkText": "Coming soon"
-        },
-        {
-            "title": "Beautiful Thinking Blog",
-            "status": "Live",
-            "description": "50+ articles exploring the intersection of brand strategy, behavioural science, and how people actually think. Originally on LinkedIn, now finding a proper home.",
-            "link": "blog.html",
-            "linkText": "Read the blog →"
-        },
-        {
-            "title": "Healthcare Comms AI Toolkit",
-            "status": "In Progress",
-            "description": "Experimenting with AI agents that can support the messy, creative, strategic work of healthcare communications — not just the operational bits.",
-            "link": "",
-            "linkText": "Coming soon"
-        },
-        {
-            "title": "harrysharman.com",
-            "status": "Live",
-            "description": "This site. Built as a static site with markdown blog posts, maintained by OpenClaw. A side project about having a proper home on the internet.",
-            "link": "https://github.com/harrysharman/harrysharman.com",
-            "linkText": "View on GitHub →"
-        }
-    ],
-    "caseStudies": [
-        {
-            "category": "Brand Strategy",
-            "title": "Repositioning a Pharma Brand for Patient-Centricity",
-            "description": "Led the strategic repositioning of a top-20 pharma brand, shifting from a clinical efficacy story to one rooted in patient lived experience and behavioural insight.",
-            "result": "Placeholder — add your real results here"
-        },
-        {
-            "category": "Behavioural Science",
-            "title": "Applying Behavioural Frameworks to HCP Engagement",
-            "description": "Designed a behavioural science-informed engagement strategy for a global oncology brand, identifying key decision-making biases in prescribing behaviour.",
-            "result": "Placeholder — add your real results here"
-        },
-        {
-            "category": "AI & Innovation",
-            "title": "Building AI Workflows for a Healthcare Agency",
-            "description": "Designed and built AI-powered tools to support strategic planning, content development, and insight generation within a healthcare communications platform.",
-            "result": "Placeholder — add your real results here"
-        },
-        {
-            "category": "Content Strategy",
-            "title": "Beautiful Thinking: Building a Thought Leadership Platform",
-            "description": "Created and sustained a 50-article thought leadership series on LinkedIn, covering brand strategy, behavioural science, and creative thinking in healthcare.",
-            "result": "50+ articles, consistent engagement"
-        }
-    ],
-    "cv": [
-        {
-            "period": "Present",
-            "role": "Brand Strategist & AI Builder",
-            "company": "Applied Intelligence",
-            "description": "Building AI-powered software within a healthcare communications platform. Bridging brand strategy, behavioural science, and technology."
-        },
-        {
-            "period": "Previous",
-            "role": "Senior Brand Strategist",
-            "company": "[Your previous agency/company]",
-            "description": "Led brand strategy for healthcare and pharmaceutical clients. Integrated behavioural science frameworks into strategic planning."
-        },
-        {
-            "period": "Earlier",
-            "role": "Strategist / Planner",
-            "company": "[Earlier role]",
-            "description": "Developed brand positioning, campaign strategy, and audience insight for a range of healthcare brands."
-        }
-    ],
-    "testimonials": [
-        {
-            "quote": "Harry brings a rare combination of strategic rigour and genuine creativity. He doesn't just think differently — he makes everyone around him think differently too.",
-            "author": "Placeholder Name",
-            "role": "Colleague at Applied Intelligence"
-        },
-        {
-            "quote": "His Beautiful Thinking articles are some of the most thoughtful content I've seen on LinkedIn. Real insight, not just noise.",
-            "author": "Placeholder Name",
-            "role": "LinkedIn connection"
-        }
-    ]
+  "projects": [
+    {
+      "title": "Dream Property",
+      "status": "Live",
+      "description": "A data-mapping project that fuses Ordnance Survey, Land Registry, Companies House, planning data and OpenStreetMap into a single map — scoring and filtering 1,800+ rural holdings across Cheshire. Built to answer one question: how do you find your dream place?",
+      "link": "projects/dream-property/",
+      "linkText": "Explore the map →"
+    },
+    {
+      "title": "Unload",
+      "status": "Live",
+      "description": "A task management app built for how human brains actually work. Auto-scheduling, Brain Mode, and an AI-powered brain dump that turns your thoughts into an organised day.",
+      "link": "unload.html",
+      "linkText": "Read the story →"
+    },
+    {
+      "title": "Tomorrowland",
+      "status": "In Progress",
+      "description": "A book on future-proofing healthcare brands — combining scenario planning, behavioural science, and workshop methodology. Currently 72% written.",
+      "link": "tomorrowland.html",
+      "linkText": "Follow the progress →"
+    },
+    {
+      "title": "AI-Powered Brief Builder",
+      "status": "In Progress",
+      "description": "A tool that helps strategists build better creative briefs using AI — trained on behavioural science principles and real-world brand strategy frameworks.",
+      "link": "",
+      "linkText": "Coming soon"
+    },
+    {
+      "title": "Beautiful Thinking Blog",
+      "status": "Live",
+      "description": "50+ articles exploring the intersection of brand strategy, behavioural science, and how people actually think. Originally on LinkedIn, now finding a proper home.",
+      "link": "blog.html",
+      "linkText": "Read the blog →"
+    },
+    {
+      "title": "Healthcare Comms AI Toolkit",
+      "status": "In Progress",
+      "description": "Experimenting with AI agents that can support the messy, creative, strategic work of healthcare communications — not just the operational bits.",
+      "link": "",
+      "linkText": "Coming soon"
+    },
+    {
+      "title": "harrysharman.com",
+      "status": "Live",
+      "description": "This site. Built as a static site with markdown blog posts, maintained by OpenClaw. A side project about having a proper home on the internet.",
+      "link": "https://github.com/harrysharman/harrysharman.com",
+      "linkText": "View on GitHub →"
+    }
+  ],
+  "cv": [
+    {
+      "period": "2025 — Present",
+      "role": "EVP, Innovation & Artificial Intelligence",
+      "company": "Assembled Intelligence",
+      "description": "Building AI-powered software and capabilities within a healthcare communications platform — bridging brand strategy, behavioural science, and technology."
+    },
+    {
+      "period": "2023 — 2025",
+      "role": "EVP, Artificial + Human Intelligence",
+      "company": "BGB Group",
+      "description": "Built the agency's AI capability from scratch — combining behavioural science and applied AI to develop proprietary research tools, prompt frameworks, and products used in pitches, brand planning, and client workflows."
+    },
+    {
+      "period": "2019 — 2023",
+      "role": "SVP Director of Strategy, US",
+      "company": "Evoke Mind+Matter",
+      "description": "Led the US strategy team across pre-launch and launched healthcare brands. Sat on the US Leadership Team, helping shape agency direction."
+    },
+    {
+      "period": "2016 — 2019",
+      "role": "Head of Strategy",
+      "company": "Havas Lynx Group",
+      "description": "Strategy lead at Cannes Lions Global Healthcare Agency of the Year, working across AstraZeneca, AbbVie, Janssen, Novo Nordisk and others. Led award-winning campaigns including putting the Brain Emoji on 4.5 billion smartphones."
+    },
+    {
+      "period": "2014 — 2016",
+      "role": "Head of Marketing & Strategic Planning",
+      "company": "Delineo",
+      "description": "Founded the agency strategy and planning department. Created brand frameworks, digital strategies, and ran workshops for B2C and B2B clients."
+    },
+    {
+      "period": "2012 — 2014",
+      "role": "Consultant",
+      "company": "Strategic North",
+      "description": "Brand strategy, commercial insight, and future scenario development for a specialist marketing consultancy."
+    },
+    {
+      "period": "2008 — 2012",
+      "role": "Research Executive / Group Graduate",
+      "company": "Adelphi Group",
+      "description": "Started career in healthcare market research. 200+ interviews, 80+ qualitative and quantitative research projects. Early work in digital innovation — first seeds of the behavioural science interest."
+    }
+  ]
 }
