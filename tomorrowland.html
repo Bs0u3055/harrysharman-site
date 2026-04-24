@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomorrowland — The Book | Harry Sharman</title>
+    <meta name="description" content="Tomorrowland is Harry Sharman's book on future-proofing healthcare brands — combining scenario planning, behavioural science, and strategic workshop methodology.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* === Page-specific styles === */
+
+        .book-hero {
+            padding: calc(64px + var(--space-xl)) 0 var(--space-lg);
+            text-align: center;
+        }
+
+        .book-hero .hero-label {
+            margin-bottom: var(--space-sm);
+        }
+
+        .book-hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.8rem, 6vw, 4.8rem);
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: var(--space-sm);
+        }
+
+        .book-hero .tagline {
+            font-size: 1.15rem;
+            color: var(--color-text-secondary);
+            max-width: 560px;
+            margin: 0 auto var(--space-lg);
+            line-height: 1.7;
+        }
+
+        /* Progress */
+        .progress-block {
+            display: inline-block;
+            background: var(--color-surface-alt);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: var(--space-md) var(--space-lg);
+            text-align: left;
+            min-width: 320px;
+        }
+
+        .progress-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-text-light);
+            margin-bottom: 0.75rem;
+        }
+
+        .progress-bar-track {
+            background: var(--color-border);
+            border-radius: 99px;
+            height: 8px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 0.6rem;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 99px;
+            background: var(--color-text);
+            width: 72%; /* Update this when progress changes */
+            transition: width 1s ease;
+        }
+
+        .progress-numbers {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+        }
+
+        .progress-pct {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            color: var(--color-text);
+        }
+
+        .progress-status {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* Content */
+        .book-content {
+            max-width: var(--max-width-narrow);
+            margin: 0 auto;
+        }
+
+        .book-content p {
+            font-size: 1.05rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-md);
+            line-height: 1.8;
+        }
+
+        .book-content p.lead {
+            font-size: 1.15rem;
+            color: var(--color-text);
+            font-family: var(--font-serif);
+            line-height: 1.8;
+        }
+
+        .book-content blockquote {
+            border-left: 3px solid var(--color-accent);
+            padding-left: var(--space-md);
+            margin: var(--space-lg) 0;
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+
+        /* Chapter list */
+        .chapter-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chapter-item {
+            display: flex;
+            gap: var(--space-md);
+            padding: var(--space-sm) 0;
+            border-bottom: 1px solid var(--color-border-light);
+            align-items: baseline;
+        }
+
+        .chapter-item:last-child {
+            border-bottom: none;
+        }
+
+        .chapter-num {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+            min-width: 72px;
+            flex-shrink: 0;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .chapter-title {
+            font-size: 0.95rem;
+            color: var(--color-text);
+            font-weight: 400;
+        }
+
+        /* Notify box */
+        .notify-box {
+            text-align: center;
+            padding: var(--space-xl) 0;
+        }
+
+        .notify-box h2 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: var(--space-sm);
+        }
+
+        .notify-box p {
+            color: var(--color-text-secondary);
+            max-width: 420px;
+            margin: 0 auto var(--space-lg);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 480px) {
+            .progress-block {
+                min-width: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">HS</a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#case-studies">Case Studies</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="book-hero">
+        <div class="container">
+            <p class="hero-label">Book · In Progress</p>
+            <h1>Tomorrowland</h1>
+            <p class="tagline">A playbook for future-proofing healthcare brands — combining scenario planning, behavioural science, and how to actually run the workshop.</p>
+            <div class="progress-block">
+                <p class="progress-label">Writing progress</p>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill"></div>
+                </div>
+                <div class="progress-numbers">
+                    <span class="progress-pct">72%</span>
+                    <span class="progress-status">6 chapters · actively writing</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- What it is -->
+    <section class="section">
+        <div class="container">
+            <div class="book-content">
+                <h2 class="section-title">What this book is</h2>
+
+                <p class="lead">Healthcare brands are notoriously bad at the future. Not because the people in them aren't smart — they are — but because the tools they use to plan for it were built for a different era.</p>
+
+                <p>Most strategic planning in healthcare still relies on forecasting: extrapolating from what we know toward what we expect. It's tidy. It's defensible. And in a world moving as fast as this one, it's nearly useless.</p>
+
+                <p>Tomorrowland is a different approach. It's built on scenario planning — the discipline of preparing for multiple futures rather than betting on one. But I've paired that with behavioural science, because the real question isn't "what might happen?" It's "how do humans and organisations actually respond when it does?"</p>
+
+                <blockquote>"The future isn't a single forecast. It's a range of possibilities — and the brands that survive are the ones that have already thought about all of them."</blockquote>
+
+                <p>The book is also a practical workshop framework. I've used this methodology in real rooms with real healthcare brand teams, and I wanted to write something that a strategist could pick up, read in a weekend, and run the following Monday.</p>
+
+                <p>It's not an academic text. It's a working playbook.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chapters -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2 class="section-title">What's in it</h2>
+            <p class="section-intro">Six chapters. Each one building toward the full methodology.</p>
+            <ul class="chapter-list">
+                <li class="chapter-item">
+                    <span class="chapter-num">Chapter 1</span>
+                    <span class="chapter-title">Why You Need This Playbook — the case for scenario thinking in healthcare</span>
+                </li>
+                <li class="chapter-item">
+                    <span class="chapter-num">Chapter 2</span>
+                    <span class="chapter-title">The Credos — mental models for predicting the future</span>
+                </li>
+                <li class="chapter-item">
+                    <span class="chapter-num">Chapter 3</span>
+                    <span class="chapter-title">The Ingredients — how to build a future (methodically)</span>
+                </li>
+                <li class="chapter-item">
+                    <span class="chapter-num">Chapter 4</span>
+                    <span class="chapter-title">Ozempic — a live case study in futures thinking</span>
+                </li>
+                <li class="chapter-item">
+                    <span class="chapter-num">Chapter 5</span>
+                    <span class="chapter-title">Strategy Development — turning scenarios into decisions</span>
+                </li>
+                <li class="chapter-item">
+                    <span class="chapter-num">Chapter 6</span>
+                    <span class="chapter-title">Running the TomorrowLand Workshop — the facilitator's guide</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Who it's for -->
+    <section class="section">
+        <div class="container">
+            <div class="book-content">
+                <h2 class="section-title">Who it's for</h2>
+                <p>Healthcare strategists, brand leads, and agency planners who are tired of strategy decks that age badly. If you've ever sat in a planning session and thought "we're not actually thinking about the future, we're just projecting the present" — this is for you.</p>
+                <p>It's also for anyone who wants to run better workshops. The TomorrowLand session format is tried and tested, and Chapter 6 is essentially a full facilitator's guide you can run straight from the page.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notify CTA -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="notify-box">
+                <h2>Want to know when it's done?</h2>
+                <p>I'll send a note when the book is finished — no newsletter cadence, just one email.</p>
+                <a href="mailto:harrysharman@gmail.com?subject=Tomorrowland — notify me" class="btn btn-primary">Send me a note →</a>
+                <p style="margin-top: var(--space-md); font-size: 0.85rem; color: var(--color-text-light);">Or just email harrysharman@gmail.com with "Tomorrowland" in the subject line.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Harry Sharman. Built with care, maintained by <a href="https://openclaw.ai" target="_blank" rel="noopener">OpenClaw</a>.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unload — A better to-do app | Harry Sharman</title>
+    <meta name="description" content="Unload is a task management app built for how human brains actually work — auto-scheduling, Brain Mode, and a quick-add that just gets it.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* === Page-specific styles === */
+
+        .project-hero {
+            padding: calc(64px + var(--space-xl)) 0 var(--space-lg);
+            text-align: center;
+        }
+
+        .project-hero-logo {
+            height: 64px;
+            width: auto;
+            margin-bottom: var(--space-md);
+        }
+
+        .project-hero .hero-label {
+            margin-bottom: var(--space-sm);
+        }
+
+        .project-hero h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: var(--space-sm);
+        }
+
+        .project-hero .tagline {
+            font-size: 1.15rem;
+            color: var(--color-text-secondary);
+            max-width: 560px;
+            margin: 0 auto var(--space-lg);
+            line-height: 1.7;
+        }
+
+        .project-hero .hero-cta {
+            margin-bottom: 0;
+        }
+
+        /* Origin story */
+        .story-section {
+            max-width: var(--max-width-narrow);
+            margin: 0 auto;
+        }
+
+        .story-section p {
+            font-size: 1.05rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-md);
+            line-height: 1.8;
+        }
+
+        .story-section p.lead {
+            font-size: 1.15rem;
+            color: var(--color-text);
+            font-family: var(--font-serif);
+            line-height: 1.8;
+        }
+
+        .story-section blockquote {
+            border-left: 3px solid var(--color-accent);
+            padding-left: var(--space-md);
+            margin: var(--space-lg) 0;
+            font-family: var(--font-serif);
+            font-size: 1.15rem;
+            font-style: italic;
+            color: var(--color-text);
+            line-height: 1.7;
+        }
+
+        /* Screenshots */
+        .screenshots-section {
+            padding: var(--space-xl) 0;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .screenshot-slot {
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface-alt);
+        }
+
+        .screenshot-slot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .screenshot-slot.wide {
+            grid-column: 1 / -1;
+        }
+
+        .screenshot-caption {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
+        }
+
+        .feature-card {
+            padding: var(--space-md);
+            background: var(--color-surface);
+            border-radius: 8px;
+            border: 1px solid var(--color-border-light);
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-sm);
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--color-text);
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+        }
+
+        /* CTA */
+        .project-cta {
+            text-align: center;
+            padding: var(--space-xl) 0;
+        }
+
+        .project-cta h2 {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 500;
+            margin-bottom: var(--space-sm);
+        }
+
+        .project-cta p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-lg);
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tech-note {
+            font-size: 0.8rem;
+            color: var(--color-text-light);
+            margin-top: var(--space-md);
+        }
+
+        .back-to-projects {
+            display: inline-block;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-lg);
+        }
+
+        .back-to-projects:hover {
+            color: var(--color-accent);
+        }
+
+        @media (max-width: 768px) {
+            .screenshots-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshot-slot.wide {
+                grid-column: auto;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">HS</a>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="index.html#case-studies">Case Studies</a></li>
+                <li><a href="index.html#cv">CV</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="project-hero">
+        <div class="container">
+            <img
+                src="assets/unload/logo.png"
+                alt="Unload"
+                class="project-hero-logo"
+                onerror="this.style.display='none'"
+            >
+            <p class="hero-label">Live Project · Side Project</p>
+            <h1>Unload</h1>
+            <p class="tagline">A better to-do app, built for how human brains actually work.</p>
+            <div class="hero-cta">
+                <a href="https://unloadtodo.com" class="btn btn-primary" target="_blank" rel="noopener">Try Unload →</a>
+                <a href="index.html#projects" class="btn btn-secondary">← Back to projects</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Origin story -->
+    <section class="section">
+        <div class="container">
+            <div class="story-section">
+                <h2 class="section-title">Why I built this</h2>
+
+                <p class="lead">After years of trying every to-do app going — and every one of them eventually failing me — I decided to just build the thing I actually wanted.</p>
+
+                <p>The problem isn't that people don't know how to manage their tasks. The problem is that most to-do apps were built by engineers for engineers. They assume you think in linear patterns. You don't. Most people don't. You have a messy brain full of overlapping priorities, shifting energy levels, calendar commitments, and the lingering guilt of tasks you haven't touched in three weeks.</p>
+
+                <p>What I actually wanted was something that would show me my tasks mapped visually against my real day — my meetings, my blocks of time, the gaps where I could actually get things done. Not a list. A view of reality.</p>
+
+                <blockquote>"To-do lists were made for people who think in straight lines. Most of us don't."</blockquote>
+
+                <p>I also noticed something I called the decay loop: when life gets intense and you stop using an app for a few days, the list goes stale. And a stale list is intimidating. So you avoid it. And the longer you avoid it, the staler it gets. Most apps have no answer to this. They just wait for you to come back and feel bad.</p>
+
+                <p>Then there was the brain thing. My background is in behavioural science, and one of the most obvious and underserved truths about how people work is that your cognitive capacity genuinely varies — day to day, hour to hour. Some days your brain is firing on all cylinders. Some days it really isn't. Apps that ignore this are setting people up to fail. People with certain health conditions experience this more dramatically, but honestly it's true for everyone: a bad night's sleep, a rough morning, a difficult meeting — these things change what you're capable of.</p>
+
+                <p>So I built in a way to account for it. And then I kept going, because once you start building something that actually fits the way you think, it's hard to stop.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots-section section-alt">
+        <div class="container">
+            <h2 class="section-title">What it looks like</h2>
+            <p class="section-intro">Tasks mapped against your real day. Not a list — a view of what's actually possible.</p>
+            <div class="screenshots-grid">
+                <div class="screenshot-slot wide">
+                    <img src="assets/unload/screenshot-1.png" alt="Unload day view — tasks scheduled across a timeline with meetings">
+                    <p class="screenshot-caption">Day view — your tasks scheduled around your actual calendar</p>
+                </div>
+                <div class="screenshot-slot">
+                    <img src="assets/unload/screenshot-2.png" alt="Unload task list with quick-add">
+                    <p class="screenshot-caption">Quick-add — just tell it what's on your mind</p>
+                </div>
+                <div class="screenshot-slot">
+                    <img src="assets/unload/screenshot-3.png" alt="Unload Brain Mode toggle">
+                    <p class="screenshot-caption">Brain Mode — adjust for how you're actually feeling today</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">How it works</h2>
+            <p class="section-intro">A few things that make it different from every other to-do app you've tried.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">📅</span>
+                    <h3>Auto-schedule</h3>
+                    <p>Drop tasks in. Unload figures out when they fit around your real calendar — meetings, fixed commitments, the lot. Long tasks get split across days automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🧠</span>
+                    <h3>Brain Mode</h3>
+                    <p>Not every day feels the same. Tell Unload how your brain is operating today and it adjusts your schedule accordingly — lighter tasks when your capacity is low, harder ones when you're sharp.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3>Brain Dump</h3>
+                    <p>Just type or speak what's on your mind. Unload uses AI to parse the chaos into structured tasks — with sensible estimates, priorities, and due dates.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🕐</span>
+                    <h3>Time aware</h3>
+                    <p>Work stays in work hours. Personal time stays protected. Unload knows the difference and schedules accordingly — without you having to think about it.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔄</span>
+                    <h3>Dynamic reshuffling</h3>
+                    <p>Didn't get to something? It doesn't disappear or stay stuck in yesterday. Unload recalculates and reschedules — automatically, every time you open it.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💚</span>
+                    <h3>Habits (no guilt)</h3>
+                    <p>Build small habits without the pressure of streak mechanics or shame. Unload tracks them quietly and reminds you gently — it's support, not surveillance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section section-alt">
+        <div class="container">
+            <div class="project-cta">
+                <h2>It's live. Go try it.</h2>
+                <p>Unload is a working app — not a concept, not a demo. Sign up and use it.</p>
+                <a href="https://unloadtodo.com" class="btn btn-primary" target="_blank" rel="noopener">Open Unload →</a>
+                <p class="tech-note">Built with React · Node.js · PostgreSQL · OpenAI</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Harry Sharman. Built with care, maintained by <a href="https://openclaw.ai" target="_blank" rel="noopener">OpenClaw</a>.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
