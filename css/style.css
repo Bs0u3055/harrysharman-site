@@ -1075,3 +1075,135 @@ img {
         margin: 0 auto var(--space-md);
     }
 }
+
+/* --- Podcast section --- */
+.section-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.podcast-layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--space-lg);
+    align-items: center;
+}
+
+.podcast-desc {
+    font-size: 1.05rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-md);
+    max-width: 520px;
+}
+
+.podcast-links {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.podcast-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    border-radius: 50px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.podcast-btn-spotify {
+    background: #1DB954;
+    color: #000;
+}
+
+.podcast-btn-spotify:hover {
+    background: #1ed760;
+    color: #000;
+}
+
+.podcast-btn-apple {
+    background: #fc3c44;
+    color: #fff;
+}
+
+.podcast-btn-apple:hover {
+    background: #ff5a62;
+    color: #fff;
+}
+
+.podcast-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.podcast-art {
+    width: 200px;
+    height: 200px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f0a020 0%, #d4880a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 60px rgba(240, 160, 32, 0.22);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.podcast-art:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 28px 70px rgba(240, 160, 32, 0.3);
+}
+
+.podcast-art-inner {
+    text-align: center;
+    line-height: 1;
+}
+
+.podcast-art-title {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 1.9rem;
+    font-weight: 500;
+    color: #0c0c10;
+    letter-spacing: -0.02em;
+}
+
+.podcast-art-ai {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 700;
+    color: #0c0c10;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+    opacity: 0.75;
+}
+
+.podcast-frequency {
+    font-size: 0.78rem;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+@media (max-width: 768px) {
+    .podcast-layout {
+        grid-template-columns: 1fr;
+    }
+    .podcast-visual {
+        order: -1;
+    }
+    .podcast-desc {
+        max-width: 100%;
+    }
+}
