@@ -13,6 +13,10 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<link rel="stylesheet" href="../../css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #080b12; }
@@ -20,7 +24,7 @@ html, body { height: 100%; margin: 0; padding: 0; font-family: -apple-system, Bl
 
 /* ── HEADER ─────────────────────────────────────────────────────────────── */
 #header {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 1000;
+  position: fixed; top: 64px; left: 0; right: 0; z-index: 1000;
   background: rgba(8,11,18,0.96); backdrop-filter: blur(12px);
   border-bottom: 1px solid #1a1f2e; padding: 10px 16px;
   display: flex; align-items: center; gap: 0; flex-wrap: wrap;
@@ -59,7 +63,7 @@ html, body { height: 100%; margin: 0; padding: 0; font-family: -apple-system, Bl
 
 /* ── SIDEBAR ─────────────────────────────────────────────────────────────── */
 #sidebar {
-  position: absolute; top: 55px; left: 10px; z-index: 1000;
+  position: absolute; top: 119px; left: 10px; z-index: 1000;
   background: rgba(8,11,18,0.97); backdrop-filter: blur(12px);
   border: 1px solid #1a1f2e; border-radius: 12px;
   width: 220px; overflow: hidden;
@@ -116,10 +120,10 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 
 /* ── TOP MATCHES PANEL ───────────────────────────────────────────────────── */
 #top-matches {
-  position: absolute; top: 55px; right: 10px; z-index: 1000;
+  position: absolute; top: 119px; right: 10px; z-index: 1000;
   background: rgba(8,11,18,0.97); backdrop-filter: blur(12px);
   border: 1px solid #1a1f2e; border-radius: 12px;
-  width: 240px; max-height: calc(100vh - 100px); overflow-y: auto;
+  width: 240px; max-height: calc(100vh - 164px); overflow-y: auto;
   display: none;
 }
 #top-matches.visible { display: block; }
@@ -246,9 +250,36 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 
 /* Top-matches toggle btn in header */
 #btn-show-top { margin-left: 8px; }
+/* ── BREADCRUMB ──────────────────────────────────────────────────────────── */
+#dp-breadcrumb {
+  width: 100%; font-size: 11px; color: #4b5563; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 5px; letter-spacing: 0.01em;
+}
+#dp-breadcrumb a { color: #6b7280; text-decoration: none; transition: color 0.15s; }
+#dp-breadcrumb a:hover { color: #d1d5db; }
+#dp-breadcrumb .bc-sep { color: #1f2435; }
+#dp-breadcrumb .bc-current { color: #9ca3af; }
+
 </style>
 </head>
 <body>
+
+<!-- Site Navigation -->
+<nav class="nav" id="site-nav" style="z-index:2000;">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">HS</a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#about">About</a></li>
+      <li><a href="/blog.html">Blog</a></li>
+      <li><a href="/#projects" class="active">Projects</a></li>
+      <li><a href="/#cv">CV</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
 
 <div id="loading">
   <div class="loading-icon">🌿</div>
@@ -260,6 +291,13 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 
 <!-- HEADER -->
 <div id="header">
+<div id="dp-breadcrumb">
+    <a href="/">Harry Sharman</a>
+    <span class="bc-sep">›</span>
+    <a href="/#projects">Projects</a>
+    <span class="bc-sep">›</span>
+    <span class="bc-current">Dream Property</span>
+  </div>
   <div id="brand">
     <div id="brand-icon">🌿</div>
     <div id="brand-text">
@@ -983,5 +1021,15 @@ window.addEventListener('load', function() {
   }, 600);
 });
 </script>
+
+  <script>
+    (function(){
+      var toggle = document.getElementById('nav-toggle');
+      var links  = document.getElementById('nav-links');
+      if (toggle) toggle.addEventListener('click', function(){
+        links.classList.toggle('open');
+      });
+    })();
+  </script>
 </body>
 </html>
