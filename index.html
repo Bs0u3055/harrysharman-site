@@ -31,6 +31,7 @@
 
     <!-- Hero -->
     <header class="hero">
+        <canvas id="hero-canvas" aria-hidden="true"></canvas>
         <div class="container">
             <div class="hero-inner">
                 <div class="hero-content">
@@ -73,6 +74,34 @@
                     <div class="float-el float-dot float-dot-a" aria-hidden="true"></div>
                     <div class="float-el float-dot float-dot-b" aria-hidden="true"></div>
                     <div class="float-el float-dot float-dot-c" aria-hidden="true"></div>
+                    <div class="photo-orbit photo-orbit-1" aria-hidden="true"></div>
+                    <div class="photo-orbit photo-orbit-2" aria-hidden="true"></div>
+                    <div class="photo-orbit photo-orbit-3" aria-hidden="true"></div>
+                    <div class="float-el float-rocket" aria-hidden="true">
+                        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3C17 3 27 7 27 19L22 24H12L7 19C7 7 17 3 17 3Z"/><circle cx="17" cy="14" r="2.5"/><path d="M12 24L9 31M22 24L25 31"/><path d="M13 24L15 30L17 27L19 30L21 24"/></svg>
+                    </div>
+                    <div class="float-el float-gear" aria-hidden="true">
+                        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="17" cy="17" r="5.5"/><path d="M17 5v4M17 25v4M5 17h4M25 17h4M8.5 8.5l2.8 2.8M22.7 22.7l2.8 2.8M8.5 25.5l2.8-2.8M22.7 11.3l2.8-2.8"/></svg>
+                    </div>
+                    <div class="float-el float-atom" aria-hidden="true">
+                        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="19" cy="19" r="2.5"/><ellipse cx="19" cy="19" rx="14" ry="5.5"/><ellipse cx="19" cy="19" rx="14" ry="5.5" transform="rotate(60 19 19)"/><ellipse cx="19" cy="19" rx="14" ry="5.5" transform="rotate(120 19 19)"/></svg>
+                    </div>
+                    <div class="float-el float-bolt" aria-hidden="true">
+                        <svg width="24" height="34" viewBox="0 0 24 34" fill="currentColor"><path d="M15 2L1 19H11L9 32L23 15H13L15 2Z"/></svg>
+                    </div>
+                    <div class="float-el float-arrow" aria-hidden="true">
+                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22L22 6M22 6H13M22 6V15"/></svg>
+                    </div>
+                    <div class="float-el float-spark-sm" aria-hidden="true">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0L11 9L20 10L11 11L10 20L9 11L0 10L9 9Z"/></svg>
+                    </div>
+                    <div class="float-el float-spark-xs" aria-hidden="true">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M7 0L7.8 6.2L14 7L7.8 7.8L7 14L6.2 7.8L0 7L6.2 6.2Z"/></svg>
+                    </div>
+                    <div class="float-el float-dot float-dot-d" aria-hidden="true"></div>
+                    <div class="float-el float-dot float-dot-e" aria-hidden="true"></div>
+                    <div class="float-el float-dot float-dot-f" aria-hidden="true"></div>
+                    <div class="float-el float-dot float-dot-g" aria-hidden="true"></div>
                 </div>
             </div>
         </div>
@@ -211,6 +240,76 @@
         document.querySelectorAll(
             '.section-title, .post-card, .project-card, .cv-entry, .about-card, .contact-item'
         ).forEach(el => { el.classList.add('animate-in'); scrollObs.observe(el); });
+    </script>
+
+    <script>
+        // ---- Particle canvas ----
+        (function() {
+            const canvas = document.getElementById('hero-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let W, H, pts = [];
+            const COUNT = 55, MAX_DIST = 90, COLOR = '240,160,32';
+
+            function resize() {
+                W = canvas.width  = canvas.offsetWidth;
+                H = canvas.height = canvas.offsetHeight;
+            }
+
+            function Pt() {
+                this.x  = Math.random() * W;
+                this.y  = Math.random() * H;
+                this.vx = (Math.random() - 0.5) * 0.35;
+                this.vy = (Math.random() - 0.5) * 0.35;
+                this.r  = Math.random() * 1.6 + 0.4;
+                this.o  = Math.random() * 0.35 + 0.08;
+            }
+
+            Pt.prototype.tick = function() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < 0) this.x = W;
+                if (this.x > W) this.x = 0;
+                if (this.y < 0) this.y = H;
+                if (this.y > H) this.y = 0;
+            };
+
+            function draw() {
+                ctx.clearRect(0, 0, W, H);
+                // dots
+                pts.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(${COLOR},${p.o})`;
+                    ctx.fill();
+                });
+                // lines
+                for (let i = 0; i < pts.length; i++) {
+                    for (let j = i + 1; j < pts.length; j++) {
+                        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+                        const d = Math.sqrt(dx*dx + dy*dy);
+                        if (d < MAX_DIST) {
+                            ctx.beginPath();
+                            ctx.moveTo(pts[i].x, pts[i].y);
+                            ctx.lineTo(pts[j].x, pts[j].y);
+                            ctx.strokeStyle = `rgba(${COLOR},${0.07 * (1 - d / MAX_DIST)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            function loop() { pts.forEach(p => p.tick()); draw(); requestAnimationFrame(loop); }
+
+            function init() {
+                resize();
+                pts = Array.from({length: COUNT}, () => new Pt());
+                loop();
+            }
+
+            window.addEventListener('resize', () => { resize(); pts = Array.from({length: COUNT}, () => new Pt()); });
+            init();
+        })();
     </script>
 </body>
 </html>
