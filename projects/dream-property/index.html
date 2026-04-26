@@ -308,16 +308,16 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 
   <div class="stat-group">
     <span class="pill p-total">
-      <span id="st-total">0</span> holdings
+      <span id="st-total">0</span> parcels
     </span>
     <span class="pill p-farm" id="ph-farm" style="display:none;">
-      🏡 <span id="st-farm">0</span> farms
+      🌾 <span id="st-farm">0</span> agricultural
     </span>
     <span class="pill p-eq" id="ph-eq" style="display:none;">
       🐴 <span id="st-eq">0</span> equestrian
     </span>
     <span class="pill p-res" id="ph-res" style="display:none;">
-      🏠 <span id="st-res">0</span> residential
+      🏠 <span id="st-res">0</span> large residential
     </span>
     <span class="pill p-sweet" id="ph-sweet">
       ⭐ <span id="st-sweet">0</span> matches
@@ -327,7 +327,7 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
     </span>
   </div>
 
-  <span class="data-badge">OS NGD · Land Registry · Companies House · Gazette · OSM</span>
+  <span class="data-badge">OS NGD · Land Registry · Companies House · Public registers · OpenStreetMap</span>
   <button class="btn" id="btn-show-top" style="width:auto;margin:0 4px;display:inline-flex;align-items:center;gap:5px;">
     🏆 Top matches
   </button>
@@ -341,7 +341,7 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
     <div class="sb-section">
       <div class="sb-title">Property Type</div>
       <label class="sb-row"><input type="checkbox" id="fl-farm" checked>
-        <span class="dot d-farm"></span><span class="sb-lbl">Farms</span><span class="sb-cnt" id="cn-farm"></span></label>
+        <span class="dot d-farm"></span><span class="sb-lbl">Agricultural</span><span class="sb-cnt" id="cn-farm"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-eq" checked>
         <span class="dot d-eq"></span><span class="sb-lbl">Equestrian</span><span class="sb-cnt" id="cn-eq"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-res" checked>
@@ -353,25 +353,25 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
     <div class="sb-section">
       <div class="sb-title">Layers</div>
       <label class="sb-row"><input type="checkbox" id="fl-fringe" checked>
-        <span class="dot d-fringe"></span><span class="sb-lbl">GB fringe</span><span class="sb-cnt" id="cn-fringe"></span></label>
+        <span class="dot d-fringe"></span><span class="sb-lbl">Green belt fringe</span><span class="sb-cnt" id="cn-fringe"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-gb" checked>
-        <span class="dot d-gb"></span><span class="sb-lbl">In green belt</span><span class="sb-cnt" id="cn-gb"></span></label>
+        <span class="dot d-gb"></span><span class="sb-lbl">Green belt</span><span class="sb-cnt" id="cn-gb"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-plot" checked>
-        <span class="dot d-plot"></span><span class="sb-lbl">Build plots</span><span class="sb-cnt" id="cn-plot"></span></label>
+        <span class="dot d-plot"></span><span class="sb-lbl">Development plots</span><span class="sb-cnt" id="cn-plot"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-school" checked>
-        <span class="dot d-school"></span><span class="sb-lbl">Private schools</span><span class="sb-cnt" id="cn-school"></span></label>
+        <span class="dot d-school"></span><span class="sb-lbl">Independent schools</span><span class="sb-cnt" id="cn-school"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-price">
-        <span class="dot d-norm" style="background:#fbbf24"></span><span class="sb-lbl">Has LR price</span></label>
+        <span class="dot d-norm" style="background:#fbbf24"></span><span class="sb-lbl">Has sold price</span></label>
       <hr class="divider">
       <label class="sb-row"><input type="checkbox" id="fl-noise">
-        <span class="dot d-noise"></span><span class="sb-lbl">Noise overlay</span></label>
+        <span class="dot d-noise"></span><span class="sb-lbl">Noise exposure</span></label>
       <div style="font-size:10px;color:#374151;margin-top:2px;padding-left:22px;line-height:1.5;">✈ Aircraft corridors · 🛣 Motorways · 🚗 A-roads</div>
     </div>
 
     <div class="sb-section">
       <div class="sb-title">Filters</div>
       <div class="range-wrap">
-        <div class="range-hd"><span>Min fit score</span><span id="fs-lbl" style="color:#4ade80;">0</span></div>
+        <div class="range-hd"><span>Min match score</span><span id="fs-lbl" style="color:#4ade80;">0</span></div>
         <input type="range" id="fl-fs" min="0" max="80" step="5" value="0">
       </div>
       <div class="range-wrap">
@@ -391,7 +391,7 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
         <input type="range" id="fl-ss" min="0" max="6" step="1" value="0">
       </div>
       <div style="font-size:10px;color:#374151;line-height:1.5;margin-bottom:6px;">
-        📍 Near anchor · 🛣 Low road noise · ✈ Low aircraft noise · 🎓 School reach
+        📍 Within reach · 🛣 Low road noise · ✈ Low aircraft noise · 🎓 School catchment
       </div>
       <button class="btn" id="btn-sweet">⭐ Show match zone</button>
       <button class="btn" id="btn-zoom-sweet">⭐ Zoom to matches</button>
@@ -399,9 +399,9 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 
     <div class="sb-section">
       <div class="sb-title">Navigate</div>
-      <button class="btn" id="btn-boundary">⊙ Search boundary</button>
+      <button class="btn" id="btn-boundary">⊙ Study area</button>
       <button class="btn" id="btn-gb">⬤ Green belt</button>
-      <button class="btn" id="btn-fringe">🌿 Zoom to fringe</button>
+      <button class="btn" id="btn-fringe">🌿 Zoom to GB fringe</button>
       <button class="btn" id="btn-plots">🏗️ Zoom to plots</button>
       <button class="btn" id="btn-reset">↺ Reset all</button>
     </div>
@@ -420,12 +420,12 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 <!-- LEGEND -->
 <div id="legend">
   <div class="ltitle">Legend</div>
-  <div class="lrow"><span class="dot d-farm"></span><span>Farm</span></div>
+  <div class="lrow"><span class="dot d-farm"></span><span>Agricultural</span></div>
   <div class="lrow"><span class="dot d-eq"></span><span>Equestrian</span></div>
   <div class="lrow"><span class="dot d-res"></span><span>Large residential</span></div>
   <div class="lrow"><span class="dot d-norm"></span><span>Unclassified</span></div>
   <div class="lrow"><span class="dot d-gb"></span><span>Green belt</span></div>
-  <div class="lrow"><span class="dot d-plot"></span><span>Build plot</span></div>
+  <div class="lrow"><span class="dot d-plot"></span><span>Development plot</span></div>
   <div style="margin-top:5px;font-size:10px;color:#374151;">Dot size = building area · Ring = match score</div>
 </div>
 
@@ -582,7 +582,7 @@ function typeColour(pt) {
 }
 
 function typeLabel(pt) {
-  var map_ = { farm:'Farm', equestrian:'Equestrian', large_residential:'Large Residential', unknown:'Unclassified' };
+  var map_ = { farm:'Agricultural', equestrian:'Equestrian', large_residential:'Large Residential', unknown:'Unclassified' };
   return map_[pt] || 'Unclassified';
 }
 
@@ -623,7 +623,7 @@ function popup(d) {
   if (d.ac) rows += '<span class="pk">Acres est.</span><span class="pv">~' + d.ac + ' ac</span>';
   if (d.ob) rows += '<span class="pk">Outbuildings</span><span class="pv">' + d.ob + '</span>';
   if (d.wn) rows += '<span class="pk">Water</span><span class="pv">' + d.wn + (d.wd ? ' · ' + d.wd + 'm' : '') + '</span>';
-  if (d.kd !== undefined) rows += '<span class="pk" style="color:#374151">From anchor</span><span class="pv" style="color:#6b7280">' + d.kd.toFixed(1) + ' km</span>';
+  if (d.kd !== undefined) rows += '<span class="pk" style="color:#374151">Distance from centre</span><span class="pv" style="color:#6b7280">' + d.kd.toFixed(1) + ' km</span>';
   if (d.rn !== undefined && d.rn !== null) rows += '<span class="pk" style="color:#374151">🛣 Road noise</span><span class="pv" style="color:' + NOISE_COL[d.rn] + '">' + NOISE_LVL[d.rn] + '</span>';
   if (d.an !== undefined && d.an !== null) rows += '<span class="pk" style="color:#374151">✈ Aircraft noise</span><span class="pv" style="color:' + NOISE_COL[d.an] + '">' + NOISE_LVL[d.an] + '</span>';
 
@@ -659,7 +659,7 @@ function popup(d) {
 // ── Plot popup ───────────────────────────────────────────────────────────────
 function plotPopup(p) {
   return '<div class="pop">'
-    + '<div class="pop-type-banner" style="color:#f97316">BUILD PLOT</div>'
+    + '<div class="pop-type-banner" style="color:#f97316">DEVELOPMENT PLOT</div>'
     + '<div class="pop-head">' + p.title + '</div>'
     + '<div class="pop-sub">PlotFinder listing</div>'
     + '<div class="pop-grid">'
@@ -675,10 +675,10 @@ function plotPopup(p) {
 // ── School popup ─────────────────────────────────────────────────────────────
 function schoolPopup(s) {
   var d = haversineKm(ANCHOR[0],ANCHOR[1],s.lat,s.lng).toFixed(1);
-  return '<div class="pop"><div class="pop-type-banner" style="color:#a78bfa">PRIVATE SCHOOL</div>'
+  return '<div class="pop"><div class="pop-type-banner" style="color:#a78bfa">INDEPENDENT SCHOOL</div>'
     + '<div class="pop-head">' + s.name + '</div>'
     + '<div class="pop-sub">' + s.location + '</div>'
-    + '<div class="pop-grid"><span class="pk">From anchor</span><span class="pv">' + d + ' km</span></div>'
+    + '<div class="pop-grid"><span class="pk">Distance from centre</span><span class="pv">' + d + ' km</span></div>'
     + '<div class="pop-links"><a href="https://www.google.com/maps/@' + s.lat + ',' + s.lng + ',15z" target="_blank">🗺 Map</a></div></div>';
 }
 
@@ -962,7 +962,7 @@ document.getElementById('btn-zoom-sweet').addEventListener('click', function(){
   else alert('No matches at score ' + min + ' — try lowering the slider.');
 });
 document.getElementById('btn-boundary').addEventListener('click', function(){
-  if (boundaryOn) { map.removeLayer(boundaryCircle); boundaryOn=false; this.classList.remove('active'); this.textContent='⊙ Search boundary'; }
+  if (boundaryOn) { map.removeLayer(boundaryCircle); boundaryOn=false; this.classList.remove('active'); this.textContent='⊙ Study area'; }
   else            { boundaryCircle.addTo(map); boundaryCircle.bringToBack(); boundaryOn=true; this.classList.add('active'); this.textContent='⊙ Hide boundary'; }
 });
 document.getElementById('btn-gb').addEventListener('click', function(){
