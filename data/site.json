@@ -22,9 +22,16 @@
       "linkText": "Follow the progress →"
     },
     {
-      "title": "AI-Powered Brief Builder",
+      "title": "Dobby",
+      "status": "Live",
+      "description": "My personal AI assistant — an OpenClaw instance running on a Mac mini that manages my to-do list, reads my emails, maintains databases, and runs automated pipelines. Not an app. A thing that actually lives in my life.",
+      "link": "post.html?slug=i-accidentally-got-a-butler",
+      "linkText": "Read the story →"
+    },
+    {
+      "title": "The AI Habit",
       "status": "In Progress",
-      "description": "A tool that helps strategists build better creative briefs using AI — trained on behavioural science principles and real-world brand strategy frameworks.",
+      "description": "A daily AI practice system for professionals who know they should be using AI but haven’t built a real practice yet. 15 minutes a day. One workout. One tangible output. Built on behavioural science, not hype.",
       "link": "",
       "linkText": "Coming soon"
     },
@@ -34,13 +41,6 @@
       "description": "50+ articles exploring the intersection of brand strategy, behavioural science, and how people actually think. Originally on LinkedIn, now finding a proper home.",
       "link": "blog.html",
       "linkText": "Read the blog →"
-    },
-    {
-      "title": "Healthcare Comms AI Toolkit",
-      "status": "In Progress",
-      "description": "Experimenting with AI agents that can support the messy, creative, strategic work of healthcare communications — not just the operational bits.",
-      "link": "",
-      "linkText": "Coming soon"
     },
     {
       "title": "harrysharman.com",
