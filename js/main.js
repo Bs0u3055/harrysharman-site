@@ -83,8 +83,9 @@
 
     container.innerHTML = featured
       .map(
-        (post) => `
+        (post, i) => `
       <div class="post-card">
+        <div class="card-cover" data-g="${i % 5}" aria-hidden="true"></div>
         <span class="post-card-date">${formatDate(post.date)}</span>
         <h3 class="post-card-title">
           <a href="post.html?slug=${post.slug}">${post.title}</a>
@@ -227,8 +228,9 @@
 
     container.innerHTML = data.projects
       .map(
-        (project) => `
+        (project, i) => `
       <div class="project-card">
+        <div class="card-cover" data-g="${i % 5}" aria-hidden="true"></div>
         <span class="project-card-label">${project.status}</span>
         <h3>${project.title}</h3>
         <p>${project.description}</p>

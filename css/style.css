@@ -1566,3 +1566,71 @@ img {
     :root { --space-xl: 4rem; }
     .hero-title { line-height: 1.0; }
 }
+
+/* ============================================
+   SITE CANVAS (shared, all pages)
+   ============================================ */
+#site-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.55;
+}
+
+/* ============================================
+   CARD COVER (gradient image header)
+   ============================================ */
+.card-cover {
+    height: 130px;
+    border-radius: 6px 6px 0 0;
+    margin: calc(-1 * var(--space-md)) calc(-1 * var(--space-md)) var(--space-md);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.card-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, rgba(20,20,26,0.85) 100%);
+}
+
+/* Card cover gradients — cycles via data-attr set by JS */
+.card-cover[data-g="0"] { background: linear-gradient(135deg, #1a0f00 0%, #b37318 100%); }
+.card-cover[data-g="1"] { background: linear-gradient(135deg, #000d1a 0%, #1a4a8a 100%); }
+.card-cover[data-g="2"] { background: linear-gradient(135deg, #0d001a 0%, #5a1a7a 100%); }
+.card-cover[data-g="3"] { background: linear-gradient(135deg, #001408 0%, #1a5c2a 100%); }
+.card-cover[data-g="4"] { background: linear-gradient(135deg, #1a0008 0%, #7a1a3a 100%); }
+
+/* Bigger, bolder card titles */
+.post-card-title {
+    font-size: 1.4rem !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+}
+
+.project-card h3 {
+    font-size: 1.25rem !important;
+}
+
+/* Taller project cards with cover */
+.project-card .card-cover {
+    height: 110px;
+}
+
+/* Cards snap out more */
+.post-card,
+.project-card {
+    border: 1px solid rgba(255,255,255,0.09) !important;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+
+.post-card:hover,
+.project-card:hover {
+    border-color: rgba(240,160,32,0.35) !important;
+    box-shadow: 0 12px 40px rgba(240,160,32,0.12) !important;
+    transform: translateY(-6px) !important;
+}
