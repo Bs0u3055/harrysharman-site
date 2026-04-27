@@ -97,10 +97,11 @@ img {
 }
 
 .nav-logo {
-    font-weight: 600;
+    font-weight: 800;
     font-size: 1.1rem;
     color: var(--color-text);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
 }
 
 .nav-logo:hover {
@@ -164,28 +165,31 @@ img {
 }
 
 .hero-label {
-    font-size: 0.85rem;
-    color: var(--color-text-light);
-    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    color: var(--color-accent);
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    font-weight: 600;
     margin-bottom: var(--space-sm);
 }
 
 .hero-title {
-    font-family: var(--font-serif);
-    font-size: clamp(2.8rem, 6vw, 4.5rem);
-    font-weight: 500;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
+    font-family: var(--font-sans);
+    font-size: clamp(3.2rem, 6.5vw, 5.8rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
     margin-bottom: var(--space-md);
+    color: var(--color-text);
 }
 
 .hero-subtitle {
-    font-size: 1.15rem;
+    font-size: 1.1rem;
     color: var(--color-text-secondary);
-    max-width: 600px;
+    max-width: 480px;
     margin: 0 0 var(--space-lg);
-    line-height: 1.7;
+    line-height: 1.75;
 }
 
 .hero-cta {
@@ -235,14 +239,16 @@ img {
 }
 
 .section-alt {
-    background: var(--color-surface-alt);
+    background: #000000;
 }
 
 .section-title {
-    font-family: var(--font-serif);
-    font-size: 2rem;
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-family: var(--font-sans);
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
     margin-bottom: var(--space-md);
 }
 
@@ -277,10 +283,11 @@ img {
 }
 
 .page-title {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 500;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
     margin-bottom: var(--space-sm);
 }
 
@@ -344,12 +351,14 @@ img {
 
 .post-card {
     background: var(--color-surface);
-    border-radius: 8px;
+    border-radius: 10px;
     padding: var(--space-md);
     transition: box-shadow var(--transition);
-    border: 1px solid var(--color-border-light);
+    border: 1px solid rgba(255,255,255,0.07);
     display: flex;
     flex-direction: column;
+    position: relative;
+    overflow: hidden;
 }
 
 .post-card:hover {
@@ -364,10 +373,10 @@ img {
 }
 
 .post-card-title {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    font-weight: 500;
-    line-height: 1.4;
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.35;
     margin-bottom: var(--space-xs);
     flex-grow: 1;
 }
@@ -591,11 +600,13 @@ img {
 }
 
 .project-card {
-    background: var(--color-surface-alt);
-    border-radius: 8px;
+    background: var(--color-surface);
+    border-radius: 10px;
     padding: var(--space-md);
     transition: all var(--transition);
-    border: 1px solid transparent;
+    border: 1px solid rgba(255,255,255,0.07);
+    position: relative;
+    overflow: hidden;
 }
 
 .project-card:hover {
@@ -611,10 +622,11 @@ img {
 }
 
 .project-card h3 {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    font-weight: 500;
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 700;
     margin-bottom: var(--space-xs);
+    letter-spacing: -0.01em;
 }
 
 .project-card p {
@@ -703,7 +715,8 @@ img {
 
 .cv-content h3 {
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: -0.01em;
     margin-bottom: 0.15rem;
 }
 
@@ -1487,4 +1500,69 @@ img {
 @keyframes titleFadeIn {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================
+   DEPTH, CONTRAST & CARD BORDERS
+   ============================================ */
+
+/* Card amber top-line accent on hover */
+.post-card::before,
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--color-accent);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.post-card:hover::before,
+.project-card:hover::before {
+    opacity: 1;
+}
+
+/* Section label (podcast etc) uppercase amber */
+.section-label {
+    font-weight: 700;
+    font-size: 0.72rem;
+}
+
+/* About cards — bordered */
+.about-card {
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    border-radius: 10px;
+}
+
+/* Contact items — bordered */
+.contact-item {
+    border: 1px solid rgba(255,255,255,0.07) !important;
+    border-radius: 10px;
+}
+
+/* Post body headings — Inter */
+.post-body h2,
+.post-body h3 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+}
+
+/* Section divider — subtle full-width line */
+.section + .section,
+.section-alt + .section,
+.section + .section-alt {
+    border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Bigger section spacing for drama */
+:root {
+    --space-xl: 7rem;
+}
+
+@media (max-width: 768px) {
+    :root { --space-xl: 4rem; }
+    .hero-title { line-height: 1.0; }
 }
