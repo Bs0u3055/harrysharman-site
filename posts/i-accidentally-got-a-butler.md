@@ -1,3 +1,16 @@
+---
+title: "I Accidentally Got a Butler"
+date: "2026-04-10"
+excerpt: "What happens when a non-technical person sets up their own personal AI assistant — and accidentally builds a farmhouse-hunting database in the process."
+tags:
+  - "ai"
+  - "strategy"
+  - "innovation"
+  - "beautiful-thinking"
+featured: true
+image: "assets/i-accidentally-got-a-butler.jpg"
+---
+
 A month ago, I did something that — if you'd described it to me a year earlier — would have sounded like either science fiction or a particularly niche midlife crisis.
 
 I set up my own personal AI assistant. Not an app. Not a chatbot I visit when I remember it exists. A thing that lives in my phone, knows my to-do list, reads my emails, and — as of last Tuesday — is quietly compiling a database of potential farmhouses I might want to buy, cross-referenced against aircraft noise levels and flood risk data from the UK government.

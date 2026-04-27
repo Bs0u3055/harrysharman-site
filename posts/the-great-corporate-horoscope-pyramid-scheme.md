@@ -1,3 +1,17 @@
+---
+title: "The Great Corporate Horoscope Pyramid Scheme"
+date: "2025-10-07"
+excerpt: "How billion-dollar businesses built their people strategy on pop psychology and bondage metaphors."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *How billion-dollar businesses built their people strategy on pop psychology and bondage metaphors.*
 
 The first time I took a personality test, I thought it was harmless fun. It was early in my career, at my first consultancy — the kind of small, caffeine-fuelled outfit that believed cleverness could solve anything. Their chosen gospel was the **Myers-Briggs Type Indicator**, that four-letter oracle of modern management.

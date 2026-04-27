@@ -1,3 +1,15 @@
+---
+title: "AI Won’t Kill Creativity—But It Will Change It Forever"
+date: "2025-01-31"
+excerpt: "For a long time, I believed AI’s encroachment on human creativity was inevitable. The trajectory seemed clear: AI models were getting better, faster, more sophisticated, and their..."
+tags:
+  - "strategy"
+  - "ai"
+  - "creativity"
+featured: false
+image: ""
+---
+
 For a long time, I believed AI’s encroachment on human creativity was inevitable. The trajectory seemed clear: AI models were getting better, faster, more sophisticated, and their ability to generate writing, design, music, and even strategic insights was advancing at an astonishing rate. It felt like only a matter of time before machines overtook human ingenuity, reshaping industries that had always been uniquely ours.
 
 But I no longer see it that way.

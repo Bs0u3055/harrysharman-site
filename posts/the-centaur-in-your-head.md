@@ -1,3 +1,18 @@
+---
+title: "🧠 The Centaur in Your Head"
+date: "2025-07-22"
+excerpt: "Big news! Admittedly, you may have missed it—unless you, like me, spend evenings combing Nature for juicy psychology x AI breakthroughs…"
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 **Big news!** (Admittedly, you may have missed it—unless you, like me, spend evenings combing *Nature* for juicy psychology x AI breakthroughs…)
 
 But this one? This is huge.

@@ -1,3 +1,18 @@
+---
+title: "Beautiful Thinking – Ideas that Misbehave. The Anti-TED Newsletter."
+date: "2025-05-27"
+excerpt: "If you love TED’s “ideas worth spreading,” but crave something edgier—this is for you."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 If you love TED’s “ideas worth spreading,” but crave something edgier—this is for you.
 
 **Beautiful Thinking** is a newsletter for the curious and the contrarian. It’s where the big ideas don’t wear polished shoes—they wear scuffed motorbike boots, streaked with oil, and they’re not afraid to get dirty. Each week, I share one idea. Sharp. Alive. Sometimes messy, always BEAUTIFUL. It’s where behavioral science meets strategy, psychology meets storytelling, and a bit of mischief keeps it all human.

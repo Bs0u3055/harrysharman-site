@@ -1,3 +1,16 @@
+---
+title: "2024: Juggling Sleep Deprived and Innovation - The Year of Productivity"
+date: "2025-01-16"
+excerpt: "As 2025 begins and my 11-month-old proudly takes his first steps, I’ve been reflecting on my own strides forward. Last year wasn’t easy—balancing less sleep than ever, a new job,..."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+featured: false
+image: ""
+---
+
 As 2025 begins and my 11-month-old proudly takes his first steps, I’ve been reflecting on my own strides forward. Last year wasn’t easy—balancing less sleep than ever, a new job, and diving into the world of AI. But somehow, amidst all the chaos, it turned out to be my most productive (and rewarding) year yet.
 
 ### 1. Almost 20 Years of Productivity Obsession

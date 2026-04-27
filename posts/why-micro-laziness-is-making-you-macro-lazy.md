@@ -1,3 +1,13 @@
+---
+title: "Why Micro-laziness is making you Macro-lazy"
+date: "2019-03-04"
+excerpt: "For a while I've become interested by the idea of micro-laziness. These are the small, everyday behaviours that aren't a big deal individually, but add up to something larger...."
+tags:
+  - "strategy"
+featured: false
+image: ""
+---
+
 For a while I've become interested by the idea of micro-laziness. These are the small, everyday behaviours that aren't a big deal individually, but add up to something larger. They are the tiny decisions to 'not bother'. From not screwing the cap on the milk bottle fully, to crossing the road before you get to the zebra-crossing, through to not tying your shoelaces fully before running outside to put the bins out.
 
 These little moments of micro-laziness, when you start to notice them, become an amusing area to study human behaviour - both of yourself, and others - and are the source of a much bigger problem.

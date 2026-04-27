@@ -1,3 +1,15 @@
+---
+title: "The End of the World (Over Aperitivo)"
+date: "2025-11-04"
+excerpt: "A letter from Sicily — and an apology in advance."
+tags:
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *A letter from Sicily — and an apology in advance.*
 
 ---

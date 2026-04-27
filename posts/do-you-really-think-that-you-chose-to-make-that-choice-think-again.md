@@ -1,3 +1,15 @@
+---
+title: "Do you really think that you chose to make that choice? Think again..."
+date: "2016-10-08"
+excerpt: "I have been obsessed with the subject of behavioural science for over a decade now. Briefly, behavioural science is where psychology and behaviour-change meet economics. What I..."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "healthcare"
+featured: false
+image: ""
+---
+
 I have been obsessed with the subject of behavioural science for over a decade now. Briefly, behavioural science is where psychology and behaviour-change meet economics. What I love about behavioural science is that its about influencing behaviour for change, and it is this ability to change behaviour which is why it is becoming the darling of advertisers and marketeers alike. It is the closest we can get to Jedi mind tricks.
 
 ![](https://media.licdn.com/dms/image/v2/C4E12AQFenDjRZ-_9eg/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520448189947?e=1777507200&v=beta&t=_wRIZZEzhdiFIqZrXy4ZPRBdUVymUomRU9HpU2GMXYk)

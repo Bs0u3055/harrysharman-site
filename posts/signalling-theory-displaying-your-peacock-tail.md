@@ -1,3 +1,14 @@
+---
+title: "signalling theory – displaying your peacock tail"
+date: "2014-11-26"
+excerpt: "Last summer I went on holiday to New York, and on my trip my wife commented on the large number of Dr Dre Beats headphones you see on people walking around the city. What is so..."
+tags:
+  - "behavioural-science"
+  - "strategy"
+featured: false
+image: ""
+---
+
 Last summer I went on holiday to New York, and on my trip my wife commented on the large number of Dr Dre Beats headphones you see on people walking around the city. What is so special about these headphones? Aside from an apparent good sound quality, they are unlike most headphones in that they are recognisable, flashy and obviously belong to this brand.
 
 When the idea for a flashy brand of headphone first arose, backed by a famous music star/producer, industry insiders dismissed it. These industry experts explained patiently to the representatives of this music star that the industry was moving towards smaller and more discreet headphones – not ostentatious and ‘show-offie’ ear based listening devices. If the headphones came without cord and the bud could be hidden in the ear – that would be their idea of the future. However, it turned out that those industry experts were WAY wrong. In 8 years Beats by Dre have gone from zero to the biggest brand in headphones, [purchased by Apple for $3.2bn](http://venturebeat.com/2014/05/11/the-history-of-beats-electronics-from-inception-to-apple/) and make up 64% of the US market in the >$100 category.

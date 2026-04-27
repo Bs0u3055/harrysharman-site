@@ -1,3 +1,18 @@
+---
+title: "AI x Creativity: The Director’s Cut: Bill Ecay and the 90% Question"
+date: "2025-11-25"
+excerpt: "When a creative director teaches AI to think like him, who’s really doing the creating?"
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 When a creative director teaches AI to think like him, who’s really doing the creating?
 
 This interview is part of Beautiful Thinking, my ongoing series on the collision of AI and creativity—where human imagination meets machine logic.

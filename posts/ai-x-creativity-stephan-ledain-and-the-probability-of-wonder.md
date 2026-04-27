@@ -1,3 +1,16 @@
+---
+title: "AI x Creativity: Stephan Ledain and the Probability of Wonder"
+date: "2025-09-23"
+excerpt: "Episode One of the Interview Series on AI x Creativity"
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *Episode One of the Interview Series on AI x Creativity*
 
 When you find someone who works at the exact same weird intersection you do — behavioural science, artificial intelligence, and creativity — you don’t let them slip away.

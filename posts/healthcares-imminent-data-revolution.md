@@ -1,3 +1,15 @@
+---
+title: "Healthcare’s imminent data revolution"
+date: "2016-10-01"
+excerpt: "Originally written for the Strategic North Blog - http://www.strategicnorth.com/blog/healthcares-imminent-data-revolution/"
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "healthcare"
+featured: false
+image: ""
+---
+
 (Originally written for the Strategic North Blog - http://www.strategicnorth.com/blog/healthcares-imminent-data-revolution/)
 
 ![](https://media.licdn.com/dms/image/v2/C5112AQFwzxY77Ljj9g/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1520172130280?e=1776902400&v=beta&t=5jxxqm3egPj4T4bzeSBQ9xZJA-vPbRFdvqJM6vxoDNw)

@@ -1,2 +1,9 @@
 [build]
+  command = "python3 scripts/generate-posts-json.py"
   publish = "/"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-XSS-Protection = "1; mode=block"

@@ -1,3 +1,14 @@
+---
+title: "ChatGPT Broke His Mind"
+date: "2025-07-29"
+excerpt: "How AI is gaslighting the vulnerable—and nobody’s fucking watching."
+tags:
+  - "behavioural-science"
+  - "ai"
+featured: false
+image: ""
+---
+
 *How AI is gaslighting the vulnerable—and nobody’s fucking watching.*
 
 ---

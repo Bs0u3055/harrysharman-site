@@ -1,3 +1,16 @@
+---
+title: "The Price of Not Believing Black Pain"
+date: "2025-07-08"
+excerpt: "She walked off the plane and straight into the emergency room."
+tags:
+  - "behavioural-science"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 She walked off the plane and straight into the emergency room.
 
 A new city. A familiar crisis.

@@ -1,3 +1,13 @@
+---
+title: "What does the zombie apocalypse teach us about brand strategy?"
+date: "2016-10-26"
+excerpt: "I am not one of those people who have what could be called an overactive imagination i.e. on extreme end of the schizotypal scale who is planning for a zombie or any other kind of..."
+tags:
+  - "strategy"
+featured: false
+image: ""
+---
+
 I am not one of those people who have what could be called an overactive imagination (i.e. on extreme end of the schizotypal scale) who is planning for a zombie (or any other kind of) apocalypse. (That said, I would thoroughly recommend a watch of National Geographic's '[Doomsday Preppers](http://channel.nationalgeographic.com/channel/doomsday-preppers/)' for some great examples of said over active imagination.)
 
 ![](https://media.licdn.com/dms/image/v2/C4E12AQEKB7oMwZe-4A/article-inline_image-shrink_400_744/article-inline_image-shrink_400_744/0/1520620653033?e=1777507200&v=beta&t=71fRDJGPN4yyEzWcrt1x6z36pxH4p3B_hb6Xv13EXaw)

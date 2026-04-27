@@ -1,3 +1,14 @@
+---
+title: "F***ing over one's future self - the psychology of inertia"
+date: "2019-04-08"
+excerpt: "A couple of weeks ago I was approached by a friend of mine. They needed some advice. They were thinking about their career, had a couple of options on the table, and wanted to see..."
+tags:
+  - "behavioural-science"
+  - "strategy"
+featured: false
+image: ""
+---
+
 A couple of weeks ago I was approached by a friend of mine. They needed some advice. They were thinking about their career, had a couple of options on the table, and wanted to see how I would approach their situation. They were moving jobs - to a great place - and their current place had upped their offer to make them stay and was showering them with promises (much as a jilted lover promises to change after they are broken up with).
 
 From my outsider's perspective it seemed easy - that the new opportunity had much more long term benefit than a quick win in the short-term. The reason my friend needed advice was because they already knew this - but they needed someone else to push them toward the harder choice, rather than settling for the easy option.

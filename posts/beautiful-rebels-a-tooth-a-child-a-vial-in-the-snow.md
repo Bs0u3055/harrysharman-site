@@ -1,3 +1,14 @@
+---
+title: "Beautiful Rebels: A Tooth. A Child. A Vial in the Snow."
+date: "2025-06-24"
+excerpt: "A Tooth. A Child. A Vial in the Snow. Dr. Ulla Hedner and the clotting protein that changed everything."
+tags:
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 **A Tooth. A Child. A Vial in the Snow.** *Dr. Ulla Hedner and the clotting protein that changed everything.*
 
 It should’ve been a milestone. A baby tooth, finally wobbly enough to fall out.

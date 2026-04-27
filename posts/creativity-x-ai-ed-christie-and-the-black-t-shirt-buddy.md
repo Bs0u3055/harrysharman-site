@@ -1,3 +1,16 @@
+---
+title: "Creativity x AI: Ed Christie and The Black-T-Shirt Buddy"
+date: "2025-09-30"
+excerpt: "Ed Christie has spent decades training massive companies, like Google, to be more inventive and creative. He teaches humans how to stop relying on tired habits and start making..."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Ed Christie has spent decades training massive companies, like Google, to be more inventive and creative. He teaches humans how to stop relying on tired habits and start making genuine breakthroughs.
 
 So when **Google asked him how to pair his creative thinking tricks with AI**, I had to know his answer.

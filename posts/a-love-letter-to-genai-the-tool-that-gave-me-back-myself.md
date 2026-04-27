@@ -1,3 +1,15 @@
+---
+title: "A Love Letter to GenAI: The Tool That Gave Me Back Myself"
+date: "2025-12-10"
+excerpt: "I’ve been accused recently — with a certain nervous laughter — of being a pessimist about..."
+tags:
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 [I’ve been accused recently — with a certain nervous laughter — of being a pessimist about AI](https://www.linkedin.com/posts/danreedri_i-know-a-lot-of-folks-are-pretty-skeptical-activity-7402373301399941120-JdqF?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAL_9ccBTOHIT7KkfXgfB7pY1vfFQRyxNbE).
 
 People point to my pieces about [job collapse, social upheaval](https://www.linkedin.com/pulse/99-us-wont-have-job-10-years-harry-sharman--okg0e), or the small matter of [AI accidentally ending civilisation](https://www.linkedin.com/pulse/end-world-over-aperitivo-harry-sharman--vgkhe), and ask:

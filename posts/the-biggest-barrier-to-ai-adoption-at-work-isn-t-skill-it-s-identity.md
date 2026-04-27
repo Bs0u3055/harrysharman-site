@@ -1,3 +1,17 @@
+---
+title: "The Biggest Barrier to AI Adoption at Work Isn't Skill. It's Identity."
+date: "2026-04-16"
+excerpt: "The real friction in workplace AI adoption isn't technical or procedural. It's what the tool appears to threaten in people's sense of professional self."
+tags:
+  - "ai"
+  - "strategy"
+  - "leadership"
+  - "behavioural-science"
+  - "innovation"
+featured: true
+image: "assets/the-biggest-barrier-to-ai-adoption-at-work-isn-t-skill-it-s-identity.jpg"
+---
+
 I remain convinced that the biggest challenge in workplace AI adoption is not technical.
 
 It isn't really about access.

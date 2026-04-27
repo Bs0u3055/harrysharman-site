@@ -1,3 +1,17 @@
+---
+title: "AI: It’s the Human, Stupid"
+date: "2025-08-05"
+excerpt: "Or: Why AI isn’t just Clippy with a six-pack"
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *(Or: Why AI isn’t just Clippy with a six-pack)*
 
 There’s a curious thing happening.

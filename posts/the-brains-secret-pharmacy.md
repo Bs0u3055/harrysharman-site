@@ -1,3 +1,15 @@
+---
+title: "The Brain’s Secret Pharmacy"
+date: "2026-03-05"
+excerpt: "I’d like to try and persuade you of something."
+tags:
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 I’d like to try and persuade you of something.
 
 Not gently suggest. Convince.

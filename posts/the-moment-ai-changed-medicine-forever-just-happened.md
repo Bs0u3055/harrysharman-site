@@ -1,3 +1,16 @@
+---
+title: "The Moment AI Changed Medicine Forever Just Happened"
+date: "2026-01-14"
+excerpt: "Last week, something rather important happened in healthcare — and almost nobody outside a small group of obsessives noticed."
+tags:
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Last week, something rather important happened in healthcare — and almost nobody outside a small group of obsessives noticed.
 
 OpenAI launched ChatGPT Health. A few days later, Anthropic followed with Claude for Healthcare. On the surface, this looks like another entry in the long list of “AI is coming to medicine” announcements, which we’ve all learned to greet with polite nodding and a return to email.

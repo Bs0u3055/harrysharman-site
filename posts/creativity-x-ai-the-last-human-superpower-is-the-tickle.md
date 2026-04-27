@@ -1,3 +1,15 @@
+---
+title: "Creativity x AI: The Last Human Superpower Is the Tickle"
+date: "2025-11-13"
+excerpt: "If comedy runs on surprise and AI runs on probability, then the final frontier isn’t intelligence. It’s laughter."
+tags:
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *If comedy runs on surprise and AI runs on probability, then the final frontier isn’t intelligence. It’s laughter.*
 
 It was one of my favourite conversations this year. A blue-sky morning. Two expensive coffees. Across the table: **Tim Reid** — BAFTA-winning writer of *Car Share*, the Peter Kay sitcom that turned the space between work and home into something tender and absurd. Tim’s one of those rare creatives who can explain the mechanics of funny without killing it.

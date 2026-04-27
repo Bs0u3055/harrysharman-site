@@ -1,3 +1,18 @@
+---
+title: "99% of Us Won’t Have a Job in 10 Years"
+date: "2025-09-09"
+excerpt: "I’ve managed to make myself redundant."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 I have a confession.
 
 I’ve managed to make myself redundant.

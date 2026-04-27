@@ -680,6 +680,11 @@ def main():
     results["Substack"] = publish_to_substack(post, dry_run=args.dry_run)
 
     print_summary(results, args.dry_run)
+
+    # Remind Dobby to schedule the carousel cron
+    if not args.dry_run and results.get("Website"):
+        print(f"\n⚡ DOBBY: Schedule carousel cron for slug={post['slug']} (48h from now)")
+
     sys.exit(0 if results.get("Website") else 1)
 
 

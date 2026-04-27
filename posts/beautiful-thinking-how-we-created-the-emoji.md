@@ -1,3 +1,16 @@
+---
+title: "Beautiful Thinking: How we created the 🧠 emoji"
+date: "2025-06-03"
+excerpt: "It was 2017, and I was deep in the trenches of a multiple sclerosis brand. “Brain fog” was the symptom du jour—slippery, hard to pin down. My junior at the time, Ryan who I’m..."
+tags:
+  - "strategy"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 It was 2017, and I was deep in the trenches of a multiple sclerosis brand. “Brain fog” was the symptom du jour—slippery, hard to pin down. My junior at the time, Ryan (who I’m convinced is now a spy), stumbled on a forum in New Zealand. Patients weren’t just talking about brain fog—they were *showing* it. Blurry landscapes, ghosts in the mist. Words had failed them, so they turned to images.
 
 That was the spark.

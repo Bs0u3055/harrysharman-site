@@ -1,3 +1,17 @@
+---
+title: "We’re Going to Need Brain Gyms"
+date: "2026-01-29"
+excerpt: "At some point in the not-too-distant future, the idea of a brain gym will stop sounding whimsical and start sounding inevitable."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 ### Why artificial intelligence may trigger an obesity epidemic of the mind
 
 At some point in the not-too-distant future, the idea of a *brain gym* will stop sounding whimsical and start sounding inevitable.

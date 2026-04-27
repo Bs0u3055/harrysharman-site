@@ -1,3 +1,13 @@
+---
+title: "Embracing Discomfort: Learning to do more firsts..."
+date: "2018-01-01"
+excerpt: "Unintentionally, 2017 for me became a year of firsts. I did many things for the first time and it taught me a lot about myself. I have a list below with pictures with many of..."
+tags:
+  - "ideas"
+featured: false
+image: ""
+---
+
 Unintentionally, 2017 for me became a year of firsts. I did many things for the first time and it taught me a lot about myself. I have a list below (with pictures) with many of those firsts, but there was one standout experience that I wanted to share.
 
 **Dance, Dance, Dance:**

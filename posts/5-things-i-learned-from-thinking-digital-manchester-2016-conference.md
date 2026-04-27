@@ -1,3 +1,13 @@
+---
+title: "5 Things I learned from Thinking Digital Manchester 2016 conference"
+date: "2016-10-12"
+excerpt: "After being in the lucky position of being sent a couple of free afternoon tickets for Thinking Digital Manchester I am guessing because I have such digital clout?!? - myself and..."
+tags:
+  - "strategy"
+featured: false
+image: ""
+---
+
 After being in the lucky position of being sent a couple of free afternoon tickets for Thinking Digital Manchester (I am guessing because I have such digital clout?!?) - myself and a couple of colleagues went along to the conference. Killing babies, exploring bodies and readying yourself for the zombie Apocalypse - it was an interesting and thought provoking afternoon!
 
 ![](https://media.licdn.com/dms/image/v2/C5112AQG20UhyIdorvw/article-inline_image-shrink_1500_2232/article-inline_image-shrink_1500_2232/0/1520249900887?e=1776902400&v=beta&t=b9DpdQPNbnKYD6M30yxIE4CMDYfyqMRiHcltDlceXyI)

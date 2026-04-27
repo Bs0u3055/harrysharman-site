@@ -1,3 +1,16 @@
+---
+title: "The Body Count of Bias: Women Aren’t Just Small Men"
+date: "2025-07-01"
+excerpt: "Let’s get one thing straight: Women aren’t just small men."
+tags:
+  - "behavioural-science"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Let’s get one thing straight: **Women aren’t just small men.**
 
 *But medicine still treats them like they are.*

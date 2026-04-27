@@ -1,3 +1,14 @@
+---
+title: "When terrorism happens, should brands react?"
+date: "2017-05-29"
+excerpt: "This week, the Western World was once again rocked by a murderer committing a horrendous act, killing 22 people, including children, at a concert in Manchester."
+tags:
+  - "behavioural-science"
+  - "strategy"
+featured: false
+image: ""
+---
+
 This week, the Western World was once again rocked by a murderer committing a horrendous act, killing 22 people, including children, at a concert in Manchester.
 
 Living and working in Manchester as I do, I have felt the effects of this acutely. It can't not affect you.

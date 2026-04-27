@@ -1,3 +1,16 @@
+---
+title: "I’m in the Top 1% of ChatGPT Users."
+date: "2026-01-07"
+excerpt: "According to OpenAI’s own usage metrics, I landed in the top 1% of ChatGPT users by volume."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 According to OpenAI’s own usage metrics, I landed in the top 1% of ChatGPT users by volume.
 
 ![](https://media.licdn.com/dms/image/v2/D4E12AQEQ86d-kAxDTw/article-inline_image-shrink_1500_2232/B4EZuYR4DaLIAU-/0/1767786385621?e=1776902400&v=beta&t=tV-TEkNWVgoHO29_CRbrDbMgfcfKeIgQKHPItxbWd48)

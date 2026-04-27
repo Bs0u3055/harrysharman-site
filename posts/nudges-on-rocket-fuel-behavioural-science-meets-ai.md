@@ -1,3 +1,16 @@
+---
+title: "Nudges on Rocket Fuel: Behavioural Science Meets AI"
+date: "2025-08-26"
+excerpt: "Economists once imagined people as little spreadsheets with shoes. Rational, calculating, weighing every choice like a human Excel file. Homo economicous, or 'Econs' for short."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 ### We Were Never Rational
 
 Economists once imagined people as little spreadsheets with shoes. Rational, calculating, weighing every choice like a human Excel file.* Homo economicous,* or 'Econs' for short.

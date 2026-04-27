@@ -1,3 +1,16 @@
+---
+title: "Cognitive Dissonance Is a Bug. Strategic Dissonance Is a Feature."
+date: "2025-06-17"
+excerpt: "Us psychologists call it cognitive dissonance—that gnawing discomfort when your beliefs and actions don’t match. It’s not just a vibe. It’s a threat. So your brain races to fix it:"
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Humans hate contradiction.
 
 Us psychologists call it *cognitive dissonance*—that gnawing discomfort when your beliefs and actions don’t match. It’s not just a vibe. It’s a threat. So your brain races to fix it:

@@ -1,3 +1,17 @@
+---
+title: "Futurism vs. Fatherhood: Building a Childhood for a Future That Doesn’t Exist."
+date: "2025-10-14"
+excerpt: "Lately I’ve become a little obsessed with the future that AI is dragging toward us. I even wrote a piece arguing that it’ll take most knowledge-work jobs within a..."
+tags:
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Lately I’ve become a little obsessed with the future that AI is dragging toward us. [I even wrote a piece arguing that it’ll take most knowledge-work jobs within a decade](https://www.linkedin.com/pulse/99-us-wont-have-job-10-years-harry-sharman--okg0e) — mine included.
 
 But since becoming a parent almost 2 years ago, that fascination has started to mutate. Because while I spend my days thinking about how AI will rewrite the rules for brands, businesses, and society, at home I’m trying to raise a tiny human to survive — and maybe even thrive — in whatever comes next.

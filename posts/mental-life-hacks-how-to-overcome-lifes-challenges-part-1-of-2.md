@@ -1,3 +1,13 @@
+---
+title: "Mental Life Hacks: How to overcome life's challenges (Part 1 of 2)"
+date: "2019-04-30"
+excerpt: "A while ago I ran a session on how to use Behavioural Science to change behaviour. As part of that I got the attendees to send me life-challenges that they would like to overcome...."
+tags:
+  - "behavioural-science"
+featured: false
+image: ""
+---
+
 A while ago I ran a session on how to use Behavioural Science to change behaviour. As part of that I got the attendees to send me life-challenges that they would like to overcome. Below are the consolidation of those challenges, with some nice explanations of what psychology is happening, and how you can hack that psychology to overcome that challenge.
 
 **Challenge One: Going to the gym, more. Or any other positive behaviour, like reading books or learning languages.**

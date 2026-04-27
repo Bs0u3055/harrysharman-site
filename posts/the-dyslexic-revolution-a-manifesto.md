@@ -1,3 +1,14 @@
+---
+title: "The Dyslexic Revolution: A Manifesto"
+date: "2025-02-27"
+excerpt: "For too long, we have been forced to fit into a world that was never built for us. A world designed for structured thinkers, for those who thrive within order, predictability, and..."
+tags:
+  - "ai"
+  - "creativity"
+featured: false
+image: ""
+---
+
 Published on ---
 
 For too long, we have been forced to fit into a world that was never built for us. A world designed for structured thinkers, for those who thrive within order, predictability, and a nice neat box. For too long, we have had to work twice as hard just to keep up. For too long, we have been told we don’t belong.

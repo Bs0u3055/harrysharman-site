@@ -1,3 +1,16 @@
+---
+title: "Today I Realised I Am Vibe Coding My Way to a Robot Army"
+date: "2026-02-12"
+excerpt: "For the past few weeks, I’ve been doing something that feels faintly illegal."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 For the past few weeks, I’ve been doing something that feels faintly illegal.
 
 Not illegal in the “FBI at the door” sense. More illegal in the “this shouldn’t be this easy” sense.

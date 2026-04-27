@@ -111,37 +111,62 @@ def draw_centered(draw, lines, font, start_y, fill=NAVY, line_gap=1.15):
 # ---------------------------------------------------------------------------
 # Gemini extraction
 # ---------------------------------------------------------------------------
-def extract_slides(post):
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        return _fallback(post)
-    try:
-        from google import genai
-        client = genai.Client(api_key=api_key)
-        prompt = f"""You are creating a LinkedIn carousel for "Beautiful Thinking" by Harry Sharman.
+SLIDE_PROMPT = """You are creating a LinkedIn carousel for "Beautiful Thinking" by Harry Sharman.
 
 Each slide has THREE text layers:
 1. "headline": Dramatic 2-4 word phrase. Think magazine cover. Provocative, memorable. Examples: "Excluded by Design", "Dosed to Death", "Ignored in Emergencies", "Women Are Dying."
-2. "subtitle": Short ALL CAPS phrase, 4-7 words. Context. Examples: "THE BODY COUNT OF BIAS", "SAME PILLS, DIFFERENT METABOLISM"
-3. "body": 1-2 sentences max. Conversational, punchy. Can include bold facts/stats. Example: "Women metabolize drugs slower— but still get male-sized doses, with fatal consequences."
+2. "subtitle": Short ALL CAPS phrase, 4-7 words. Context/framing — must be DIFFERENT from the headline, not a continuation. Examples: "THE BODY COUNT OF BIAS", "SAME PILLS, DIFFERENT METABOLISM"
+3. "body": 1-2 sentences max. Conversational, punchy. Can include bold facts/stats.
 
 Voice: Stephen Fry meets Bill Bryson. Intellectually curious, warmly irreverent, British. NEVER corporate jargon.
 
-Create exactly 5 slides. JSON array of 5 objects with keys: headline, subtitle, body
+Create exactly 5 slides. Return ONLY a JSON array of 5 objects with keys: headline, subtitle, body. No markdown fences.
 
-Blog title: {post['title']}
+Blog title: {title}
 Blog content:
-{post['body'][:4000]}"""
-        resp = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
-        text = resp.text.strip()
-        text = re.sub(r"```json\s*", "", text)
-        text = re.sub(r"```\s*$", "", text)
-        slides = json.loads(text)
-        if isinstance(slides, list) and len(slides) >= 3:
-            ok(f"Extracted {len(slides)} slides")
-            return slides[:6]
-    except Exception as e:
-        warn(f"Gemini failed: {e}")
+{body}"""
+
+
+def extract_slides(post):
+    prompt = SLIDE_PROMPT.format(title=post["title"], body=post["body"][:4000])
+
+    # Try Gemini first
+    gemini_key = os.getenv("GEMINI_API_KEY")
+    if gemini_key:
+        try:
+            from google import genai
+            client = genai.Client(api_key=gemini_key)
+            resp = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
+            text = re.sub(r"```json\s*", "", resp.text.strip())
+            text = re.sub(r"```\s*$", "", text)
+            slides = json.loads(text)
+            if isinstance(slides, list) and len(slides) >= 3:
+                ok(f"Extracted {len(slides)} slides via Gemini")
+                return slides[:6]
+        except Exception as e:
+            warn(f"Gemini failed: {e}")
+
+    # Fallback: Claude
+    anthropic_key = os.getenv("ANTHROPIC_API_KEY")
+    if anthropic_key:
+        try:
+            resp = requests.post(
+                "https://api.anthropic.com/v1/messages",
+                headers={"x-api-key": anthropic_key, "anthropic-version": "2023-06-01", "content-type": "application/json"},
+                json={"model": "claude-haiku-4-5", "max_tokens": 1024, "messages": [{"role": "user", "content": prompt}]},
+                timeout=30,
+            )
+            resp.raise_for_status()
+            text = resp.json()["content"][0]["text"].strip()
+            text = re.sub(r"```json\s*", "", text)
+            text = re.sub(r"```\s*$", "", text)
+            slides = json.loads(text)
+            if isinstance(slides, list) and len(slides) >= 3:
+                ok(f"Extracted {len(slides)} slides via Claude")
+                return slides[:6]
+        except Exception as e:
+            warn(f"Claude fallback failed: {e}")
+
     return _fallback(post)
 
 
@@ -151,9 +176,13 @@ def _fallback(post):
     for p in paras[:5]:
         clean = re.sub(r'[#*_\[\]()]', '', p).strip()
         words = clean.split()
+        headline = " ".join(words[:3]).rstrip(".,")
+        # Use next 3-5 words as subtitle context, not a placeholder
+        subtitle_words = words[3:8] if len(words) > 3 else words
+        subtitle = " ".join(subtitle_words).rstrip(".,")
         slides.append({
-            "headline": " ".join(words[:3]).rstrip(".,"),
-            "subtitle": "KEY INSIGHT",
+            "headline": headline,
+            "subtitle": subtitle,
             "body": ". ".join(clean.split(".")[:2]).strip() + ".",
         })
     return slides or [{"headline": "Key Insight", "subtitle": "FROM THE ARTICLE", "body": post["excerpt"]}]
@@ -162,8 +191,8 @@ def _fallback(post):
 # ---------------------------------------------------------------------------
 # Slide creation
 # ---------------------------------------------------------------------------
-def make_slide(headline="", subtitle="", body="", hero_img_path=None):
-    """Content slide with text spread across full page height, hero image bottom-right."""
+def make_slide(headline="", subtitle="", body=""):
+    """Content slide with text spread across full page height."""
     img = Image.new("RGB", (SLIDE_W, SLIDE_H), MUSTARD)
     draw = ImageDraw.Draw(img)
     margin = 80
@@ -218,23 +247,6 @@ def make_slide(headline="", subtitle="", body="", hero_img_path=None):
     if body_lines:
         y += gap
         y = draw_centered(draw, body_lines, f_body, y, NAVY, 1.4)
-
-    # Hero image — small, bottom-right corner
-    if hero_img_path and Path(hero_img_path).exists():
-        try:
-            hero = Image.open(hero_img_path).convert("RGBA")
-            # Resize to ~180px wide, maintain aspect ratio
-            target_w = 180
-            scale = target_w / hero.width
-            target_h = int(hero.height * scale)
-            hero = hero.resize((target_w, target_h), Image.LANCZOS)
-            # Position: bottom-right with margin
-            px = SLIDE_W - target_w - 50
-            py = SLIDE_H - target_h - 50
-            # Add slight rounded rectangle background for contrast
-            img.paste(hero, (px, py), hero if hero.mode == "RGBA" else None)
-        except Exception:
-            pass
 
     return img
 
@@ -347,7 +359,6 @@ def build_carousel(post, slides_data, hero_img_path=None):
         info(f"Slide {i}: {s.get('headline', '')[:30]}...")
         pages.append(make_slide(
             s.get("headline", ""), s.get("subtitle", ""), s.get("body", ""),
-            hero_img_path=hero_img_path,
         ))
 
     info("CTA slide...")
@@ -399,13 +410,19 @@ def main():
     parser.add_argument("--post", action="store_true", help="Post to LinkedIn")
     parser.add_argument("--hook", help="Custom LinkedIn hook text")
     parser.add_argument("--hero-image", help="Path to hero image for content slides")
+    parser.add_argument("--slides-json", help="Path to JSON file with pre-written slides [{headline, subtitle, body}]")
     args = parser.parse_args()
 
     load_dotenv(TOOLS_DIR / ".env")
     post = parse_post(args.file)
     ok(f"Title: {post['title']}")
 
-    slides_data = extract_slides(post)
+    if args.slides_json:
+        with open(args.slides_json) as f:
+            slides_data = json.load(f)
+        ok(f"Loaded {len(slides_data)} pre-written slides from {args.slides_json}")
+    else:
+        slides_data = extract_slides(post)
     for i, s in enumerate(slides_data, 1):
         info(f"  {i}. {s.get('headline', '')} — {s.get('body', '')[:50]}...")
 

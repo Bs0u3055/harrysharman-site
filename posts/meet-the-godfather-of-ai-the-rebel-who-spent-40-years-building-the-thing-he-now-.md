@@ -1,3 +1,15 @@
+---
+title: "Meet the Godfather of AI: The Rebel Who Spent 40 Years Building the Thing He Now Warns Could Destroy Us"
+date: "2025-12-03"
+excerpt: "Beautiful Rebels is my ongoing series about people who bend the world out of shape — thinkers who don’t just challenge the status quo, they quietly rewire it. They’re the..."
+tags:
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 **Beautiful Rebels** is my ongoing series about people who bend the world out of shape — thinkers who don’t just challenge the status quo, they quietly rewire it. They’re the intellectual troublemakers you’d sit next to at a bar after a conference because you just know the conversation will change how you see the future.
 
 This week: the mild-mannered professor who invented modern AI… and is now telling us, as gently as he can, that we may have built something humanity isn’t ready for.

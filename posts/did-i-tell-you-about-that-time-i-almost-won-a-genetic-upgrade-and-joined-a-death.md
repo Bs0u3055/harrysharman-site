@@ -1,3 +1,13 @@
+---
+title: "Did I tell you about that time I almost won a genetic upgrade and joined a death cult?"
+date: "2023-11-29"
+excerpt: "Biohacking has been prevalent for years, from body builders using anabolic steroids to artificially increase their physique, to the contemporary, more formalized counterculture of..."
+tags:
+  - "healthcare"
+featured: false
+image: ""
+---
+
 Biohacking has been prevalent for years, from body builders using anabolic steroids to artificially increase their physique, to the contemporary, more formalized counterculture of individuals who opt to implant electronics under their skin, ranging from Bluetooth dongles to USB drives.
 
 When it comes to health, no group have had more attention in recent years than those who are basing their biohacking on the Nobel prizing winning discovery of CRISPR-CAS gene editing. This incredible technique uses billion-year-old bacterial machinery that evolved as a response to viruses manipulating bacterial genetic codes for their own survival.

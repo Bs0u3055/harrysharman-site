@@ -1,3 +1,16 @@
+---
+title: "How to be a great Strategic Planner..."
+date: "2017-05-27"
+excerpt: "One of my Planning and Strategy colleagues recently asked me to share the resources I would want our junior Planners to use in order to understand our wonderful discipline and..."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "creativity"
+  - "healthcare"
+featured: false
+image: ""
+---
+
 Published on ---
 
 One of my Planning and Strategy colleagues recently asked me to share the resources I would want our junior Planners to use in order to understand our wonderful discipline and becomes better strategists. However, as I was going through the list - I realised that this list would be useful for anyone in the marketing game in order to become more strategic.

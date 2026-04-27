@@ -1,3 +1,17 @@
+---
+title: "I Think I Made the Job-pocalypse Too Simple"
+date: "2026-04-02"
+excerpt: "I’ve been fairly vocal about AI and jobs."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: true
+image: ""
+---
+
 I’ve been fairly vocal about AI and jobs.
 
 Alright, more than fairly. I’ve been one of those people at the bar, leaning in too hard over a pint and saying, “Have you lot realised what this means?” I’ve worried, loudly, about what happens when machines stop just helping humans think and start doing large chunks of white-collar work better, faster, and without needing a coffee, a manager, or a nervous little cry in the stairwell.

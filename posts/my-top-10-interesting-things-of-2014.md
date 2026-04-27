@@ -1,3 +1,13 @@
+---
+title: "My Top 10 Interesting things of 2014"
+date: "2015-01-06"
+excerpt: "10 What happens when a bunch of men write a tampon commercial? This is a highly amusing parody...."
+tags:
+  - "creativity"
+featured: false
+image: ""
+---
+
 ## On thinking about all the things that happened in 2014, I just went back through my Twitter feed ([@harrysharman](https://twitter.com/harrysharman)) to find 10 of the things that really inspired, fascinated or just amused me last year:
 
 10) What happens when a bunch of men write a tampon commercial? This is a highly amusing parody.

@@ -1,3 +1,17 @@
+---
+title: "The Agentic Revolution"
+date: "2025-08-12"
+excerpt: "aka The Great Unbundling of Human Cognitive Labor™️"
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *aka The Great Unbundling of Human Cognitive Labor™️*
 
 Let’s start with a confession: most of us don’t want to think more—we want to think *less*. We don’t crave more meetings, decisions, or to-do lists. We want that appointment booked. That tax return filed. That holiday planned. *Without* spending another second wrestling with PDFs, comparing air fryers, or waiting on hold with the GP.

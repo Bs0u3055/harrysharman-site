@@ -1,3 +1,14 @@
+---
+title: "I helped give the world a brain..."
+date: "2017-12-28"
+excerpt: "https://www.youtube.com/watch?v=uqEYWlmPV3khttps://www.youtube.com/watch?v=uqEYWlmPV3k"
+tags:
+  - "creativity"
+  - "healthcare"
+featured: false
+image: ""
+---
+
 [https://www.youtube.com/watch?v=uqEYWlmPV3k](https://www.youtube.com/watch?v=uqEYWlmPV3k)
 
 With colleagues from H4B Manchester, our research discovered that people with mental health problems were having conversations with friends online, but were finding it difficult to express their symptoms easily.

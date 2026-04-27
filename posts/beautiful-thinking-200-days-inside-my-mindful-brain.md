@@ -1,3 +1,16 @@
+---
+title: "Beautiful Thinking: 200 Days Inside My Mindful Brain"
+date: "2025-08-19"
+excerpt: "This hasn’t been an easy year. In fact, there were weeks where life felt like juggling chainsaws while being pecked at by pigeons. And in the very worst patch, I remembered..."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 This hasn’t been an easy year. In fact, there were weeks where life felt like juggling chainsaws while being pecked at by pigeons. And in the very worst patch, I remembered something awkward: that’s precisely when I most needed to meditate.
 
 It’s the trickster logic of mindfulness — the last thing you want to do is sit still and watch your thoughts when they’re behaving like caffeinated squirrels. But I dragged myself back to it, and, well, here we are: **200 days in a row**.

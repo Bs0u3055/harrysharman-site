@@ -1,3 +1,17 @@
+---
+title: "A quiet catch-up on where AI actually is"
+date: "2026-02-04"
+excerpt: "I’ve been asked a version of the same question often enough recently that it stopped feeling accidental."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 I’ve been asked a version of the same question often enough recently that it stopped feeling accidental.
 
 It usually arrives gently. At the end of a meeting. In a message that begins with “quick one” and then quietly isn’t. Sometimes there’s a hint of apology attached, as if the person asking feels they *ought* to know the answer already.

@@ -1,3 +1,13 @@
+---
+title: "The Brand is dead. Long live the Brand!"
+date: "2019-03-26"
+excerpt: "For a Brand loving marketer like myself, the idea of Brand being dead is very upsetting. It makes me shudder at the thought of the alternative – a world where products and..."
+tags:
+  - "strategy"
+featured: false
+image: ""
+---
+
 For a Brand loving marketer like myself, the idea of Brand being dead is very upsetting. It makes me shudder at the thought of the alternative – a world where products and services are pure commodities, with price being their only point of difference. What a boring and unimaginative world that would be!
 
 So why would Brand be dead? Well, the argument goes, particularly from the proponents of digital and direct marketing, that since search is so powerful – customers can just search for the product or service they need, agnostic of brand name, and they can choose the top search result – without the need to care for the brand – it is merely the product that suits their needs. No longer will I search for MAC professional chef knife with dimples, instead I’ll just search ‘chef knife’ and buy the top result.

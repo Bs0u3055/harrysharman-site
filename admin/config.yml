@@ -1,0 +1,105 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: assets/uploads
+public_folder: /assets/uploads
+
+collections:
+  # ── Blog Posts ──────────────────────────────────────────
+  - name: blog
+    label: Blog Posts
+    folder: posts
+    create: true
+    slug: "{{slug}}"
+    identifier_field: title
+    extension: md
+    format: yaml-frontmatter
+    summary: "{{title}} ({{date}})"
+    fields:
+      - label: Title
+        name: title
+        widget: string
+      - label: Publish Date
+        name: date
+        widget: datetime
+        format: "YYYY-MM-DD"
+        date_format: "DD MMM YYYY"
+        time_format: false
+        default: ""
+      - label: Excerpt
+        name: excerpt
+        widget: text
+        hint: "Short description shown on post cards and in the blog list."
+      - label: Tags
+        name: tags
+        widget: list
+        hint: "e.g. ai, strategy, leadership"
+        default: []
+      - label: Featured on Homepage
+        name: featured
+        widget: boolean
+        default: false
+        hint: "Show this post in the homepage highlights section."
+      - label: Cover Image
+        name: image
+        widget: image
+        required: false
+        hint: "Optional. Leave blank to use a gradient cover."
+      - label: Body
+        name: body
+        widget: markdown
+
+  # ── Projects & CV ────────────────────────────────────────
+  - name: site_data
+    label: Site Data
+    files:
+      - name: projects_cv
+        label: "Projects & CV"
+        file: data/site.json
+        fields:
+          - label: Projects
+            name: projects
+            widget: list
+            summary: "{{fields.title}} — {{fields.status}}"
+            fields:
+              - label: Title
+                name: title
+                widget: string
+              - label: Status
+                name: status
+                widget: select
+                options:
+                  - { label: Live, value: Live }
+                  - { label: In Progress, value: "In Progress" }
+                  - { label: Archived, value: Archived }
+              - label: Description
+                name: description
+                widget: text
+              - label: Link URL
+                name: link
+                widget: string
+                required: false
+                hint: "Leave blank if no link yet."
+              - label: Link Text
+                name: linkText
+                widget: string
+                hint: "e.g. Read the story → or Coming soon"
+          - label: CV
+            name: cv
+            widget: list
+            summary: "{{fields.role}} @ {{fields.company}}"
+            fields:
+              - label: Period
+                name: period
+                widget: string
+                hint: "e.g. 2023 — Present"
+              - label: Role / Title
+                name: role
+                widget: string
+              - label: Company
+                name: company
+                widget: string
+              - label: Description
+                name: description
+                widget: text

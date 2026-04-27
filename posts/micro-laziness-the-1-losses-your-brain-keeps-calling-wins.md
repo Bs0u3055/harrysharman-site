@@ -1,3 +1,14 @@
+---
+title: "Micro-Laziness: The 1% losses your brain keeps calling wins"
+date: "2025-04-14"
+excerpt: "I haven’t been invited to TED. Or Davos. Yet. But I still think it’s one of the best ways to understand how we think, act, and quietly self-sabotage."
+tags:
+  - "behavioural-science"
+  - "healthcare"
+featured: false
+image: ""
+---
+
 ### Six years ago, I coined a term: micro-laziness.
 
 I haven’t been invited to TED. Or Davos. Yet. But I still think it’s one of the best ways to understand how we think, act, and quietly self-sabotage.

@@ -1,3 +1,16 @@
+---
+title: "If AI Stopped Improving Today, Would You Still Have a Job?"
+date: "2026-02-27"
+excerpt: "Co-authored by Harry Sharman 🧠https://www.linkedin.com/in/harrysharman?miniProfileUrn=urn%3Ali%3AfsminiProfile%3AACoAAAL9ccBTOHIT7KkfXgfB7pY1vfFQRyxNbE & Josh..."
+tags:
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *Co-authored by *[Harry Sharman 🧠](https://www.linkedin.com/in/harrysharman?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAL_9ccBTOHIT7KkfXgfB7pY1vfFQRyxNbE) *& *[Josh Madej](https://www.linkedin.com/in/josh-madej?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAM0a4ABmyHHEBObeszgCwNbp0rlOB_eEJo)  *Published in Beautiful Thinking)*
 
 ### The Conversation We Can’t Stop Having

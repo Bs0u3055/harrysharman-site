@@ -1,3 +1,15 @@
+---
+title: "Mental Life Hacks: How to overcome life's challenges (Part 2 of 2)"
+date: "2019-05-09"
+excerpt: "To continue from my previous post on using behavioural science to master those little things we'd like to be better at, here are a few more common challenges."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "creativity"
+featured: false
+image: ""
+---
+
 To continue from my previous post on using behavioural science to master those little things we'd like to be better at, here are a few more common challenges.
 
 **Challenge Three: Hitting deadlines**

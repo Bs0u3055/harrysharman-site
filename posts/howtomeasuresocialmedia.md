@@ -1,3 +1,15 @@
+---
+title: "#HowToMeasureSocialMedia"
+date: "2015-02-13"
+excerpt: "As part of Delineo’s aim of ‘Known Marketing’, where our clients can get a full understanding of what the outcomes of their marketing spend are, we have been looking at measuring..."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "creativity"
+featured: false
+image: ""
+---
+
 As part of Delineo’s aim of ‘Known Marketing’, where our clients can get a full understanding of what the outcomes of their marketing spend are, we have been looking at measuring Social Media in more effective and interesting ways for a while now. Simultaneously, this has been something that a working group from the IPA have been looking at for over a year, and thus in a timely reflection of our own aims, the IPA have developed a course to explain the results of their extensive study.
 
 So on a cold winters morning in February, we (Tom Mason (@totmac), Head of Social Media and @HarrySharman, Head of Planning) travelled down to London, to be amongst the first in the country to receive the learning from this year long study, and be on the cutting-edge of social media measurement innovation (and yes, there really is such an ‘edge’!).

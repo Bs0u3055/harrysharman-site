@@ -1,3 +1,16 @@
+---
+title: "AI Succeeds at the Speed of Behaviour Change"
+date: "2025-09-02"
+excerpt: "I’ll start with the confession: I am a believer. Not cautious, hedge-your-bets believer. A full-throated, “buy another round and I’ll tell you the future” kind of believer."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 I’ll start with the confession: I am a believer. Not cautious, hedge-your-bets believer. A full-throated, “buy another round and I’ll tell you the future” kind of believer.
 
 Artificial intelligence — plus the robotics revolution it moves along hand-in-hand with — will change the world in the next decade in ways hard to imagine. Not “nice app, shame about the UX” change. I’m talking *pandemic-scale rupture*.

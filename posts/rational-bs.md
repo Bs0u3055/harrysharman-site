@@ -1,3 +1,15 @@
+---
+title: "Rational BS"
+date: "2025-06-10"
+excerpt: "“The sooner you realised Amos Tversky was smarter than you, the smarter you were.” — Lee Ross, Stanford psychologist and close friend"
+tags:
+  - "behavioural-science"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 ### How Two Psychologists Committed Heresy Against the Church of Economics
 
 “The sooner you realised Amos Tversky was smarter than you, the smarter you were.” — Lee Ross, Stanford psychologist and close friend

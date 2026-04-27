@@ -1,3 +1,14 @@
+---
+title: "Beautiful Rebels: Charles Darwin"
+date: "2025-05-29"
+excerpt: "Some ideas don’t just explain the world. They recode it."
+tags:
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 ### The most beautiful idea the human mind has ever held.
 
 Some ideas don’t just explain the world. They *recode* it.

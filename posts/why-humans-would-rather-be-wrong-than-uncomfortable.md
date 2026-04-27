@@ -1,3 +1,17 @@
+---
+title: "Why Humans Would Rather Be Wrong Than Uncomfortable"
+date: "2025-12-18"
+excerpt: "Most of us like to think we’re open-minded. Evidence-driven. The sort of people who change their views when the facts change."
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 ### The psychology quietly shaping politics, medicine, and our AI debates
 
 Most of us like to think we’re open-minded. Evidence-driven. The sort of people who change their views when the facts change.

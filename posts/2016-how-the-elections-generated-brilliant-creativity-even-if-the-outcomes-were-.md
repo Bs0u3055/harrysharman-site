@@ -1,3 +1,14 @@
+---
+title: "2016: How the Elections generated brilliant creativity (even if the outcomes were a little undesirable...)"
+date: "2017-01-02"
+excerpt: "I like to look back on my tweets and posts from the year to remind me of the interesting things I've read, watched and absorbed. Usually I just list out the top cool things. But..."
+tags:
+  - "strategy"
+  - "creativity"
+featured: false
+image: ""
+---
+
 I like to look back on my tweets and posts from the year to remind me of the interesting things I've read, watched and absorbed. Usually I just list out the top cool things. But being that this year was a huge year of political change, I thought I would do a special version of the amazing creativity that came out of the two most surprising political outcomes of the year - Brexit and President Trump.
 
 **One: Romanians adopt Remainians:**

@@ -1,3 +1,17 @@
+---
+title: "Who Do You Lie to More: Humans or AI?"
+date: "2025-11-20"
+excerpt: "Before we start, a quick gut check:"
+tags:
+  - "behavioural-science"
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Before we start, a quick gut check:
 
 **Who do you lie to more: humans or AI?**

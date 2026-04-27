@@ -64,6 +64,15 @@
     }
   }
 
+
+  // --- Strip YAML frontmatter before rendering ---
+  function stripFrontmatter(md) {
+    if (!md || !md.startsWith('---')) return md;
+    const end = md.indexOf('\n---', 3);
+    if (end === -1) return md;
+    return md.slice(end + 4).trim();
+  }
+
   // --- Render Featured Posts (index.html) ---
   async function renderFeaturedPosts() {
     const container = document.getElementById('featured-posts');
@@ -201,7 +210,7 @@
     // Load and render markdown
     const md = await loadMarkdown(`posts/${slug}.md`);
     if (md && typeof marked !== 'undefined') {
-      bodyEl.innerHTML = marked.parse(md);
+      bodyEl.innerHTML = marked.parse(stripFrontmatter(md));
     } else if (md) {
       // Fallback: render as paragraphs
       bodyEl.innerHTML = md

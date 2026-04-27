@@ -1,3 +1,16 @@
+---
+title: "The Zero-Employee Company"
+date: "2026-03-19"
+excerpt: "Over the past few months a strange idea has started popping up in corners of the AI world."
+tags:
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Over the past few months a strange idea has started popping up in corners of the AI world.
 
 Not the usual “AI will replace jobs” conversation. We’ve had that one for years.

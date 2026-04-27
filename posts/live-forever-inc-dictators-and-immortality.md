@@ -1,3 +1,16 @@
+---
+title: "LIVE FOREVER, INC: Dictators and Immortality"
+date: "2025-09-16"
+excerpt: "In 1940, Charlie Chaplin broke his silence."
+tags:
+  - "ai"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 ## Live Forever, Inc.
 
 In 1940, Charlie Chaplin broke his silence.

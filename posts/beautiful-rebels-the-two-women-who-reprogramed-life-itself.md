@@ -1,3 +1,14 @@
+---
+title: "Beautiful Rebels: The Two Women Who Reprogramed Life Itself"
+date: "2025-08-21"
+excerpt: "If you wanted to rewrite the code of life—literally change the instructions inside every living cell—you’d need a tool."
+tags:
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 If you wanted to rewrite the code of life—literally change the instructions inside every living cell—you’d need a tool.
 
 Not just any tool. A scalpel so small, so precise, it could snip a single typo in a 3-billion-letter genetic novel without so much as ruffling the page.

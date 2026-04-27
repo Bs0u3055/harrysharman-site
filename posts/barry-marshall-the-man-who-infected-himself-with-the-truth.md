@@ -1,3 +1,15 @@
+---
+title: "🦠 Barry Marshall — The Man Who Infected Himself With the Truth"
+date: "2025-07-31"
+excerpt: "“Everyone was against me… They thought I was crazy.” — Barry Marshall"
+tags:
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 *“Everyone was against me… They thought I was crazy.”* — Barry Marshall
 
 ---

@@ -1,3 +1,17 @@
+---
+title: "Your brain isn’t broken. Your software is."
+date: "2026-01-21"
+excerpt: "The digital world was built for rational actors."
+tags:
+  - "behavioural-science"
+  - "strategy"
+  - "ai"
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 The digital world was built for rational actors.
 
 People who wake up each morning with stable cognitive capacity, clear priorities, consistent motivation, and the calm ability to decide what matters most — and then do it, neatly, in the right order.

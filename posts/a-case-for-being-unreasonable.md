@@ -1,3 +1,16 @@
+---
+title: "A Case for Being Unreasonable"
+date: "2025-07-15"
+excerpt: "I’m fucking angry. And you should be too."
+tags:
+  - "behavioural-science"
+  - "creativity"
+  - "healthcare"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 ## ⚠️ This Comes With a Warning:
 
 **I’m fucking angry. And you should be too.**

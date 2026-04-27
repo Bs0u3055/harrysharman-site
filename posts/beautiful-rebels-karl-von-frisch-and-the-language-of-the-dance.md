@@ -1,3 +1,14 @@
+---
+title: "🐝 Beautiful Rebels: Karl von Frisch and the Language of the Dance"
+date: "2025-07-24"
+excerpt: "Most scientists were busy giving animals mazes."
+tags:
+  - "creativity"
+  - "beautiful-thinking"
+featured: false
+image: ""
+---
+
 Most scientists were busy giving animals mazes.
 
 **Karl von Frisch dared to Bee-lieve they were saying something.**
