@@ -1,235 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Harry Sharman — Brand Strategist & AI Builder</title>
-    <meta name="description" content="Harry Sharman. Brand strategist with a behavioural science brain, building AI-powered software at Applied Intelligence.">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Harry Sharman</title>
+  <meta name="description" content="Brand strategist turned AI builder. Writing essays, shipping tools, podcasting daily.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="nav" id="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-logo">HS</a>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="#podcast">Podcast</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#cv">CV</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
+
+  <!-- ── Header ── -->
+  <header class="site-header">
+    <a href="index.html" class="brand">HARRY<span class="brand-slash">/</span>SHARMAN</a>
+    <nav class="top-nav" id="nav-links">
+      <a href="blog.html" class="nav-link">writing</a>
+      <a href="#podcast" class="nav-link">listen</a>
+      <a href="#building" class="nav-link">building</a>
+      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="nav-pill">say hi ↗</a>
     </nav>
+    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">☰</button>
+  </header>
 
-    <!-- Hero -->
-    <header class="hero">
-        <canvas id="hero-canvas" aria-hidden="true"></canvas>
-        <div class="container">
-            <div class="hero-inner">
-                <div class="hero-content">
-                    <p class="hero-label">Brand Strategy · Behavioural Science · AI</p>
-                    <h1 class="hero-title">Harry Sharman</h1>
-                    <p class="hero-subtitle">Brand strategist turned AI builder. I help healthcare brands think differently — and I'm building the tools to make that easier.</p>
-                    <div class="hero-cta">
-                        <a href="blog.html" class="btn btn-primary">Read the Blog</a>
-                        <a href="#projects" class="btn btn-secondary">See What I'm Building</a>
-                    </div>
-                </div>
-                <div class="hero-visual">
-                    <div class="hero-photo-wrap">
-                        <img src="assets/harry.png" alt="Harry Sharman" class="hero-photo" onerror="this.style.opacity='0'">
-                    </div>
-                    <!-- Brain icon -->
-                    <div class="float-el float-brain" aria-hidden="true">
-                        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M22 7C16 7 11.5 11.5 11.5 17C9.5 17 7.5 19 7.5 21.5C7.5 24 9.5 26 12 26.5C12 30 14 33.5 17.5 35V38H26.5V35C30 33.5 32 30 32 26.5C34.5 26 36.5 24 36.5 21.5C36.5 19 34.5 17 32.5 17C32.5 11.5 28 7 22 7Z"/>
-                            <line x1="22" y1="17" x2="22" y2="26.5"/>
-                            <line x1="16" y1="21.5" x2="28" y2="21.5"/>
-                        </svg>
-                    </div>
-                    <!-- Sparkle -->
-                    <div class="float-el float-spark" aria-hidden="true">
-                        <svg width="30" height="30" viewBox="0 0 30 30" fill="currentColor">
-                            <path d="M15 0L16.5 13.5L30 15L16.5 16.5L15 30L13.5 16.5L0 15L13.5 13.5Z"/>
-                        </svg>
-                    </div>
-                    <!-- Lightbulb -->
-                    <div class="float-el float-bulb" aria-hidden="true">
-                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-                            <circle cx="18" cy="13" r="7.5"/>
-                            <path d="M13 20.5C13 23.5 14 27 18 27C22 27 23 23.5 23 20.5"/>
-                            <line x1="15" y1="30" x2="21" y2="30"/>
-                            <line x1="14" y1="27" x2="22" y2="27"/>
-                        </svg>
-                    </div>
-                    <div class="float-el float-ring" aria-hidden="true"></div>
-                    <div class="float-el float-dot float-dot-a" aria-hidden="true"></div>
-                    <div class="float-el float-dot float-dot-b" aria-hidden="true"></div>
-                    <div class="float-el float-dot float-dot-c" aria-hidden="true"></div>
-                    <div class="photo-orbit photo-orbit-1" aria-hidden="true"></div>
-                    <div class="photo-orbit photo-orbit-2" aria-hidden="true"></div>
-                    <div class="photo-orbit photo-orbit-3" aria-hidden="true"></div>
-                    <div class="float-el float-rocket" aria-hidden="true">
-                        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3C17 3 27 7 27 19L22 24H12L7 19C7 7 17 3 17 3Z"/><circle cx="17" cy="14" r="2.5"/><path d="M12 24L9 31M22 24L25 31"/><path d="M13 24L15 30L17 27L19 30L21 24"/></svg>
-                    </div>
-                    <div class="float-el float-gear" aria-hidden="true">
-                        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="17" cy="17" r="5.5"/><path d="M17 5v4M17 25v4M5 17h4M25 17h4M8.5 8.5l2.8 2.8M22.7 22.7l2.8 2.8M8.5 25.5l2.8-2.8M22.7 11.3l2.8-2.8"/></svg>
-                    </div>
-                    <div class="float-el float-atom" aria-hidden="true">
-                        <svg width="38" height="38" viewBox="0 0 38 38" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><circle cx="19" cy="19" r="2.5"/><ellipse cx="19" cy="19" rx="14" ry="5.5"/><ellipse cx="19" cy="19" rx="14" ry="5.5" transform="rotate(60 19 19)"/><ellipse cx="19" cy="19" rx="14" ry="5.5" transform="rotate(120 19 19)"/></svg>
-                    </div>
-                    <div class="float-el float-bolt" aria-hidden="true">
-                        <svg width="24" height="34" viewBox="0 0 24 34" fill="currentColor"><path d="M15 2L1 19H11L9 32L23 15H13L15 2Z"/></svg>
-                    </div>
-                    <div class="float-el float-arrow" aria-hidden="true">
-                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22L22 6M22 6H13M22 6V15"/></svg>
-                    </div>
-                    <div class="float-el float-spark-sm" aria-hidden="true">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 0L11 9L20 10L11 11L10 20L9 11L0 10L9 9Z"/></svg>
-                    </div>
-                    <div class="float-el float-spark-xs" aria-hidden="true">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor"><path d="M7 0L7.8 6.2L14 7L7.8 7.8L7 14L6.2 7.8L0 7L6.2 6.2Z"/></svg>
-                    </div>
-                    <div class="float-el float-dot float-dot-d" aria-hidden="true"></div>
-                    <div class="float-el float-dot float-dot-e" aria-hidden="true"></div>
-                    <div class="float-el float-dot float-dot-f" aria-hidden="true"></div>
-                    <div class="float-el float-dot float-dot-g" aria-hidden="true"></div>
-                </div>
-            </div>
-        </div>
-    </header>
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        BRAND&nbsp;·&nbsp;BEHAVIOUR&nbsp;·&nbsp;AI
+      </div>
+      <h1 class="h1">
+        <span>Hi, I'm Harry.</span><br>
+        <span>I think for</span><br>
+        <span class="h1-em">a&nbsp;living.</span><span class="h1-punct">*</span>
+      </h1>
+      <p class="hero-foot">
+        <span class="foot-star">*</span>
+        Brand strategist turned AI builder. Currently shipping tools at a healthcare-comms platform &amp; writing essays nobody asked for.
+      </p>
+      <div class="cta-row">
+        <a href="blog.html" class="cta cta-pri">READ THE BLOG <span class="cta-arrow">→</span></a>
+        <a href="#building" class="cta cta-sec">WHAT I'M BUILDING</a>
+      </div>
+    </div>
 
-    <!-- About -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About</h2>
-            <div class="about-grid">
-                <div class="about-text">
-                    <p class="lead">I'm a brand strategist with a behavioural science training, currently working at Applied Intelligence — a healthcare communications platform — where I'm focused on building AI-powered software.</p>
-                    <p>My career has sat at the intersection of how people think and how brands communicate. Behavioural science gave me the frameworks. Brand strategy gave me the application. And now AI is giving me entirely new ways to put both to work.</p>
-                    <p>This site is where I share what I'm learning, what I'm building, and the occasional thought that won't fit in a LinkedIn post.</p>
-                </div>
-                <div class="about-aside">
-                    <div class="about-card">
-                        <h3>Currently</h3>
-                        <p>Building AI-powered tools at Applied Intelligence</p>
-                    </div>
-                    <div class="about-card">
-                        <h3>Background</h3>
-                        <p>Brand strategy · Behavioural science · Healthcare comms</p>
-                    </div>
-                    <div class="about-card">
-                        <h3>Writing</h3>
-                        <p>Beautiful Thinking — 50+ articles on strategy, behaviour & ideas</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <div class="hero-right">
+      <svg class="sparkles" viewBox="0 0 500 600" fill="none" stroke="#1a1410" stroke-width="2.5" stroke-linecap="round">
+        <line x1="40" y1="40" x2="20" y2="20"/>
+        <line x1="80" y1="20" x2="80" y2="0"/>
+        <line x1="460" y1="60" x2="490" y2="50"/>
+        <line x1="470" y1="100" x2="495" y2="115"/>
+        <line x1="20" y1="300" x2="0" y2="300"/>
+        <line x1="480" y1="350" x2="500" y2="345"/>
+        <line x1="50" y1="540" x2="30" y2="560"/>
+        <line x1="450" y1="540" x2="475" y2="560"/>
+      </svg>
+      <div class="photo-frame">
+        <div class="tape tape-left"></div>
+        <div class="tape tape-right"></div>
+        <img src="assets/harry.png" alt="Harry Sharman" class="photo-img">
+        <div class="photo-caption">HARRY · est. very tired</div>
+      </div>
+      <div class="scribble scribble-right">← that's me</div>
+      <div class="scribble scribble-left">hello.</div>
+    </div>
+  </section>
 
-    <!-- Featured Blog Posts -->
-    <section class="section section-alt" id="blog-preview">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Latest from the Blog</h2>
-                <a href="blog.html" class="section-link">View all posts →</a>
-            </div>
-            <div class="posts-grid" id="featured-posts">
-                <!-- Populated by JS from posts.json -->
-            </div>
-        </div>
-    </section>
+  <!-- ── Marquee ── -->
+  <div class="marquee">
+    <div class="marquee-inner">
+      <span>★ THINKING IN PUBLIC ★ SHIPPING DAILY ★ STRONG OPINIONS, LOOSELY HELD ★ WRITING SINCE 2022 ★&nbsp;&nbsp;&nbsp;</span>
+      <span>★ THINKING IN PUBLIC ★ SHIPPING DAILY ★ STRONG OPINIONS, LOOSELY HELD ★ WRITING SINCE 2022 ★&nbsp;&nbsp;&nbsp;</span>
+    </div>
+  </div>
 
-    <!-- Podcast -->
-    <section id="podcast" class="section">
-        <div class="container">
-            <div class="podcast-layout">
-                <div class="podcast-info">
-                    <span class="section-label">Podcast</span>
-                    <h2 class="section-title">Briefly, AI</h2>
-                    <p class="podcast-desc">The three biggest AI stories of the day — every weekday. Week in review on Saturdays. One deep dive on Sundays. AI-generated, human-curated.</p>
-                    <div class="podcast-links">
-                        <a href="https://open.spotify.com/show/3P1pU7lrfX3mnvR7u9Hj90" target="_blank" rel="noopener" class="podcast-btn podcast-btn-spotify">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
-                            Listen on Spotify
-                        </a>
-                        <a href="https://podcasts.apple.com/gb/podcast/briefly-ai/id1893899361" target="_blank" rel="noopener" class="podcast-btn podcast-btn-apple">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
-                            Apple Podcasts
-                        </a>
-                    </div>
-                </div>
-                <div class="podcast-visual">
-                    <div class="podcast-art">
-                        <div class="podcast-art-inner">
-                            <span class="podcast-art-title">Briefly,</span>
-                            <span class="podcast-art-ai">AI</span>
-                        </div>
-                    </div>
-                    <p class="podcast-frequency">Daily · Mon – Sun</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Projects -->
-    <section id="projects" class="section">
-        <div class="container">
-            <h2 class="section-title">Projects & Side Projects</h2>
-            <p class="section-intro">Things I'm building, experimenting with, or just tinkering on.</p>
-            <div class="projects-grid" id="projects-grid">
-                <!-- Populated by JS from site.json -->
-            </div>
-        </div>
-    </section>
+  <!-- ── Three Cards ── -->
+  <section class="cards-section">
+    <a href="blog.html" class="card card-writing">
+      <div class="card-tag">01 — WRITING</div>
+      <div class="card-title">Beautiful<br>Thinking.</div>
+      <div class="card-sub">50+ essays on strategy, behaviour &amp; ideas. Updated regularly.</div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a href="#podcast" class="card card-podcast">
+      <div class="card-tag">02 — PODCAST</div>
+      <div class="card-title">Briefly,<br><em>AI.</em></div>
+      <div class="card-sub">Three biggest AI stories. Every weekday. Sundays deep-dive.</div>
+      <div class="card-arrow">→</div>
+    </a>
+    <a href="#building" class="card card-building">
+      <div class="card-tag">03 — BUILDING</div>
+      <div class="card-title">Side<br>projects.</div>
+      <div class="card-sub">Tools I make for myself, then occasionally let others use.</div>
+      <div class="card-arrow">→</div>
+    </a>
+  </section>
 
-    <!-- CV -->
-    <section id="cv" class="section">
-        <div class="container">
-            <h2 class="section-title">CV</h2>
-            <div class="cv-timeline" id="cv-timeline">
-                <!-- Populated by JS from site.json -->
-            </div>
-        </div>
-    </section>
+  <!-- ── Latest Essays ── -->
+  <section class="essays-section">
+    <div class="essays-head">
+      <h2 class="essays-title">Latest from the&nbsp;notebook<span class="essays-dot">.</span></h2>
+      <a href="blog.html" class="essays-all">see all →</a>
+    </div>
+    <div class="essay-list" id="essay-list">
+      <!-- JS rendered -->
+    </div>
+  </section>
 
-    <!-- Contact -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <div class="contact-grid">
-                <div class="contact-text">
-                    <p class="lead">Want to talk strategy, AI, behavioural science — or something else entirely? I'm always up for a good conversation.</p>
-                </div>
-                <div class="contact-links">
-                    <a href="https://linkedin.com/in/harrysharman" class="contact-item" target="_blank" rel="noopener">
-                        <span class="contact-label">LinkedIn</span>
-                        <span class="contact-value">linkedin.com/in/harrysharman</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+  <!-- ── Building / Projects ── -->
+  <section class="building-section" id="building">
+    <div class="building-head">
+      <div class="building-label">03 — BUILDING</div>
+      <h2 class="building-title">What I'm building<span class="essays-dot">.</span></h2>
+    </div>
+    <div class="projects-grid" id="projects-grid">
+      <!-- JS rendered -->
+    </div>
+  </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Harry Sharman. Built with care, maintained by <a href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">OpenClaw</a>.</p>
-        </div>
-    </footer>
+  <!-- ── Podcast ── -->
+  <section class="podcast-section" id="podcast">
+    <div class="podcast-inner">
+      <div class="podcast-label">02 — LISTEN</div>
+      <h2 class="podcast-title">Briefly,&nbsp;<em>AI.</em></h2>
+      <p class="podcast-desc">The three biggest AI stories, every weekday. Plus a Sunday deep-dive when I have something worth saying.</p>
+      <div class="podcast-links">
+        <a href="https://open.spotify.com/show/3P1pU7lrfX3mnvR7u9Hj90" target="_blank" class="podcast-btn podcast-btn-spotify">▶&nbsp;Listen on Spotify</a>
+        <a href="https://podcasts.apple.com/gb/podcast/briefly-ai/id1893899361" target="_blank" class="podcast-btn podcast-btn-apple">▶&nbsp;Apple Podcasts</a>
+      </div>
+    </div>
+  </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/site-animations.js"></script>
-    <script src="js/main.js"></script>
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-h">Want to talk?</div>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-link">linkedin/harrysharman ↗</a>
+    </div>
+    <div class="footer-copy">© 2026 Harry Sharman. Built with care.</div>
+  </footer>
 
-
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

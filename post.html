@@ -1,56 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post — Harry Sharman</title>
-    <meta name="description" content="">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post — Harry Sharman</title>
+  <meta name="description" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
-<body>
-    <!-- Navigation -->
-    <nav class="nav" id="nav">
-        <div class="nav-inner">
-            <a href="index.html" class="nav-logo">HS</a>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html#about">About</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="index.html#podcast">Podcast</a></li>
-                <li><a href="index.html#projects">Projects</a></li>
-                <li><a href="index.html#cv">CV</a></li>
-                <li><a href="index.html#contact">Contact</a></li>
-            </ul>
-        </div>
+<body class="post-page">
+
+  <header class="site-header">
+    <a href="index.html" class="brand">HARRY<span class="brand-slash">/</span>SHARMAN</a>
+    <nav class="top-nav" id="nav-links">
+      <a href="blog.html" class="nav-link">writing</a>
+      <a href="index.html#podcast" class="nav-link">listen</a>
+      <a href="index.html#building" class="nav-link">building</a>
+      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="nav-pill">say hi ↗</a>
     </nav>
+    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">☰</button>
+  </header>
 
-    <!-- Post Content -->
-    <article class="post">
-        <div class="container container-narrow">
-            <a href="blog.html" class="back-link">← Back to Blog</a>
-            <header class="post-header" id="post-header">
-                <!-- Populated by JS -->
-            </header>
-            <div class="post-body" id="post-body">
-                <!-- Markdown content rendered here by JS -->
-            </div>
-        </div>
-    </article>
+  <a href="blog.html" class="back-link">← Back to writing</a>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2026 Harry Sharman. Built with care, maintained by <a href="https://github.com/openclaw/openclaw" target="_blank" rel="noopener">OpenClaw</a>.</p>
-        </div>
-    </footer>
+  <article>
+    <header class="post-header-wrap" id="post-header">
+      <!-- JS rendered: h1 + post-meta -->
+    </header>
+    <div class="post-body-wrap">
+      <div class="post-body" id="post-body">
+        <!-- JS rendered: markdown content -->
+      </div>
+    </div>
+  </article>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="js/site-animations.js"></script>
-    <script src="js/main.js"></script>
+  <footer class="site-footer">
+    <div class="footer-h">Want to talk?</div>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-link">linkedin/harrysharman ↗</a>
+    </div>
+    <div class="footer-copy">© 2026 Harry Sharman. Built with care.</div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

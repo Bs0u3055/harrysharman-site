@@ -1,334 +1,193 @@
 /* ============================================
-   Harry Sharman — harrysharman.com
-   Main JavaScript
+   Harry Sharman — main.js
    ============================================ */
-
 (function () {
   'use strict';
 
-  // --- Mobile Nav Toggle ---
-  const navToggle = document.getElementById('nav-toggle');
-  const navLinks = document.getElementById('nav-links');
-
-  if (navToggle) {
-    navToggle.addEventListener('click', () => {
+  // ── Mobile Nav Toggle ──────────────────────
+  var navToggle = document.getElementById('nav-toggle');
+  var navLinks  = document.getElementById('nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', function () {
       navLinks.classList.toggle('open');
     });
-
-    // Close mobile nav on link click
-    navLinks.querySelectorAll('a').forEach((link) => {
-      link.addEventListener('click', () => {
+    navLinks.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
         navLinks.classList.remove('open');
       });
     });
   }
 
-  // --- Utility: Format date ---
-  function formatDate(dateStr) {
-    const date = new Date(dateStr + 'T00:00:00');
-    return date.toLocaleDateString('en-GB', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    });
+  // ── Utilities ──────────────────────────────
+  function shortDate(dateStr) {
+    var d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+  }
+  function longDate(dateStr) {
+    var d = new Date(dateStr + 'T00:00:00');
+    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   }
 
-  // --- Utility: Get base path ---
-  function getBasePath() {
-    const path = window.location.pathname;
-    const lastSlash = path.lastIndexOf('/');
-    return path.substring(0, lastSlash + 1);
-  }
-
-  // --- Load JSON data ---
   async function loadJSON(url) {
     try {
-      const resp = await fetch(url);
-      if (!resp.ok) throw new Error(`Failed to load ${url}`);
-      return await resp.json();
-    } catch (err) {
-      console.warn('Could not load data:', err.message);
-      return null;
-    }
+      var r = await fetch(url);
+      if (!r.ok) throw new Error(url);
+      return await r.json();
+    } catch (e) { console.warn('loadJSON:', e.message); return null; }
   }
 
-  // --- Load Markdown ---
   async function loadMarkdown(url) {
     try {
-      const resp = await fetch(url);
-      if (!resp.ok) throw new Error(`Failed to load ${url}`);
-      return await resp.text();
-    } catch (err) {
-      console.warn('Could not load markdown:', err.message);
-      return null;
-    }
+      var r = await fetch(url);
+      if (!r.ok) throw new Error(url);
+      return await r.text();
+    } catch (e) { console.warn('loadMarkdown:', e.message); return null; }
   }
 
-
-  // --- Strip YAML frontmatter before rendering ---
   function stripFrontmatter(md) {
     if (!md || !md.startsWith('---')) return md;
-    const end = md.indexOf('\n---', 3);
+    var end = md.indexOf('\n---', 3);
     if (end === -1) return md;
     return md.slice(end + 4).trim();
   }
 
-  // --- Render Featured Posts (index.html) ---
-  async function renderFeaturedPosts() {
-    const container = document.getElementById('featured-posts');
-    if (!container) return;
-
-    const posts = await loadJSON('posts/posts.json');
-    if (!posts) {
-      container.innerHTML = '<p class="empty-state">Posts coming soon.</p>';
-      return;
-    }
-
-    const featured = posts.filter((p) => p.featured).slice(0, 3);
-    if (featured.length === 0) {
-      container.innerHTML = '<p class="empty-state">Posts coming soon.</p>';
-      return;
-    }
-
-    container.innerHTML = featured
-      .map(
-        (post, i) => `
-      <div class="post-card">
-        <div class="card-cover" data-g="${i % 5}" aria-hidden="true"></div>
-        <span class="post-card-date">${formatDate(post.date)}</span>
-        <h3 class="post-card-title">
-          <a href="post.html?slug=${post.slug}">${post.title}</a>
-        </h3>
-        <p class="post-card-excerpt">${post.excerpt}</p>
-        <div class="post-card-tags">
-          ${post.tags.map((t) => `<span class="tag">${t}</span>`).join('')}
-        </div>
-      </div>
-    `
-      )
-      .join('');
+  function addRowHover(container) {
+    container.querySelectorAll('.essay-row, .blog-list-item').forEach(function (row) {
+      var arrow = row.querySelector('.essay-arrow');
+      if (!arrow) return;
+      row.addEventListener('mouseenter', function () { arrow.textContent = '→'; });
+      row.addEventListener('mouseleave', function () { arrow.textContent = '·'; });
+    });
   }
 
-  // --- Render Blog List (blog.html) ---
+  // ── renderEssayList (index.html) ───────────
+  async function renderEssayList() {
+    var container = document.getElementById('essay-list');
+    if (!container) return;
+    var posts = await loadJSON('posts/posts.json');
+    if (!posts || !posts.length) {
+      container.innerHTML = '<p class="empty-state">Essays coming soon.</p>';
+      return;
+    }
+    var recent = posts.slice(0, 5);
+    container.innerHTML = recent.map(function (post, i) {
+      var n   = String(i + 1).padStart(2, '0');
+      var cat = (post.tags && post.tags[0]) ? post.tags[0] : 'essay';
+      return '<a href="post.html?slug=' + post.slug + '" class="essay-row">' +
+        '<span class="essay-n">' + n + '</span>' +
+        '<span class="essay-cat">' + cat + '</span>' +
+        '<span class="essay-title">' + post.title + '</span>' +
+        '<span class="essay-date">' + shortDate(post.date) + '</span>' +
+        '<span class="essay-arrow">·</span>' +
+        '</a>';
+    }).join('');
+    addRowHover(container);
+  }
+
+  // ── renderBlogList (blog.html) ─────────────
   async function renderBlogList() {
-    const container = document.getElementById('blog-list');
-    const filtersContainer = document.getElementById('blog-filters');
+    var container = document.getElementById('blog-list');
+    var filtersEl = document.getElementById('blog-filters');
     if (!container) return;
 
-    const posts = await loadJSON('posts/posts.json');
-    if (!posts) {
+    var posts = await loadJSON('posts/posts.json');
+    if (!posts || !posts.length) {
       container.innerHTML = '<p class="empty-state">Posts coming soon.</p>';
       return;
     }
+    posts.sort(function (a, b) { return b.date > a.date ? 1 : -1; });
 
-    // Sort by date descending
-    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    // Build filter buttons
-    if (filtersContainer) {
-      const allTags = [...new Set(posts.flatMap((p) => p.tags))].sort();
-      const filterHTML = allTags
-        .map(
-          (tag) =>
-            `<button class="filter-btn" data-filter="${tag}">${tag}</button>`
-        )
-        .join('');
-      filtersContainer.innerHTML =
-        `<button class="filter-btn active" data-filter="all">All</button>` +
-        filterHTML;
-
-      // Filter click handlers
-      filtersContainer.querySelectorAll('.filter-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-          filtersContainer
-            .querySelectorAll('.filter-btn')
-            .forEach((b) => b.classList.remove('active'));
+    // Filters
+    if (filtersEl) {
+      var allTags = [];
+      posts.forEach(function (p) { (p.tags || []).forEach(function (t) { if (allTags.indexOf(t) === -1) allTags.push(t); }); });
+      allTags.sort();
+      filtersEl.innerHTML = '<button class="filter-btn active" data-filter="all">All</button>' +
+        allTags.map(function (t) { return '<button class="filter-btn" data-filter="' + t + '">' + t + '</button>'; }).join('');
+      filtersEl.querySelectorAll('.filter-btn').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          filtersEl.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
           btn.classList.add('active');
-
-          const filter = btn.dataset.filter;
-          document.querySelectorAll('.blog-list-item').forEach((item) => {
-            if (filter === 'all' || item.dataset.tags.includes(filter)) {
-              item.style.display = '';
-            } else {
-              item.style.display = 'none';
-            }
+          var f = btn.dataset.filter;
+          document.querySelectorAll('.blog-list-item').forEach(function (item) {
+            item.style.display = (f === 'all' || item.dataset.tags.indexOf(f) !== -1) ? '' : 'none';
           });
         });
       });
     }
 
-    // Render list
-    container.innerHTML = posts
-      .map(
-        (post) => `
-      <div class="blog-list-item" data-tags="${post.tags.join(',')}">
-        <span class="blog-list-date">${formatDate(post.date)}</span>
-        <div class="blog-list-content">
-          <h3 class="blog-list-title">
-            <a href="post.html?slug=${post.slug}">${post.title}</a>
-          </h3>
-          <p class="blog-list-excerpt">${post.excerpt}</p>
-        </div>
-      </div>
-    `
-      )
-      .join('');
+    container.innerHTML = posts.map(function (post, i) {
+      var n   = String(i + 1).padStart(2, '0');
+      var cat = (post.tags && post.tags[0]) ? post.tags[0] : 'essay';
+      return '<a href="post.html?slug=' + post.slug + '" class="blog-list-item" data-tags="' + (post.tags || []).join(',') + '">' +
+        '<span class="essay-n">' + n + '</span>' +
+        '<span class="essay-cat">' + cat + '</span>' +
+        '<span class="blog-list-title">' + post.title + '</span>' +
+        '<span class="essay-date blog-list-date">' + shortDate(post.date) + '</span>' +
+        '<span class="essay-arrow">·</span>' +
+        '</a>';
+    }).join('');
+    addRowHover(container);
   }
 
-  // --- Render Single Post (post.html) ---
+  // ── renderPost (post.html) ─────────────────
   async function renderPost() {
-    const headerEl = document.getElementById('post-header');
-    const bodyEl = document.getElementById('post-body');
+    var headerEl = document.getElementById('post-header');
+    var bodyEl   = document.getElementById('post-body');
     if (!headerEl || !bodyEl) return;
 
-    const params = new URLSearchParams(window.location.search);
-    const slug = params.get('slug');
+    var slug = new URLSearchParams(window.location.search).get('slug');
+    if (!slug) { bodyEl.innerHTML = '<p class="empty-state">Post not found.</p>'; return; }
 
-    if (!slug) {
-      bodyEl.innerHTML = '<p class="empty-state">Post not found.</p>';
-      return;
-    }
+    var posts    = await loadJSON('posts/posts.json');
+    var postMeta = posts ? posts.find(function (p) { return p.slug === slug; }) : null;
+    if (!postMeta) { bodyEl.innerHTML = '<p class="empty-state">Post not found.</p>'; return; }
 
-    // Load post metadata
-    const posts = await loadJSON('posts/posts.json');
-    const postMeta = posts ? posts.find((p) => p.slug === slug) : null;
+    document.title = postMeta.title + ' — Harry Sharman';
+    headerEl.innerHTML =
+      '<h1>' + postMeta.title + '</h1>' +
+      '<div class="post-meta">' +
+        '<span>' + longDate(postMeta.date) + '</span>' +
+        (postMeta.tags || []).map(function (t) { return '<span class="tag">' + t + '</span>'; }).join('') +
+      '</div>';
 
-    if (!postMeta) {
-      bodyEl.innerHTML = '<p class="empty-state">Post not found.</p>';
-      return;
-    }
-
-    // Update page title
-    document.title = `${postMeta.title} — Harry Sharman`;
-
-    // Render header
-    headerEl.innerHTML = `
-      <h1>${postMeta.title}</h1>
-      <p class="post-meta">${formatDate(postMeta.date)} · ${postMeta.tags.map((t) => `<span class="tag">${t}</span>`).join(' ')}</p>
-    `;
-
-    // Load and render markdown
-    const md = await loadMarkdown(`posts/${slug}.md`);
+    var md = await loadMarkdown('posts/' + slug + '.md');
     if (md && typeof marked !== 'undefined') {
       bodyEl.innerHTML = marked.parse(stripFrontmatter(md));
     } else if (md) {
-      // Fallback: render as paragraphs
-      bodyEl.innerHTML = md
-        .split('\n\n')
-        .map((p) => `<p>${p}</p>`)
-        .join('');
+      bodyEl.innerHTML = stripFrontmatter(md).split('\n\n').map(function (p) { return '<p>' + p + '</p>'; }).join('');
     } else {
-      bodyEl.innerHTML =
-        '<p class="empty-state">Could not load post content.</p>';
+      bodyEl.innerHTML = '<p class="empty-state">Could not load post.</p>';
     }
   }
 
-  // --- Render Projects (index.html) ---
+  // ── renderProjects (index.html) ────────────
   async function renderProjects() {
-    const container = document.getElementById('projects-grid');
+    var container = document.getElementById('projects-grid');
     if (!container) return;
-
-    const data = await loadJSON('data/site.json');
+    var data = await loadJSON('data/site.json');
     if (!data || !data.projects) {
-      container.innerHTML =
-        '<p class="empty-state">Projects coming soon.</p>';
+      container.innerHTML = '<p class="empty-state">Projects coming soon.</p>';
       return;
     }
-
-    container.innerHTML = data.projects
-      .map(
-        (project, i) => `
-      <div class="project-card">
-        <div class="card-cover" data-g="${i % 5}" aria-hidden="true"></div>
-        <span class="project-card-label">${project.status}</span>
-        <h3>${project.title}</h3>
-        <p>${project.description}</p>
-        ${project.link ? `<a href="${project.link}" class="project-card-link">${project.linkText}</a>` : `<span class="project-card-link" style="color: var(--color-text-light)">${project.linkText}</span>`}
-      </div>
-    `
-      )
-      .join('');
+    container.innerHTML = data.projects.map(function (p) {
+      var linkHtml = p.link
+        ? '<a href="' + p.link + '" class="project-card-link">' + p.linkText + '</a>'
+        : '<span class="project-card-link" style="opacity:0.35">' + p.linkText + '</span>';
+      return '<div class="project-card">' +
+        '<span class="project-card-label">' + p.status + '</span>' +
+        '<h3>' + p.title + '</h3>' +
+        '<p>' + p.description + '</p>' +
+        linkHtml +
+        '</div>';
+    }).join('');
   }
 
-  // --- Render Case Studies (index.html) ---
-  async function renderCaseStudies() {
-    const container = document.getElementById('cases-grid');
-    if (!container) return;
-
-    const data = await loadJSON('data/site.json');
-    if (!data || !data.caseStudies) {
-      container.innerHTML =
-        '<p class="empty-state">Case studies coming soon.</p>';
-      return;
-    }
-
-    container.innerHTML = data.caseStudies
-      .map(
-        (cs) => `
-      <div class="case-card">
-        <span class="case-card-category">${cs.category}</span>
-        <h3>${cs.title}</h3>
-        <p>${cs.description}</p>
-        <span class="case-card-result">${cs.result}</span>
-      </div>
-    `
-      )
-      .join('');
-  }
-
-  // --- Render CV (index.html) ---
-  async function renderCV() {
-    const container = document.getElementById('cv-timeline');
-    if (!container) return;
-
-    const data = await loadJSON('data/site.json');
-    if (!data || !data.cv) return;
-
-    container.innerHTML = data.cv
-      .map(
-        (entry) => `
-      <div class="cv-entry">
-        <span class="cv-date">${entry.period}</span>
-        <div class="cv-content">
-          <h3>${entry.role}</h3>
-          <span class="cv-company">${entry.company}</span>
-          <p>${entry.description}</p>
-        </div>
-      </div>
-    `
-      )
-      .join('');
-  }
-
-  // --- Render Testimonials (index.html) ---
-  async function renderTestimonials() {
-    const container = document.getElementById('testimonials-grid');
-    if (!container) return;
-
-    const data = await loadJSON('data/site.json');
-    if (!data || !data.testimonials) return;
-
-    container.innerHTML = data.testimonials
-      .map(
-        (t) => `
-      <div class="testimonial-card">
-        <blockquote>"${t.quote}"</blockquote>
-        <p class="testimonial-author">${t.author}</p>
-        <p class="testimonial-role">${t.role}</p>
-      </div>
-    `
-      )
-      .join('');
-  }
-
-  // --- Init ---
-  document.addEventListener('DOMContentLoaded', () => {
-    renderFeaturedPosts();
+  // ── Init ────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', function () {
+    renderEssayList();
     renderBlogList();
     renderPost();
     renderProjects();
-    renderCaseStudies();
-    renderCV();
-    renderTestimonials();
   });
 })();
