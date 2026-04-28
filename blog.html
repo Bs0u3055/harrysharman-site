@@ -14,32 +14,40 @@
 <body class="blog-page">
 
   <header class="site-header">
-    <a href="index.html" class="brand">HARRY<span class="brand-slash">/</span>SHARMAN</a>
-    <nav class="top-nav" id="nav-links">
-      <a href="blog.html" class="nav-link" style="opacity:0.5">writing</a>
-      <a href="index.html#podcast" class="nav-link">listen</a>
-      <a href="index.html#building" class="nav-link">building</a>
-      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="nav-pill">say hi ↗</a>
-    </nav>
-    <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">☰</button>
+    <div class="container header-inner">
+      <a href="index.html" class="brand">HARRY<span class="brand-slash">/</span>SHARMAN</a>
+      <nav class="top-nav" id="nav-links">
+        <a href="blog.html" class="nav-link" style="opacity:0.45">writing</a>
+        <a href="index.html#podcast" class="nav-link">listen</a>
+        <a href="index.html#building" class="nav-link">building</a>
+        <a href="https://linkedin.com/in/harrysharman" target="_blank" class="nav-pill">say hi ↗</a>
+      </nav>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">☰</button>
+    </div>
   </header>
 
-  <div class="blog-hero">
-    <h1 class="page-title">Beautiful<br>Thinking<span>.</span></h1>
-    <p class="page-subtitle">STRATEGY · BEHAVIOUR · AI · IDEAS — UPDATED REGULARLY</p>
+  <section class="blog-hero">
+    <div class="container">
+      <h1 class="page-title">Beautiful<br>Thinking<span class="essays-dot">.</span></h1>
+      <p class="page-subtitle">STRATEGY · BEHAVIOUR · AI · IDEAS — UPDATED REGULARLY</p>
+    </div>
+  </section>
+
+  <div class="blog-filters-wrap">
+    <div class="container">
+      <div class="blog-filters" id="blog-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+      </div>
+    </div>
   </div>
 
-  <div class="blog-filters" id="blog-filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-  </div>
-
-  <main>
-    <div class="blog-list" id="blog-list">
-      <!-- JS rendered -->
+  <main class="blog-main">
+    <div class="container">
+      <div class="blog-list essay-list" id="blog-list"></div>
     </div>
   </main>
 
-  <footer class="site-footer">
+  <footer class="site-footer blog-footer">
     <div class="footer-h">Want to talk?</div>
     <div class="footer-links">
       <a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-link">linkedin/harrysharman ↗</a>
