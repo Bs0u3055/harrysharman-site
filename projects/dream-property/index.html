@@ -353,74 +353,61 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
   <div class="sb-content">
 
     <div class="sb-section">
-      <div class="sb-title">Property Type</div>
+      <div class="sb-title">Show</div>
       <label class="sb-row"><input type="checkbox" id="fl-farm" checked>
         <span class="dot d-farm"></span><span class="sb-lbl">Agricultural</span><span class="sb-cnt" id="cn-farm"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-eq" checked>
         <span class="dot d-eq"></span><span class="sb-lbl">Equestrian</span><span class="sb-cnt" id="cn-eq"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-res" checked>
         <span class="dot d-res"></span><span class="sb-lbl">Large residential</span><span class="sb-cnt" id="cn-res"></span></label>
-      <label class="sb-row"><input type="checkbox" id="fl-norm" checked>
-        <span class="dot d-norm"></span><span class="sb-lbl">Unclassified</span><span class="sb-cnt" id="cn-norm"></span></label>
-    </div>
-
-    <div class="sb-section">
-      <div class="sb-title">Layers</div>
-      <label class="sb-row"><input type="checkbox" id="fl-fringe" checked>
-        <span class="dot d-fringe"></span><span class="sb-lbl">Green belt fringe</span><span class="sb-cnt" id="cn-fringe"></span></label>
-      <label class="sb-row"><input type="checkbox" id="fl-gb" checked>
-        <span class="dot d-gb"></span><span class="sb-lbl">Green belt</span><span class="sb-cnt" id="cn-gb"></span></label>
+      <hr class="divider">
       <label class="sb-row"><input type="checkbox" id="fl-plot" checked>
         <span class="dot d-plot"></span><span class="sb-lbl">Development plots</span><span class="sb-cnt" id="cn-plot"></span></label>
       <label class="sb-row"><input type="checkbox" id="fl-school" checked>
         <span class="dot d-school"></span><span class="sb-lbl">Independent schools</span><span class="sb-cnt" id="cn-school"></span></label>
-      <label class="sb-row"><input type="checkbox" id="fl-price">
-        <span class="dot d-norm" style="background:#fbbf24"></span><span class="sb-lbl">Has sold price</span></label>
-      <hr class="divider">
-      <label class="sb-row"><input type="checkbox" id="fl-noise">
-        <span class="dot d-noise"></span><span class="sb-lbl">Noise exposure</span></label>
-      <div style="font-size:10px;color:#374151;margin-top:2px;padding-left:22px;line-height:1.5;">✈ Aircraft corridors · 🛣 Motorways · 🚗 A-roads</div>
+      <!-- Hidden elements kept for render()/reset() -->
+      <input type="checkbox" id="fl-norm" checked style="display:none"><span id="cn-norm" style="display:none"></span>
+      <input type="checkbox" id="fl-fringe" checked style="display:none"><span id="cn-fringe" style="display:none"></span>
+      <input type="checkbox" id="fl-gb" checked style="display:none"><span id="cn-gb" style="display:none"></span>
+      <input type="checkbox" id="fl-price" style="display:none">
     </div>
 
     <div class="sb-section">
-      <div class="sb-title">Filters</div>
+      <div class="sb-title">Filter</div>
       <div class="range-wrap">
-        <div class="range-hd"><span>Min match score</span><span id="fs-lbl" style="color:#4ade80;">0</span></div>
-        <input type="range" id="fl-fs" min="0" max="80" step="5" value="0">
-        <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:1px;"><span>0</span><span>100</span></div>
+        <div class="range-hd"><span>Min match score</span><span id="ss-lbl" style="color:#fbbf24;">Off</span></div>
+        <input type="range" id="fl-ss" min="0" max="6" step="1" value="0">
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:1px;"><span>Off</span><span>6/6 ★★★★★★</span></div>
       </div>
       <div class="range-wrap">
-        <div class="range-hd"><span>Max distance from Knutsford</span><span id="km-lbl">All</span></div>
+        <div class="range-hd"><span>Max km from Knutsford</span><span id="km-lbl">All</span></div>
         <input type="range" id="fl-km" min="0" max="40" step="5" value="0">
         <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:1px;"><span>Any</span><span>30km</span></div>
       </div>
       <div class="range-wrap">
-        <div class="range-hd"><span>Min building m²</span><span id="sz-lbl">0</span></div>
+        <div class="range-hd"><span>Min building m²</span><span id="sz-lbl">0 m²</span></div>
         <input type="range" id="fl-size" min="0" max="500" step="25" value="0">
         <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:1px;"><span>0</span><span>500m²</span></div>
       </div>
+      <!-- Hidden — kept for reset() -->
+      <input type="range" id="fl-fs" min="0" max="80" step="5" value="0" style="display:none">
+      <span id="fs-lbl" style="display:none"></span>
     </div>
 
     <div class="sb-section">
-      <div class="sb-title">Match Zone</div>
-      <div class="range-wrap">
-        <div class="range-hd"><span>Min score</span><span id="ss-lbl" style="color:#fbbf24;">Off</span></div>
-        <input type="range" id="fl-ss" min="0" max="6" step="1" value="0">
-      </div>
-      <div style="font-size:10px;color:#374151;line-height:1.5;margin-bottom:6px;">
-        📍 Within reach · 🛣 Low road noise · ✈ Low aircraft noise · 🎓 School catchment
-      </div>
-      <button class="btn" id="btn-sweet">⭐ Show match zone</button>
-      <button class="btn" id="btn-zoom-sweet">⭐ Zoom to matches</button>
-    </div>
-
-    <div class="sb-section">
-      <div class="sb-title">Navigate</div>
-      <button class="btn" id="btn-boundary">⊙ Study area</button>
-      <button class="btn" id="btn-gb">⬤ Green belt</button>
-      <button class="btn" id="btn-fringe">🌿 Zoom to GB fringe</button>
+      <div class="sb-title">Overlays</div>
+      <label class="sb-row"><input type="checkbox" id="fl-noise">
+        <span class="dot d-noise"></span><span class="sb-lbl">Noise exposure</span></label>
+      <div style="font-size:10px;color:#374151;margin-top:2px;padding-left:22px;line-height:1.5;">✈ Aircraft · 🛣 Motorways · 🚗 A-roads</div>
+      <button class="btn" id="btn-sweet" style="margin-top:8px;">⭐ Match zone</button>
+      <hr class="divider">
+      <button class="btn" id="btn-zoom-sweet">↗ Zoom to top matches</button>
       <button class="btn" id="btn-plots">🏗️ Zoom to plots</button>
       <button class="btn" id="btn-reset">↺ Reset all</button>
+      <!-- Hidden — kept for JS event listeners -->
+      <button id="btn-boundary" style="display:none">⊙ Study area</button>
+      <button id="btn-gb" style="display:none">⬤ Green belt</button>
+      <button id="btn-fringe" style="display:none">🌿 Zoom to GB fringe</button>
     </div>
   </div>
 </div>
@@ -644,14 +631,7 @@ function popup(d) {
   if (d.ao) tags += '<span class="tag t-aonb">🏞 AONB</span>';
   if (d.a4) tags += '<span class="tag t-art4">📋 Article 4</span>';
 
-  // Fit score bar
-  var fs = d.fs || 0;
-  var fsCol = fitColour(fs);
-  var fsBar = '<div class="fit-score-row">'
-    + '<div class="fit-score-label"><span style="color:#9ca3af">Fit Score</span>'
-    + '<span class="fit-score-val" style="color:' + fsCol + '">' + fs + '<span class="fit-score-max">/100</span></span></div>'
-    + '<div class="fit-track"><div class="fit-track-fill" style="width:' + fs + '%;background:' + fsCol + '"></div></div>'
-    + '</div>';
+
 
   var NOISE_LVL = ['Low', 'Mid', 'High'];
   var NOISE_COL = ['#4ade80', '#fbbf24', '#ef4444'];
@@ -699,7 +679,6 @@ function popup(d) {
     + '<div class="pop-head">' + title + '</div>'
     + (sub ? '<div class="pop-sub">' + sub + '</div>' : '')
     + (tags ? '<div class="pop-tags">' + tags + '</div>' : '')
-    + fsBar
     + (rows ? '<div class="pop-grid">' + rows + '</div>' : '')
     + sweetStrip
     + '<div class="pop-links">' + links + '</div>'
@@ -745,8 +724,7 @@ function hover(d) {
   if (areaName) txt += '<br><span style="color:#6b7280;font-size:10px;">' + pc + '</span>';
   if (d.sz) txt += '<br><span class="sub">Building: ' + Math.round(d.sz) + ' m²'
     + (d.ac ? ' · ' + d.ac + ' ac' : '') + '</span>';
-  txt += '<br>Fit: <b style="color:' + fitColour(d.fs||0) + '">' + (d.fs||0) + '/100</b>'
-    + ' · Match: <b style="color:' + ssCol + '">' + ss + '/6</b>';
+  txt += '<br>Match: <b style="color:' + ssCol + '">' + ss + '/6</b>';
   document.getElementById('infobar').innerHTML = txt;
 }
 
@@ -932,8 +910,9 @@ function render() {
 // ── Top Matches panel ────────────────────────────────────────────────────────
 function buildTopMatches() {
   var sorted = HOLDINGS
-    .filter(function(d){ return d.a && d.o && d.fs && d.fs > 0; })
-    .sort(function(a,b){ return (b.fs||0) - (a.fs||0); })
+    .filter(function(d){ return d.a && d.o; })
+    .map(function(d){ if (d._ss === undefined) d._ss = sweetScore(d); return d; })
+    .sort(function(a,b){ var diff=(b._ss||0)-(a._ss||0); return diff!==0?diff:(b.fs||0)-(a.fs||0); })
     .slice(0, 20);
 
   var html = '';
@@ -945,6 +924,8 @@ function buildTopMatches() {
     var coordStr = d.a.toFixed(3) + ', ' + d.o.toFixed(3);
     var fs  = d.fs || 0;
     var ss  = d._ss !== undefined ? d._ss : sweetScore(d);
+    var ssC = ss>=6?'#fbbf24':ss>=5?'#f59e0b':ss>=3?'#4ade80':'#6b7280';
+    var ssStars = ['','★','★★','★★★','★★★★','★★★★★','★★★★★★'][Math.min(ss,6)];
     var meta = [];
     if (d.ac) meta.push('~' + d.ac + ' ac');
     if (d.ob) meta.push(d.ob + ' outbldg');
@@ -954,11 +935,11 @@ function buildTopMatches() {
       + '<div class="tm-loc">' + locName + '</div>'
       + '<div style="font-size:9px;color:#374151;margin-bottom:3px;">' + coordStr + '</div>'
       + '<div class="tm-meta">'
-      + '<span class="tm-score" style="color:' + fitColour(fs) + '">' + fs + '/100</span>'
-      + (ss > 0 ? '<span style="color:#fbbf24">★' + ss + '</span>' : '')
+      + '<span class="tm-score" style="color:' + ssC + '">' + ss + '/6</span>'
+      + '<span style="color:#6b7280;font-size:10px;margin-left:3px;">' + ssStars + '</span>'
       + (meta.length ? '<span>' + meta.join(' · ') + '</span>' : '')
       + '</div>'
-      + '<div class="fit-bar"><div class="fit-fill" style="width:' + fs + '%;background:' + fitColour(fs) + '"></div></div>'
+      + '<div class="fit-bar"><div class="fit-fill" style="width:' + Math.round(ss/6*100) + '%;background:' + ssC + '"></div></div>'
       + '</div>';
   });
 
