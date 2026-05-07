@@ -178,6 +178,7 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 .leaflet-popup-content { margin: 0 !important; }
 .leaflet-popup-close-button { color: #374151 !important; top: 9px !important; right: 11px !important; font-size: 16px !important; }
 .leaflet-popup-close-button:hover { color: #9ca3af !important; }
+.leaflet-popup-pane { z-index: 1001 !important; }
 
 /* ── Criteria breakdown in popup ─────────────────────────── */
 .crit-block { padding: 8px 14px 4px; border-top: 1px solid #1e2535; margin-top:2px; }
@@ -811,7 +812,7 @@ function render() {
     var st = markerStyle(d, ss);
     var m = L.circleMarker([d.a,d.o], st);
     d._ss = ss;
-    m.bindPopup(popup(d), { maxWidth:320 });
+    m.bindPopup(popup(d), { maxWidth:320, autoPanPaddingTopLeft:[10,125], autoPanPaddingBottomRight:[10,20] });
     m.on('click', function(){ if(window._selMarker && window._selMarker !== m){ try{ window._selMarker.setStyle({weight:1.5}); }catch(e){} } window._selMarker=m; m.setStyle({weight:4,color:'#fff'}); });
     m.on('popupclose', function(){ m.setStyle({weight:1.5,color: TYPE_STYLES[d.pt||'unknown']&&TYPE_STYLES[d.pt||'unknown'].color||'#334155'}); window._selMarker=null; });
     m.on('mouseover', function(){ hover(d); });
@@ -843,7 +844,7 @@ function render() {
       var m = L.circleMarker([p.lat,p.lng], {
         color:'#c2410c', fillColor:'#f97316', fillOpacity:0.92, weight:2, radius:9
       });
-      m.bindPopup(plotPopup(p), { maxWidth:290 });
+      m.bindPopup(plotPopup(p), { maxWidth:290, autoPanPaddingTopLeft:[10,125], autoPanPaddingBottomRight:[10,20] });
       m.on('mouseover', function(){
         document.getElementById('infobar').innerHTML =
           '<b>🏗️ ' + p.title + '</b><br>' + (p.price?p.price+' · ':'') + p.town +
@@ -865,7 +866,7 @@ function render() {
       var m = L.circleMarker([s.lat,s.lng], {
         color:'#4c1d95', fillColor:'#a78bfa', fillOpacity:0.95, weight:2, radius:10
       });
-      m.bindPopup(schoolPopup(s), { maxWidth:260 });
+      m.bindPopup(schoolPopup(s), { maxWidth:260, autoPanPaddingTopLeft:[10,125], autoPanPaddingBottomRight:[10,20] });
       m.on('mouseover', function(){
         document.getElementById('infobar').innerHTML = '<b>🎓 ' + s.name + '</b><br>' + s.location;
       });
