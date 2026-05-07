@@ -179,6 +179,20 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
 .leaflet-popup-close-button { color: #374151 !important; top: 9px !important; right: 11px !important; font-size: 16px !important; }
 .leaflet-popup-close-button:hover { color: #9ca3af !important; }
 
+/* ── Criteria breakdown in popup ─────────────────────────── */
+.crit-block { padding: 8px 14px 4px; border-top: 1px solid #1e2535; margin-top:2px; }
+.crit-hdr { display:flex; justify-content:space-between; align-items:center; font-size:10px; color:#6b7280; text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px; }
+.crit-hdr-score { color:#fbbf24; font-weight:700; font-size:12px; }
+.crit-row { display:grid; grid-template-columns:18px 1fr auto auto; gap:4px; align-items:center; font-size:11px; padding:2px 0; }
+.crit-ico { font-size:11px; }
+.crit-lbl { color:#9ca3af; }
+.crit-det { color:#6b7280; font-size:10px; text-align:right; }
+.crit-pass { font-weight:700; font-size:12px; min-width:16px; text-align:right; }
+.crit-ok  { color:#4ade80; }
+.crit-ok2 { color:#fbbf24; }
+.crit-no  { color:#ef4444; }
+.crit-half{ color:#f97316; }
+
 .pop { padding: 14px 16px; min-width: 240px; max-width: 290px; }
 .pop-type-banner {
   font-size: 9px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase;
@@ -373,14 +387,17 @@ input[type=range] { width: 100%; accent-color: #4ade80; cursor: pointer; }
       <div class="range-wrap">
         <div class="range-hd"><span>Min match score</span><span id="fs-lbl" style="color:#4ade80;">0</span></div>
         <input type="range" id="fl-fs" min="0" max="80" step="5" value="0">
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:1px;"><span>0</span><span>100</span></div>
       </div>
       <div class="range-wrap">
-        <div class="range-hd"><span>Max distance</span><span id="km-lbl">All</span></div>
+        <div class="range-hd"><span>Max distance from Knutsford</span><span id="km-lbl">All</span></div>
         <input type="range" id="fl-km" min="0" max="40" step="5" value="0">
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:1px;"><span>Any</span><span>30km</span></div>
       </div>
       <div class="range-wrap">
         <div class="range-hd"><span>Min building m²</span><span id="sz-lbl">0</span></div>
         <input type="range" id="fl-size" min="0" max="500" step="25" value="0">
+        <div style="display:flex;justify-content:space-between;font-size:9px;color:#374151;margin-top:1px;"><span>0</span><span>500m²</span></div>
       </div>
     </div>
 
@@ -518,6 +535,26 @@ function sweetScore(d) {
   return s;
 }
 
+function criteriaBreakdown(d) {
+  var kd  = d.kd  !== undefined ? d.kd  : haversineKm(ANCHOR[0],ANCHOR[1],d.a,d.o);
+  var m56 = d.m5  !== undefined ? d.m5  : motorwayDistKm(d.a, d.o);
+  var ar  = d.ar  !== undefined ? d.ar  : nearestARoadKm(d.a, d.o);
+  var ap  = d.ap  !== undefined ? d.ap  : haversineKm(AIRPORT_C[0],AIRPORT_C[1],d.a,d.o);
+  var nearSchool = SCHOOLS.reduce(function(min,sc){ var d2=haversineKm(sc.lat,sc.lng,d.a,d.o); return d2<min?d2:min; }, 999);
+  var kdPts  = kd  <= 8  ? 2 : kd  <= 15 ? 1 : 0;
+  var m56ok  = m56 >= 2;
+  var arok   = ar  >= 0.5;
+  var apok   = ap  >= 9;
+  var scok   = nearSchool <= 15;
+  return [
+    { ico:'📍', lbl:'Knutsford reach', det: kd.toFixed(1)+'km',   pts:kdPts,   max:2 },
+    { ico:'🛣', lbl:'Motorway buffer', det: m56.toFixed(1)+'km',  pts:m56ok?1:0, max:1 },
+    { ico:'🚗', lbl:'A-road buffer',   det: ar.toFixed(1)+'km',   pts:arok?1:0,  max:1 },
+    { ico:'✈',  lbl:'Airport buffer',  det: ap.toFixed(1)+'km',   pts:apok?1:0,  max:1 },
+    { ico:'🏫', lbl:'School reach',    det: nearSchool<=15 ? nearSchool.toFixed(0)+'km':'—', pts:scok?1:0, max:1 },
+  ];
+}
+
 // ── Cluster groups ───────────────────────────────────────────────────────────
 var mcOpts = { maxClusterRadius: 45, disableClusteringAtZoom: 13, chunkedLoading: true };
 var CL = {
@@ -623,7 +660,7 @@ function popup(d) {
   if (d.ac) rows += '<span class="pk">Acres est.</span><span class="pv">~' + d.ac + ' ac</span>';
   if (d.ob) rows += '<span class="pk">Outbuildings</span><span class="pv">' + d.ob + '</span>';
   if (d.wn) rows += '<span class="pk">Water</span><span class="pv">' + d.wn + (d.wd ? ' · ' + d.wd + 'm' : '') + '</span>';
-  if (d.kd !== undefined) rows += '<span class="pk" style="color:#374151">Distance from centre</span><span class="pv" style="color:#6b7280">' + d.kd.toFixed(1) + ' km</span>';
+  if (d.kd !== undefined) rows += '<span class="pk" style="color:#374151">From Knutsford</span><span class="pv" style="color:#6b7280">' + d.kd.toFixed(1) + ' km</span>';
   if (d.rn !== undefined && d.rn !== null) rows += '<span class="pk" style="color:#374151">🛣 Road noise</span><span class="pv" style="color:' + NOISE_COL[d.rn] + '">' + NOISE_LVL[d.rn] + '</span>';
   if (d.an !== undefined && d.an !== null) rows += '<span class="pk" style="color:#374151">✈ Aircraft noise</span><span class="pv" style="color:' + NOISE_COL[d.an] + '">' + NOISE_LVL[d.an] + '</span>';
 
@@ -635,14 +672,27 @@ function popup(d) {
   for (var i=0; i<6; i++) {
     segs += '<div class="score-seg ' + (i<ss ? 'filled" style="background:'+segCols[i]+'"' : 'empty"') + '></div>';
   }
-  var sweetStrip = '<div class="sweet-strip">'
-    + '<div class="sweet-strip-label"><span style="color:'+ssCol+';font-weight:600">Match '+ss+'/6</span>'
-    + '<span>' + ['—','★','★★','★★★','★★★★','★★★★★','★★★★★★'][Math.min(ss,6)] + '</span></div>'
-    + '<div class="score-track">' + segs + '</div>'
+  var crits = criteriaBreakdown(d);
+  var critRows = '';
+  crits.forEach(function(c){
+    var cls, sym;
+    if (c.max === 2) {
+      cls = c.pts===2 ? 'crit-ok2' : c.pts===1 ? 'crit-half' : 'crit-no';
+      sym = c.pts===2 ? '2/2' : c.pts===1 ? '1/2' : '0/2';
+    } else {
+      cls = c.pts ? 'crit-ok' : 'crit-no';
+      sym = c.pts ? '✓' : '✗';
+    }
+    critRows += '<div class="crit-row"><span class="crit-ico">'+c.ico+'</span><span class="crit-lbl">'+c.lbl+'</span><span class="crit-det">'+c.det+'</span><span class="crit-pass '+cls+'">'+sym+'</span></div>';
+  });
+  var starsStr = ['—','★','★★','★★★','★★★★','★★★★★','★★★★★★'][Math.min(ss,6)];
+  var sweetStrip = '<div class="crit-block">'
+    + '<div class="crit-hdr"><span>Match criteria</span><span class="crit-hdr-score">'+ss+'/6 '+starsStr+'</span></div>'
+    + critRows
     + '</div>';
 
   var links = '';
-  links += '<a href="https://www.google.com/maps/@' + d.a + ',' + d.o + ',14z" target="_blank">🗺 Area on map</a>';
+  links += '<a href="https://www.google.com/maps/@' + d.a + ',' + d.o + ',14z" target="_blank">🗺 Open in Google Maps ↗</a>';
 
   return '<div class="pop">'
     + banner
@@ -688,12 +738,15 @@ function hover(d) {
   var col = typeColour(d.pt || 'unknown');
   var ss  = d._ss !== undefined ? d._ss : sweetScore(d);
   var ssCol = ss >= 6 ? '#fbbf24' : ss >= 5 ? '#f59e0b' : ss >= 3 ? '#f97316' : '#6b7280';
-  var txt = '<b>' + pc + '</b>'
+  var areaName = d.wn ? d.wn.replace(/\s*\([^)]*\)/,'').trim() : null;
+  var locLabel = areaName || pc;
+  var txt = '<b>' + locLabel + '</b>'
     + ' <span style="color:' + col + ';font-size:10px;">' + typeLabel(d.pt||'unknown') + '</span>';
+  if (areaName) txt += '<br><span style="color:#6b7280;font-size:10px;">' + pc + '</span>';
   if (d.sz) txt += '<br><span class="sub">Building: ' + Math.round(d.sz) + ' m²'
     + (d.ac ? ' · ' + d.ac + ' ac' : '') + '</span>';
-  if (d.fs) txt += '<br>Fit: <b style="color:' + fitColour(d.fs) + '">' + d.fs + '/100</b>';
-  txt += '<br>Match: <b style="color:' + ssCol + '">' + ss + '/6</b>';
+  txt += '<br>Fit: <b style="color:' + fitColour(d.fs||0) + '">' + (d.fs||0) + '/100</b>'
+    + ' · Match: <b style="color:' + ssCol + '">' + ss + '/6</b>';
   document.getElementById('infobar').innerHTML = txt;
 }
 
@@ -780,7 +833,9 @@ function render() {
     var st = markerStyle(d, ss);
     var m = L.circleMarker([d.a,d.o], st);
     d._ss = ss;
-    m.bindPopup(popup(d), { maxWidth:300 });
+    m.bindPopup(popup(d), { maxWidth:320 });
+    m.on('click', function(){ if(window._selMarker && window._selMarker !== m){ try{ window._selMarker.setStyle({weight:1.5}); }catch(e){} } window._selMarker=m; m.setStyle({weight:4,color:'#fff'}); });
+    m.on('popupclose', function(){ m.setStyle({weight:1.5,color: TYPE_STYLES[d.pt||'unknown']&&TYPE_STYLES[d.pt||'unknown'].color||'#334155'}); window._selMarker=null; });
     m.on('mouseover', function(){ hover(d); });
 
     // Route to cluster group
@@ -886,17 +941,18 @@ function buildTopMatches() {
     var pt  = d.pt || 'unknown';
     var col = typeColour(pt);
     var lbl = typeLabel(pt);
-    var loc = d.pc || (d.a.toFixed(3) + ', ' + d.o.toFixed(3));
+    var locName = d.wn || d.pc || (d.a.toFixed(3) + ', ' + d.o.toFixed(3));
+    var coordStr = d.a.toFixed(3) + ', ' + d.o.toFixed(3);
     var fs  = d.fs || 0;
     var ss  = d._ss !== undefined ? d._ss : sweetScore(d);
     var meta = [];
     if (d.ac) meta.push('~' + d.ac + ' ac');
     if (d.ob) meta.push(d.ob + ' outbldg');
-    if (d.wn) meta.push(d.wn.split(' ').slice(0,2).join(' '));
 
     html += '<div class="tm-item" data-idx="' + i + '">'
       + '<div class="tm-type" style="color:' + col + '">' + lbl + '</div>'
-      + '<div class="tm-loc">' + loc + '</div>'
+      + '<div class="tm-loc">' + locName + '</div>'
+      + '<div style="font-size:9px;color:#374151;margin-bottom:3px;">' + coordStr + '</div>'
       + '<div class="tm-meta">'
       + '<span class="tm-score" style="color:' + fitColour(fs) + '">' + fs + '/100</span>'
       + (ss > 0 ? '<span style="color:#fbbf24">★' + ss + '</span>' : '')
