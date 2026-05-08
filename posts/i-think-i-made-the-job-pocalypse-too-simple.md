@@ -9,7 +9,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: true
-image: ""
+image: "assets/uploads/i-think-i-made-the-job-pocalypse-too-simple.jpg"
 ---
 
 I’ve been fairly vocal about AI and jobs.

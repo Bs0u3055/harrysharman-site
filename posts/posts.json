@@ -40,7 +40,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": true
+    "featured": true,
+    "image": "assets/uploads/i-think-i-made-the-job-pocalypse-too-simple.jpg"
   },
   {
     "slug": "the-zero-employee-company",
@@ -53,7 +54,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-zero-employee-company.jpg"
   },
   {
     "slug": "the-brains-secret-pharmacy",
@@ -65,7 +67,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-brains-secret-pharmacy.jpg"
   },
   {
     "slug": "if-ai-stopped-improving-today-would-you-still-have-a-job",
@@ -78,7 +81,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/if-ai-stopped-improving-today-would-you-still-have-a-job.jpg"
   },
   {
     "slug": "today-i-realised-i-am-vibe-coding-my-way-to-a-robot-army",
@@ -91,7 +95,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/today-i-realised-i-am-vibe-coding-my-way-to-a-robot-army.jpg"
   },
   {
     "slug": "a-quiet-catch-up-on-where-ai-actually-is",
@@ -105,7 +110,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/a-quiet-catch-up-on-where-ai-actually-is.jpg"
   },
   {
     "slug": "were-going-to-need-brain-gyms",
@@ -410,7 +416,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/ai-its-the-human-stupid.jpg"
   },
   {
     "slug": "barry-marshall-the-man-who-infected-himself-with-the-truth",
@@ -433,7 +440,8 @@
       "behavioural-science",
       "ai"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/chatgpt-broke-his-mind.jpg"
   },
   {
     "slug": "beautiful-rebels-karl-von-frisch-and-the-language-of-the-dance",
@@ -558,7 +566,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/beautiful-rebels-charles-darwin.jpg"
   },
   {
     "slug": "beautiful-thinking-ideas-that-misbehave-the-anti-ted-newsletter",
@@ -663,7 +672,8 @@
       "behavioural-science",
       "strategy"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/fing-over-ones-future-self-the-psychology-of-inertia.jpg"
   },
   {
     "slug": "the-brand-is-dead-long-live-the-brand",
@@ -673,7 +683,8 @@
     "tags": [
       "strategy"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-brand-is-dead-long-live-the-brand.jpg"
   },
   {
     "slug": "we-should-all-ask-for-help-more-help",
@@ -693,7 +704,8 @@
     "tags": [
       "strategy"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/why-micro-laziness-is-making-you-macro-lazy.jpg"
   },
   {
     "slug": "embracing-discomfort-learning-to-do-more-firsts",
@@ -703,7 +715,8 @@
     "tags": [
       "ideas"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/embracing-discomfort-learning-to-do-more-firsts.jpg"
   },
   {
     "slug": "i-helped-give-the-world-a-brain",
@@ -714,7 +727,8 @@
       "creativity",
       "healthcare"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/i-helped-give-the-world-a-brain.jpg"
   },
   {
     "slug": "when-terrorism-happens-should-brands-react",
@@ -725,7 +739,8 @@
       "behavioural-science",
       "strategy"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/when-terrorism-happens-should-brands-react.jpg"
   },
   {
     "slug": "how-to-be-a-great-strategic-planner",
@@ -793,7 +808,8 @@
       "strategy",
       "healthcare"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/healthcares-imminent-data-revolution.jpg"
   },
   {
     "slug": "howtomeasuresocialmedia",
@@ -805,7 +821,8 @@
       "strategy",
       "creativity"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/howtomeasuresocialmedia.jpg"
   },
   {
     "slug": "my-top-10-interesting-things-of-2014",
@@ -815,7 +832,8 @@
     "tags": [
       "creativity"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/my-top-10-interesting-things-of-2014.jpg"
   },
   {
     "slug": "signalling-theory-displaying-your-peacock-tail",

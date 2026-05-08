@@ -9,7 +9,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/ai-its-the-human-stupid.jpg"
 ---
 
 *(Or: Why AI isn’t just Clippy with a six-pack)*

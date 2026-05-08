@@ -6,7 +6,7 @@ tags:
   - "behavioural-science"
   - "strategy"
 featured: false
-image: ""
+image: "assets/uploads/when-terrorism-happens-should-brands-react.jpg"
 ---
 
 This week, the Western World was once again rocked by a murderer committing a horrendous act, killing 22 people, including children, at a concert in Manchester.

@@ -7,7 +7,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-brains-secret-pharmacy.jpg"
 ---
 
 I’d like to try and persuade you of something.

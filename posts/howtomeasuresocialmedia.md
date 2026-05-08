@@ -7,7 +7,7 @@ tags:
   - "strategy"
   - "creativity"
 featured: false
-image: ""
+image: "assets/uploads/howtomeasuresocialmedia.jpg"
 ---
 
 As part of Delineo’s aim of ‘Known Marketing’, where our clients can get a full understanding of what the outcomes of their marketing spend are, we have been looking at measuring Social Media in more effective and interesting ways for a while now. Simultaneously, this has been something that a working group from the IPA have been looking at for over a year, and thus in a timely reflection of our own aims, the IPA have developed a course to explain the results of their extensive study.

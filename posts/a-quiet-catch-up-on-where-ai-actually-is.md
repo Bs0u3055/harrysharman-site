@@ -9,7 +9,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/a-quiet-catch-up-on-where-ai-actually-is.jpg"
 ---
 
 I’ve been asked a version of the same question often enough recently that it stopped feeling accidental.

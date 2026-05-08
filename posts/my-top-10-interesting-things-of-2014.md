@@ -5,7 +5,7 @@ excerpt: "10 What happens when a bunch of men write a tampon commercial? This is
 tags:
   - "creativity"
 featured: false
-image: ""
+image: "assets/uploads/my-top-10-interesting-things-of-2014.jpg"
 ---
 
 ## On thinking about all the things that happened in 2014, I just went back through my Twitter feed ([@harrysharman](https://twitter.com/harrysharman)) to find 10 of the things that really inspired, fascinated or just amused me last year:

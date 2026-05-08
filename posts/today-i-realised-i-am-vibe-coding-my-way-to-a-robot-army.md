@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/today-i-realised-i-am-vibe-coding-my-way-to-a-robot-army.jpg"
 ---
 
 For the past few weeks, I’ve been doing something that feels faintly illegal.

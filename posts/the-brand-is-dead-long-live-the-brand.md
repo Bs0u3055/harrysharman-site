@@ -5,7 +5,7 @@ excerpt: "For a Brand loving marketer like myself, the idea of Brand being dead 
 tags:
   - "strategy"
 featured: false
-image: ""
+image: "assets/uploads/the-brand-is-dead-long-live-the-brand.jpg"
 ---
 
 For a Brand loving marketer like myself, the idea of Brand being dead is very upsetting. It makes me shudder at the thought of the alternative – a world where products and services are pure commodities, with price being their only point of difference. What a boring and unimaginative world that would be!

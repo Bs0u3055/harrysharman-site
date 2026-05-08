@@ -8,7 +8,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-zero-employee-company.jpg"
 ---
 
 Over the past few months a strange idea has started popping up in corners of the AI world.

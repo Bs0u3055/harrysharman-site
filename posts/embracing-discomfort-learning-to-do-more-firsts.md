@@ -5,7 +5,7 @@ excerpt: "Unintentionally, 2017 for me became a year of firsts. I did many thing
 tags:
   - "ideas"
 featured: false
-image: ""
+image: "assets/uploads/embracing-discomfort-learning-to-do-more-firsts.jpg"
 ---
 
 Unintentionally, 2017 for me became a year of firsts. I did many things for the first time and it taught me a lot about myself. I have a list below (with pictures) with many of those firsts, but there was one standout experience that I wanted to share.

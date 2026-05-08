@@ -6,7 +6,7 @@ tags:
   - "behavioural-science"
   - "ai"
 featured: false
-image: ""
+image: "assets/uploads/chatgpt-broke-his-mind.jpg"
 ---
 
 *How AI is gaslighting the vulnerable—and nobody’s fucking watching.*

@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/if-ai-stopped-improving-today-would-you-still-have-a-job.jpg"
 ---
 
 *Co-authored by *[Harry Sharman 🧠](https://www.linkedin.com/in/harrysharman?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAL_9ccBTOHIT7KkfXgfB7pY1vfFQRyxNbE) *& *[Josh Madej](https://www.linkedin.com/in/josh-madej?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAAAM0a4ABmyHHEBObeszgCwNbp0rlOB_eEJo)  *Published in Beautiful Thinking)*

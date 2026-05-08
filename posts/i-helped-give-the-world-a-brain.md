@@ -6,7 +6,7 @@ tags:
   - "creativity"
   - "healthcare"
 featured: false
-image: ""
+image: "assets/uploads/i-helped-give-the-world-a-brain.jpg"
 ---
 
 [https://www.youtube.com/watch?v=uqEYWlmPV3k](https://www.youtube.com/watch?v=uqEYWlmPV3k)

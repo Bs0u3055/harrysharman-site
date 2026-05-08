@@ -6,7 +6,7 @@ tags:
   - "behavioural-science"
   - "strategy"
 featured: false
-image: ""
+image: "assets/uploads/fing-over-ones-future-self-the-psychology-of-inertia.jpg"
 ---
 
 A couple of weeks ago I was approached by a friend of mine. They needed some advice. They were thinking about their career, had a couple of options on the table, and wanted to see how I would approach their situation. They were moving jobs - to a great place - and their current place had upped their offer to make them stay and was showering them with promises (much as a jilted lover promises to change after they are broken up with).

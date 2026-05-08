@@ -5,7 +5,7 @@ excerpt: "For a while I've become interested by the idea of micro-laziness. Thes
 tags:
   - "strategy"
 featured: false
-image: ""
+image: "assets/uploads/why-micro-laziness-is-making-you-macro-lazy.jpg"
 ---
 
 For a while I've become interested by the idea of micro-laziness. These are the small, everyday behaviours that aren't a big deal individually, but add up to something larger. They are the tiny decisions to 'not bother'. From not screwing the cap on the milk bottle fully, to crossing the road before you get to the zebra-crossing, through to not tying your shoelaces fully before running outside to put the bins out.

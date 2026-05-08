@@ -6,7 +6,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/beautiful-rebels-charles-darwin.jpg"
 ---
 
 ### The most beautiful idea the human mind has ever held.

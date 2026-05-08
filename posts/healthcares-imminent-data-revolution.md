@@ -7,7 +7,7 @@ tags:
   - "strategy"
   - "healthcare"
 featured: false
-image: ""
+image: "assets/uploads/healthcares-imminent-data-revolution.jpg"
 ---
 
 (Originally written for the Strategic North Blog - http://www.strategicnorth.com/blog/healthcares-imminent-data-revolution/)
