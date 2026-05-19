@@ -308,6 +308,44 @@
   @keyframes bFlash { 0%,100%{opacity:1} 50%{opacity:0.3} }
   .battle-overlay.flash-win { animation: bFlash 0.15s ease 2; }
 
+
+  /* ─── VOTING ─── */
+  .idea-bottom-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+  .vote-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-muted); padding: 5px 11px; border-radius: 6px;
+    cursor: pointer; font-size: 12px; font-family: var(--font);
+    transition: all 0.18s; user-select: none; flex-shrink: 0;
+  }
+  .vote-btn:hover { border-color: var(--cyan); color: var(--cyan); }
+  .vote-btn.voted { background: rgba(0,212,255,0.1); border-color: var(--cyan); color: var(--cyan); font-weight: 700; }
+  .vote-btn.voted .v-arrow { transform: translateY(-1px); }
+  .v-arrow { font-size: 13px; transition: transform 0.18s; display: inline-block; }
+  .v-count { font-weight: 700; min-width: 10px; }
+  .crowd-badge {
+    display: none; font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; background: rgba(0,212,255,0.12);
+    color: var(--cyan); border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 3px; padding: 2px 6px; position: absolute; top: 8px; left: 8px;
+  }
+  .crowd-badge.show { display: block; }
+  /* Sort pill variant */
+  .sort-pill {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text-muted); padding: 6px 14px; border-radius: 20px;
+    cursor: pointer; font-size: 12px; font-family: var(--font);
+    transition: all 0.15s; margin-left: 8px;
+  }
+  .sort-pill:hover { border-color: var(--cyan); color: var(--cyan); }
+  .sort-pill.active { background: var(--cyan); color: #000; border-color: var(--cyan); font-weight: 700; }
+  /* Vote count in bracket slots */
+  .wc-vote-pip { font-size: 9px; color: var(--cyan); flex-shrink: 0; padding: 0 2px; }
+  /* Battle overlay vote line */
+  .b-vote-line { font-size: 11px; color: var(--cyan); margin-top: 6px; font-weight: 600; }
+  /* Votes summary bar in phase 2 header */
+  .votes-summary { font-size: 12px; color: var(--cyan); display: inline-flex; align-items: center; gap: 5px; }
+
 </style>
 </head>
 <body>
@@ -409,7 +447,10 @@
       <div class="phase-title">100 Business Ideas</div>
       <div class="phase-count" id="ideas-showing">Showing all 100 ideas</div>
     </div>
-    <input class="search-box" type="text" placeholder="🔍  Search ideas..." oninput="filterIdeas()" id="idea-search">
+    <div style="display:flex;align-items:center;gap:12px">
+      <input class="search-box" type="text" placeholder="🔍  Search ideas..." oninput="filterIdeas()" id="idea-search">
+      <span class="votes-summary" id="vote-summary" title="Votes cast this session">⬆ <span id="total-votes-cast">0</span> votes cast</span>
+    </div>
   </div>
 
   <div class="filter-row" id="cat-filters">
@@ -424,6 +465,7 @@
     <button class="filter-pill" onclick="setFilter('SOC', this)">📱 Social Media</button>
     <button class="filter-pill" onclick="setFilter('B2B', this)">💼 B2B Services</button>
     <button class="filter-pill" onclick="setFilter('CSR', this)">💚 Social Good</button>
+    <button class="sort-pill" id="sort-votes-pill" onclick="toggleSortVotes(this)" title="Sort by crowd votes">⬆ Votes</button>
   </div>
 
   <div class="ideas-grid" id="ideas-grid"></div>
@@ -774,12 +816,18 @@ const MARKET_EVENTS = [
 ];
 
 function initTournament() {
-  const seeds = TOP32.map((idea, i) => ({
-    ...idea,
-    seed: i + 1,
-    tournamentScore: idea.score,
-    eliminated: false,
-  }));
+  // Vote boost: each vote = +0.05, capped at +1.0 per idea
+  const seeds = TOP32.map((idea, i) => {
+    const voteBoost = Math.min(VoteStore.getCount(idea.id) * 0.05, 1.0);
+    return {
+      ...idea,
+      seed: i + 1,
+      votes: VoteStore.getCount(idea.id),
+      voteBoost,
+      tournamentScore: idea.score + voteBoost,
+      eliminated: false,
+    };
+  });
 
   // Build bracket: 32-team single elimination
   // Round 1: 32→16, Round 2: 16→8, QF: 8→4, SF: 4→2, F: 2→1
@@ -889,6 +937,9 @@ function showBattle(matchObj, ri, matchIdx, totalMatches, callback) {
     document.getElementById(`b-cat-${prefix}`).textContent   = CAT_LABELS[team.cat] || team.cat;
     document.getElementById(`b-dot-${prefix}`).style.background = CAT_COLORS[team.cat] || '#888';
     document.getElementById(`b-team-${prefix}`).classList.remove('b-winner','b-loser');
+    // vote line
+    const vEl = document.getElementById(`b-votes-${prefix}`);
+    if (vEl) vEl.textContent = team.votes > 0 ? `⬆ ${team.votes} crowd ${team.votes === 1 ? 'vote' : 'votes'}` : '';
   };
   fillTeam('a', a);
   fillTeam('b', b);
@@ -1050,10 +1101,12 @@ function buildMatchCard(match, ri, mi) {
     }
     div.className = 'wc-slot' + (isW ? ' wc-winner' : '') + (isL ? ' wc-loser' : '');
     const col = CAT_COLORS[team.cat] || '#888';
+    const votePip = team.votes > 0 ? `<span class="wc-vote-pip" title="${team.votes} crowd votes">⬆${team.votes}</span>` : '';
     div.innerHTML = `
       <span class="wc-seed">${team.seed}</span>
       <span class="wc-dot" style="background:${col}"></span>
       <span class="wc-name" title="${team.name}">${team.name}</span>
+      ${votePip}
       <span class="wc-score-chip">${team.tournamentScore.toFixed(1)}</span>
     `;
     return div;
@@ -1287,8 +1340,14 @@ function renderIdeas() {
     return matchCat && matchSearch;
   });
 
+  // Sort by votes if that mode is active
+  if (_sortByVotes) {
+    filtered.sort((a, b) => VoteStore.getCount(b.id) - VoteStore.getCount(a.id));
+  }
+
   document.getElementById('ideas-showing').textContent =
-    `Showing ${filtered.length} of 100 ideas`;
+    `Showing ${filtered.length} of 100 ideas` +
+    (_sortByVotes ? ' · sorted by votes' : '');
 
   const top32Ids = new Set(TOP32.map(i => i.id));
 
@@ -1308,23 +1367,33 @@ function renderIdeas() {
 
     const highlight = top32Ids.has(idea.id) ? ' highlighted' : '';
     const qualifier = top32Ids.has(idea.id) ? '<div style="position:absolute;top:8px;right:8px;font-size:10px;background:rgba(0,255,136,0.15);color:var(--green);padding:2px 6px;border-radius:3px;border:1px solid rgba(0,255,136,0.3)">TOP 32</div>' : '';
+    const votes   = VoteStore.getCount(idea.id);
+    const voted   = VoteStore.hasVoted(idea.id);
+    const crowdCls = votes >= 3 ? ' show' : '';
 
     return `
       <div class="idea-card${highlight}" onclick="openModal(${idea.id})">
+        <div class="crowd-badge${crowdCls}">⬆ CROWD FAV</div>
         ${qualifier}
         <div class="idea-cat-badge cat-${idea.cat}">${CAT_LABELS[idea.cat]}</div>
         <div class="idea-name">${idea.name}</div>
         <div class="idea-desc">${idea.desc}</div>
         <div class="mini-bars">${topMetrics}</div>
-        <div class="idea-score-row">
-          <div>
-            <div class="idea-total-score">${idea.score.toFixed(1)}</div>
-            <div class="idea-score-label">score</div>
+        <div class="idea-bottom-row">
+          <div class="idea-score-row" style="margin-top:0;flex:1">
+            <div>
+              <div class="idea-total-score">${idea.score.toFixed(1)}</div>
+              <div class="idea-score-label">score</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:11px;color:var(--text-dim)">Rank</div>
+              <div style="font-size:16px;font-weight:700;color:var(--text-muted)">#${SORTED.findIndex(s => s.id === idea.id) + 1}</div>
+            </div>
           </div>
-          <div style="text-align:right">
-            <div style="font-size:11px;color:var(--text-dim)">Rank</div>
-            <div style="font-size:16px;font-weight:700;color:var(--text-muted)">#${SORTED.findIndex(s => s.id === idea.id) + 1}</div>
-          </div>
+          <button class="vote-btn${voted ? ' voted' : ''}" onclick="castVote(event,${idea.id})" title="${voted ? 'Remove vote' : 'Upvote this idea'}">
+            <span class="v-arrow">⬆</span>
+            <span class="v-count">${votes || ''}</span>
+          </button>
         </div>
       </div>`;
   }).join('');
@@ -1512,6 +1581,65 @@ function createClaw() {
   }
 }
 
+
+// =====================================================
+// VOTE STORE (localStorage — per browser session)
+// =====================================================
+const VoteStore = (() => {
+  const VOTES_KEY = 'oc_votes_v1';
+  const MY_KEY    = 'oc_my_v1';
+  let _v = {}, _m = new Set();
+  try {
+    _v = JSON.parse(localStorage.getItem(VOTES_KEY) || '{}');
+    _m = new Set(JSON.parse(localStorage.getItem(MY_KEY) || '[]'));
+  } catch(e) {}
+
+  const save = () => {
+    localStorage.setItem(VOTES_KEY, JSON.stringify(_v));
+    localStorage.setItem(MY_KEY, JSON.stringify([..._m]));
+  };
+
+  return {
+    getCount : id => _v[String(id)] || 0,
+    hasVoted : id => _m.has(String(id)),
+    totalCast: ()  => _m.size,
+    toggle(id) {
+      id = String(id);
+      if (_m.has(id)) { _m.delete(id); _v[id] = Math.max(0, (_v[id]||0) - 1); }
+      else             { _m.add(id);    _v[id] = (_v[id]||0) + 1; }
+      save();
+    },
+    topVoted(n) {
+      return Object.entries(_v)
+        .filter(([,c]) => c > 0)
+        .sort(([,a],[,b]) => b - a)
+        .slice(0, n)
+        .map(([id, count]) => ({ id: Number(id), count }));
+    },
+  };
+})();
+
+// whether ideas are currently sorted by votes
+let _sortByVotes = false;
+
+function castVote(event, ideaId) {
+  event.stopPropagation();
+  VoteStore.toggle(ideaId);
+  renderIdeas();
+  updateVoteSummary();
+}
+
+function toggleSortVotes(btn) {
+  _sortByVotes = !_sortByVotes;
+  btn.classList.toggle('active', _sortByVotes);
+  renderIdeas();
+}
+
+function updateVoteSummary() {
+  const el = document.getElementById('total-votes-cast');
+  if (el) el.textContent = VoteStore.totalCast();
+}
+
 // =====================================================
 // NAVIGATION
 // =====================================================
@@ -1529,6 +1657,7 @@ function showPhase(n) {
   if (stickyBar) stickyBar.classList.toggle('visible', n === 4);
 
   // Lazy init
+  if (n === 2) { renderIdeas(); updateVoteSummary(); }
   if (n === 3) { renderCharts(); renderQualifiers(); }
   if (n === 4) {
     if (!tournamentState) initTournament();
@@ -1553,6 +1682,7 @@ function unlockAndGo(n) {
 // =====================================================
 document.addEventListener('DOMContentLoaded', () => {
   renderIdeas();
+  updateVoteSummary();
 });
 </script>
 
@@ -1566,6 +1696,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="b-name" id="b-name-a">—</div>
       <div class="b-score-val" id="b-score-a">0.0</div>
       <div class="b-cat-lbl" id="b-cat-a"></div>
+      <div class="b-vote-line" id="b-votes-a"></div>
     </div>
 
     <div class="b-vs-col">
@@ -1586,6 +1717,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="b-name" id="b-name-b">—</div>
       <div class="b-score-val" id="b-score-b">0.0</div>
       <div class="b-cat-lbl" id="b-cat-b"></div>
+      <div class="b-vote-line" id="b-votes-b"></div>
     </div>
   </div>
 
