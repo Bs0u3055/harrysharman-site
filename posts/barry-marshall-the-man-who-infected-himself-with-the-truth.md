@@ -7,7 +7,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/barry-marshall-the-man-who-infected-himself-with-the-truth.png"
 ---
 
 *“Everyone was against me… They thought I was crazy.”* — Barry Marshall

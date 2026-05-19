@@ -8,7 +8,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-moment-ai-changed-medicine-forever-just-happened.png"
 ---
 
 Last week, something rather important happened in healthcare — and almost nobody outside a small group of obsessives noticed.

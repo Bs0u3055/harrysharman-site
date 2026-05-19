@@ -7,7 +7,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-end-of-the-world-over-aperitivo.png"
 ---
 
 *A letter from Sicily — and an apology in advance.*

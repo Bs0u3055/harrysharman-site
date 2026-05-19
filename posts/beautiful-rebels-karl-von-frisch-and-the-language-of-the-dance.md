@@ -6,7 +6,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/beautiful-rebels-karl-von-frisch-and-the-language-of-the-dance.png"
 ---
 
 Most scientists were busy giving animals mazes.

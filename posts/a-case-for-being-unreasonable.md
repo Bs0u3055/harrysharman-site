@@ -8,7 +8,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/a-case-for-being-unreasonable.png"
 ---
 
 ## ⚠️ This Comes With a Warning:

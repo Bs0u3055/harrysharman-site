@@ -9,7 +9,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/why-humans-would-rather-be-wrong-than-uncomfortable.png"
 ---
 
 ### The psychology quietly shaping politics, medicine, and our AI debates

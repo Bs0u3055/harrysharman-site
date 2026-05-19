@@ -8,7 +8,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-body-count-of-bias-women-arent-just-small-men.png"
 ---
 
 Let’s get one thing straight: **Women aren’t just small men.**

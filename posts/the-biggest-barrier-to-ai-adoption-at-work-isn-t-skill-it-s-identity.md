@@ -9,7 +9,7 @@ tags:
   - "behavioural-science"
   - "innovation"
 featured: true
-image: "assets/the-biggest-barrier-to-ai-adoption-at-work-isn-t-skill-it-s-identity.jpg"
+image: "assets/uploads/the-biggest-barrier-to-ai-adoption-at-work-isn-t-skill-it-s-identity.jpg"
 ---
 
 I remain convinced that the biggest challenge in workplace AI adoption is not technical.

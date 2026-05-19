@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw: £100 Startup Tournament</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #080810;
+    --surface: #10101e;
+    --surface2: #181828;
+    --border: #2a2a45;
+    --green: #00ff88;
+    --green-dim: #00cc6a;
+    --cyan: #00d4ff;
+    --amber: #ffb800;
+    --red: #ff4444;
+    --purple: #9b59ff;
+    --text: #e8e8f0;
+    --text-muted: #7878a0;
+    --text-dim: #4a4a6a;
+    --radius: 10px;
+    --font: 'Segoe UI', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-x: hidden; }
+
+  /* HEADER */
+  .header { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 100; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-claw { font-size: 24px; }
+  .logo-text { font-size: 18px; font-weight: 700; color: var(--green); letter-spacing: 1px; }
+  .logo-sub { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab { background: none; border: 1px solid transparent; color: var(--text-muted); padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 13px; font-family: var(--font); transition: all 0.2s; white-space: nowrap; }
+  .nav-tab:hover { color: var(--text); border-color: var(--border); }
+  .nav-tab.active { background: var(--green); color: #000; font-weight: 600; border-color: var(--green); }
+  .nav-tab.locked { opacity: 0.4; cursor: not-allowed; }
+
+  /* PHASES */
+  .phase { display: none; padding: 32px; max-width: 1400px; margin: 0 auto; }
+  .phase.active { display: block; }
+
+  /* PHASE 1: BRIEF */
+  .brief-hero { text-align: center; padding: 48px 0 40px; }
+  .brief-eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--green); margin-bottom: 16px; }
+  .brief-title { font-size: 52px; font-weight: 800; line-height: 1.1; margin-bottom: 16px; background: linear-gradient(135deg, #fff 40%, var(--green)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .brief-subtitle { font-size: 20px; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; line-height: 1.5; }
+  .brief-stats { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px; }
+  .stat-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 28px; text-align: center; min-width: 140px; }
+  .stat-value { font-size: 32px; font-weight: 800; color: var(--green); }
+  .stat-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+  .rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 40px; }
+  .rule-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .rule-icon { font-size: 28px; margin-bottom: 10px; }
+  .rule-title { font-size: 14px; font-weight: 600; color: var(--green); margin-bottom: 6px; }
+  .rule-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .btn-primary { background: var(--green); color: #000; border: none; padding: 16px 40px; border-radius: 8px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: var(--font); transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+  .btn-primary:hover { background: var(--green-dim); transform: translateY(-1px); }
+  .btn-secondary { background: var(--surface2); color: var(--text); border: 1px solid var(--border); padding: 12px 28px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: var(--font); transition: all 0.2s; }
+  .btn-secondary:hover { border-color: var(--green); color: var(--green); }
+
+  /* PHASE 2: IDEAS */
+  .phase-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: gap; gap: 16px; }
+  .phase-title { font-size: 28px; font-weight: 700; }
+  .phase-count { font-size: 14px; color: var(--text-muted); }
+  .filter-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  .filter-pill { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 6px 14px; border-radius: 20px; cursor: pointer; font-size: 12px; font-family: var(--font); transition: all 0.15s; }
+  .filter-pill:hover, .filter-pill.active { background: var(--green); color: #000; border-color: var(--green); font-weight: 600; }
+  .search-box { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: 20px; font-size: 13px; font-family: var(--font); width: 200px; outline: none; }
+  .search-box:focus { border-color: var(--green); }
+  .ideas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .idea-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
+  .idea-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,255,136,0.1); }
+  .idea-card.highlighted { border-color: var(--green); box-shadow: 0 0 12px rgba(0,255,136,0.2); }
+  .idea-cat-badge { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; margin-bottom: 8px; }
+  .idea-name { font-size: 14px; font-weight: 600; margin-bottom: 6px; line-height: 1.3; }
+  .idea-desc { font-size: 12px; color: var(--text-muted); line-height: 1.4; margin-bottom: 10px; }
+  .idea-score-row { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+  .idea-total-score { font-size: 20px; font-weight: 800; color: var(--green); }
+  .idea-score-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; }
+  .mini-bars { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; }
+  .mini-bar-row { display: flex; align-items: center; gap: 6px; }
+  .mini-bar-label { font-size: 10px; color: var(--text-muted); width: 55px; flex-shrink: 0; }
+  .mini-bar-track { flex: 1; height: 4px; background: var(--border); border-radius: 2px; }
+  .mini-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+
+  /* Modal */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 32px; max-width: 560px; width: 90%; max-height: 90vh; overflow-y: auto; }
+  .modal-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .modal-close { background: none; border: none; color: var(--text-muted); font-size: 20px; cursor: pointer; }
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .score-item { background: var(--surface2); border-radius: 8px; padding: 12px; }
+  .score-item-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .score-item-value { font-size: 22px; font-weight: 700; }
+  .score-bar { height: 6px; background: var(--border); border-radius: 3px; margin-top: 6px; }
+  .score-bar-fill { height: 100%; border-radius: 3px; }
+
+  /* PHASE 3: ANALYSIS */
+  .analysis-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .chart-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; }
+  .chart-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .chart-sub { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+  .qualifiers-section { margin-top: 32px; }
+  .qual-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 16px; }
+  .qual-card { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; display: flex; align-items: center; gap: 10px; }
+  .qual-seed { font-size: 12px; font-weight: 700; color: var(--text-dim); width: 24px; flex-shrink: 0; }
+  .qual-name { font-size: 13px; font-weight: 500; flex: 1; }
+  .qual-score { font-size: 14px; font-weight: 700; color: var(--green); }
+
+  /* PHASE 4: TOURNAMENT */
+  .tournament-controls { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+  .round-badge { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 6px 14px; font-size: 13px; }
+  .round-label { color: var(--text-muted); font-size: 12px; }
+  .round-name { color: var(--green); font-weight: 600; }
+  .event-banner { background: linear-gradient(135deg, #1a1a2e, #16213e); border: 1px solid var(--amber); border-radius: 8px; padding: 12px 20px; margin-bottom: 20px; display: none; }
+  .event-banner.visible { display: flex; align-items: center; gap: 12px; }
+  .event-icon { font-size: 20px; }
+  .event-title { font-size: 13px; font-weight: 600; color: var(--amber); }
+  .event-desc { font-size: 12px; color: var(--text-muted); }
+  @keyframes pulse { 0%,100% { box-shadow: 0 0 12px rgba(255,184,0,0.2); } 50% { box-shadow: 0 0 20px rgba(255,184,0,0.4); } }
+  @keyframes champglow { 0%,100% { box-shadow: 0 0 20px rgba(0,255,136,0.3); } 50% { box-shadow: 0 0 36px rgba(0,255,136,0.6); } }
+
+  /* WORLD CUP BRACKET */
+  .bracket-container { overflow-x: auto; padding-bottom: 16px; }
+  #bracket { display: flex; gap: 0; min-height: 820px; position: relative; min-width: 960px; }
+  .wc-col { display: flex; flex-direction: column; flex: 1; min-width: 170px; }
+  .wc-col.wc-final { min-width: 200px; }
+  .wc-col-header { text-align: center; padding: 10px 4px; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); height: 38px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .wc-final .wc-col-header { color: var(--amber); font-size: 12px; }
+  .wc-matches { display: flex; flex-direction: column; justify-content: space-around; flex: 1; padding: 6px 4px; gap: 4px; }
+  .wc-match { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: border-color 0.3s, box-shadow 0.3s; }
+  .wc-match.wc-active { border-color: var(--amber); animation: pulse 1.2s ease infinite; }
+  .wc-match.wc-done { border-color: var(--border); }
+  .wc-match.wc-champion { border-color: var(--green); animation: champglow 2s ease infinite; }
+  .wc-slot { display: flex; align-items: center; gap: 5px; padding: 6px 8px; min-height: 28px; transition: all 0.3s; }
+  .wc-slot:first-child { border-bottom: 1px solid var(--border); }
+  .wc-slot.wc-winner { background: rgba(0,255,136,0.1); }
+  .wc-slot.wc-loser { opacity: 0.32; }
+  .wc-slot.wc-tbd { opacity: 0.45; }
+  .wc-vs { text-align: center; font-size: 8px; font-weight: 800; color: var(--text-dim); padding: 2px 0; background: var(--bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); letter-spacing: 2px; }
+  .wc-seed { font-size: 9px; color: var(--text-dim); width: 18px; flex-shrink: 0; font-weight: 700; text-align: right; }
+  .wc-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .wc-name { flex: 1; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wc-score-chip { font-size: 10px; flex-shrink: 0; padding: 1px 5px; border-radius: 3px; background: var(--bg); border: 1px solid var(--border); }
+  .wc-slot.wc-winner .wc-name { color: var(--green); font-weight: 600; }
+  .wc-slot.wc-winner .wc-score-chip { color: var(--green); border-color: rgba(0,255,136,0.3); background: rgba(0,255,136,0.05); }
+
+  /* RESULTS LOG */
+  .results-log { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; max-height: 200px; overflow-y: auto; margin-top: 20px; }
+  .log-entry { font-size: 12px; padding: 4px 0; border-bottom: 1px solid var(--border); color: var(--text-muted); display: flex; gap: 8px; }
+  .log-entry:last-child { border-bottom: none; }
+  .log-winner { color: var(--green); font-weight: 600; }
+  .log-loser { color: var(--text-dim); text-decoration: line-through; }
+
+  /* PHASE 5: WINNER */
+  .winner-hero { text-align: center; padding: 48px 0 32px; }
+  .winner-trophy { font-size: 72px; margin-bottom: 16px; animation: float 3s ease infinite; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  .winner-eyebrow { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--amber); margin-bottom: 12px; }
+  .winner-name { font-size: 44px; font-weight: 800; color: var(--green); margin-bottom: 8px; }
+  .winner-cat { display: inline-block; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 4px 12px; color: var(--text-muted); margin-bottom: 20px; }
+  .winner-desc { font-size: 18px; color: var(--text-muted); max-width: 600px; margin: 0 auto 32px; line-height: 1.6; }
+  .winner-scores { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 40px; }
+  .winner-score-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 20px; text-align: center; }
+  .winner-score-val { font-size: 26px; font-weight: 800; color: var(--green); }
+  .winner-score-lab { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .roadmap { max-width: 800px; margin: 0 auto; }
+  .roadmap-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; }
+  .roadmap-timeline { position: relative; }
+  .roadmap-timeline::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--green), var(--cyan), var(--purple)); }
+  .roadmap-item { display: flex; gap: 20px; margin-bottom: 24px; }
+  .roadmap-dot { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; z-index: 1; }
+  .roadmap-content { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; }
+  .roadmap-phase { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .roadmap-milestone { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+  .roadmap-tasks { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .roadmap-revenue { display: inline-block; margin-top: 8px; background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.3); border-radius: 4px; padding: 3px 10px; font-size: 12px; font-weight: 600; }
+  .winner-cta { text-align: center; margin-top: 40px; padding: 32px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); max-width: 500px; margin-left: auto; margin-right: auto; }
+  .winner-cta-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; }
+  .winner-cta-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+
+  /* Category colours */
+  .cat-KDP { background: rgba(155,89,255,0.15); color: #9b59ff; border: 1px solid rgba(155,89,255,0.3); }
+  .cat-ETY { background: rgba(255,107,157,0.15); color: #ff6b9d; border: 1px solid rgba(255,107,157,0.3); }
+  .cat-NWL { background: rgba(0,212,255,0.15); color: #00d4ff; border: 1px solid rgba(0,212,255,0.3); }
+  .cat-AFF { background: rgba(255,184,0,0.15); color: #ffb800; border: 1px solid rgba(255,184,0,0.3); }
+  .cat-SUB { background: rgba(0,255,136,0.15); color: #00ff88; border: 1px solid rgba(0,255,136,0.3); }
+  .cat-SAS { background: rgba(255,165,0,0.15); color: #ff9900; border: 1px solid rgba(255,165,0,0.3); }
+  .cat-EDU { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+  .cat-SOC { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+  .cat-B2B { background: rgba(99,102,241,0.15); color: #6366f1; border: 1px solid rgba(99,102,241,0.3); }
+  .cat-CSR { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+
+  /* Utilities */
+  .flex-center { display: flex; align-items: center; justify-content: center; }
+  .gap-8 { gap: 8px; }
+  .mt-16 { margin-top: 16px; }
+  .mt-24 { margin-top: 24px; }
+  .text-green { color: var(--green); }
+  .text-muted { color: var(--text-muted); }
+  .hidden { display: none !important; }
+  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .section-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+
+  /* Progress bar */
+  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; margin-top: 16px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--green), var(--cyan)); border-radius: 2px; transition: width 0.5s; }
+
+  @media (max-width: 768px) {
+    .header { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+    .nav-tabs { gap: 2px; }
+    .nav-tab { padding: 6px 10px; font-size: 11px; }
+    .phase { padding: 16px; }
+    .brief-title { font-size: 32px; }
+    .analysis-layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">
+    <span class="logo-claw">🦀</span>
+    <div>
+      <div class="logo-text">OPENCLAW</div>
+      <div class="logo-sub">£100 Startup Tournament</div>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPhase(1)" id="tab-1">① Brief</button>
+    <button class="nav-tab locked" onclick="showPhase(2)" id="tab-2">② 100 Ideas</button>
+    <button class="nav-tab locked" onclick="showPhase(3)" id="tab-3">③ Analysis</button>
+    <button class="nav-tab locked" onclick="showPhase(4)" id="tab-4">④ Tournament</button>
+    <button class="nav-tab locked" onclick="showPhase(5)" id="tab-5">⑤ Winner</button>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <div class="modal-header">
+      <div>
+        <div id="modal-badge" class="idea-cat-badge" style="margin-bottom:6px"></div>
+        <div id="modal-name" style="font-size:20px;font-weight:700"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-desc" style="font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.6"></div>
+    <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:20px">
+      <span id="modal-total" style="font-size:40px;font-weight:800;color:var(--green)"></span>
+      <span style="font-size:14px;color:var(--text-muted)">/10 overall score</span>
+    </div>
+    <div class="score-grid" id="modal-scores"></div>
+  </div>
+</div>
+
+<!-- PHASE 1: BRIEF -->
+<div class="phase active" id="phase-1">
+  <div class="brief-hero">
+    <div class="brief-eyebrow">OpenClaw Mission #001</div>
+    <div class="brief-title">The £100<br>Startup Challenge</div>
+    <div class="brief-subtitle">One AI agent. One year. £100 seed capital. Free models only. Make as much money as possible — ethically.</div>
+    <div class="brief-stats">
+      <div class="stat-card"><div class="stat-value">£100</div><div class="stat-label">Seed Capital</div></div>
+      <div class="stat-card"><div class="stat-value">12</div><div class="stat-label">Months</div></div>
+      <div class="stat-card"><div class="stat-value">100</div><div class="stat-label">Ideas Evaluated</div></div>
+      <div class="stat-card"><div class="stat-value">32</div><div class="stat-label">Finalists</div></div>
+      <div class="stat-card"><div class="stat-value">1</div><div class="stat-label">Winner</div></div>
+    </div>
+  </div>
+
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-icon">🤖</div>
+      <div class="rule-title">Free AI Only</div>
+      <div class="rule-desc">Claude free tier, ChatGPT free, Gemini free. No paid API credits — this has to run on what's publicly available.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">⚙️</div>
+      <div class="rule-title">Fully Autonomous</div>
+      <div class="rule-desc">Once launched, it runs itself. No daily human input required. The agent handles content, delivery, and iteration.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">💷</div>
+      <div class="rule-title">£100 Budget</div>
+      <div class="rule-desc">Total startup spend. Covers any domains, hosting, marketplace fees, tools. What's left is pure margin.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🌱</div>
+      <div class="rule-title">Do No Harm</div>
+      <div class="rule-desc">No exploitation, no fake news, nothing that harms people or animals. Ideally makes the world a little better.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">📈</div>
+      <div class="rule-title">Maximise Returns</div>
+      <div class="rule-desc">Goal: highest possible 12-month revenue. We score on realistic earning potential, not moonshot projections.</div>
+    </div>
+    <div class="rule-card">
+      <div class="rule-icon">🏆</div>
+      <div class="rule-title">Tournament Format</div>
+      <div class="rule-desc">100 ideas scored across 10 variables. Top 32 enter a bracket. Market shocks hit between rounds. One winner.</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:8px">
+    <button class="btn-primary" onclick="unlockAndGo(2)">Enter the Arena →</button>
+  </div>
+</div>
+
+<!-- PHASE 2: IDEAS -->
+<div class="phase" id="phase-2">
+  <div class="phase-header">
+    <div>
+      <div class="phase-title">100 Business Ideas</div>
+      <div class="phase-count" id="ideas-showing">Showing all 100 ideas</div>
+    </div>
+    <input class="search-box" type="text" placeholder="🔍  Search ideas..." oninput="filterIdeas()" id="idea-search">
+  </div>
+
+  <div class="filter-row" id="cat-filters">
+    <button class="filter-pill active" onclick="setFilter('ALL', this)">All (100)</button>
+    <button class="filter-pill" onclick="setFilter('KDP', this)">📚 KDP Publishing</button>
+    <button class="filter-pill" onclick="setFilter('ETY', this)">🎨 Etsy Digital</button>
+    <button class="filter-pill" onclick="setFilter('NWL', this)">📰 Newsletters</button>
+    <button class="filter-pill" onclick="setFilter('AFF', this)">🔗 Affiliate Sites</button>
+    <button class="filter-pill" onclick="setFilter('SUB', this)">✉️ Subscriptions</button>
+    <button class="filter-pill" onclick="setFilter('SAS', this)">🛠 Micro-SaaS</button>
+    <button class="filter-pill" onclick="setFilter('EDU', this)">🎓 Email Courses</button>
+    <button class="filter-pill" onclick="setFilter('SOC', this)">📱 Social Media</button>
+    <button class="filter-pill" onclick="setFilter('B2B', this)">💼 B2B Services</button>
+    <button class="filter-pill" onclick="setFilter('CSR', this)">💚 Social Good</button>
+  </div>
+
+  <div class="ideas-grid" id="ideas-grid"></div>
+
+  <div style="text-align:center;margin-top:32px">
+    <button class="btn-primary" onclick="unlockAndGo(3)">Run the Analysis →</button>
+  </div>
+</div>
+
+<!-- PHASE 3: ANALYSIS -->
+<div class="phase" id="phase-3">
+  <div class="section-title">The Numbers</div>
+  <div class="section-sub">Each idea scored across 10 variables. Weighted to favour autonomous, AI-leveraged, high-revenue models. Top 32 advance to the tournament.</div>
+
+  <div class="analysis-layout">
+    <div class="chart-card">
+      <div class="chart-title">Revenue Potential vs Autonomy</div>
+      <div class="chart-sub">Bubble size = Market size. Top-right = prime candidates.</div>
+      <canvas id="scatter-chart" height="280"></canvas>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Top 20 by Weighted Score</div>
+      <div class="chart-sub">Combined across all 10 variables</div>
+      <canvas id="bar-chart" height="280"></canvas>
+    </div>
+  </div>
+
+  <!-- REAL WORLD EVIDENCE PANEL -->
+  <div style="margin-top:32px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:24px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:20px">🔍</span>
+      <div>
+        <div style="font-size:16px;font-weight:700">Real-World Evidence: What's Actually Working</div>
+        <div style="font-size:12px;color:var(--text-muted)">Sourced from Indie Hackers, DEV Community, Etsy/KDP income reports, and AI agent experiments — May 2026</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px">
+      <div style="background:var(--bg);border:1px solid rgba(0,255,136,0.3);border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green);margin-bottom:6px">✅ Etsy Digital Downloads</div>
+        <div style="font-size:13px;line-height:1.5;color:var(--text-muted)">New shops: <strong style="color:var(--text)">£1,500–£4,000/mo</strong> within 3–6 months. 90%+ margins. Sales possible within days of listing. Digital planners alone generate 2M+ Etsy searches/month. Biggest advantage: <em>built-in discovery via Etsy algorithm.</em></div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(155,89,255,0.3);border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9b59ff;margin-bottom:6px">✅ KDP Publishing</div>
+        <div style="font-size:13px;line-height:1.5;color:var(--text-muted)">Verified income reports: <strong style="color:var(--text)">$7,519 in November 2025</strong> (one creator). Realistic with 100+ titles: £300–£1,200/mo. Royalties compound. Amazon provides all the distribution. AI generates books in hours.</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(0,212,255,0.3);border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#00d4ff;margin-bottom:6px">✅ Newsletters (with caveats)</div>
+        <div style="font-size:13px;line-height:1.5;color:var(--text-muted)">Median <strong style="color:var(--text)">66 days to first £</strong>. 1,000 subscribers = £100–£1,000/mo. Email marketing drives 41% of revenue from 2% of send volume. Beehiiv hit $30M ARR in 2025. But: you have to build the audience yourself.</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(255,107,157,0.3);border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ff6b9d;margin-bottom:6px">⚠️ Micro-SaaS</div>
+        <div style="font-size:13px;line-height:1.5;color:var(--text-muted)"><strong style="color:var(--text)">70% never reach £1k MRR</strong>. Those that do: median £4.2k MRR. Distribution is the #1 failure mode — not building. Best case (PR generator): £8k MRR in 90 days. Worst case: zero. Needs tech skill + hosting costs.</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(255,184,0,0.3);border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--amber);margin-bottom:6px">⚠️ Subscriptions</div>
+        <div style="font-size:13px;line-height:1.5;color:var(--text-muted)">Proven model — one AI experiment got <strong style="color:var(--text)">42 paying subs in 48hrs</strong> (bedtime stories). But cold-start is the biggest challenge. Automated emails drive 37–41% of all email revenue once running. Key: target communities with built-in distribution.</div>
+      </div>
+      <div style="background:var(--bg);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ef4444;margin-bottom:6px">❌ Social Media First</div>
+        <div style="font-size:13px;line-height:1.5;color:var(--text-muted)">Algorithm shifts in March 2026 cut organic reach significantly. YouTube monetisation takes <strong style="color:var(--text)">12+ months</strong>. AI content increasingly flagged. Platforms penalise automated posting. Not a reliable primary revenue model for fully autonomous operation.</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px;background:var(--bg);border-radius:6px;border-left:3px solid var(--amber)">
+      <div style="font-size:12px;color:var(--text-muted);line-height:1.5">
+        <strong style="color:var(--amber)">🔑 Key Insight from real experiments:</strong> The hardest problem is <em>distribution, not building</em>. Marketplace models (Etsy, KDP) win because Amazon and Etsy handle discovery for you. Newsletter and subscription models work — but only after you've solved the audience cold-start. An AI agent given $100 in the wild said: <em>"AI can create, but it can't shortcut credibility."</em>
+      </div>
+    </div>
+  </div>
+
+  <div class="qualifiers-section mt-24">
+    <div class="section-title">The 32 Tournament Qualifiers</div>
+    <div class="section-sub">Seeded by overall score. Scores updated with real-world evidence. Market shocks may flip the bracket.</div>
+    <div class="qual-grid" id="qual-grid"></div>
+  </div>
+
+  <div style="text-align:center;margin-top:32px">
+    <button class="btn-primary" onclick="unlockAndGo(4)">Start the Tournament →</button>
+  </div>
+</div>
+
+<!-- PHASE 4: TOURNAMENT -->
+<div class="phase" id="phase-4">
+  <div class="section-title">The Tournament Bracket</div>
+  <div class="section-sub">32 ideas. 5 rounds. Real market shocks between rounds. Only one survives.</div>
+
+  <div class="tournament-controls">
+    <div class="round-badge">
+      <div class="round-label">Current Round</div>
+      <div class="round-name" id="current-round-name">Round of 32</div>
+    </div>
+    <button class="btn-primary" id="btn-run-round" onclick="runRound()">▶ Run Round</button>
+    <button class="btn-secondary" id="btn-run-all" onclick="runAll()">⚡ Run All Rounds</button>
+    <button class="btn-secondary" id="btn-reset-tournament" onclick="resetTournament()">↺ Reset</button>
+  </div>
+
+  <div class="event-banner" id="event-banner">
+    <div class="event-icon" id="event-icon"></div>
+    <div>
+      <div class="event-title" id="event-title"></div>
+      <div class="event-desc" id="event-desc"></div>
+    </div>
+  </div>
+
+  <div class="bracket-container">
+    <div class="bracket" id="bracket"></div>
+  </div>
+
+  <div class="results-log" id="results-log">
+    <div style="font-size:12px;color:var(--text-dim);text-align:center;padding:20px">Run the first round to see match results</div>
+  </div>
+</div>
+
+<!-- PHASE 5: WINNER -->
+<div class="phase" id="phase-5">
+  <div class="winner-hero">
+    <div class="winner-trophy">🏆</div>
+    <div class="winner-eyebrow">OpenClaw Startup of the Year</div>
+    <div class="winner-name" id="winner-name">Loading...</div>
+    <div id="winner-cat-badge" class="winner-cat"></div>
+    <div class="winner-desc" id="winner-desc"></div>
+    <div class="winner-scores" id="winner-scores"></div>
+  </div>
+
+  <div class="roadmap" id="roadmap">
+    <div class="roadmap-title">12-Month Autonomous Roadmap</div>
+    <div class="roadmap-timeline" id="roadmap-timeline"></div>
+  </div>
+
+  <div class="winner-cta">
+    <div class="winner-cta-title">Ready to build?</div>
+    <div class="winner-cta-sub" id="winner-cta-sub">This claw is ready to be spun up. OpenClaw will run this autonomously using free AI models within your £100 budget.</div>
+    <button class="btn-primary" id="btn-create-claw" onclick="createClaw()">🦀 Create this OpenClaw</button>
+  </div>
+</div>
+
+<script>
+// =====================================================
+// DATA: 100 Business Ideas
+// Fields: id, name, cat, desc, setup, speed, revenue, autonomy, ai, market, niche, impact, safety, scale
+// setup: ease of setup (10=free & instant)
+// speed: time to first £ (10=within days)
+// revenue: 12mo ceiling (10=£10k+)
+// autonomy: hands-off score (10=zero input needed)
+// ai: how much free AI powers it
+// market: size of addressable market
+// niche: low competition advantage
+// impact: positive social/ethical impact
+// safety: low downside risk
+// scale: scalability ceiling
+// =====================================================
+const IDEAS_RAW = [
+  // KDP PUBLISHING (10) — Verified: $7,519/mo income report Nov 2025; 100+ titles = £300-£1,200/mo realistic; free to publish; royalties compound
+  [1,"AI Puzzle Books (Kids)","KDP","Generate word searches, crosswords and mazes for children using free AI. Upload to Amazon KDP — fully passive income. Top sellers report £500-£2k/mo.",10,6,7,8,9,7,5,9,9,9],
+  [2,"AI Coloring Book Pages","KDP","AI-generated mandala and nature coloring patterns published as KDP books. Zero cost, zero logistics. High volume = compounding royalties.",10,6,6,9,8,7,5,8,9,8],
+  [3,"Brain Activity Books (Seniors)","KDP","Puzzles and cognitive exercises for older adults. High demand, genuinely underserved niche. AI generates all content.",10,6,6,8,8,6,6,9,9,7],
+  [4,"AI Poetry Collections","KDP","Themed poetry volumes (nature, grief, joy, seasons) written by AI. Lower income ceiling but near-zero effort.",10,5,4,8,9,6,6,8,9,6],
+  [5,"Niche Trivia Books","KDP","Deep-dive trivia on specific topics (science, history, sport). AI generates hundreds of Q&As per book. Series format scales well.",10,6,6,8,8,7,5,8,9,8],
+  [6,"Journal & Prompt Books","KDP","AI-designed daily journals with guided prompts. Bestselling KDP category. Verified consistent sellers — thousands of listings earning monthly.",10,6,7,9,8,7,5,8,9,9],
+  [7,"AI Short Story Collections","KDP","Genre fiction anthologies (sci-fi, romance, mystery). AI writes, human curates for quality. Lower certainty but big upside.",10,5,5,7,8,7,5,8,9,6],
+  [8,"Children's Educational Workbooks","KDP","Age-graded activity and learning workbooks for primary age. AI generates all content. One of most consistent KDP niches.",10,6,7,7,8,7,5,9,9,8],
+  [9,"Cuisine Recipe Collections","KDP","Regional cuisine recipe books (Japanese, Peruvian, Ethiopian). AI generates, photos sourced free. Strong gifting market.",10,6,6,8,7,8,5,8,9,7],
+  [10,"Motivational Quote Books","KDP","Curated AI-written quotes by theme (resilience, leadership, grief). Minimal effort, consistent passive sales. High competition but high volume.",10,6,5,9,9,7,4,7,9,7],
+
+  // ETSY DIGITAL (10) — Verified: new shops report £1,500-£4,000/mo within 3-6 months; 90%+ margins; sales possible within days of listing
+  [11,"Canva Social Media Templates","ETY","Packs of 30+ branded social media templates in Canva. AI assists design, sold as instant downloads. Verified £1.5k-£4k/mo for established shops.",9,8,7,9,7,8,4,8,9,8],
+  [12,"Notion Productivity Templates","ETY","Pre-built Notion workspaces for freelancers, students, project managers. High demand, AI generates structure. Repeat buyer rate high.",9,8,7,9,7,7,5,8,9,7],
+  [13,"AI Printable Wall Art","ETY","Curated art print packs in popular aesthetics (boho, minimal, retro). Largest category on Etsy digital. Verified £3k-£15k/mo for top shops.",9,8,7,9,9,8,5,8,9,8],
+  [14,"Wedding Planning Templates","ETY","Complete AI-designed wedding planning printable suite. Seasonal spikes, evergreen demand, loyal buyer base.",9,8,6,9,7,7,6,8,9,6],
+  [15,"Teacher Lesson Plan Templates","ETY","AI-generated lesson plan bundles by subject and year group. Teachers buy constantly — one of most recession-proof Etsy niches.",9,8,8,9,7,7,5,9,9,8],
+  [16,"Resume & CV Templates","ETY","Clean modern CV templates in multiple styles. Job seekers buy in waves during redundancy peaks. Massive market, AI generates in minutes.",9,8,8,9,7,8,5,8,9,8],
+  [17,"Budget Planner Printables","ETY","Monthly and annual budget trackers. Digital planners alone generate 2M+ monthly Etsy views. Demand spikes Q1 every year.",9,8,7,9,7,8,5,8,9,7],
+  [18,"Digital Sticker Packs","ETY","Themed digital stickers for GoodNotes, iPad. AI generates art, very passive once listed. Low competition in niche aesthetics.",9,8,6,9,9,7,5,8,9,7],
+  [19,"Business Proposal Templates","ETY","Professional proposal and pitch deck templates. Freelancers and SMEs buy these regularly. High price point (£8-25).",9,8,7,8,7,8,5,8,9,7],
+  [20,"Fitness & Habit Tracker Sheets","ETY","Printable habit trackers, workout logs, meal plans. Consistent demand year-round, AI designs in minutes. Works as bundle product.",9,8,6,9,7,7,6,8,9,7],
+
+  // NEWSLETTERS (10)
+  [21,"AI for Non-Techies Weekly","NWL","Plain-English breakdown of AI tools and trends for everyday people. Affiliate links to tools. Massive underserved audience.",9,5,7,7,8,8,5,8,8,7],
+  [22,"Sustainable Living Digest","NWL","Weekly tips, product finds and news on sustainable living. Affiliate income + sponsorships.",9,5,6,7,8,7,6,9,8,7],
+  [23,"Mental Health at Work","NWL","Research-backed mental wellbeing tips for professionals. High affiliate potential (apps, courses).",9,5,7,7,8,7,6,9,8,7],
+  [24,"Healthcare Innovation Weekly","NWL","Curated digest of AI and digital health breakthroughs. Perfect for the Applied Intelligence audience.",9,5,7,7,8,8,5,8,8,7],
+  [25,"Climate Solutions Spotlight","NWL","Positive-framed climate action newsletter. Solutions not doom. Sponsors love the audience.",9,5,6,7,8,7,6,9,8,7],
+  [26,"Personal Finance Under 30","NWL","Money basics for young adults. Affiliate links to ISAs, apps, courses. Huge addressable audience.",9,5,7,7,8,8,5,8,8,7],
+  [27,"AI Parenting Tips","NWL","Using AI tools to help with parenting, education, family life. Novel angle, passionate audience.",9,5,6,7,8,8,5,8,8,7],
+  [28,"Science Curiosity Weekly","NWL","Bite-sized science stories that are genuinely fascinating. AI summarises research, humans love it.",9,5,6,7,8,7,6,9,8,7],
+  [29,"Remote Work Wellbeing","NWL","Practical tips on staying healthy and connected while remote. Affiliate: standing desks, apps, courses.",9,5,6,7,8,7,5,8,8,7],
+  [30,"Healthy Ageing Monthly","NWL","Science-backed longevity and healthy ageing content. Affiliate: supplements, fitness gear.",9,5,6,7,8,6,6,9,8,7],
+
+  // AFFILIATE SITES (10)
+  [31,"Best AI Tools Reviewed","AFF","Independent reviews of free and paid AI tools with honest affiliate links. High SEO potential.",8,5,7,7,8,8,5,8,8,8],
+  [32,"Sustainable Products Roundup","AFF","Curated eco-friendly product guides. Affiliate income + high ethical alignment.",8,5,6,7,7,7,6,9,8,7],
+  [33,"Home Office Setup Guide","AFF","Best gear for home workers at every budget. AI keeps content fresh as products change.",8,5,6,7,7,7,5,8,8,7],
+  [34,"Mental Health App Reviews","AFF","Honest comparison of therapy, meditation and mental health apps. Affiliate + sponsored.",8,5,6,7,7,7,6,9,8,7],
+  [35,"Online Learning Platform Compare","AFF","Coursera vs Udemy vs LinkedIn Learning — AI keeps comparisons up to date. SEO goldmine.",8,5,7,7,7,8,5,8,8,7],
+  [36,"Freelancer Tool Stack Reviews","AFF","Best tools for freelancers (invoicing, contracts, portfolio). Affiliate income from every recommendation.",8,5,7,7,7,7,5,8,8,7],
+  [37,"Productivity App Deep Dives","AFF","Todoist vs Notion vs Things — detailed AI-generated comparisons. Strong affiliate commissions.",8,5,7,7,7,8,5,8,8,7],
+  [38,"Green Tech Product Reviews","AFF","Solar chargers, eco gadgets, green home tech. Niche but passionate buyers.",8,5,6,7,7,7,6,9,8,7],
+  [39,"Best Books by Topic","AFF","Curated reading lists for every niche. Amazon affiliate links. AI refreshes lists seasonally.",9,5,5,8,7,7,7,8,9,7],
+  [40,"Accessibility Tech Reviews","AFF","Assistive technology reviews — screen readers, adaptive devices. Under-served, high ethical value.",8,5,5,7,7,6,7,9,8,6],
+
+  // SUBSCRIPTION SERVICES (10) — Real data: median 66 days to first £. Cold-start is the problem. One experiment got 42 paying subs in 48hrs. 1,000 subs = £100-£1,000/mo.
+  [41,"Daily Journaling Prompts","SUB","Subscribers get a daily AI-generated journaling prompt by email. £3-5/month. Mental health angle. Fully automated once running — but needs audience first. Median 66 days to first £.",9,5,7,9,9,7,6,9,8,8],
+  [42,"AI Bedtime Story Generator","SUB","Parents subscribe for unique AI-generated bedtime stories every night. £4-7/month. Zero effort after setup. Real experiment: 42 paying subs within 48hrs when targeting parenting communities.",9,5,7,9,9,7,6,9,8,8],
+  [43,"Daily Language Learning Emails","SUB","A new phrase, story or exercise in your chosen language every day. Freemium model with paid tiers. Duolingo proves the demand; this is smaller but autonomous.",9,5,6,9,8,7,6,8,8,7],
+  [44,"Personalised Affirmation Service","SUB","Users set their goals, AI sends tailored daily affirmations. Simple but sticky. £2-4/month. Distribution via wellness communities, Reddit, Instagram.",9,5,5,9,9,7,6,9,8,7],
+  [45,"Weekly Meditation Scripts","SUB","Guided meditation scripts emailed weekly. Therapists and coaches subscribe for client use. B2B angle helps with distribution — therapists talk to each other.",9,5,5,9,9,7,6,9,8,7],
+  [46,"AI Habit Coaching Emails","SUB","Set your habits, get daily check-ins and encouragement from AI. Accountability as a service. Sticky product — people don't cancel what's helping them.",9,5,6,9,8,7,6,9,8,7],
+  [47,"Daily Mindfulness Moment","SUB","60-second mindfulness exercise by email every morning. Corporate wellness angle. Scalable. Strong ethical value.",9,5,5,9,9,7,6,9,8,7],
+  [48,"Weekly AI Workout Plans","SUB","Personalised weekly workout plan emailed to subscribers. AI generates based on their profile. Fitness niche is huge and email subscribers are loyal.",9,5,6,8,8,7,5,8,8,7],
+  [49,"Kids Daily Brain Challenge","SUB","One fun age-appropriate brain teaser per day for kids. Parents subscribe. Ethical, educational, genuinely loved. Parent communities share this type of service.",9,5,7,9,9,7,6,9,8,8],
+  [50,"Weekly Recipe Suggestions","SUB","Personalised weekly meal plan with recipes emailed. Diet preference input, AI generates. Crowded niche but real demand.",9,5,5,9,7,7,6,8,8,7],
+
+  // MICRO-SAAS (10) — Reality check: 70% of micro-SaaS never reach £1k MRR. Cold-start/distribution is the #1 failure mode. Tech skill needed for hosting.
+  [51,"AI Cover Letter Writer","SAS","Simple web tool: paste job description, get tailored cover letter. Freemium. Massive demand — but 70% of micro-SaaS fail to reach £1k MRR due to distribution problem.",7,5,7,7,9,8,4,8,6,8],
+  [52,"AI Business Name Generator","SAS","Generate creative business names with domain availability check. Freemium with paid export. High traffic potential via SEO but long runway.",7,6,5,8,9,7,5,7,6,6],
+  [53,"AI Job Description Writer","SAS","HR teams paste role details, get polished JD in seconds. B2B freemium — but requires getting in front of HR buyers which is hard to automate.",7,5,6,7,9,7,5,8,6,7],
+  [54,"AI Meal Planner","SAS","Weekly meal plans based on dietary needs, budget, cuisine. Freemium with subscription upgrade. Crowded space but genuine demand.",7,5,6,7,8,8,5,8,6,7],
+  [55,"AI Email Subject Line Tester","SAS","Marketers test and generate subject lines with AI scoring. Freemium with team plans. Strong B2B use case if SEO takes off.",7,6,6,8,9,7,5,7,6,7],
+  [56,"Grant Proposal AI Helper","SAS","Charities and startups generate first-draft grant proposals. Genuinely underserved market. Ethical angle strong. Distribution via charity networks possible.",7,5,7,7,8,7,6,9,7,7],
+  [57,"AI Press Release Generator","SAS","SMEs and PRs generate press releases instantly. Freemium with templates. Niche but real use case.",7,5,6,7,9,7,5,7,6,7],
+  [58,"AI Quiz Creator for Teachers","SAS","Teachers input a topic, AI generates a full quiz. Free for individuals, paid for schools. Education niche has strong word-of-mouth. More distribution than average.",8,6,6,8,9,6,6,9,7,8],
+  [59,"AI Wedding Speech Writer","SAS","Best man, bride, MOH input details, get a personalised speech. One-time purchase model. Seasonal demand spikes. Proven model exists (similar tools at $29-49).",7,6,6,7,9,7,6,8,7,7],
+  [60,"AI Product Description Writer","SAS","E-commerce sellers paste product details, get SEO-optimised descriptions. B2B freemium. Real commercial need, but requires reaching e-commerce sellers at scale.",7,5,7,7,9,8,5,7,6,7],
+
+  // EMAIL COURSES (10)
+  [61,"Learn AI Tools in 7 Days","EDU","7-email course teaching practical AI tools to non-technical people. Sold on Gumroad. Evergreen.",9,6,7,8,9,8,5,8,8,8],
+  [62,"Personal Finance Foundations","EDU","21-email series covering budgeting, saving, investing basics. Affiliate links throughout.",9,6,7,8,8,8,5,8,8,7],
+  [63,"Mindful Productivity in 21 Days","EDU","Daily email challenge combining productivity and mindfulness. Sold on Gumroad + affiliate.",9,6,6,8,8,7,6,9,8,7],
+  [64,"Start Freelancing This Month","EDU","14-email course on launching a freelance career. Affiliate: tools, courses, platforms.",9,6,7,8,8,7,5,8,8,7],
+  [65,"Coding Fundamentals in 14 Days","EDU","Beginner coding concepts by email. AI generates examples and exercises.",9,5,6,7,8,7,5,8,8,7],
+  [66,"Health & Nutrition Basics","EDU","Evidence-based nutrition email course. Affiliate: supplements, books, apps. Perennial demand.",9,6,6,8,8,7,6,9,8,7],
+  [67,"AI & Your Career: 7-Day Course","EDU","Help professionals understand how AI affects their industry. Very timely, high demand.",9,6,7,8,9,8,5,8,8,7],
+  [68,"Sustainable Living 30-Day Challenge","EDU","Daily action email for more sustainable life. Free to subscribe, paid certificate.",9,6,6,8,8,7,6,9,8,7],
+  [69,"Creative Writing Bootcamp","EDU","30-day email writing course with AI-generated prompts and exercises.",9,6,6,7,8,7,5,8,8,7],
+  [70,"Healthy Habits 30-Day Challenge","EDU","Daily habit challenge by email. Freemium with coaching upsell. Runs itself completely.",9,6,7,8,8,7,6,9,8,8],
+
+  // SOCIAL MEDIA (10) — Reality check: platform algorithm risk is real. March 2026 algorithm shifts hit organic reach. These are NOT fully autonomous - platforms can penalise AI content.
+  [71,"Niche Instagram Quote Pages","SOC","AI generates themed quote images and captions. Monetise via affiliate links and digital products. Algorithm risk: Instagram suppresses low-engagement AI accounts.",8,5,4,6,8,8,4,7,5,5],
+  [72,"Faceless YouTube Education Channel","SOC","AI script + voiceover + stock footage. Educational niche. AdSense + affiliate — but median time to monetisation is 12+ months and demonetisation risk is real.",7,3,6,5,8,9,4,7,4,7],
+  [73,"LinkedIn Thought Leadership Service","SOC","AI generates weekly posts for professionals to post as their own. Subscription service. Ethical question: is ghostwriting via AI misleading? Platform flagging AI content.",8,5,5,6,8,8,5,6,5,6],
+  [74,"TikTok Educational Content","SOC","Short AI-scripted educational videos. Fast-moving but TikTok's algo is volatile and AI voice content increasingly flagged.",8,5,5,5,8,9,4,8,4,6],
+  [75,"Pinterest Recipe & Lifestyle Content","SOC","AI-generated recipe pins with affiliate links. Pinterest is relatively algorithm-stable vs other platforms. Slower but steadier.",8,5,5,7,7,7,5,7,6,6],
+  [76,"Twitter/X Niche Curation","SOC","AI-curated expert insights in a niche. Monetise via newsletter and digital products. X platform uncertainty is a genuine risk factor.",8,5,4,7,8,7,5,7,5,5],
+  [77,"Podcast Clip Newsletter","SOC","AI summarises top podcast episodes into a weekly email. Lower platform-dependency. Affiliate to tools. Reasonable model.",8,5,5,7,7,7,6,7,7,6],
+  [78,"LinkedIn Carousel Templates","SOC","Sell AI-designed carousel templates on Etsy + Gumroad. This is essentially the Etsy model using LinkedIn content — safer than social-first.",9,7,6,8,8,7,5,7,8,7],
+  [79,"Substack Niche Publication","SOC","AI-assisted writing in a specialist niche. Free newsletter + paid tier. Lower platform risk than social. But cold-start still applies.",9,5,6,7,7,7,5,8,7,7],
+  [80,"Niche Facebook Community + Newsletter","SOC","Build a community, monetise via newsletter and affiliate links. Facebook organic reach very low in 2026 — community building is slow.",8,4,5,6,7,7,5,8,5,5],
+
+  // B2B SERVICES (10)
+  [81,"AI Newsletter Setup for SMEs","B2B","Package service: AI sets up and runs a monthly newsletter for small businesses. Recurring retainer.",8,6,7,7,8,7,5,8,8,7],
+  [82,"AI Content Calendar Generator","B2B","Monthly AI-generated content calendars sold to marketing teams. Template + subscription.",8,6,6,8,8,7,5,7,8,7],
+  [83,"Competitive Intelligence Briefs","B2B","AI monitors competitors and generates monthly briefings. B2B subscription, high perceived value.",8,5,8,7,8,8,5,8,8,8],
+  [84,"AI Social Media Audit Reports","B2B","Automated monthly social performance + recommendation reports. Sold to agencies and SMEs.",8,5,7,7,8,7,5,7,8,7],
+  [85,"Weekly Industry Digest for B2B","B2B","AI-curated weekly industry roundup for specific sectors. Sponsored content + subscriptions.",8,5,7,7,8,7,5,8,8,7],
+  [86,"AI Brand Voice Guide Creator","B2B","Generate a brand voice guide from sample content. One-off product sold via Gumroad.",8,5,7,7,8,7,5,7,8,7],
+  [87,"AI Job Posting Optimiser","B2B","Paste job descriptions, get inclusion-checked, SEO-optimised versions. HR tools affiliate.",8,6,6,8,8,7,5,7,8,7],
+  [88,"AI Customer Persona Generator","B2B","Marketers input data, get detailed customer personas. Freemium SaaS.",8,6,7,8,9,7,5,7,8,7],
+  [89,"AI Meeting Notes Summariser","B2B","Paste raw meeting notes, get action points and summary. B2B freemium.",7,7,6,8,9,7,6,7,8,7],
+  [90,"AI Onboarding Email Sequence Creator","B2B","Generate complete employee/customer onboarding sequences. B2B Gumroad product.",8,6,6,8,8,7,5,7,8,7],
+
+  // SOCIAL GOOD (10)
+  [91,"Caregiver Support Newsletter","CSR","Resources, tips and emotional support for unpaid carers. Affiliate + grant funding potential.",9,5,5,7,8,6,7,9,8,6],
+  [92,"Neurodiversity at Work Newsletter","CSR","Practical workplace advice for neurodivergent professionals. Underserved, passionate audience.",9,5,5,7,7,6,7,9,8,6],
+  [93,"AI Mental Health Check-In Service","CSR","Daily AI-generated wellbeing prompts. Not therapy — simple positive nudges by email.",9,6,5,8,8,6,7,9,8,7],
+  [94,"Volunteering Opportunities Digest","CSR","Weekly curated local and national volunteering opportunities. Genuine social good.",9,5,4,7,7,6,7,9,8,5],
+  [95,"Global Education Access Newsletter","CSR","Stories and opportunities for improving education access globally. Donor audience.",9,5,4,7,7,7,7,9,8,5],
+  [96,"Animal Welfare Action Weekly","CSR","AI-curated actions, news and resources for animal welfare advocates.",9,5,4,7,7,6,7,9,8,5],
+  [97,"AI Charity Research Tool","CSR","Generate plain-English breakdowns of charities to help donors give wisely.",8,5,4,7,7,6,7,9,8,5],
+  [98,"Refugee Integration Resources","CSR","Aggregated resources for refugees and integration organisations. Grant-fundable.",9,5,3,6,7,6,7,9,8,4],
+  [99,"Food Poverty Solutions Newsletter","CSR","Practical food poverty solutions, recipes, food bank info. Community-minded.",9,5,3,7,7,7,7,9,8,5],
+  [100,"Disability Access Tech Newsletter","CSR","Curated assistive tech news for disabled people and their supporters.",9,5,4,7,7,6,7,9,8,5],
+];
+
+// =====================================================
+// SCORING WEIGHTS (total = 1.0)
+// =====================================================
+const WEIGHTS = {
+  setup:    0.07,
+  speed:    0.08,
+  revenue:  0.20,
+  autonomy: 0.20,
+  ai:       0.10,
+  market:   0.10,
+  niche:    0.05,
+  impact:   0.05,
+  safety:   0.05,
+  scale:    0.10,
+};
+
+const SCORE_META = [
+  { key: 'revenue',  label: 'Revenue Potential', color: '#00ff88' },
+  { key: 'autonomy', label: 'Autonomy',           color: '#00d4ff' },
+  { key: 'ai',       label: 'AI Leverage',        color: '#9b59ff' },
+  { key: 'scale',    label: 'Scalability',        color: '#ffb800' },
+  { key: 'market',   label: 'Market Size',        color: '#ff9900' },
+  { key: 'setup',    label: 'Setup Ease',         color: '#34d399' },
+  { key: 'speed',    label: 'Speed to £',         color: '#ff6b9d' },
+  { key: 'impact',   label: 'Ethical Impact',     color: '#10b981' },
+  { key: 'safety',   label: 'Low Risk',           color: '#6366f1' },
+  { key: 'niche',    label: 'Low Competition',    color: '#ef4444' },
+];
+
+const CAT_LABELS = {
+  KDP: 'KDP Publishing',
+  ETY: 'Etsy Digital',
+  NWL: 'Newsletters',
+  AFF: 'Affiliate Sites',
+  SUB: 'Subscriptions',
+  SAS: 'Micro-SaaS',
+  EDU: 'Email Courses',
+  SOC: 'Social Media',
+  B2B: 'B2B Services',
+  CSR: 'Social Good',
+};
+
+// Parse raw data into objects
+const IDEAS = IDEAS_RAW.map(r => ({
+  id: r[0], name: r[1], cat: r[2], desc: r[3],
+  setup: r[4], speed: r[5], revenue: r[6], autonomy: r[7],
+  ai: r[8], market: r[9], niche: r[10], impact: r[11], safety: r[12], scale: r[13],
+}));
+
+// Compute weighted scores
+IDEAS.forEach(idea => {
+  idea.score = Object.keys(WEIGHTS).reduce((s, k) => s + idea[k] * WEIGHTS[k], 0);
+  idea.score = Math.round(idea.score * 100) / 100;
+});
+
+// Sort by score
+const SORTED = [...IDEAS].sort((a, b) => b.score - a.score);
+const TOP32 = SORTED.slice(0, 32);
+
+// =====================================================
+// TOURNAMENT STATE
+// =====================================================
+let tournamentState = null;
+
+const MARKET_EVENTS = [
+  { icon: '📱', title: 'Social Media Algorithm Shift', desc: 'Platform reach tanks. Social Media category takes a 15% hit.', affect: cat => cat === 'SOC', delta: -0.15 },
+  { icon: '🤖', title: 'AI Tools Become Mainstream', desc: 'Everyone\'s using AI now. AI-leverage ideas gain 12% advantage.', affect: (cat, ai) => ai >= 8, delta: 0.12 },
+  { icon: '💸', title: 'Cost of Living Squeeze', desc: 'Consumers cut subscriptions. Revenue potential weight shifts to one-time products.', affect: cat => cat === 'SUB', delta: -0.10 },
+  { icon: '📚', title: 'KDP Algorithm Update', desc: 'Amazon boosts new KDP titles. Publishing category gets 10% boost.', affect: cat => cat === 'KDP', delta: 0.10 },
+  { icon: '🌐', title: 'SEO Content Boom', desc: 'Google rewards helpful content. Affiliate sites and newsletters gain 10%.', affect: cat => cat === 'AFF' || cat === 'NWL', delta: 0.10 },
+  { icon: '⚖️', title: 'AI Regulation Tightens', desc: 'New AI content rules. Human-curated edges win. Impact scores matter more.', affect: (cat, ai, impact) => impact >= 9, delta: 0.08 },
+  { icon: '💼', title: 'Remote Work Peaks', desc: 'WFH becomes permanent. B2B tools and productivity surge 12%.', affect: cat => cat === 'B2B' || cat === 'SAS', delta: 0.12 },
+  { icon: '🌱', title: 'Sustainability Wave', desc: 'Ethical brands surge. Ethical/CSR ideas gain 15% appeal.', affect: (cat, ai, impact) => impact >= 9 || cat === 'CSR', delta: 0.15 },
+  { icon: '📧', title: 'Email Marketing Renaissance', desc: 'Social fatigue drives newsletter boom. NWL and SUB categories surge 12%.', affect: cat => cat === 'NWL' || cat === 'SUB' || cat === 'EDU', delta: 0.12 },
+  { icon: '🏫', title: 'Education Disruption', desc: 'Traditional education challenged. EDU and teacher tools spike.', affect: cat => cat === 'EDU' || cat === 'ETY', delta: 0.10 },
+];
+
+function initTournament() {
+  const seeds = TOP32.map((idea, i) => ({
+    ...idea,
+    seed: i + 1,
+    tournamentScore: idea.score,
+    eliminated: false,
+  }));
+
+  // Build bracket: 32-team single elimination
+  // Round 1: 32→16, Round 2: 16→8, QF: 8→4, SF: 4→2, F: 2→1
+  const rounds = [
+    { name: 'Round of 32', matches: [] },
+    { name: 'Round of 16', matches: [] },
+    { name: 'Quarter-Finals', matches: [] },
+    { name: 'Semi-Finals', matches: [] },
+    { name: 'Final', matches: [] },
+  ];
+
+  // Seed the bracket: 1v32, 2v31, etc. in top half; bottom half mirrors
+  for (let i = 0; i < 16; i++) {
+    rounds[0].matches.push({
+      id: `r0m${i}`,
+      top: seeds[i],
+      bottom: seeds[31 - i],
+      winner: null,
+      loser: null,
+    });
+  }
+
+  tournamentState = {
+    seeds,
+    rounds,
+    currentRound: 0,
+    finished: false,
+    winner: null,
+    log: [],
+    appliedEvent: null,
+  };
+}
+
+function runRound() {
+  if (!tournamentState) initTournament();
+  if (tournamentState.finished) return;
+  const ri = tournamentState.currentRound;
+  const round = tournamentState.rounds[ri];
+
+  // Apply a market event (50% chance each round except final)
+  const eventBanner = document.getElementById('event-banner');
+  if (ri < 4 && Math.random() < 0.7) {
+    const event = MARKET_EVENTS[Math.floor(Math.random() * MARKET_EVENTS.length)];
+    tournamentState.appliedEvent = event;
+    document.getElementById('event-icon').textContent = event.icon;
+    document.getElementById('event-title').textContent = event.title;
+    document.getElementById('event-desc').textContent = event.desc;
+    eventBanner.classList.add('visible');
+
+    // Apply the modifier to tournament scores for this round
+    tournamentState.seeds.forEach(s => {
+      const matches = event.affect(s.cat, s.ai, s.impact);
+      if (matches) s.tournamentScore = Math.min(10, s.tournamentScore * (1 + event.delta));
+    });
+  } else {
+    eventBanner.classList.remove('visible');
+  }
+
+  // Run each match in the current round
+  const winners = [];
+  round.matches.forEach(match => {
+    const a = match.top;
+    const b = match.bottom;
+    // Probability weighted by tournament score
+    const totalScore = a.tournamentScore + b.tournamentScore;
+    const probA = a.tournamentScore / totalScore;
+    const rand = Math.random();
+    const winner = rand < probA ? a : b;
+    const loser  = rand < probA ? b : a;
+    match.winner = winner;
+    match.loser  = loser;
+    winners.push(winner);
+    tournamentState.log.push({ winner: winner.name, loser: loser.name, round: round.name });
+  });
+
+  // Advance winners to next round
+  if (ri < 4) {
+    const nextRound = tournamentState.rounds[ri + 1];
+    nextRound.matches = [];
+    for (let i = 0; i < winners.length; i += 2) {
+      nextRound.matches.push({
+        id: `r${ri+1}m${i/2}`,
+        top: winners[i],
+        bottom: winners[i + 1] || null,
+        winner: null,
+        loser: null,
+      });
+    }
+  }
+
+  if (ri === 4) {
+    tournamentState.finished = true;
+    tournamentState.winner = winners[0];
+    document.getElementById('btn-run-round').disabled = true;
+    document.getElementById('btn-run-all').disabled = true;
+    setTimeout(() => unlockAndGo(5), 1200);
+  }
+
+  tournamentState.currentRound = Math.min(ri + 1, 4);
+  renderBracket();
+  renderLog();
+  updateRoundName();
+  // Redraw SVG lines after DOM settles
+  setTimeout(() => drawBracketLines(), 80);
+}
+
+function runAll() {
+  const runNext = () => {
+    if (!tournamentState.finished) {
+      runRound();
+      setTimeout(runNext, 800);
+    }
+  };
+  runNext();
+}
+
+function resetTournament() {
+  tournamentState = null;
+  initTournament();
+  renderBracket();
+  renderLog();
+  updateRoundName();
+  document.getElementById('event-banner').classList.remove('visible');
+  document.getElementById('btn-run-round').disabled = false;
+  document.getElementById('btn-run-all').disabled = false;
+}
+
+function updateRoundName() {
+  const names = ['Round of 32', 'Round of 16', 'Quarter-Finals', 'Semi-Finals', 'Final', 'Complete'];
+  const ri = tournamentState ? tournamentState.currentRound : 0;
+  const isDone = tournamentState && tournamentState.finished;
+  document.getElementById('current-round-name').textContent = isDone ? '🏆 Complete' : names[ri];
+}
+
+const CAT_COLORS = {KDP:'#9b59ff',ETY:'#ff6b9d',NWL:'#00d4ff',AFF:'#ffb800',SUB:'#00ff88',SAS:'#ff9900',EDU:'#34d399',SOC:'#ef4444',B2B:'#6366f1',CSR:'#10b981'};
+const ROUND_LABELS = ['Round of 32','Round of 16','Quarter-Finals','Semi-Finals','⚽ FINAL'];
+
+function buildMatchCard(match, ri, mi) {
+  const isFinal = ri === 4;
+  const isActive = !match.winner && ri === tournamentState.currentRound;
+  const isChampion = isFinal && !!match.winner;
+
+  const card = document.createElement('div');
+  card.className = 'wc-match' + (isActive ? ' wc-active' : '') + (match.winner ? ' wc-done' : '') + (isChampion ? ' wc-champion' : '');
+  card.id = `m-${ri}-${mi}`;
+
+  const renderSlot = (team, isW, isL) => {
+    const div = document.createElement('div');
+    if (!team) {
+      div.className = 'wc-slot wc-tbd';
+      div.innerHTML = `<span class="wc-seed">–</span><span class="wc-dot" style="background:var(--border)"></span><span class="wc-name" style="color:var(--text-dim)">TBD</span>`;
+      return div;
+    }
+    div.className = 'wc-slot' + (isW ? ' wc-winner' : '') + (isL ? ' wc-loser' : '');
+    const col = CAT_COLORS[team.cat] || '#888';
+    div.innerHTML = `
+      <span class="wc-seed">${team.seed}</span>
+      <span class="wc-dot" style="background:${col}"></span>
+      <span class="wc-name" title="${team.name}">${team.name}</span>
+      <span class="wc-score-chip">${team.tournamentScore.toFixed(1)}</span>
+    `;
+    return div;
+  };
+
+  const tW = match.winner === match.top;
+  const bW = match.winner === match.bottom;
+  const hasDone = !!match.winner;
+
+  card.appendChild(renderSlot(match.top,  tW && hasDone, bW && hasDone));
+
+  const vs = document.createElement('div');
+  vs.className = 'wc-vs';
+  vs.textContent = 'VS';
+  card.appendChild(vs);
+
+  card.appendChild(renderSlot(match.bottom, bW && hasDone, tW && hasDone));
+
+  // Champion crown
+  if (isChampion) {
+    const crown = document.createElement('div');
+    crown.style.cssText = 'text-align:center;padding:6px;font-size:14px;background:rgba(0,255,136,0.08);border-top:1px solid rgba(0,255,136,0.2);letter-spacing:2px;font-size:11px;font-weight:700;color:var(--green)';
+    crown.textContent = '🏆 CHAMPION';
+    card.appendChild(crown);
+  }
+
+  return card;
+}
+
+function renderBracket() {
+  const container = document.getElementById('bracket');
+  container.innerHTML = '';
+  if (!tournamentState) initTournament();
+
+  tournamentState.rounds.forEach((round, ri) => {
+    const isFinal = ri === 4;
+    const col = document.createElement('div');
+    col.className = 'wc-col' + (isFinal ? ' wc-final' : '');
+
+    const hdr = document.createElement('div');
+    hdr.className = 'wc-col-header';
+    hdr.innerHTML = `${ROUND_LABELS[ri]} <span style="color:var(--text-dim);font-size:9px">(${round.matches.length})</span>`;
+    col.appendChild(hdr);
+
+    const matchesDiv = document.createElement('div');
+    matchesDiv.className = 'wc-matches';
+
+    round.matches.forEach((match, mi) => {
+      matchesDiv.appendChild(buildMatchCard(match, ri, mi));
+    });
+
+    col.appendChild(matchesDiv);
+    container.appendChild(col);
+  });
+
+  // Draw SVG connector lines after layout
+  requestAnimationFrame(() => drawBracketLines());
+}
+
+function drawBracketLines() {
+  const container = document.getElementById('bracket');
+  const existing = document.getElementById('bracket-svg-lines');
+  if (existing) existing.remove();
+
+  const rect = container.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.id = 'bracket-svg-lines';
+  svg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;overflow:visible;';
+
+  tournamentState.rounds.forEach((round, ri) => {
+    if (ri >= tournamentState.rounds.length - 1) return;
+
+    round.matches.forEach((match, mi) => {
+      const fromEl = document.getElementById(`m-${ri}-${mi}`);
+      const toEl   = document.getElementById(`m-${ri+1}-${Math.floor(mi/2)}`);
+      if (!fromEl || !toEl) return;
+
+      const fR = fromEl.getBoundingClientRect();
+      const tR = toEl.getBoundingClientRect();
+
+      const x1 = fR.right  - rect.left;
+      const y1 = fR.top + fR.height / 2 - rect.top;
+      const x2 = tR.left   - rect.left;
+      const y2 = tR.top + tR.height / 2 - rect.top;
+      const midX = x1 + (x2 - x1) * 0.48;
+
+      const won = !!match.winner;
+      const color  = won ? 'rgba(0,255,136,0.4)' : 'rgba(42,42,69,0.8)';
+      const weight = won ? '1.5' : '1';
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', color);
+      path.setAttribute('stroke-width', weight);
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
+      svg.appendChild(path);
+    });
+  });
+
+  container.style.position = 'relative';
+  container.appendChild(svg);
+}
+
+function renderLog() {
+  const log = document.getElementById('results-log');
+  if (!tournamentState || !tournamentState.log.length) return;
+  log.innerHTML = [...tournamentState.log].reverse().map(entry => `
+    <div class="log-entry">
+      <span class="log-winner">✓ ${entry.winner}</span>
+      <span style="color:var(--text-dim)">def.</span>
+      <span class="log-loser">${entry.loser}</span>
+      <span style="color:var(--text-dim);margin-left:auto">${entry.round}</span>
+    </div>
+  `).join('');
+}
+
+// =====================================================
+// CHARTS
+// =====================================================
+let scatterChart, barChart;
+
+function renderCharts() {
+  // Scatter: autonomy vs revenue, size = market
+  const scatterData = IDEAS.map(idea => ({
+    x: idea.autonomy,
+    y: idea.revenue,
+    r: idea.market * 0.8 + 2,
+    label: idea.name,
+    cat: idea.cat,
+  }));
+
+  const catColors = {
+    KDP:'#9b59ff', ETY:'#ff6b9d', NWL:'#00d4ff', AFF:'#ffb800',
+    SUB:'#00ff88', SAS:'#ff9900', EDU:'#34d399', SOC:'#ef4444',
+    B2B:'#6366f1', CSR:'#10b981',
+  };
+
+  if (scatterChart) scatterChart.destroy();
+  const sCtx = document.getElementById('scatter-chart').getContext('2d');
+  scatterChart = new Chart(sCtx, {
+    type: 'bubble',
+    data: {
+      datasets: Object.keys(catColors).map(cat => ({
+        label: CAT_LABELS[cat],
+        data: scatterData.filter(d => d.cat === cat),
+        backgroundColor: catColors[cat] + '55',
+        borderColor: catColors[cat],
+        borderWidth: 1,
+      })),
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => {
+              const d = ctx.raw;
+              return `${d.label} (Aut:${d.x}, Rev:${d.y})`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Autonomy Score', color: '#7878a0' }, min: 0, max: 10, grid: { color: '#2a2a45' }, ticks: { color: '#7878a0' } },
+        y: { title: { display: true, text: 'Revenue Potential', color: '#7878a0' }, min: 0, max: 10, grid: { color: '#2a2a45' }, ticks: { color: '#7878a0' } },
+      }
+    }
+  });
+
+  // Bar: top 20 by weighted score
+  const top20 = SORTED.slice(0, 20);
+  if (barChart) barChart.destroy();
+  const bCtx = document.getElementById('bar-chart').getContext('2d');
+  barChart = new Chart(bCtx, {
+    type: 'bar',
+    data: {
+      labels: top20.map(i => i.name.length > 22 ? i.name.slice(0,22)+'…' : i.name),
+      datasets: [{
+        label: 'Weighted Score',
+        data: top20.map(i => i.score),
+        backgroundColor: top20.map(i => catColors[i.cat] + 'aa'),
+        borderColor: top20.map(i => catColors[i.cat]),
+        borderWidth: 1,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { min: 5, max: 9, grid: { color: '#2a2a45' }, ticks: { color: '#7878a0' } },
+        y: { grid: { color: '#2a2a45' }, ticks: { color: '#ccc', font: { size: 11 } } },
+      }
+    }
+  });
+}
+
+function renderQualifiers() {
+  const grid = document.getElementById('qual-grid');
+  grid.innerHTML = TOP32.map((idea, i) => `
+    <div class="qual-card">
+      <span class="qual-seed">#${i+1}</span>
+      <span class="qual-name">${idea.name}</span>
+      <span class="qual-score">${idea.score.toFixed(2)}</span>
+    </div>
+  `).join('');
+}
+
+// =====================================================
+// IDEAS GRID
+// =====================================================
+let currentFilter = 'ALL';
+
+function getBarColor(key) {
+  const m = SCORE_META.find(x => x.key === key);
+  return m ? m.color : '#00ff88';
+}
+
+function renderIdeas() {
+  const search = document.getElementById('idea-search').value.toLowerCase();
+  const grid = document.getElementById('ideas-grid');
+  const filtered = IDEAS.filter(idea => {
+    const matchCat = currentFilter === 'ALL' || idea.cat === currentFilter;
+    const matchSearch = !search || idea.name.toLowerCase().includes(search) || idea.desc.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+
+  document.getElementById('ideas-showing').textContent =
+    `Showing ${filtered.length} of 100 ideas`;
+
+  const top32Ids = new Set(TOP32.map(i => i.id));
+
+  grid.innerHTML = filtered.map(idea => {
+    const topMetrics = ['revenue','autonomy','ai'].map(key => {
+      const pct = (idea[key] / 10 * 100).toFixed(0);
+      const color = getBarColor(key);
+      const label = SCORE_META.find(m => m.key === key).label;
+      return `
+        <div class="mini-bar-row">
+          <div class="mini-bar-label">${label.split(' ')[0]}</div>
+          <div class="mini-bar-track">
+            <div class="mini-bar-fill" style="width:${pct}%;background:${color}"></div>
+          </div>
+        </div>`;
+    }).join('');
+
+    const highlight = top32Ids.has(idea.id) ? ' highlighted' : '';
+    const qualifier = top32Ids.has(idea.id) ? '<div style="position:absolute;top:8px;right:8px;font-size:10px;background:rgba(0,255,136,0.15);color:var(--green);padding:2px 6px;border-radius:3px;border:1px solid rgba(0,255,136,0.3)">TOP 32</div>' : '';
+
+    return `
+      <div class="idea-card${highlight}" onclick="openModal(${idea.id})">
+        ${qualifier}
+        <div class="idea-cat-badge cat-${idea.cat}">${CAT_LABELS[idea.cat]}</div>
+        <div class="idea-name">${idea.name}</div>
+        <div class="idea-desc">${idea.desc}</div>
+        <div class="mini-bars">${topMetrics}</div>
+        <div class="idea-score-row">
+          <div>
+            <div class="idea-total-score">${idea.score.toFixed(1)}</div>
+            <div class="idea-score-label">score</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:11px;color:var(--text-dim)">Rank</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text-muted)">#${SORTED.findIndex(s => s.id === idea.id) + 1}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function filterIdeas() { renderIdeas(); }
+
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  renderIdeas();
+}
+
+// =====================================================
+// MODAL
+// =====================================================
+function openModal(id) {
+  const idea = IDEAS.find(i => i.id === id);
+  if (!idea) return;
+  document.getElementById('modal-badge').className = `idea-cat-badge cat-${idea.cat}`;
+  document.getElementById('modal-badge').textContent = CAT_LABELS[idea.cat];
+  document.getElementById('modal-name').textContent = idea.name;
+  document.getElementById('modal-desc').textContent = idea.desc;
+  document.getElementById('modal-total').textContent = idea.score.toFixed(2);
+
+  const scoresHtml = SCORE_META.map(m => {
+    const val = idea[m.key];
+    const pct = (val / 10 * 100).toFixed(0);
+    return `
+      <div class="score-item">
+        <div class="score-item-label">${m.label}</div>
+        <div class="score-item-value" style="color:${m.color}">${val}/10</div>
+        <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%;background:${m.color}"></div></div>
+      </div>`;
+  }).join('');
+  document.getElementById('modal-scores').innerHTML = scoresHtml;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal')) {
+    document.getElementById('modal').classList.remove('open');
+  }
+}
+
+// =====================================================
+// WINNER PHASE
+// =====================================================
+const ROADMAPS = {
+  // Subscription-heavy winner
+  SUB: [
+    { months: 'Month 1', phase: 'Foundation', dot: '#00ff88', bg: 'rgba(0,255,136,0.1)',
+      milestone: 'Infrastructure & First Subscribers',
+      tasks: 'Register domain (£10). Set up Beehiiv or Substack free tier. Configure AI generation pipeline with Claude free / ChatGPT free. Write 30-day content backlog. Launch with personal network.',
+      revenue: '£0 – £30' },
+    { months: 'Months 2–3', phase: 'Traction', dot: '#00d4ff', bg: 'rgba(0,212,255,0.1)',
+      milestone: 'First Paying Subscribers',
+      tasks: 'SEO content drives organic signups. Free tier grows. Paid tier (£3-5/month) launched. Guest posts on relevant forums and subreddits. Target 50 free + 10 paid subscribers.',
+      revenue: '£30 – £100' },
+    { months: 'Months 4–6', phase: 'Growth', dot: '#9b59ff', bg: 'rgba(155,89,255,0.1)',
+      milestone: 'Scale via Referrals & Affiliates',
+      tasks: 'Add affiliate links to emails. Launch referral programme (give a free month). Partner with complementary newsletters. Target 200 free + 50 paid subscribers.',
+      revenue: '£150 – £350/mo' },
+    { months: 'Months 7–9', phase: 'Optimise', dot: '#ffb800', bg: 'rgba(255,184,0,0.1)',
+      milestone: 'Premium Tier & Sponsorships',
+      tasks: 'Add a £9/month premium tier with bonus content. Approach niche sponsors. AI optimises subject lines for open rates. Target 500 free + 120 paid subscribers.',
+      revenue: '£350 – £700/mo' },
+    { months: 'Months 10–12', phase: 'Compound', dot: '#ff6b9d', bg: 'rgba(255,107,157,0.1)',
+      milestone: 'Recurring Revenue Compounding',
+      tasks: 'Sell a digital product to existing list (ebook/course). Annual subscription option drives cash lump sum. Year-end: 800-1200 subscribers, 200+ paid.',
+      revenue: '£600 – £1,200/mo → £6k–£10k year total' },
+  ],
+  EDU: [
+    { months: 'Month 1', phase: 'Foundation', dot: '#00ff88', bg: 'rgba(0,255,136,0.1)',
+      milestone: 'Course Creation & Launch',
+      tasks: 'AI generates all course emails (7-30 day sequence). Set up Gumroad (free). Write sales page. Publish to Gumroad and relevant communities.',
+      revenue: '£0 – £50' },
+    { months: 'Months 2–3', phase: 'Distribution', dot: '#00d4ff', bg: 'rgba(0,212,255,0.1)',
+      milestone: 'SEO & Community Traction',
+      tasks: 'SEO blog posts feeding into course. Reddit, Facebook groups, LinkedIn. Add affiliate links inside course. Target 20-40 course sales at £9-19.',
+      revenue: '£100 – £400' },
+    { months: 'Months 4–6', phase: 'Product Suite', dot: '#9b59ff', bg: 'rgba(155,89,255,0.1)',
+      milestone: 'Expand to 3-5 Courses',
+      tasks: 'AI generates additional courses in adjacent niches. Bundle deal. Build email list from buyers for upsells.',
+      revenue: '£200 – £600/mo' },
+    { months: 'Months 7–9', phase: 'Automation', dot: '#ffb800', bg: 'rgba(255,184,0,0.1)',
+      milestone: 'Fully Automated Funnel',
+      tasks: 'SEO feeds traffic → free lead magnet → email sequence → paid course. Zero human touchpoints. Add a membership community (£5/mo).',
+      revenue: '£400 – £800/mo' },
+    { months: 'Months 10–12', phase: 'Scale', dot: '#ff6b9d', bg: 'rgba(255,107,157,0.1)',
+      milestone: 'Compounding Passive Income',
+      tasks: 'Full product suite running on autopilot. AI refreshes content quarterly. Partnership with complementary creators. Annual target: £4k–£8k.',
+      revenue: '£500 – £1,000/mo → £5k–£8k year total' },
+  ],
+  KDP: [
+    { months: 'Month 1', phase: 'Foundation', dot: '#00ff88', bg: 'rgba(0,255,136,0.1)',
+      milestone: 'Publish First 5 Books',
+      tasks: 'AI generates 5 KDP titles across 2-3 niches. Design covers using Canva free. Submit to Amazon KDP (free). Optimise titles and descriptions with keyword research.',
+      revenue: '£0 – £20' },
+    { months: 'Months 2–3', phase: 'Volume', dot: '#00d4ff', bg: 'rgba(0,212,255,0.1)',
+      milestone: 'Publish to 20 Titles',
+      tasks: 'Batch AI generation — 3 books/week. A/B test covers and descriptions. Target niches with lower competition. Amazon algorithm begins picking up new titles.',
+      revenue: '£20 – £150' },
+    { months: 'Months 4–6', phase: 'Bestseller Hunt', dot: '#9b59ff', bg: 'rgba(155,89,255,0.1)',
+      milestone: 'Identify & Double Down on Winners',
+      tasks: 'Analyse sales data. AI generates series extensions for top performers. 40-60 titles live. Build author brands in 2 niches.',
+      revenue: '£100 – £400/mo' },
+    { months: 'Months 7–9', phase: 'Catalogue Scale', dot: '#ffb800', bg: 'rgba(255,184,0,0.1)',
+      milestone: '100 Titles Live',
+      tasks: 'Fully automated AI pipeline. 2-3 new titles per week. Low-competition niches dominating. Some titles consistently ranking.',
+      revenue: '£300 – £700/mo' },
+    { months: 'Months 10–12', phase: 'Compound', dot: '#ff6b9d', bg: 'rgba(255,107,157,0.1)',
+      milestone: 'Self-Sustaining Catalogue',
+      tasks: 'Amazon royalties compounding across 100+ titles. Best sellers getting reviews. Low-effort iteration. AI identifies new niches to expand into.',
+      revenue: '£500 – £1,200/mo → £5k–£9k year total' },
+  ],
+  ETY: [
+    { months: 'Month 1', phase: 'Foundation', dot: '#00ff88', bg: 'rgba(0,255,136,0.1)',
+      milestone: 'Launch Etsy Store & 20 Listings',
+      tasks: 'AI generates 20 digital product templates across 2-3 niches (templates, printables, wall art). Canva free tier for design. Etsy shop setup — 20 listings cost ~£3.50 in listing fees. SEO-optimise every title and description with keyword research.',
+      revenue: '£0 – £50 (first sales possible within days)' },
+    { months: 'Months 2–3', phase: 'Catalogue Growth', dot: '#00d4ff', bg: 'rgba(0,212,255,0.1)',
+      milestone: '60 Listings Live',
+      tasks: 'Add 8-10 AI-generated products/week. Test price points (£2-8 per download). First reviews are critical for Etsy algorithm. Identify top-performing listings and double down on that category. Verified data: new shops hitting £200-500/mo by month 3.',
+      revenue: '£50 – £300/mo' },
+    { months: 'Months 4–6', phase: 'Algorithm Traction', dot: '#9b59ff', bg: 'rgba(155,89,255,0.1)',
+      milestone: 'Etsy SEO Compound Effect',
+      tasks: '100+ listings live. Best sellers identified and extended into series. Create bundles at higher price points (£10-20). Add seasonal products monthly. Verified: new shops reporting £1,500-£4,000/mo by month 6 with 50-100 listings.',
+      revenue: '£400 – £1,500/mo' },
+    { months: 'Months 7–9', phase: 'Reviews & Reach', dot: '#ffb800', bg: 'rgba(255,184,0,0.1)',
+      milestone: 'Consistent Daily Sales',
+      tasks: '50+ reviews. Top listings ranking on Etsy search. Add premium bundles (£15-30). Diversify best sellers to Gumroad and Creative Market. AI generates seasonal content ahead of holidays. Verified: established shops £3k-£15k/mo.',
+      revenue: '£800 – £2,500/mo' },
+    { months: 'Months 10–12', phase: 'Passive Income Machine', dot: '#ff6b9d', bg: 'rgba(255,107,157,0.1)',
+      milestone: '200+ Products, Compounding',
+      tasks: 'AI generates new seasonal and trending content automatically. Shop runs with zero active management. Diversified across Etsy, Gumroad, Creative Market. Annual income target based on verified real-world data: £6k–£14k.',
+      revenue: '£800 – £2,000/mo → £6k–£14k year total' },
+  ],
+};
+
+function renderWinner() {
+  const winner = tournamentState ? tournamentState.winner : SORTED[0];
+  document.getElementById('winner-name').textContent = winner.name;
+  const badge = document.getElementById('winner-cat-badge');
+  badge.textContent = CAT_LABELS[winner.cat];
+  badge.className = `winner-cat idea-cat-badge cat-${winner.cat}`;
+  document.getElementById('winner-desc').textContent = winner.desc;
+
+  const scoresHtml = ['revenue','autonomy','ai','scale','impact'].map(key => {
+    const m = SCORE_META.find(x => x.key === key);
+    return `<div class="winner-score-chip">
+      <div class="winner-score-val" style="color:${m.color}">${winner[key]}/10</div>
+      <div class="winner-score-lab">${m.label}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('winner-scores').innerHTML = scoresHtml;
+
+  // Roadmap
+  const roadmapKey = ROADMAPS[winner.cat] ? winner.cat : 'SUB';
+  const roadmap = ROADMAPS[roadmapKey];
+  const timeline = document.getElementById('roadmap-timeline');
+  timeline.innerHTML = roadmap.map(item => `
+    <div class="roadmap-item">
+      <div class="roadmap-dot" style="background:${item.bg};border:2px solid ${item.dot};color:${item.dot}">${item.months.split(' ')[0].slice(0,2)}</div>
+      <div class="roadmap-content" style="border-color:${item.dot}22">
+        <div class="roadmap-phase" style="color:${item.dot}">${item.months} — ${item.phase}</div>
+        <div class="roadmap-milestone">${item.milestone}</div>
+        <div class="roadmap-tasks">${item.tasks}</div>
+        <span class="roadmap-revenue">💰 ${item.revenue}</span>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('winner-cta-sub').textContent =
+    `${winner.name} is your OpenClaw startup. Free AI handles everything. £100 budget. Year-one target: see roadmap above.`;
+}
+
+function createClaw() {
+  const winner = tournamentState ? tournamentState.winner : SORTED[0];
+  if (window.sendPrompt) {
+    window.sendPrompt(`Let's build the OpenClaw for "${winner.name}". Category: ${CAT_LABELS[winner.cat]}. This autonomous AI startup should run on free models with a £100 budget. Please set up the full system — tools, content pipeline, monetisation flow, and first 30 days of content — so it can run completely hands-off.`);
+  } else {
+    alert(`Ready to build: "${winner.name}"\n\nCategory: ${CAT_LABELS[winner.cat]}\n\nAsk OpenClaw to set up this autonomous startup!`);
+  }
+}
+
+// =====================================================
+// NAVIGATION
+// =====================================================
+let unlockedPhases = new Set([1]);
+
+function showPhase(n) {
+  if (!unlockedPhases.has(n) && !document.getElementById(`tab-${n}`).classList.contains('active')) return;
+  document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(`phase-${n}`).classList.add('active');
+  document.getElementById(`tab-${n}`).classList.add('active');
+
+  // Lazy init
+  if (n === 3) { renderCharts(); renderQualifiers(); }
+  if (n === 4) { if (!tournamentState) initTournament(); renderBracket(); setTimeout(() => drawBracketLines(), 80); }
+  if (n === 5) renderWinner();
+  window.scrollTo(0, 0);
+}
+
+function unlockAndGo(n) {
+  unlockedPhases.add(n);
+  document.getElementById(`tab-${n}`).classList.remove('locked');
+  showPhase(n);
+}
+
+// =====================================================
+// INIT
+// =====================================================
+document.addEventListener('DOMContentLoaded', () => {
+  renderIdeas();
+});
+</script>
+</body>
+</html>

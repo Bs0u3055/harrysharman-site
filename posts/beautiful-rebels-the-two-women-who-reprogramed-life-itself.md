@@ -6,7 +6,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/beautiful-rebels-the-two-women-who-reprogramed-life-itself.png"
 ---
 
 If you wanted to rewrite the code of life—literally change the instructions inside every living cell—you’d need a tool.

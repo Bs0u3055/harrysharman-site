@@ -9,7 +9,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-agentic-revolution.png"
 ---
 
 *aka The Great Unbundling of Human Cognitive Labor™️*

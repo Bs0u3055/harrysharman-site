@@ -10,7 +10,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-centaur-in-your-head.png"
 ---
 
 **Big news!** (Admittedly, you may have missed it—unless you, like me, spend evenings combing *Nature* for juicy psychology x AI breakthroughs…)

@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/ai-x-creativity-stephan-ledain-and-the-probability-of-wonder.png"
 ---
 
 *Episode One of the Interview Series on AI x Creativity*

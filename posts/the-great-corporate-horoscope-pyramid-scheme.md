@@ -9,7 +9,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-great-corporate-horoscope-pyramid-scheme.jpg"
 ---
 
 *How billion-dollar businesses built their people strategy on pop psychology and bondage metaphors.*

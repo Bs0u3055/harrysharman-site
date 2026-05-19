@@ -7,7 +7,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/creativity-x-ai-the-last-human-superpower-is-the-tickle.jpg"
 ---
 
 *If comedy runs on surprise and AI runs on probability, then the final frontier isn’t intelligence. It’s laughter.*

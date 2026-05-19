@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/cognitive-dissonance-is-a-bug-strategic-dissonance-is-a-feature.png"
 ---
 
 Humans hate contradiction.

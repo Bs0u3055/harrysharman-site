@@ -7,7 +7,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/rational-bs.png"
 ---
 
 ### How Two Psychologists Committed Heresy Against the Church of Economics

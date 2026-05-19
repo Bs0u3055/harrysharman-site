@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/beautiful-thinking-200-days-inside-my-mindful-brain.png"
 ---
 
 This hasn’t been an easy year. In fact, there were weeks where life felt like juggling chainsaws while being pecked at by pigeons. And in the very worst patch, I remembered something awkward: that’s precisely when I most needed to meditate.

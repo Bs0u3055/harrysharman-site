@@ -9,7 +9,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/futurism-vs-fatherhood-building-a-childhood-for-a-future-that-doesnt-exist.jpg"
 ---
 
 Lately I’ve become a little obsessed with the future that AI is dragging toward us. [I even wrote a piece arguing that it’ll take most knowledge-work jobs within a decade](https://www.linkedin.com/pulse/99-us-wont-have-job-10-years-harry-sharman--okg0e) — mine included.

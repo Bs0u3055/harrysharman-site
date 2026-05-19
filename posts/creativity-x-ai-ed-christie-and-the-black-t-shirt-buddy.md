@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/creativity-x-ai-ed-christie-and-the-black-t-shirt-buddy.jpg"
 ---
 
 Ed Christie has spent decades training massive companies, like Google, to be more inventive and creative. He teaches humans how to stop relying on tired habits and start making genuine breakthroughs.

@@ -7,7 +7,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/meet-the-godfather-of-ai-the-rebel-who-spent-40-years-building-the-thing-he-now-.png"
 ---
 
 **Beautiful Rebels** is my ongoing series about people who bend the world out of shape — thinkers who don’t just challenge the status quo, they quietly rewire it. They’re the intellectual troublemakers you’d sit next to at a bar after a conference because you just know the conversation will change how you see the future.

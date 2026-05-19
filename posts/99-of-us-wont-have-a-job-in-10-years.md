@@ -10,7 +10,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/99-of-us-wont-have-a-job-in-10-years.jpg"
 ---
 
 I have a confession.

@@ -8,7 +8,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/the-price-of-not-believing-black-pain.png"
 ---
 
 She walked off the plane and straight into the emergency room.

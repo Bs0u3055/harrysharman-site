@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/nudges-on-rocket-fuel-behavioural-science-meets-ai.png"
 ---
 
 ### We Were Never Rational

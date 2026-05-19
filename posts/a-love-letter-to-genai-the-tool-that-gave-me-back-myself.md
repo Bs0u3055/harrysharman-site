@@ -7,7 +7,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/a-love-letter-to-genai-the-tool-that-gave-me-back-myself.png"
 ---
 
 [I’ve been accused recently — with a certain nervous laughter — of being a pessimist about AI](https://www.linkedin.com/posts/danreedri_i-know-a-lot-of-folks-are-pretty-skeptical-activity-7402373301399941120-JdqF?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAL_9ccBTOHIT7KkfXgfB7pY1vfFQRyxNbE).

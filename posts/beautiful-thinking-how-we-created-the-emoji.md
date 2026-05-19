@@ -8,7 +8,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/beautiful-thinking-how-we-created-the-emoji.png"
 ---
 
 It was 2017, and I was deep in the trenches of a multiple sclerosis brand. “Brain fog” was the symptom du jour—slippery, hard to pin down. My junior at the time, Ryan (who I’m convinced is now a spy), stumbled on a forum in New Zealand. Patients weren’t just talking about brain fog—they were *showing* it. Blurry landscapes, ghosts in the mist. Words had failed them, so they turned to images.

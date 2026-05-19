@@ -10,7 +10,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/ai-x-creativity-the-directors-cut-bill-ecay-and-the-90-question.jpg"
 ---
 
 When a creative director teaches AI to think like him, who’s really doing the creating?

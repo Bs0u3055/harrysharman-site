@@ -9,7 +9,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/who-do-you-lie-to-more-humans-or-ai.jpg"
 ---
 
 Before we start, a quick gut check:

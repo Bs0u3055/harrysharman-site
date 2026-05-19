@@ -8,7 +8,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/live-forever-inc-dictators-and-immortality.png"
 ---
 
 ## Live Forever, Inc.

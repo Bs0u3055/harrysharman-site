@@ -6,7 +6,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/beautiful-rebels-a-tooth-a-child-a-vial-in-the-snow.png"
 ---
 
 **A Tooth. A Child. A Vial in the Snow.** *Dr. Ulla Hedner and the clotting protein that changed everything.*

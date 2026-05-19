@@ -12,7 +12,7 @@
       "innovation"
     ],
     "featured": true,
-    "image": "assets/the-biggest-barrier-to-ai-adoption-at-work-isn-t-skill-it-s-identity.jpg"
+    "image": "assets/uploads/the-biggest-barrier-to-ai-adoption-at-work-isn-t-skill-it-s-identity.jpg"
   },
   {
     "slug": "i-accidentally-got-a-butler",
@@ -152,7 +152,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-moment-ai-changed-medicine-forever-just-happened.png"
   },
   {
     "slug": "im-in-the-top-1-of-chatgpt-users",
@@ -165,7 +166,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/im-in-the-top-1-of-chatgpt-users.png"
   },
   {
     "slug": "why-humans-would-rather-be-wrong-than-uncomfortable",
@@ -179,7 +181,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/why-humans-would-rather-be-wrong-than-uncomfortable.png"
   },
   {
     "slug": "a-love-letter-to-genai-the-tool-that-gave-me-back-myself",
@@ -191,7 +194,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/a-love-letter-to-genai-the-tool-that-gave-me-back-myself.png"
   },
   {
     "slug": "meet-the-godfather-of-ai-the-rebel-who-spent-40-years-building-the-thing-he-now-",
@@ -203,7 +207,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/meet-the-godfather-of-ai-the-rebel-who-spent-40-years-building-the-thing-he-now-.png"
   },
   {
     "slug": "ai-x-creativity-the-directors-cut-bill-ecay-and-the-90-question",
@@ -218,7 +223,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/ai-x-creativity-the-directors-cut-bill-ecay-and-the-90-question.jpg"
   },
   {
     "slug": "who-do-you-lie-to-more-humans-or-ai",
@@ -232,7 +238,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/who-do-you-lie-to-more-humans-or-ai.jpg"
   },
   {
     "slug": "creativity-x-ai-the-last-human-superpower-is-the-tickle",
@@ -244,7 +251,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/creativity-x-ai-the-last-human-superpower-is-the-tickle.jpg"
   },
   {
     "slug": "the-end-of-the-world-over-aperitivo",
@@ -256,7 +264,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-end-of-the-world-over-aperitivo.png"
   },
   {
     "slug": "futurism-vs-fatherhood-building-a-childhood-for-a-future-that-doesnt-exist",
@@ -270,7 +279,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/futurism-vs-fatherhood-building-a-childhood-for-a-future-that-doesnt-exist.jpg"
   },
   {
     "slug": "the-great-corporate-horoscope-pyramid-scheme",
@@ -284,7 +294,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-great-corporate-horoscope-pyramid-scheme.jpg"
   },
   {
     "slug": "creativity-x-ai-ed-christie-and-the-black-t-shirt-buddy",
@@ -297,7 +308,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/creativity-x-ai-ed-christie-and-the-black-t-shirt-buddy.jpg"
   },
   {
     "slug": "ai-x-creativity-stephan-ledain-and-the-probability-of-wonder",
@@ -310,7 +322,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/ai-x-creativity-stephan-ledain-and-the-probability-of-wonder.png"
   },
   {
     "slug": "live-forever-inc-dictators-and-immortality",
@@ -323,7 +336,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/live-forever-inc-dictators-and-immortality.png"
   },
   {
     "slug": "99-of-us-wont-have-a-job-in-10-years",
@@ -338,7 +352,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/99-of-us-wont-have-a-job-in-10-years.jpg"
   },
   {
     "slug": "ai-succeeds-at-the-speed-of-behaviour-change",
@@ -351,7 +366,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/ai-succeeds-at-the-speed-of-behaviour-change.png"
   },
   {
     "slug": "nudges-on-rocket-fuel-behavioural-science-meets-ai",
@@ -364,7 +380,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/nudges-on-rocket-fuel-behavioural-science-meets-ai.png"
   },
   {
     "slug": "beautiful-rebels-the-two-women-who-reprogramed-life-itself",
@@ -375,7 +392,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/beautiful-rebels-the-two-women-who-reprogramed-life-itself.png"
   },
   {
     "slug": "beautiful-thinking-200-days-inside-my-mindful-brain",
@@ -388,7 +406,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/beautiful-thinking-200-days-inside-my-mindful-brain.png"
   },
   {
     "slug": "the-agentic-revolution",
@@ -402,7 +421,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-agentic-revolution.png"
   },
   {
     "slug": "ai-its-the-human-stupid",
@@ -429,7 +449,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/barry-marshall-the-man-who-infected-himself-with-the-truth.png"
   },
   {
     "slug": "chatgpt-broke-his-mind",
@@ -452,7 +473,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/beautiful-rebels-karl-von-frisch-and-the-language-of-the-dance.png"
   },
   {
     "slug": "the-centaur-in-your-head",
@@ -467,7 +489,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-centaur-in-your-head.png"
   },
   {
     "slug": "a-case-for-being-unreasonable",
@@ -480,7 +503,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/a-case-for-being-unreasonable.png"
   },
   {
     "slug": "the-price-of-not-believing-black-pain",
@@ -493,7 +517,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-price-of-not-believing-black-pain.png"
   },
   {
     "slug": "the-body-count-of-bias-women-arent-just-small-men",
@@ -506,7 +531,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/the-body-count-of-bias-women-arent-just-small-men.png"
   },
   {
     "slug": "beautiful-rebels-a-tooth-a-child-a-vial-in-the-snow",
@@ -517,7 +543,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/beautiful-rebels-a-tooth-a-child-a-vial-in-the-snow.png"
   },
   {
     "slug": "cognitive-dissonance-is-a-bug-strategic-dissonance-is-a-feature",
@@ -530,7 +557,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/cognitive-dissonance-is-a-bug-strategic-dissonance-is-a-feature.png"
   },
   {
     "slug": "rational-bs",
@@ -542,7 +570,8 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/rational-bs.png"
   },
   {
     "slug": "beautiful-thinking-how-we-created-the-emoji",
@@ -555,7 +584,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/beautiful-thinking-how-we-created-the-emoji.png"
   },
   {
     "slug": "beautiful-rebels-charles-darwin",
@@ -567,7 +597,7 @@
       "beautiful-thinking"
     ],
     "featured": false,
-    "image": "assets/uploads/beautiful-rebels-charles-darwin.jpg"
+    "image": "assets/uploads/beautiful-rebels-charles-darwin.png"
   },
   {
     "slug": "beautiful-thinking-ideas-that-misbehave-the-anti-ted-newsletter",
@@ -582,7 +612,8 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "assets/uploads/beautiful-thinking-ideas-that-misbehave-the-anti-ted-newsletter.png"
   },
   {
     "slug": "micro-laziness-the-1-losses-your-brain-keeps-calling-wins",

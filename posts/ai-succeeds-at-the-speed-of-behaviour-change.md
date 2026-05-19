@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/ai-succeeds-at-the-speed-of-behaviour-change.png"
 ---
 
 I’ll start with the confession: I am a believer. Not cautious, hedge-your-bets believer. A full-throated, “buy another round and I’ll tell you the future” kind of believer.

@@ -10,7 +10,7 @@ tags:
   - "healthcare"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/beautiful-thinking-ideas-that-misbehave-the-anti-ted-newsletter.png"
 ---
 
 If you love TED’s “ideas worth spreading,” but crave something edgier—this is for you.

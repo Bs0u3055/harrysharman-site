@@ -8,7 +8,7 @@ tags:
   - "creativity"
   - "beautiful-thinking"
 featured: false
-image: ""
+image: "assets/uploads/im-in-the-top-1-of-chatgpt-users.png"
 ---
 
 According to OpenAI’s own usage metrics, I landed in the top 1% of ChatGPT users by volume.
