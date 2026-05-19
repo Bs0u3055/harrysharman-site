@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin/
+Disallow: /drafts/
+
+Sitemap: https://harrysharman.com/sitemap.xml
