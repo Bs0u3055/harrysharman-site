@@ -218,6 +218,96 @@
     .brief-title { font-size: 32px; }
     .analysis-layout { grid-template-columns: 1fr; }
   }
+
+  /* ─── STICKY ACTION BAR ─── */
+  .sticky-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(8,8,16,0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border);
+    padding: 10px 32px;
+    display: none; align-items: center; gap: 10px;
+    z-index: 150; flex-wrap: wrap;
+  }
+  .sticky-bar.visible { display: flex; }
+  .sticky-bar-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .sticky-bar-round { font-size: 14px; font-weight: 700; color: var(--green); }
+  .sticky-spacer { flex: 1; }
+  .sticky-scroll-top { background: none; border: 1px solid var(--border); color: var(--text-muted); padding: 7px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-family: var(--font); transition: all 0.2s; }
+  .sticky-scroll-top:hover { border-color: var(--green); color: var(--green); }
+  /* pad phase 4 bottom so sticky bar doesn't cover content */
+  #phase-4 { padding-bottom: 80px; }
+
+  /* ─── BATTLE OVERLAY ─── */
+  .battle-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(4,4,12,0.98);
+    z-index: 500;
+    flex-direction: column; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .battle-overlay.open { display: flex; }
+  .battle-overlay::before {
+    content: ''; position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,255,136,0.012) 3px, rgba(0,255,136,0.012) 4px);
+    pointer-events: none;
+  }
+  .b-round-lbl {
+    font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--text-muted); font-weight: 700; margin-bottom: 28px; z-index: 1;
+  }
+  .b-round-lbl.epic { color: var(--amber); font-size: 12px; letter-spacing: 6px; }
+  .b-arena {
+    display: flex; align-items: stretch; gap: 0;
+    width: 100%; max-width: 880px; z-index: 1;
+  }
+  .b-team {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    padding: 28px 20px; border: 1px solid var(--border); border-radius: 12px;
+    transition: all 0.5s; background: var(--surface2);
+  }
+  .b-team-a { margin-right: -1px; border-radius: 12px 0 0 12px; }
+  .b-team-b { margin-left: -1px;  border-radius: 0 12px 12px 0; }
+  .b-team.b-winner { background: rgba(0,255,136,0.06); border-color: var(--green); }
+  .b-team.b-loser  { opacity: 0.22; }
+  .b-seed { font-size: 11px; color: var(--text-dim); font-weight: 700; letter-spacing: 2px; margin-bottom: 10px; }
+  .b-dot  { width: 10px; height: 10px; border-radius: 50%; margin-bottom: 10px; }
+  .b-name { font-size: 20px; font-weight: 800; text-align: center; line-height: 1.2; margin-bottom: 14px; max-width: 280px; }
+  .b-score-val { font-size: 40px; font-weight: 900; color: var(--text-muted); margin-bottom: 4px; transition: color 0.5s; }
+  .b-team.b-winner .b-score-val { color: var(--green); }
+  .b-cat-lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); }
+  .b-vs-col {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; padding: 0 20px; flex-shrink: 0; z-index: 2;
+  }
+  .b-vs {
+    font-size: 44px; font-weight: 900; letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--green), var(--cyan));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 20px;
+  }
+  .b-vs.pulse { animation: bVsPulse 0.45s ease infinite; }
+  @keyframes bVsPulse { 0%,100%{transform:scale(1);opacity:0.8} 50%{transform:scale(1.12);opacity:1} }
+  .b-tension-wrap { width: 120px; height: 6px; display: flex; border-radius: 3px; overflow: hidden; }
+  .b-tension-a { height: 100%; background: var(--green); width: 50%; transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+  .b-tension-b { height: 100%; background: var(--cyan);  width: 50%; transition: width 1.4s cubic-bezier(.4,0,.2,1); }
+  .b-prob-labels { display: flex; justify-content: space-between; width: 120px; margin-top: 5px; }
+  .b-prob-val { font-size: 9px; color: var(--text-dim); font-weight: 700; transition: color 0.5s; }
+  .b-tension-a-pct { transition: color 0.5s; }
+  .b-tension-b-pct { transition: color 0.5s; }
+  .b-status-row { margin-top: 28px; text-align: center; z-index: 1; min-height: 60px; display: flex; flex-direction: column; align-items: center; }
+  .b-status-txt { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-muted); }
+  .b-winner-reveal { display: none; flex-direction: column; align-items: center; margin-top: 4px; }
+  .b-winner-reveal.show { display: flex; animation: bRevealIn 0.4s ease; }
+  @keyframes bRevealIn { 0%{transform:scale(0.6);opacity:0} 70%{transform:scale(1.06)} 100%{transform:scale(1);opacity:1} }
+  .b-winner-lbl { font-size: 9px; letter-spacing: 6px; text-transform: uppercase; color: var(--amber); margin-bottom: 4px; }
+  .b-winner-name-txt { font-size: 22px; font-weight: 800; color: var(--green); text-align: center; max-width: 500px; }
+  .b-scan { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent 0%, var(--green) 50%, transparent 100%); opacity: 0.5; animation: bScan 1.6s linear; }
+  @keyframes bScan { 0%{top:-10px} 100%{top:110vh} }
+  @keyframes bFlash { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .battle-overlay.flash-win { animation: bFlash 0.15s ease 2; }
+
 </style>
 </head>
 <body>
@@ -723,98 +813,213 @@ function initTournament() {
   };
 }
 
-function runRound() {
-  if (!tournamentState) initTournament();
-  if (tournamentState.finished) return;
-  const ri = tournamentState.currentRound;
-  const round = tournamentState.rounds[ri];
+// ── per-round drama timings (ms) ──────────────────────────
+const ROUND_TIMINGS = [950, 1300, 2400, 3800, 5800];
+const ROUND_EPIC    = [false, false, false, true, true]; // SF + Final get extra effects
+const ROUND_NAMES_DISPLAY = ['ROUND OF 32','ROUND OF 16','QUARTER-FINAL','SEMI-FINAL','⚡ GRAND FINAL'];
+let _tournamentRunning = false;
 
-  // Apply a market event (50% chance each round except final)
+function setBtns(enabled) {
+  ['btn-run-round','btn-run-all','sb-run-round','sb-run-all'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = !enabled;
+  });
+}
+
+function applyMarketEvent(ri) {
   const eventBanner = document.getElementById('event-banner');
   if (ri < 4 && Math.random() < 0.7) {
     const event = MARKET_EVENTS[Math.floor(Math.random() * MARKET_EVENTS.length)];
     tournamentState.appliedEvent = event;
-    document.getElementById('event-icon').textContent = event.icon;
+    document.getElementById('event-icon').textContent  = event.icon;
     document.getElementById('event-title').textContent = event.title;
-    document.getElementById('event-desc').textContent = event.desc;
+    document.getElementById('event-desc').textContent  = event.desc;
     eventBanner.classList.add('visible');
-
-    // Apply the modifier to tournament scores for this round
     tournamentState.seeds.forEach(s => {
-      const matches = event.affect(s.cat, s.ai, s.impact);
-      if (matches) s.tournamentScore = Math.min(10, s.tournamentScore * (1 + event.delta));
+      if (event.affect(s.cat, s.ai, s.impact))
+        s.tournamentScore = Math.min(10, s.tournamentScore * (1 + event.delta));
     });
   } else {
     eventBanner.classList.remove('visible');
   }
+}
 
-  // Run each match in the current round
-  const winners = [];
-  round.matches.forEach(match => {
-    const a = match.top;
-    const b = match.bottom;
-    // Probability weighted by tournament score
-    const totalScore = a.tournamentScore + b.tournamentScore;
-    const probA = a.tournamentScore / totalScore;
-    const rand = Math.random();
-    const winner = rand < probA ? a : b;
-    const loser  = rand < probA ? b : a;
-    match.winner = winner;
-    match.loser  = loser;
-    winners.push(winner);
-    tournamentState.log.push({ winner: winner.name, loser: loser.name, round: round.name });
-  });
-
-  // Advance winners to next round
+function finishRound(ri, winners) {
   if (ri < 4) {
     const nextRound = tournamentState.rounds[ri + 1];
     nextRound.matches = [];
     for (let i = 0; i < winners.length; i += 2) {
       nextRound.matches.push({
-        id: `r${ri+1}m${i/2}`,
-        top: winners[i],
-        bottom: winners[i + 1] || null,
-        winner: null,
-        loser: null,
+        id: `r${ri+1}m${Math.floor(i/2)}`,
+        top: winners[i], bottom: winners[i+1] || null,
+        winner: null, loser: null,
       });
     }
   }
-
+  tournamentState.currentRound = Math.min(ri + 1, 4);
   if (ri === 4) {
     tournamentState.finished = true;
     tournamentState.winner = winners[0];
-    document.getElementById('btn-run-round').disabled = true;
-    document.getElementById('btn-run-all').disabled = true;
-    setTimeout(() => unlockAndGo(5), 1200);
+    setBtns(false);
+    setTimeout(() => unlockAndGo(5), 1400);
   }
-
-  tournamentState.currentRound = Math.min(ri + 1, 4);
   renderBracket();
   renderLog();
   updateRoundName();
-  // Redraw SVG lines after DOM settles
+  // sync sticky bar round name
+  const sbRound = document.getElementById('sb-round-name');
+  if (sbRound) sbRound.textContent = document.getElementById('current-round-name').textContent;
   setTimeout(() => drawBracketLines(), 80);
+  _tournamentRunning = false;
+  if (!tournamentState.finished) setBtns(true);
 }
 
-function runAll() {
-  const runNext = () => {
-    if (!tournamentState.finished) {
-      runRound();
-      setTimeout(runNext, 800);
-    }
+function showBattle(matchObj, ri, matchIdx, totalMatches, callback) {
+  const overlay  = document.getElementById('battle-overlay');
+  const duration = ROUND_TIMINGS[ri];
+  const isEpic   = ROUND_EPIC[ri];
+  const a = matchObj.top, b = matchObj.bottom;
+  const winner = matchObj.winner, loser = matchObj.loser;
+
+  // Populate teams
+  const fillTeam = (prefix, team) => {
+    document.getElementById(`b-seed-${prefix}`).textContent  = `#${team.seed}`;
+    document.getElementById(`b-name-${prefix}`).textContent  = team.name;
+    document.getElementById(`b-score-${prefix}`).textContent = team.tournamentScore.toFixed(1);
+    document.getElementById(`b-cat-${prefix}`).textContent   = CAT_LABELS[team.cat] || team.cat;
+    document.getElementById(`b-dot-${prefix}`).style.background = CAT_COLORS[team.cat] || '#888';
+    document.getElementById(`b-team-${prefix}`).classList.remove('b-winner','b-loser');
   };
-  runNext();
+  fillTeam('a', a);
+  fillTeam('b', b);
+
+  // Round label
+  const roundLbl = document.getElementById('b-round-lbl');
+  const matchLabel = totalMatches > 1 ? ` · MATCH ${matchIdx+1} OF ${totalMatches}` : '';
+  roundLbl.textContent = ROUND_NAMES_DISPLAY[ri] + matchLabel;
+  roundLbl.className   = 'b-round-lbl' + (isEpic ? ' epic' : '');
+
+  // Reset tension & status
+  document.getElementById('b-tension-a').style.width = '50%';
+  document.getElementById('b-tension-b').style.width = '50%';
+  document.getElementById('b-prob-a').textContent = '50%';
+  document.getElementById('b-prob-b').textContent = '50%';
+  document.getElementById('b-status-txt').textContent = 'ANALYSING…';
+  document.getElementById('b-winner-reveal').classList.remove('show');
+  document.getElementById('b-vs').classList.remove('pulse');
+
+  overlay.classList.add('open');
+
+  // Phase 1 — VS pulses
+  const p1 = Math.min(duration * 0.22, 600);
+  setTimeout(() => {
+    document.getElementById('b-vs').classList.add('pulse');
+  }, 80);
+
+  // Phase 2 — tension bar animates toward winner's probability
+  setTimeout(() => {
+    document.getElementById('b-status-txt').textContent = 'CALCULATING…';
+    const winIsA   = winner === a;
+    const totalSc  = a.tournamentScore + b.tournamentScore;
+    const probA    = a.tournamentScore / totalSc;
+    const probB    = 1 - probA;
+    const dispA    = Math.round(probA * 100);
+    const dispB    = 100 - dispA;
+    document.getElementById('b-tension-a').style.width = dispA + '%';
+    document.getElementById('b-tension-b').style.width = dispB + '%';
+    document.getElementById('b-prob-a').textContent    = dispA + '%';
+    document.getElementById('b-prob-b').textContent    = dispB + '%';
+    document.getElementById('b-prob-a').style.color    = winIsA ? 'var(--green)' : 'var(--text-dim)';
+    document.getElementById('b-prob-b').style.color    = winIsA ? 'var(--text-dim)' : 'var(--green)';
+  }, p1);
+
+  // Phase 3 — winner reveal
+  const p2 = Math.round(duration * 0.62);
+  setTimeout(() => {
+    document.getElementById('b-vs').classList.remove('pulse');
+    document.getElementById('b-status-txt').textContent = '';
+    const winIsA = winner === a;
+    document.getElementById(winIsA ? 'b-team-a' : 'b-team-b').classList.add('b-winner');
+    document.getElementById(winIsA ? 'b-team-b' : 'b-team-a').classList.add('b-loser');
+    document.getElementById('b-winner-name-txt').textContent = winner.name;
+    document.getElementById('b-winner-reveal').classList.add('show');
+    if (isEpic) {
+      const scan = document.createElement('div');
+      scan.className = 'b-scan';
+      overlay.appendChild(scan);
+      setTimeout(() => { try { overlay.removeChild(scan); } catch(e){} }, 2000);
+    }
+  }, p2);
+
+  // Phase 4 — close
+  setTimeout(() => {
+    overlay.classList.remove('open');
+    callback();
+  }, duration);
 }
+
+function runRound(autoAdvance) {
+  if (_tournamentRunning) return;
+  if (!tournamentState) initTournament();
+  if (tournamentState.finished) return;
+  _tournamentRunning = true;
+
+  const ri    = tournamentState.currentRound;
+  const round = tournamentState.rounds[ri];
+
+  setBtns(false);
+  applyMarketEvent(ri);
+
+  // Pre-compute all match results for this round
+  const results = round.matches.map(match => {
+    const { top: a, bottom: b } = match;
+    if (!a || !b) return { match, winner: a || b, loser: null };
+    const probA = a.tournamentScore / (a.tournamentScore + b.tournamentScore);
+    const r = Math.random();
+    return { match, winner: r < probA ? a : b, loser: r < probA ? b : a };
+  });
+
+  const total = results.length;
+  let idx = 0;
+
+  function playNext() {
+    if (idx >= total) {
+      finishRound(ri, results.map(r => r.winner));
+      if (autoAdvance && !tournamentState.finished) {
+        setTimeout(() => runRound(true), 400);
+      }
+      return;
+    }
+    const { match, winner, loser } = results[idx];
+    match.winner = winner;
+    match.loser  = loser;
+    tournamentState.log.push({ winner: winner.name, loser: loser ? loser.name : '—', round: round.name });
+
+    const i = idx; idx++;
+    showBattle(match, ri, i, total, () => {
+      renderBracket();
+      renderLog();
+      setTimeout(() => drawBracketLines(), 60);
+      playNext();
+    });
+  }
+
+  playNext();
+}
+
+function runAll() { runRound(true); }
 
 function resetTournament() {
+  _tournamentRunning = false;
   tournamentState = null;
   initTournament();
   renderBracket();
   renderLog();
   updateRoundName();
   document.getElementById('event-banner').classList.remove('visible');
-  document.getElementById('btn-run-round').disabled = false;
-  document.getElementById('btn-run-all').disabled = false;
+  setBtns(true);
+  const sbRound = document.getElementById('sb-round-name');
+  if (sbRound) sbRound.textContent = 'Round of 32';
 }
 
 function updateRoundName() {
@@ -1319,9 +1524,20 @@ function showPhase(n) {
   document.getElementById(`phase-${n}`).classList.add('active');
   document.getElementById(`tab-${n}`).classList.add('active');
 
+  // Sticky bar: show only on tournament phase
+  const stickyBar = document.getElementById('sticky-bar');
+  if (stickyBar) stickyBar.classList.toggle('visible', n === 4);
+
   // Lazy init
   if (n === 3) { renderCharts(); renderQualifiers(); }
-  if (n === 4) { if (!tournamentState) initTournament(); renderBracket(); setTimeout(() => drawBracketLines(), 80); }
+  if (n === 4) {
+    if (!tournamentState) initTournament();
+    renderBracket();
+    updateRoundName();
+    const sbRound = document.getElementById('sb-round-name');
+    if (sbRound) sbRound.textContent = document.getElementById('current-round-name').textContent;
+    setTimeout(() => drawBracketLines(), 80);
+  }
   if (n === 5) renderWinner();
   window.scrollTo(0, 0);
 }
@@ -1339,5 +1555,61 @@ document.addEventListener('DOMContentLoaded', () => {
   renderIdeas();
 });
 </script>
+
+<!-- BATTLE OVERLAY -->
+<div class="battle-overlay" id="battle-overlay">
+  <div class="b-round-lbl" id="b-round-lbl">ROUND OF 32</div>
+  <div class="b-arena">
+    <div class="b-team b-team-a" id="b-team-a">
+      <div class="b-seed" id="b-seed-a">#1</div>
+      <div class="b-dot" id="b-dot-a"></div>
+      <div class="b-name" id="b-name-a">—</div>
+      <div class="b-score-val" id="b-score-a">0.0</div>
+      <div class="b-cat-lbl" id="b-cat-a"></div>
+    </div>
+
+    <div class="b-vs-col">
+      <div class="b-vs" id="b-vs">VS</div>
+      <div class="b-tension-wrap">
+        <div class="b-tension-a" id="b-tension-a"></div>
+        <div class="b-tension-b" id="b-tension-b"></div>
+      </div>
+      <div class="b-prob-labels">
+        <div class="b-prob-val b-tension-a-pct" id="b-prob-a">50%</div>
+        <div class="b-prob-val b-tension-b-pct" id="b-prob-b">50%</div>
+      </div>
+    </div>
+
+    <div class="b-team b-team-b" id="b-team-b">
+      <div class="b-seed" id="b-seed-b">#32</div>
+      <div class="b-dot" id="b-dot-b"></div>
+      <div class="b-name" id="b-name-b">—</div>
+      <div class="b-score-val" id="b-score-b">0.0</div>
+      <div class="b-cat-lbl" id="b-cat-b"></div>
+    </div>
+  </div>
+
+  <div class="b-status-row">
+    <div class="b-status-txt" id="b-status-txt">ANALYSING…</div>
+    <div class="b-winner-reveal" id="b-winner-reveal">
+      <div class="b-winner-lbl">WINNER</div>
+      <div class="b-winner-name-txt" id="b-winner-name-txt"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STICKY BAR -->
+<div class="sticky-bar" id="sticky-bar">
+  <div>
+    <div class="sticky-bar-label">Current Round</div>
+    <div class="sticky-bar-round" id="sb-round-name">Round of 32</div>
+  </div>
+  <button class="btn-primary" id="sb-run-round" onclick="runRound(false)" style="padding:10px 22px;font-size:14px">▶ Run Round</button>
+  <button class="btn-secondary" id="sb-run-all" onclick="runAll()" style="padding:9px 18px;font-size:13px">⚡ Run All</button>
+  <button class="btn-secondary" onclick="resetTournament()" style="padding:9px 14px;font-size:13px">↺</button>
+  <div class="sticky-spacer"></div>
+  <button class="sticky-scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
+</div>
+
 </body>
 </html>
