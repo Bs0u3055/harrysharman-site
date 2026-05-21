@@ -2,7 +2,7 @@
  * site-nav.js — shared site navigation bar for harrysharman.com project pages
  *
  * Usage: add ONE script tag to any project page's <head>:
- *   <script src="/js/site-nav.js"></script>
+ *   <script src="/js/site-nav.js" defer></script>
  *
  * The script injects a fixed 44px nav bar at the top and adds
  * padding-top: 44px to <body> so content is not hidden under it.
@@ -109,15 +109,23 @@
       '<a href="https://linkedin.com/in/harrysharman" target="_blank" rel="noopener" class="hs-pill">say hi ↗</a>' +
     '</nav>';
 
-  // Insert as first child of body (or prepend to document.body)
-  if (document.body.firstChild) {
-    document.body.insertBefore(nav, document.body.firstChild);
-  } else {
-    document.body.appendChild(nav);
+  // ── Inject into DOM (safe whether script is deferred or runs at end of body) ─
+  function inject() {
+    if (document.getElementById('hs-sitenav')) return; // already injected
+    if (document.body.firstChild) {
+      document.body.insertBefore(nav, document.body.firstChild);
+    } else {
+      document.body.appendChild(nav);
+    }
+    // Push body content down so nothing hides under the fixed bar
+    document.body.style.paddingTop =
+      (parseInt(document.body.style.paddingTop) || 0) + NAV_H + 'px';
   }
 
-  // ── Push body content down ─────────────────────────────────────────────────
-  document.body.style.paddingTop =
-    (parseInt(document.body.style.paddingTop) || 0) + NAV_H + 'px';
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inject);
+  } else {
+    inject();
+  }
 
 })();
