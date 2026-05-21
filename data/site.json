@@ -55,13 +55,6 @@
       "description": "50+ articles exploring the intersection of brand strategy, behavioural science, and how people actually think. Originally on LinkedIn, now finding a proper home.",
       "link": "blog.html",
       "linkText": "Read the blog →"
-    },
-    {
-      "title": "harrysharman.com",
-      "status": "Live",
-      "description": "This site. Built as a static site with markdown blog posts, maintained by OpenClaw. A side project about having a proper home on the internet.",
-      "link": "https://github.com/harrysharman/harrysharman.com",
-      "linkText": "View on GitHub →"
     }
   ],
   "cv": [
