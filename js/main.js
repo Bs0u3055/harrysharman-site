@@ -73,7 +73,7 @@
     container.innerHTML = recent.map(function (post, i) {
       var n   = String(i + 1).padStart(2, '0');
       var cat = (post.tags && post.tags[0]) ? post.tags[0] : 'essay';
-      return '<a href="post.html?slug=' + post.slug + '" class="essay-row">' +
+      return '<a href="/posts/' + post.slug + '/" class="essay-row">' +
         '<span class="essay-n">' + n + '</span>' +
         '<span class="essay-cat">' + cat + '</span>' +
         '<span class="essay-title">' + post.title + '</span>' +
@@ -119,7 +119,7 @@
     container.innerHTML = posts.map(function (post, i) {
       var n   = String(i + 1).padStart(2, '0');
       var cat = (post.tags && post.tags[0]) ? post.tags[0] : 'essay';
-      return '<a href="post.html?slug=' + post.slug + '" class="blog-list-item" data-tags="' + (post.tags || []).join(',') + '">' +
+      return '<a href="/posts/' + post.slug + '/" class="blog-list-item" data-tags="' + (post.tags || []).join(',') + '">' +
         '<span class="essay-n">' + n + '</span>' +
         '<span class="essay-cat">' + cat + '</span>' +
         '<span class="blog-list-title">' + post.title + '</span>' +

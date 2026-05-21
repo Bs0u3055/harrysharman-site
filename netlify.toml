@@ -1,6 +1,14 @@
 [build]
-  command = "python3 scripts/generate-posts-json.py"
+  command = "pip install -r requirements.txt -q && python3 scripts/generate-posts-json.py && python3 scripts/generate-static-pages.py"
   publish = "/"
+
+# ── Redirect: old post.html?slug=X → /posts/X/ ────────────────────────────
+[[redirects]]
+  from   = "/post.html"
+  to     = "/posts/:slug/"
+  status = 301
+  [redirects.query]
+    slug = ":slug"
 
 # ── Cache: static assets ───────────────────────────────────────────────────
 [[headers]]
