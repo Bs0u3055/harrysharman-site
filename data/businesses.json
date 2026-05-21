@@ -4,7 +4,7 @@
     "budget_total": 100,
     "currency": "GBP",
     "mission_start": "2025-05-01",
-    "last_updated": "2025-05-21T12:00:00Z",
+    "last_updated": "2026-05-21T09:18:57Z",
     "updated_by": "Taleb"
   },
   "businesses": [
@@ -24,7 +24,16 @@
       "target_monthly": 400,
       "target_year": 3000,
       "launched": null,
-      "log": []
+      "log": [
+        {
+          "ts": "2026-05-21T09:18:57Z",
+          "note": "Test rename"
+        },
+        {
+          "ts": "2026-05-21T09:18:57Z",
+          "note": "Renamed back"
+        }
+      ]
     },
     {
       "id": "kdp-productivity",
