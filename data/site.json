@@ -3,42 +3,49 @@
     {
       "title": "Dream Property",
       "status": "Live",
-      "description": "A data-mapping project that fuses Ordnance Survey, Land Registry, Companies House, planning data and OpenStreetMap into a single map \u2014 scoring and filtering 1,800+ rural holdings across Cheshire. Built to answer one question: how do you find your dream place?",
+      "description": "A data-mapping project that fuses Ordnance Survey, Land Registry, Companies House, planning data and OpenStreetMap into a single map — scoring and filtering 1,800+ rural holdings across Cheshire. Built to answer one question: how do you find your dream place?",
       "link": "projects/dream-property/",
-      "linkText": "Explore the map \u2192"
+      "linkText": "Explore the map →"
     },
     {
       "title": "Unload",
       "status": "Live",
       "description": "A task management app built for how human brains actually work. Auto-scheduling, Brain Mode, and an AI-powered brain dump that turns your thoughts into an organised day.",
       "link": "unload.html",
-      "linkText": "Read the story \u2192"
+      "linkText": "Read the story →"
     },
     {
       "title": "Tomorrowland",
       "status": "In Progress",
-      "description": "A book on future-proofing healthcare brands \u2014 combining scenario planning, behavioural science, and workshop methodology. Currently 72% written.",
+      "description": "A book on future-proofing healthcare brands — combining scenario planning, behavioural science, and workshop methodology. Currently 72% written.",
       "link": "tomorrowland.html",
-      "linkText": "Follow the progress \u2192"
+      "linkText": "Follow the progress →"
     },
     {
       "title": "Dobby",
       "status": "Live",
-      "description": "My personal AI assistant \u2014 an OpenClaw instance running on a Mac mini that manages my to-do list, reads my emails, maintains databases, and runs automated pipelines. Not an app. A thing that actually lives in my life.",
+      "description": "My personal AI assistant — an OpenClaw instance running on a Mac mini that manages my to-do list, reads my emails, maintains databases, and runs automated pipelines. Not an app. A thing that actually lives in my life.",
       "link": "post.html?slug=i-accidentally-got-a-butler",
-      "linkText": "Read the story \u2192"
+      "linkText": "Read the story →"
     },
     {
-      "title": "OpenClaw: \u00a3100 Startup Tournament",
+      "title": "OpenClaw: £100 Startup Tournament",
       "status": "Live",
-      "description": "A real startup competition run entirely by AI agents, inside a \u00a3100 budget. Six ventures, multiple phases, one winner. A live experiment in whether AI can do what humans do \u2014 build something from nothing.",
+      "description": "A real startup competition run entirely by AI agents, inside a £100 budget. Six ventures, multiple phases, one winner. A live experiment in whether AI can do what humans do — build something from nothing.",
       "link": "projects/openclaw-tournament/",
-      "linkText": "Watch it unfold \u2192"
+      "linkText": "Watch it unfold →"
+    },
+    {
+      "title": "OpenClaw: Revenue Tracker",
+      "status": "Live",
+      "description": "A live dashboard tracking how much money each of Taleb's autonomous AI businesses is making. Real numbers. Updated by Taleb. Mission: turn £100 into maximum revenue in 12 months.",
+      "link": "projects/revenue-tracker/",
+      "linkText": "Watch the money →"
     },
     {
       "title": "The AI Habit",
       "status": "In Progress",
-      "description": "A daily AI practice system for professionals who know they should be using AI but haven\u2019t built a real practice yet. 15 minutes a day. One workout. One tangible output. Built on behavioural science, not hype.",
+      "description": "A daily AI practice system for professionals who know they should be using AI but haven’t built a real practice yet. 15 minutes a day. One workout. One tangible output. Built on behavioural science, not hype.",
       "link": "",
       "linkText": "Coming soon"
     },
@@ -47,58 +54,58 @@
       "status": "Live",
       "description": "50+ articles exploring the intersection of brand strategy, behavioural science, and how people actually think. Originally on LinkedIn, now finding a proper home.",
       "link": "blog.html",
-      "linkText": "Read the blog \u2192"
+      "linkText": "Read the blog →"
     },
     {
       "title": "harrysharman.com",
       "status": "Live",
       "description": "This site. Built as a static site with markdown blog posts, maintained by OpenClaw. A side project about having a proper home on the internet.",
       "link": "https://github.com/harrysharman/harrysharman.com",
-      "linkText": "View on GitHub \u2192"
+      "linkText": "View on GitHub →"
     }
   ],
   "cv": [
     {
-      "period": "2025 \u2014 Present",
+      "period": "2025 — Present",
       "role": "EVP, Innovation & Artificial Intelligence",
       "company": "Assembled Intelligence",
-      "description": "Building AI-powered software and capabilities within a healthcare communications platform \u2014 bridging brand strategy, behavioural science, and technology."
+      "description": "Building AI-powered software and capabilities within a healthcare communications platform — bridging brand strategy, behavioural science, and technology."
     },
     {
-      "period": "2023 \u2014 2025",
+      "period": "2023 — 2025",
       "role": "EVP, Artificial + Human Intelligence",
       "company": "BGB Group",
-      "description": "Built the agency's AI capability from scratch \u2014 combining behavioural science and applied AI to develop proprietary research tools, prompt frameworks, and products used in pitches, brand planning, and client workflows."
+      "description": "Built the agency's AI capability from scratch — combining behavioural science and applied AI to develop proprietary research tools, prompt frameworks, and products used in pitches, brand planning, and client workflows."
     },
     {
-      "period": "2019 \u2014 2023",
+      "period": "2019 — 2023",
       "role": "SVP Director of Strategy, US",
       "company": "Evoke Mind+Matter",
       "description": "Led the US strategy team across pre-launch and launched healthcare brands. Sat on the US Leadership Team, helping shape agency direction."
     },
     {
-      "period": "2016 \u2014 2019",
+      "period": "2016 — 2019",
       "role": "Head of Strategy",
       "company": "Havas Lynx Group",
       "description": "Strategy lead at Cannes Lions Global Healthcare Agency of the Year, working across AstraZeneca, AbbVie, Janssen, Novo Nordisk and others. Led award-winning campaigns including putting the Brain Emoji on 4.5 billion smartphones."
     },
     {
-      "period": "2014 \u2014 2016",
+      "period": "2014 — 2016",
       "role": "Head of Marketing & Strategic Planning",
       "company": "Delineo",
       "description": "Founded the agency strategy and planning department. Created brand frameworks, digital strategies, and ran workshops for B2C and B2B clients."
     },
     {
-      "period": "2012 \u2014 2014",
+      "period": "2012 — 2014",
       "role": "Consultant",
       "company": "Strategic North",
       "description": "Brand strategy, commercial insight, and future scenario development for a specialist marketing consultancy."
     },
     {
-      "period": "2008 \u2014 2012",
+      "period": "2008 — 2012",
       "role": "Research Executive / Group Graduate",
       "company": "Adelphi Group",
-      "description": "Started career in healthcare market research. 200+ interviews, 80+ qualitative and quantitative research projects. Early work in digital innovation \u2014 first seeds of the behavioural science interest."
+      "description": "Started career in healthcare market research. 200+ interviews, 80+ qualitative and quantitative research projects. Early work in digital innovation — first seeds of the behavioural science interest."
     }
   ]
 }

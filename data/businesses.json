@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "mission": "£100 → Maximum Autonomous Revenue in 12 Months",
+    "budget_total": 100,
+    "currency": "GBP",
+    "mission_start": "2025-05-01",
+    "last_updated": "2025-05-21T12:00:00Z",
+    "updated_by": "Taleb"
+  },
+  "businesses": [
+    {
+      "id": "sterling-newsletter",
+      "name": "Sterling Strategy",
+      "type": "Newsletter",
+      "cat": "NWL",
+      "tagline": "Premium strategy intelligence for senior brand and comms leaders.",
+      "status": "building",
+      "budget_allocated": 35,
+      "budget_spent": 0,
+      "revenue_total": 0.0,
+      "revenue_this_month": 0.0,
+      "subscribers_free": 0,
+      "subscribers_paid": 0,
+      "target_monthly": 400,
+      "target_year": 3000,
+      "launched": null,
+      "log": []
+    },
+    {
+      "id": "kdp-productivity",
+      "name": "AI Productivity Press",
+      "type": "KDP Publishing",
+      "cat": "KDP",
+      "tagline": "AI-generated productivity and self-improvement books on Amazon KDP.",
+      "status": "building",
+      "budget_allocated": 30,
+      "budget_spent": 0,
+      "revenue_total": 0.0,
+      "revenue_this_month": 0.0,
+      "titles_live": 0,
+      "target_monthly": 300,
+      "target_year": 2500,
+      "launched": null,
+      "log": []
+    },
+    {
+      "id": "etsy-digital",
+      "name": "Clarity Templates",
+      "type": "Etsy Digital",
+      "cat": "ETY",
+      "tagline": "AI-generated digital templates for professionals and creatives on Etsy.",
+      "status": "building",
+      "budget_allocated": 20,
+      "budget_spent": 0,
+      "revenue_total": 0.0,
+      "revenue_this_month": 0.0,
+      "listings_live": 0,
+      "target_monthly": 500,
+      "target_year": 4000,
+      "launched": null,
+      "log": []
+    },
+    {
+      "id": "micro-saas",
+      "name": "BriefBot",
+      "type": "Micro-SaaS",
+      "cat": "SAS",
+      "tagline": "AI-powered creative brief generator for agency teams. £9/month.",
+      "status": "planned",
+      "budget_allocated": 15,
+      "budget_spent": 0,
+      "revenue_total": 0.0,
+      "revenue_this_month": 0.0,
+      "users": 0,
+      "target_monthly": 200,
+      "target_year": 1500,
+      "launched": null,
+      "log": []
+    }
+  ]
+}

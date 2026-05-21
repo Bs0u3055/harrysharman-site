@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw: Live Revenue Tracker</title>
+<style>
+  :root {
+    --bg:       #080810;
+    --surface:  #10101e;
+    --surface2: #181828;
+    --border:   #2a2a45;
+    --green:    #00ff88;
+    --green-dim:#00cc6a;
+    --cyan:     #00d4ff;
+    --amber:    #ffb800;
+    --red:      #ff4444;
+    --purple:   #9b59ff;
+    --text:     #e8e8f0;
+    --muted:    #7878a0;
+    --dim:      #4a4a6a;
+    --r:        10px;
+    --font:     'Segoe UI', system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; overflow-x: hidden; }
+
+  /* ── HEADER ─────────────────────────────── */
+  .hdr { display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1px solid var(--border); background: var(--surface); position: sticky; top: 0; z-index: 100; gap: 16px; flex-wrap: wrap; }
+  .hdr-logo { display: flex; align-items: center; gap: 10px; }
+  .hdr-claw { font-size: 22px; }
+  .hdr-title { font-size: 16px; font-weight: 700; color: var(--green); letter-spacing: 1px; }
+  .hdr-sub { font-size: 10px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; }
+  .live-pill { display: flex; align-items: center; gap: 6px; background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3); border-radius: 20px; padding: 5px 12px; font-size: 11px; font-weight: 700; color: var(--green); letter-spacing: 1px; text-transform: uppercase; }
+  .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); animation: blink 1.2s ease infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .hdr-meta { font-size: 11px; color: var(--muted); text-align: right; }
+  .hdr-meta span { color: var(--text); }
+
+  /* ── MAIN ────────────────────────────────── */
+  .main { padding: 32px; max-width: 1300px; margin: 0 auto; }
+
+  /* ── HERO STATS ──────────────────────────── */
+  .hero { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-bottom: 32px; }
+  .hero-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 24px; }
+  .hero-card.primary { border-color: rgba(0,255,136,0.4); background: rgba(0,255,136,0.04); }
+  .hero-card.primary .hero-val { color: var(--green); }
+  .hero-label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 6px; }
+  .hero-val { font-size: 36px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .hero-sub { font-size: 11px; color: var(--muted); }
+
+  /* ── BUDGET BAR ───────────────────────────── */
+  .budget-section { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 24px; margin-bottom: 32px; }
+  .budget-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+  .budget-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .budget-nums { font-size: 13px; color: var(--text); }
+  .budget-nums strong { color: var(--amber); }
+  .budget-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 10px; }
+  .budget-fill { height: 100%; background: linear-gradient(90deg, var(--amber), #ff9500); border-radius: 4px; transition: width 1s ease; }
+  .budget-allocations { display: flex; gap: 12px; flex-wrap: wrap; }
+  .budget-alloc { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 5px; }
+  .alloc-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── BUSINESS CARDS GRID ─────────────────── */
+  .businesses-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 16px; }
+  .section-title { font-size: 20px; font-weight: 700; }
+  .section-sub { font-size: 12px; color: var(--muted); }
+  .businesses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 36px; }
+
+  .biz-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; cursor: pointer; }
+  .biz-card:hover { border-color: rgba(0,212,255,0.4); box-shadow: 0 6px 20px rgba(0,212,255,0.06); }
+  .biz-card.status-live    { border-top: 2px solid var(--green); }
+  .biz-card.status-growing { border-top: 2px solid var(--cyan); }
+  .biz-card.status-building{ border-top: 2px solid var(--amber); }
+  .biz-card.status-paused  { border-top: 2px solid var(--dim); }
+  .biz-card.status-planned { border-top: 2px solid var(--dim); opacity: 0.7; }
+
+  .biz-header { padding: 16px 16px 12px; }
+  .biz-top    { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .biz-name   { font-size: 16px; font-weight: 700; line-height: 1.2; }
+  .biz-status { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; flex-shrink: 0; }
+  .biz-status.status-live    { background: rgba(0,255,136,0.15); color: var(--green); border: 1px solid rgba(0,255,136,0.3); }
+  .biz-status.status-growing { background: rgba(0,212,255,0.15); color: var(--cyan);  border: 1px solid rgba(0,212,255,0.3); }
+  .biz-status.status-building{ background: rgba(255,184,0,0.15);  color: var(--amber); border: 1px solid rgba(255,184,0,0.3); }
+  .biz-status.status-paused  { background: rgba(74,74,106,0.3);   color: var(--muted); border: 1px solid var(--border); }
+  .biz-status.status-planned { background: rgba(74,74,106,0.3);   color: var(--muted); border: 1px solid var(--border); }
+  .biz-type   { font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; }
+  .biz-tagline{ font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  .biz-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border-top: 1px solid var(--border); }
+  .biz-metric  { background: var(--surface2); padding: 12px 14px; }
+  .biz-metric-label { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 3px; }
+  .biz-metric-val   { font-size: 20px; font-weight: 700; }
+  .biz-metric-val.positive { color: var(--green); }
+  .biz-metric-val.zero     { color: var(--dim); }
+
+  .biz-progress-section { padding: 12px 16px 14px; }
+  .biz-progress-head { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 10px; color: var(--muted); }
+  .biz-progress-head span:last-child { color: var(--text); }
+  .biz-track { height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+  .biz-fill   { height: 100%; border-radius: 3px; transition: width 1s ease; }
+
+  .biz-last-update { padding: 0 16px 12px; font-size: 11px; color: var(--dim); display: flex; align-items: center; gap: 5px; }
+
+  /* ── LOG ───────────────────────────────────── */
+  .log-section { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 24px; margin-bottom: 32px; }
+  .log-title  { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+  .log-empty  { font-size: 13px; color: var(--dim); text-align: center; padding: 24px; }
+  .log-entries{ display: flex; flex-direction: column; gap: 0; }
+  .log-entry  { display: flex; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .log-entry:last-child { border-bottom: none; }
+  .log-dot-col { display: flex; flex-direction: column; align-items: center; padding-top: 4px; flex-shrink: 0; }
+  .log-dot    { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .log-line   { flex: 1; width: 1px; background: var(--border); margin-top: 4px; }
+  .log-content{ flex: 1; }
+  .log-header { display: flex; align-items: baseline; gap: 10px; margin-bottom: 3px; flex-wrap: wrap; }
+  .log-biz    { font-size: 12px; font-weight: 600; }
+  .log-date   { font-size: 11px; color: var(--muted); }
+  .log-delta  { font-size: 12px; font-weight: 700; }
+  .log-delta.positive { color: var(--green); }
+  .log-delta.zero     { color: var(--muted); }
+  .log-note   { font-size: 12px; color: var(--muted); line-height: 1.4; }
+
+  /* ── CAT COLOURS ──────────────────────────── */
+  .cat-NWL { color: var(--cyan); }
+  .cat-KDP { color: var(--purple); }
+  .cat-ETY { color: #ff6b9d; }
+  .cat-SAS { color: #ff9900; }
+  .cat-AFF { color: var(--amber); }
+  .cat-EDU { color: #34d399; }
+  .cat-SUB { color: var(--green); }
+
+  .fill-NWL { background: var(--cyan); }
+  .fill-KDP { background: var(--purple); }
+  .fill-ETY { background: #ff6b9d; }
+  .fill-SAS { background: #ff9900; }
+  .fill-AFF { background: var(--amber); }
+  .fill-EDU { background: #34d399; }
+  .fill-SUB { background: var(--green); }
+
+  /* ── DETAIL OVERLAY ──────────────────────── */
+  .detail-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 200; align-items: center; justify-content: center; }
+  .detail-overlay.open { display: flex; }
+  .detail-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 28px; max-width: 540px; width: 90%; max-height: 90vh; overflow-y: auto; }
+  .detail-close { float: right; background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; }
+  .detail-log-list { margin-top: 16px; display: flex; flex-direction: column; gap: 10px; }
+  .detail-log-item { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .detail-log-date { font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+  .detail-log-note { font-size: 13px; line-height: 1.5; }
+  .detail-log-delta { font-size: 13px; font-weight: 700; margin-top: 4px; }
+  .detail-log-delta.positive { color: var(--green); }
+
+  /* ── RESPONSIVE ───────────────────────────── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr 1fr; }
+    .main { padding: 16px; }
+    .hdr { padding: 12px 16px; }
+  }
+  @media (max-width: 500px) {
+    .hero { grid-template-columns: 1fr 1fr; }
+    .hero-val { font-size: 26px; }
+  }
+
+  /* ── SCANNER ANIMATION ───────────────────── */
+  @keyframes countUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .animate-in { animation: countUp 0.5s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-logo">
+    <span class="hdr-claw">🦀</span>
+    <div>
+      <div class="hdr-title">OPENCLAW REVENUE</div>
+      <div class="hdr-sub">Autonomous AI Businesses</div>
+    </div>
+  </div>
+  <div class="live-pill"><div class="live-dot"></div> LIVE</div>
+  <div class="hdr-meta">
+    Last updated by <span id="updated-by">—</span><br>
+    <span id="last-updated-display">—</span>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- HERO STATS -->
+  <div class="hero" id="hero-stats"></div>
+
+  <!-- BUDGET BAR -->
+  <div class="budget-section" id="budget-section"></div>
+
+  <!-- BUSINESSES -->
+  <div class="businesses-head">
+    <div>
+      <div class="section-title">The Businesses</div>
+      <div class="section-sub" id="businesses-sub"></div>
+    </div>
+  </div>
+  <div class="businesses-grid" id="businesses-grid"></div>
+
+  <!-- ACTIVITY LOG -->
+  <div class="log-section">
+    <div class="log-title">Activity Log</div>
+    <div id="activity-log"></div>
+  </div>
+
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <button class="detail-close" onclick="closeDetail()">✕</button>
+    <div id="detail-content"></div>
+  </div>
+</div>
+
+<script>
+const CAT_LABELS = { NWL:'Newsletter', KDP:'KDP Publishing', ETY:'Etsy Digital', SAS:'Micro-SaaS', AFF:'Affiliate', EDU:'Email Course', SUB:'Subscription' };
+
+function fmt(n, decimals = 2) {
+  if (n === 0) return '£0';
+  return '£' + Number(n).toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function fmtShort(n) {
+  if (n >= 1000) return '£' + (n/1000).toFixed(1) + 'k';
+  return fmt(n, 0);
+}
+
+function timeAgo(iso) {
+  if (!iso) return 'never';
+  const d = new Date(iso), now = new Date();
+  const mins = Math.floor((now - d) / 60000);
+  if (mins < 1)   return 'just now';
+  if (mins < 60)  return mins + 'm ago';
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24)   return hrs + 'h ago';
+  const days = Math.floor(hrs / 24);
+  if (days < 7)   return days + 'd ago';
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+}
+
+function shortDate(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+}
+
+function progressColor(pct) {
+  if (pct >= 80) return 'var(--green)';
+  if (pct >= 40) return 'var(--cyan)';
+  if (pct >= 10) return 'var(--amber)';
+  return 'var(--border)';
+}
+
+// ── Render ────────────────────────────────────────────────────────────────
+let DATA = null;
+
+function render(data) {
+  DATA = data;
+  const meta = data.meta;
+  const businesses = data.businesses;
+
+  // Header meta
+  document.getElementById('updated-by').textContent = meta.updated_by || 'Taleb';
+  document.getElementById('last-updated-display').textContent = timeAgo(meta.last_updated);
+
+  // Totals
+  const totalRevenue  = businesses.reduce((s, b) => s + (b.revenue_total || 0), 0);
+  const totalBudget   = meta.budget_total || 100;
+  const totalSpent    = businesses.reduce((s, b) => s + (b.budget_spent || 0), 0);
+  const totalTarget   = businesses.reduce((s, b) => s + (b.target_year || 0), 0);
+  const liveCount     = businesses.filter(b => b.status === 'live' || b.status === 'growing').length;
+  const startDate     = new Date(meta.mission_start);
+  const daysSince     = Math.floor((new Date() - startDate) / 86400000);
+
+  // Mission start
+  const startMs = new Date(meta.mission_start).getTime();
+  const endMs   = startMs + 365 * 24 * 3600 * 1000;
+  const progressPct = Math.min(100, Math.floor((Date.now() - startMs) / (endMs - startMs) * 100));
+
+  // Hero cards
+  document.getElementById('hero-stats').innerHTML = `
+    <div class="hero-card primary animate-in">
+      <div class="hero-label">Total Earned</div>
+      <div class="hero-val">${fmt(totalRevenue)}</div>
+      <div class="hero-sub">across ${businesses.length} ventures</div>
+    </div>
+    <div class="hero-card animate-in" style="animation-delay:0.07s">
+      <div class="hero-label">Budget Remaining</div>
+      <div class="hero-val" style="color:var(--amber)">£${(totalBudget - totalSpent).toFixed(2)}</div>
+      <div class="hero-sub">of £${totalBudget} seed capital</div>
+    </div>
+    <div class="hero-card animate-in" style="animation-delay:0.14s">
+      <div class="hero-label">Active Businesses</div>
+      <div class="hero-val" style="color:var(--cyan)">${liveCount}</div>
+      <div class="hero-sub">${businesses.length - liveCount} still building</div>
+    </div>
+    <div class="hero-card animate-in" style="animation-delay:0.21s">
+      <div class="hero-label">Mission Day</div>
+      <div class="hero-val" style="color:var(--purple)">${daysSince}</div>
+      <div class="hero-sub">of 365 · ${progressPct}% through year</div>
+    </div>
+  `;
+
+  // Budget bar
+  const spentPct = Math.min(100, (totalSpent / totalBudget * 100));
+  const allocColors = { NWL:'var(--cyan)', KDP:'var(--purple)', ETY:'#ff6b9d', SAS:'#ff9900', AFF:'var(--amber)', EDU:'#34d399', SUB:'var(--green)' };
+  const allocHtml = businesses.map(b =>
+    `<div class="budget-alloc"><div class="alloc-dot" style="background:${allocColors[b.cat]||'#888'}"></div>${b.name}: £${b.budget_allocated || 0} allocated${b.budget_spent > 0 ? ' · £' + b.budget_spent + ' spent' : ''}</div>`
+  ).join('');
+
+  document.getElementById('budget-section').innerHTML = `
+    <div class="budget-head">
+      <div class="budget-title">💷 Seed Budget — £${totalBudget}</div>
+      <div class="budget-nums">£${totalSpent} spent · <strong>£${(totalBudget - totalSpent).toFixed(2)} remaining</strong></div>
+    </div>
+    <div class="budget-track"><div class="budget-fill" style="width:${spentPct}%"></div></div>
+    <div class="budget-allocations">${allocHtml}</div>
+  `;
+
+  // Businesses subtitle
+  const totalMonthly = businesses.reduce((s,b) => s + (b.revenue_this_month||0), 0);
+  document.getElementById('businesses-sub').textContent =
+    `${fmt(totalMonthly)} this month · year target ${fmtShort(totalTarget)}`;
+
+  // Business cards
+  document.getElementById('businesses-grid').innerHTML = businesses.map(biz => {
+    const rev   = biz.revenue_total || 0;
+    const mon   = biz.revenue_this_month || 0;
+    const tgt   = biz.target_monthly || 1;
+    const pct   = Math.min(100, Math.round(mon / tgt * 100));
+    const lastLog = biz.log && biz.log.length ? biz.log[biz.log.length - 1] : null;
+    const lastNote = lastLog ? lastLog.note : 'No updates yet';
+    const lastTime = lastLog ? timeAgo(lastLog.date) : '—';
+
+    const extraMetric = biz.subscribers_free !== undefined
+      ? `<div class="biz-metric"><div class="biz-metric-label">Free Subs</div><div class="biz-metric-val ${biz.subscribers_free > 0 ? 'positive' : 'zero'}">${biz.subscribers_free || 0}</div></div>
+         <div class="biz-metric"><div class="biz-metric-label">Paid Subs</div><div class="biz-metric-val ${biz.subscribers_paid > 0 ? 'positive' : 'zero'}">${biz.subscribers_paid || 0}</div></div>`
+      : biz.titles_live !== undefined
+      ? `<div class="biz-metric"><div class="biz-metric-label">Titles Live</div><div class="biz-metric-val ${biz.titles_live > 0 ? 'positive' : 'zero'}">${biz.titles_live || 0}</div></div>
+         <div class="biz-metric"><div class="biz-metric-label">Launched</div><div class="biz-metric-val zero" style="font-size:12px">${biz.launched ? shortDate(biz.launched) : '—'}</div></div>`
+      : biz.listings_live !== undefined
+      ? `<div class="biz-metric"><div class="biz-metric-label">Listings</div><div class="biz-metric-val ${biz.listings_live > 0 ? 'positive' : 'zero'}">${biz.listings_live || 0}</div></div>
+         <div class="biz-metric"><div class="biz-metric-label">Launched</div><div class="biz-metric-val zero" style="font-size:12px">${biz.launched ? shortDate(biz.launched) : '—'}</div></div>`
+      : `<div class="biz-metric"><div class="biz-metric-label">Users</div><div class="biz-metric-val ${(biz.users||0) > 0 ? 'positive' : 'zero'}">${biz.users || 0}</div></div>
+         <div class="biz-metric"><div class="biz-metric-label">Launched</div><div class="biz-metric-val zero" style="font-size:12px">${biz.launched ? shortDate(biz.launched) : '—'}</div></div>`;
+
+    return `
+    <div class="biz-card status-${biz.status}" onclick="openDetail('${biz.id}')">
+      <div class="biz-header">
+        <div class="biz-top">
+          <div class="biz-name">${biz.name}</div>
+          <div class="biz-status status-${biz.status}">${biz.status}</div>
+        </div>
+        <div class="biz-type cat-${biz.cat}">${CAT_LABELS[biz.cat] || biz.type}</div>
+        <div class="biz-tagline">${biz.tagline}</div>
+      </div>
+      <div class="biz-metrics">
+        <div class="biz-metric">
+          <div class="biz-metric-label">Total Earned</div>
+          <div class="biz-metric-val ${rev > 0 ? 'positive' : 'zero'}">${fmt(rev)}</div>
+        </div>
+        <div class="biz-metric">
+          <div class="biz-metric-label">This Month</div>
+          <div class="biz-metric-val ${mon > 0 ? 'positive' : 'zero'}">${fmt(mon)}</div>
+        </div>
+        ${extraMetric}
+      </div>
+      <div class="biz-progress-section">
+        <div class="biz-progress-head">
+          <span>Monthly target progress</span>
+          <span>${pct}% of ${fmt(tgt, 0)}/mo</span>
+        </div>
+        <div class="biz-track"><div class="biz-fill fill-${biz.cat}" style="width:${pct}%;background:${progressColor(pct)}"></div></div>
+      </div>
+      <div class="biz-last-update">🕐 ${lastTime} — ${lastNote}</div>
+    </div>`;
+  }).join('');
+
+  // Activity log — collect all log entries, sort by date desc
+  const allEntries = [];
+  businesses.forEach(biz => {
+    (biz.log || []).forEach(entry => {
+      allEntries.push({ ...entry, biz_name: biz.name, biz_cat: biz.cat });
+    });
+  });
+  allEntries.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+  const logEl = document.getElementById('activity-log');
+  if (!allEntries.length) {
+    logEl.innerHTML = '<div class="log-empty">No activity yet. Taleb is working on it.</div>';
+  } else {
+    const dotColors = { NWL:'var(--cyan)', KDP:'var(--purple)', ETY:'#ff6b9d', SAS:'#ff9900', AFF:'var(--amber)', EDU:'#34d399', SUB:'var(--green)' };
+    logEl.innerHTML = '<div class="log-entries">' + allEntries.map((e, i) => `
+      <div class="log-entry">
+        <div class="log-dot-col">
+          <div class="log-dot" style="background:${dotColors[e.biz_cat]||'#888'}"></div>
+          ${i < allEntries.length - 1 ? '<div class="log-line"></div>' : ''}
+        </div>
+        <div class="log-content">
+          <div class="log-header">
+            <span class="log-biz cat-${e.biz_cat}">${e.biz_name}</span>
+            <span class="log-date">${shortDate(e.date)}</span>
+            ${(e.revenue_delta||0) > 0
+              ? `<span class="log-delta positive">+${fmt(e.revenue_delta)}</span>`
+              : (e.revenue_delta||0) < 0
+              ? `<span class="log-delta" style="color:var(--red)">${fmt(e.revenue_delta)}</span>`
+              : '<span class="log-delta zero">update</span>'}
+          </div>
+          <div class="log-note">${e.note}</div>
+        </div>
+      </div>
+    `).join('') + '</div>';
+  }
+}
+
+// ── Detail overlay ────────────────────────────────────────────────────────
+function openDetail(id) {
+  if (!DATA) return;
+  const biz = DATA.businesses.find(b => b.id === id);
+  if (!biz) return;
+  const log = biz.log || [];
+  document.getElementById('detail-content').innerHTML = `
+    <div style="margin-bottom:20px">
+      <div class="biz-type cat-${biz.cat}" style="margin-bottom:6px">${CAT_LABELS[biz.cat]||biz.type}</div>
+      <div style="font-size:22px;font-weight:800;margin-bottom:6px">${biz.name}</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.5">${biz.tagline}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Total Earned</div>
+        <div style="font-size:24px;font-weight:800;color:var(--green)">${fmt(biz.revenue_total||0)}</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Year Target</div>
+        <div style="font-size:24px;font-weight:800;color:var(--amber)">${fmtShort(biz.target_year||0)}</div>
+      </div>
+    </div>
+    <div style="font-size:14px;font-weight:600;margin-bottom:12px">Update Log ${log.length ? '('+log.length+')' : ''}</div>
+    ${!log.length
+      ? '<div style="font-size:13px;color:var(--dim);text-align:center;padding:20px">No updates yet</div>'
+      : '<div class="detail-log-list">' + [...log].reverse().map(e => `
+        <div class="detail-log-item">
+          <div class="detail-log-date">${shortDate(e.date)}</div>
+          <div class="detail-log-note">${e.note}</div>
+          ${(e.revenue_delta||0) !== 0 ? `<div class="detail-log-delta ${e.revenue_delta > 0 ? 'positive' : ''}">${e.revenue_delta > 0 ? '+' : ''}${fmt(e.revenue_delta)}</div>` : ''}
+        </div>
+      `).join('') + '</div>'
+    }
+  `;
+  document.getElementById('detail-overlay').classList.add('open');
+}
+
+function closeDetail(e) {
+  if (!e || e.target === document.getElementById('detail-overlay')) {
+    document.getElementById('detail-overlay').classList.remove('open');
+  }
+}
+
+// ── Load data ─────────────────────────────────────────────────────────────
+async function loadData() {
+  try {
+    const res = await fetch('/data/businesses.json?_=' + Date.now());
+    if (!res.ok) throw new Error('fetch failed');
+    render(await res.json());
+  } catch (e) {
+    document.querySelector('.main').innerHTML =
+      '<div style="text-align:center;padding:80px;color:var(--muted)">Could not load data — ' + e.message + '</div>';
+  }
+}
+
+loadData();
+// Refresh every 60 seconds so a Netlify rebuild shows up automatically
+setInterval(loadData, 60000);
+</script>
+</body>
+</html>
