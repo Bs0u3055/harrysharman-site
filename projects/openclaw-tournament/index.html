@@ -308,6 +308,31 @@
   @keyframes bFlash { 0%,100%{opacity:1} 50%{opacity:0.3} }
   .battle-overlay.flash-win { animation: bFlash 0.15s ease 2; }
 
+  /* ── SIMULATION ENGINE ──────────────────────────────────── */
+  .sim-badge { display:flex; flex-direction:column; align-items:flex-end; gap:2px; margin-left:auto; padding-right:8px; cursor:default; }
+  .sim-count { font-size:11px; font-weight:700; color:var(--text); letter-spacing:1px; }
+  .sim-cal   { font-size:9px;  color:var(--green); letter-spacing:2px; text-transform:uppercase; }
+
+  /* ── FACTOR BREAKDOWN in battle overlay ─────────────────── */
+  .b-factors-panel { width:100%; max-width:540px; margin:16px auto 0; z-index:1; opacity:0; transition:opacity 0.5s; }
+  .b-factors-panel.vis { opacity:1; }
+  .b-factor-row { display:grid; grid-template-columns:68px 1fr 52px 1fr 14px; align-items:center; gap:5px; margin-bottom:8px; }
+  .b-flabel { font-size:8px; text-transform:uppercase; letter-spacing:1px; color:var(--text-dim); text-align:right; white-space:nowrap; }
+  .b-fbar-wrap { height:4px; border-radius:2px; background:rgba(255,255,255,0.05); overflow:hidden; }
+  .b-fbar-a { background:var(--green); height:100%; width:0; transition:width 0.9s cubic-bezier(.4,0,.2,1); }
+  .b-fbar-b { background:var(--cyan);  height:100%; width:0; transition:width 0.9s cubic-bezier(.4,0,.2,1); }
+  .b-fscores { font-size:9px; color:var(--text-dim); text-align:center; font-weight:600; }
+  .b-fwin { font-size:10px; text-align:center; opacity:0; transition:opacity 0.3s; }
+  .b-fwin.vis { opacity:1; }
+  .b-fwin.a { color:var(--green); }
+  .b-fwin.b { color:var(--cyan); }
+  .b-conv-line { font-size:8px; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); text-align:center; margin-top:12px; opacity:0; transition:opacity 0.5s; }
+  .b-conv-line.vis { opacity:1; }
+
+  /* ── WIN RATE on idea cards ──────────────────────────────── */
+  .win-rate-tag { font-size:9px; color:var(--text-dim); margin-top:2px; }
+  .win-rate-tag.hot { color:var(--green); }
+
 
   /* ─── VOTING ─── */
   .idea-bottom-row { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
@@ -359,6 +384,7 @@
       <div class="logo-sub">£100 Startup Tournament</div>
     </div>
   </div>
+  <div id="sim-badge" class="sim-badge"><span class="sim-count">SIM #1</span><span class="sim-cal">0% CALIBRATED</span></div>
   <div class="nav-tabs">
     <button class="nav-tab active" onclick="showPhase(1)" id="tab-1">① Brief</button>
     <button class="nav-tab locked" onclick="showPhase(2)" id="tab-2">② 100 Ideas</button>
@@ -767,6 +793,14 @@ const SCORE_META = [
   { key: 'niche',    label: 'Low Competition',    color: '#ef4444' },
 ];
 
+const BATTLE_FACTORS = [
+  { key: 'revenue',  label: 'Revenue',    weight: 0.30 },
+  { key: 'market',   label: 'Market Fit', weight: 0.25 },
+  { key: 'autonomy', label: 'Autonomy',   weight: 0.20 },
+  { key: 'speed',    label: 'Execution',  weight: 0.15 },
+  { key: 'ai',       label: 'AI Power',   weight: 0.10 },
+];
+
 const CAT_LABELS = {
   KDP: 'KDP Publishing',
   ETY: 'Etsy Digital',
@@ -909,6 +943,7 @@ function finishRound(ri, winners) {
     tournamentState.finished = true;
     tournamentState.winner = winners[0];
     setBtns(false);
+    SimStore.increment();  // record completed simulation
     setTimeout(() => unlockAndGo(5), 1400);
   }
   renderBracket();
@@ -928,6 +963,9 @@ function showBattle(matchObj, ri, matchIdx, totalMatches, callback) {
   const isEpic   = ROUND_EPIC[ri];
   const a = matchObj.top, b = matchObj.bottom;
   const winner = matchObj.winner, loser = matchObj.loser;
+  const br = matchObj.br || null;
+  const fpanel = document.getElementById('b-factors-panel');
+  const fconv  = document.getElementById('b-conv-line');
 
   // Populate teams
   const fillTeam = (prefix, team) => {
@@ -943,6 +981,25 @@ function showBattle(matchObj, ri, matchIdx, totalMatches, callback) {
   };
   fillTeam('a', a);
   fillTeam('b', b);
+
+  // Populate factor breakdown panel
+  if (fpanel) {
+    fpanel.classList.remove('vis');
+    if (br) {
+      fpanel.innerHTML = br.factors.map(function(f, i) {
+        return '<div class="b-factor-row">'
+          + '<div class="b-flabel">' + f.label + '</div>'
+          + '<div class="b-fbar-wrap"><div class="b-fbar-a" id="bfa' + i + '"></div></div>'
+          + '<div class="b-fscores" id="bfs' + i + '">·</div>'
+          + '<div class="b-fbar-wrap"><div class="b-fbar-b" id="bfb' + i + '"></div></div>'
+          + '<div class="b-fwin" id="bfw' + i + '"></div>'
+          + '</div>';
+      }).join('');
+    } else {
+      fpanel.innerHTML = '';
+    }
+  }
+  if (fconv) { fconv.classList.remove('vis'); fconv.textContent = ''; }
 
   // Round label
   const roundLbl = document.getElementById('b-round-lbl');
@@ -970,18 +1027,28 @@ function showBattle(matchObj, ri, matchIdx, totalMatches, callback) {
   // Phase 2 — tension bar animates toward winner's probability
   setTimeout(() => {
     document.getElementById('b-status-txt').textContent = 'CALCULATING…';
-    const winIsA   = winner === a;
-    const totalSc  = a.tournamentScore + b.tournamentScore;
-    const probA    = a.tournamentScore / totalSc;
-    const probB    = 1 - probA;
-    const dispA    = Math.round(probA * 100);
-    const dispB    = 100 - dispA;
+    const winIsA = winner === a;
+    const probA  = br ? br.probA : a.tournamentScore / (a.tournamentScore + b.tournamentScore);
+    const dispA  = Math.round(probA * 100);
+    const dispB  = 100 - dispA;
     document.getElementById('b-tension-a').style.width = dispA + '%';
     document.getElementById('b-tension-b').style.width = dispB + '%';
     document.getElementById('b-prob-a').textContent    = dispA + '%';
     document.getElementById('b-prob-b').textContent    = dispB + '%';
     document.getElementById('b-prob-a').style.color    = winIsA ? 'var(--green)' : 'var(--text-dim)';
     document.getElementById('b-prob-b').style.color    = winIsA ? 'var(--text-dim)' : 'var(--green)';
+    // Animate factor bars
+    if (br && fpanel) {
+      fpanel.classList.add('vis');
+      br.factors.forEach(function(f, i) {
+        var barA = document.getElementById('bfa'+i);
+        var barB = document.getElementById('bfb'+i);
+        var sc   = document.getElementById('bfs'+i);
+        if (barA) barA.style.width = (f.scoreA/10*100).toFixed(0)+'%';
+        if (barB) barB.style.width = (f.scoreB/10*100).toFixed(0)+'%';
+        if (sc)   sc.textContent   = f.scoreA.toFixed(1)+' · '+f.scoreB.toFixed(1);
+      });
+    }
   }, p1);
 
   // Phase 3 — winner reveal
@@ -994,6 +1061,24 @@ function showBattle(matchObj, ri, matchIdx, totalMatches, callback) {
     document.getElementById(winIsA ? 'b-team-b' : 'b-team-a').classList.add('b-loser');
     document.getElementById('b-winner-name-txt').textContent = winner.name;
     document.getElementById('b-winner-reveal').classList.add('show');
+    // Factor win indicators + convergence line
+    if (br) {
+      br.factors.forEach(function(f, i) {
+        var fw = document.getElementById('bfw'+i);
+        if (fw) {
+          var aWon = f.winA;
+          fw.textContent = aWon ? (winIsA ? '▲' : '▽') : (winIsA ? '▽' : '▲');
+          fw.className   = 'b-fwin vis ' + (aWon ? 'a' : 'b');
+        }
+      });
+      if (fconv) {
+        var winsForWinner = br.factors.filter(function(f){ return winIsA ? f.winA : !f.winA; }).length;
+        fconv.textContent = winner.name.split(' ')[0] + ' won ' + winsForWinner + '/5 factors'
+          + ' · ±' + br.noise.toFixed(1) + ' noise'
+          + ' · ' + br.convergence + '% calibrated';
+        fconv.classList.add('vis');
+      }
+    }
     if (isEpic) {
       const scan = document.createElement('div');
       scan.className = 'b-scan';
@@ -1009,6 +1094,36 @@ function showBattle(matchObj, ri, matchIdx, totalMatches, callback) {
   }, duration);
 }
 
+function rollBattle(a, b) {
+  const noise = SimStore.getNoise();
+  const factors = BATTLE_FACTORS.map(f => {
+    const sA = Math.max(1, Math.min(10, a[f.key] + (Math.random() - 0.5) * noise * 2));
+    const sB = Math.max(1, Math.min(10, b[f.key] + (Math.random() - 0.5) * noise * 2));
+    return { key: f.key, label: f.label, weight: f.weight, scoreA: sA, scoreB: sB, winA: sA >= sB };
+  });
+  const totA = factors.reduce((s, f) => s + f.scoreA * f.weight, 0);
+  const totB = factors.reduce((s, f) => s + f.scoreB * f.weight, 0);
+
+  // Bayesian blend: as history accumulates, trust win-rate more than raw score
+  const recA = SimStore.getRecord(a.id), recB = SimStore.getRecord(b.id);
+  const hist = recA.total + recB.total;
+  const hw   = Math.min(hist / 50, 0.45);  // up to 45% weight after 50+ battles
+  let probA  = totA / (totA + totB);
+  if (recA.rate !== null && recB.rate !== null && hist >= 4) {
+    const rA = recA.rate + 0.01, rB = recB.rate + 0.01;
+    probA = (1 - hw) * probA + hw * (rA / (rA + rB));
+  }
+
+  const winnerA = totA >= totB;
+  return {
+    factors, totA, totB, probA, winnerA,
+    winner: winnerA ? a : b,
+    loser:  winnerA ? b : a,
+    noise,
+    convergence: SimStore.getConvergence(),
+  };
+}
+
 function runRound(autoAdvance) {
   if (_tournamentRunning) return;
   if (!tournamentState) initTournament();
@@ -1021,13 +1136,13 @@ function runRound(autoAdvance) {
   setBtns(false);
   applyMarketEvent(ri);
 
-  // Pre-compute all match results for this round
+  // Pre-compute all match results using multi-factor simulation
   const results = round.matches.map(match => {
     const { top: a, bottom: b } = match;
-    if (!a || !b) return { match, winner: a || b, loser: null };
-    const probA = a.tournamentScore / (a.tournamentScore + b.tournamentScore);
-    const r = Math.random();
-    return { match, winner: r < probA ? a : b, loser: r < probA ? b : a };
+    if (!a || !b) return { match, winner: a || b, loser: null, br: null };
+    const br = rollBattle(a, b);
+    SimStore.recordBattle(br.winner.id, br.loser.id);
+    return { match, winner: br.winner, loser: br.loser, br };
   });
 
   const total = results.length;
@@ -1041,9 +1156,10 @@ function runRound(autoAdvance) {
       }
       return;
     }
-    const { match, winner, loser } = results[idx];
+    const { match, winner, loser, br } = results[idx];
     match.winner = winner;
     match.loser  = loser;
+    match.br     = br;
     tournamentState.log.push({ winner: winner.name, loser: loser ? loser.name : '—', round: round.name });
 
     const i = idx; idx++;
@@ -1384,6 +1500,7 @@ function renderIdeas() {
             <div>
               <div class="idea-total-score">${idea.score.toFixed(1)}</div>
               <div class="idea-score-label">score</div>
+              ${wRateTag(idea.id)}
             </div>
             <div style="text-align:right">
               <div style="font-size:11px;color:var(--text-dim)">Rank</div>
@@ -1619,6 +1736,60 @@ const VoteStore = (() => {
   };
 })();
 
+// =====================================================
+// SIMULATION ENGINE — tracks runs, noise decay, battle history
+// =====================================================
+const SimStore = (() => {
+  const KEY = 'oc_sim_v1';
+  function _load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch(e) { return {}; } }
+  function _save(d) { localStorage.setItem(KEY, JSON.stringify(d)); }
+  return {
+    getCount()   { return _load().count || 0; },
+    increment()  { const d=_load(); d.count=(d.count||0)+1; _save(d); updateSimBadge(); },
+    getNoise()   { return Math.max(0.4, 3.0 * Math.pow(0.97, this.getCount())); },
+    getConvergence() {
+      const n = this.getNoise();
+      return Math.round(Math.min(100, ((3.0 - n) / 2.6) * 100));
+    },
+    getRecord(id) {
+      const b = (_load().battles || {})[String(id)];
+      if (!b) return { wins:0, losses:0, total:0, rate:null };
+      const t = b.w + b.l;
+      return { wins:b.w, losses:b.l, total:t, rate: t > 0 ? b.w/t : null };
+    },
+    recordBattle(wId, lId) {
+      const d = _load();
+      if (!d.battles) d.battles = {};
+      const ws = String(wId), ls = String(lId);
+      if (!d.battles[ws]) d.battles[ws] = {w:0,l:0};
+      if (!d.battles[ls]) d.battles[ls] = {w:0,l:0};
+      d.battles[ws].w++; d.battles[ls].l++;
+      _save(d);
+    },
+    reset() { localStorage.removeItem(KEY); },
+  };
+})();
+
+function updateSimBadge() {
+  const el = document.getElementById('sim-badge');
+  if (!el) return;
+  const n = SimStore.getCount();
+  const c = SimStore.getConvergence();
+  const noise = SimStore.getNoise();
+  el.innerHTML = '<span class="sim-count">SIM #' + (n + 1) + '</span>'
+    + '<span class="sim-cal">' + (c >= 95 ? '⚡ CONVERGED' : c + '% CALIBRATED') + '</span>';
+  el.title = n + ' simulations run · noise ±' + noise.toFixed(2) + ' · ' + c + '% calibrated';
+}
+
+// Returns win-rate badge HTML for an idea card (empty string if no data)
+function wRateTag(id) {
+  const r = SimStore.getRecord(id);
+  if (r.total < 2) return '';
+  const pct = Math.round(r.rate * 100);
+  return '<div class="win-rate-tag' + (pct >= 60 ? ' hot' : '') + '">'
+    + pct + '% win (' + r.total + ' battles)</div>';
+}
+
 // whether ideas are currently sorted by votes
 let _sortByVotes = false;
 
@@ -1683,6 +1854,7 @@ function unlockAndGo(n) {
 document.addEventListener('DOMContentLoaded', () => {
   renderIdeas();
   updateVoteSummary();
+  updateSimBadge();
 });
 </script>
 
@@ -1721,6 +1893,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </div>
 
+  <div id="b-factors-panel" class="b-factors-panel"></div>
   <div class="b-status-row">
     <div class="b-status-txt" id="b-status-txt">ANALYSING…</div>
     <div class="b-winner-reveal" id="b-winner-reveal">
@@ -1728,6 +1901,7 @@ document.addEventListener('DOMContentLoaded', () => {
       <div class="b-winner-name-txt" id="b-winner-name-txt"></div>
     </div>
   </div>
+  <div class="b-conv-line" id="b-conv-line"></div>
 </div>
 
 <!-- STICKY BAR -->
