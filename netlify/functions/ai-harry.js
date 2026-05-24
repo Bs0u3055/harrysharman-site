@@ -110,7 +110,7 @@ When a conversation has been productive and the person seems genuinely engaged, 
 
 exports.handler = async (event, context) => {
     const headers = {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': 'https://harrysharman.com',
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json',
@@ -128,8 +128,14 @@ exports.handler = async (event, context) => {
         const body = JSON.parse(event.body || '{}');
         const { message, history = [] } = body;
 
-        if (!message) {
+        if (!message || typeof message !== 'string') {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Message is required' }) };
+        }
+        if (message.length > 2000) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Message too long' }) };
+        }
+        if (!Array.isArray(history) || history.length > 40) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'History too long' }) };
         }
 
         const openaiApiKey = process.env.OPENAI_API_KEY;
@@ -143,7 +149,7 @@ exports.handler = async (event, context) => {
         // Build message history (exclude last item if it's already the current message)
         const pastMessages = history
             .filter((_, i) => !(i === history.length - 1 && history[history.length-1].role === 'user' && history[history.length-1].content === message))
-            .map(msg => ({ role: msg.role || 'user', content: msg.content || '' }));
+            .map(msg => ({ role: msg.role === 'assistant' ? 'assistant' : 'user', content: String(msg.content || '').slice(0, 2000) }));
 
         const data = await openAIRequest(openaiApiKey, {
             model: 'gpt-4-turbo',
@@ -161,6 +167,6 @@ exports.handler = async (event, context) => {
 
     } catch (error) {
         console.error('Handler error:', error);
-        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Internal server error', detail: error.message }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Internal server error' }) };
     }
 };
