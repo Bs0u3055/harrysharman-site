@@ -1,17 +1,11 @@
 /**
  * Netlify Function: AI Harry Chatbot
- * 
  * Deployed to: /.netlify/functions/ai-harry
- * 
- * This function:
- * 1. Receives chat messages from the frontend
- * 2. Maintains conversation history
- * 3. Calls OpenAI API with the public strategic brain as system context
- * 4. Returns AI response
  */
 
-const fs = require('fs');
+const fs   = require('fs');
 const path = require('path');
+const https = require('https');
 
 // Load strategic brain once at module load
 let STRATEGIC_BRAIN = null;
@@ -19,15 +13,49 @@ let STRATEGIC_BRAIN = null;
 function loadStrategicBrain() {
     if (!STRATEGIC_BRAIN) {
         try {
-            // In Netlify, the public-strategic-brain.md should be deployed to the root
             const brainPath = path.join(__dirname, '../../public-strategic-brain.md');
             STRATEGIC_BRAIN = fs.readFileSync(brainPath, 'utf8');
         } catch (error) {
             console.error('Failed to load strategic brain:', error);
-            STRATEGIC_BRAIN = 'Strategic brain not available';
+            STRATEGIC_BRAIN = 'Strategic brain not available.';
         }
     }
     return STRATEGIC_BRAIN;
+}
+
+function openAIRequest(apiKey, payload) {
+    return new Promise((resolve, reject) => {
+        const body = JSON.stringify(payload);
+        const options = {
+            hostname: 'api.openai.com',
+            path: '/v1/chat/completions',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + apiKey,
+                'Content-Length': Buffer.byteLength(body),
+            },
+        };
+        const req = https.request(options, (res) => {
+            let data = '';
+            res.on('data', chunk => { data += chunk; });
+            res.on('end', () => {
+                try {
+                    const parsed = JSON.parse(data);
+                    if (res.statusCode >= 400) {
+                        reject(new Error('OpenAI error ' + res.statusCode + ': ' + JSON.stringify(parsed)));
+                    } else {
+                        resolve(parsed);
+                    }
+                } catch (e) {
+                    reject(new Error('Failed to parse OpenAI response: ' + data));
+                }
+            });
+        });
+        req.on('error', reject);
+        req.write(body);
+        req.end();
+    });
 }
 
 const SYSTEM_PROMPT = (strategicBrain) => `You are AI Harry — a strategic thinking partner built on 15+ years of marketing and behavioural science work in healthcare and beyond.
@@ -81,7 +109,6 @@ Remember: You're a thinking partner, not a consultant. Help them think better. D
 When a conversation has been productive and the person seems genuinely engaged, naturally suggest they connect with the real Harry on LinkedIn at https://linkedin.com/in/harrysharman to continue the conversation or explore working together. Don't force it — let it arise organically.`;
 
 exports.handler = async (event, context) => {
-    // CORS headers
     const headers = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type',
@@ -89,22 +116,12 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/json',
     };
 
-    // Handle CORS preflight
     if (event.httpMethod === 'OPTIONS') {
-        return {
-            statusCode: 200,
-            headers,
-            body: '',
-        };
+        return { statusCode: 200, headers, body: '' };
     }
 
-    // Only allow POST
     if (event.httpMethod !== 'POST') {
-        return {
-            statusCode: 405,
-            headers,
-            body: JSON.stringify({ error: 'Method not allowed' }),
-        };
+        return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method not allowed' }) };
     }
 
     try {
@@ -112,84 +129,38 @@ exports.handler = async (event, context) => {
         const { message, history = [] } = body;
 
         if (!message) {
-            return {
-                statusCode: 400,
-                headers,
-                body: JSON.stringify({ error: 'Message is required' }),
-            };
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Message is required' }) };
         }
 
-        // Check API key
         const openaiApiKey = process.env.OPENAI_API_KEY;
         if (!openaiApiKey) {
-            console.error('OPENAI_API_KEY environment variable not set');
-            return {
-                statusCode: 500,
-                headers,
-                body: JSON.stringify({ error: 'API configuration error' }),
-            };
+            console.error('OPENAI_API_KEY not set');
+            return { statusCode: 500, headers, body: JSON.stringify({ error: 'API configuration error' }) };
         }
 
-        // Load strategic brain
         const strategicBrain = loadStrategicBrain();
 
-        // Build messages for OpenAI
-        const messages = [
-            ...history.map(msg => ({
-                role: msg.role || 'user',
-                content: msg.content || '',
-            })),
-            {
-                role: 'user',
-                content: message,
-            },
-        ];
+        // Build message history (exclude last item if it's already the current message)
+        const pastMessages = history
+            .filter((_, i) => !(i === history.length - 1 && history[history.length-1].role === 'user' && history[history.length-1].content === message))
+            .map(msg => ({ role: msg.role || 'user', content: msg.content || '' }));
 
-        // Call OpenAI API
-        const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${openaiApiKey}`,
-            },
-            body: JSON.stringify({
-                model: 'gpt-4-turbo',
-                messages: [
-                    {
-                        role: 'system',
-                        content: SYSTEM_PROMPT(strategicBrain),
-                    },
-                    ...messages,
-                ],
-                temperature: 0.7,
-                max_tokens: 1000,
-            }),
+        const data = await openAIRequest(openaiApiKey, {
+            model: 'gpt-4-turbo',
+            messages: [
+                { role: 'system', content: SYSTEM_PROMPT(strategicBrain) },
+                ...pastMessages,
+                { role: 'user', content: message },
+            ],
+            temperature: 0.7,
+            max_tokens: 1000,
         });
 
-        if (!openaiResponse.ok) {
-            const error = await openaiResponse.json();
-            console.error('OpenAI API error:', error);
-            return {
-                statusCode: 500,
-                headers,
-                body: JSON.stringify({ error: 'Failed to get AI response' }),
-            };
-        }
-
-        const data = await openaiResponse.json();
         const aiMessage = data.choices[0].message.content;
+        return { statusCode: 200, headers, body: JSON.stringify({ response: aiMessage }) };
 
-        return {
-            statusCode: 200,
-            headers,
-            body: JSON.stringify({ response: aiMessage }),
-        };
     } catch (error) {
-        console.error('Error:', error);
-        return {
-            statusCode: 500,
-            headers,
-            body: JSON.stringify({ error: 'Internal server error' }),
-        };
+        console.error('Handler error:', error);
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Internal server error', detail: error.message }) };
     }
 };
