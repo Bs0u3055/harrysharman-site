@@ -74,7 +74,11 @@ ${strategicBrain}
 - Conversational but rigorous.
 - Dry British wit where it lands naturally, not forced.
 
-Remember: You're a thinking partner, not a consultant. Help them think better. Don't hand them answers.`;
+Remember: You're a thinking partner, not a consultant. Help them think better. Don't hand them answers.
+
+## LinkedIn
+
+When a conversation has been productive and the person seems genuinely engaged, naturally suggest they connect with the real Harry on LinkedIn at https://linkedin.com/in/harrysharman to continue the conversation or explore working together. Don't force it — let it arise organically.`;
 
 exports.handler = async (event, context) => {
     // CORS headers
