@@ -1,63 +1,14 @@
 [build]
-  command = "pip install -r requirements.txt -q && python3 scripts/generate-posts-json.py && python3 scripts/generate-static-pages.py"
-  publish = "/"
+  command = "echo 'Static site only'"
+  publish = "."
+  functions = "netlify/functions"
 
-# ── Redirect: old post.html?slug=X → /posts/X/ ────────────────────────────
 [[redirects]]
-  from   = "/post.html"
-  to     = "/posts/:slug/"
-  status = 301
-  [redirects.query]
-    slug = ":slug"
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
 
-# ── Cache: static assets ───────────────────────────────────────────────────
-[[headers]]
-  for = "/assets/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/css/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400, stale-while-revalidate=3600"
-
-[[headers]]
-  for = "/js/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400, stale-while-revalidate=3600"
-
-# ── Global security headers ────────────────────────────────────────────────
-# Applied to every response. More-specific rules below override per-header.
-[[headers]]
-  for = "/*"
-  [headers.values]
-    # Force HTTPS for 1 year; opt into browser preload list
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    # Block MIME-type sniffing (e.g. serving a script as text/plain)
-    X-Content-Type-Options = "nosniff"
-    # Belt-and-braces clickjacking guard (CSP frame-ancestors below is the modern version)
-    X-Frame-Options = "DENY"
-    # Don't leak full URL to third-party origins in the Referer header
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    # Disable browser APIs this site never uses
-    Permissions-Policy = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), bluetooth=(), interest-cohort=()"
-    # CSP — main site pages have NO inline scripts, so we can be strict here.
-    # script-src: self + two known CDNs only. No unsafe-inline. No eval.
-    # style-src: unsafe-inline required for style attributes in JS-rendered HTML.
-    # img-src: https: allows external images in blog post body content.
-    Content-Security-Policy = "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://identity.netlify.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://identity.netlify.com https://*.netlify.com; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests"
-
-# ── CMS admin: Decap CMS requires loosened script policy ──────────────────
-# unsafe-eval needed by the CMS editor internals.
-# connect-src wss: allows the live preview websocket.
-[[headers]]
-  for = "/admin/*"
-  [headers.values]
-    X-Frame-Options = "SAMEORIGIN"
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://identity.netlify.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https: wss:; frame-src 'self' https://identity.netlify.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self'; form-action 'self' https://*.netlify.com"
-
-# ── Tournament page: large inline JS block requires unsafe-inline ──────────
-[[headers]]
-  for = "/projects/openclaw-tournament/*"
-  [headers.values]
-    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; frame-src 'none'; frame-ancestors 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests"
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

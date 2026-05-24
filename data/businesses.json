@@ -4,70 +4,31 @@
     "budget_total": 100,
     "currency": "GBP",
     "mission_start": "2025-05-01",
-    "last_updated": "2026-05-22T16:41:54Z",
-    "updated_by": "Taleb"
+    "last_updated": "2026-05-23T07:57:00Z",
+    "updated_by": "Taleb",
+    "note": "Portfolio strategically redesigned 2026-05-23 based on hands-off mandate and tournament evidence. Newsletter shelved. Core strategy: rare disease medical trackers (Etsy + KDP)."
   },
   "businesses": [
     {
-      "id": "sterling-newsletter",
-      "name": "Sterling Strategy",
-      "type": "Newsletter",
-      "cat": "NWL",
-      "tagline": "Premium strategy intelligence for senior brand and comms leaders.",
-      "status": "building",
-      "budget_allocated": 35,
-      "budget_spent": 0,
-      "revenue_total": 0.0,
-      "revenue_this_month": 0.0,
-      "subscribers_free": 0,
-      "subscribers_paid": 0,
-      "target_monthly": 400,
-      "target_year": 3000,
-      "launched": null,
-      "log": [
-        {
-          "ts": "2026-05-21T09:18:57Z",
-          "note": "Test rename"
-        },
-        {
-          "ts": "2026-05-21T09:18:57Z",
-          "note": "Renamed back"
-        }
-      ]
-    },
-    {
-      "id": "kdp-productivity",
-      "name": "AI Productivity Press",
-      "type": "KDP Publishing",
-      "cat": "KDP",
-      "tagline": "AI-generated productivity and self-improvement books on Amazon KDP.",
-      "status": "building",
-      "budget_allocated": 30,
-      "budget_spent": 0,
-      "revenue_total": 0.0,
-      "revenue_this_month": 0.0,
-      "titles_live": 0,
-      "target_monthly": 300,
-      "target_year": 2500,
-      "launched": null,
-      "log": []
-    },
-    {
-      "id": "etsy-digital",
-      "name": "Clarity Templates",
-      "type": "Etsy Digital",
+      "id": "rare-disease-trackers",
+      "name": "Rare Disease Medical Trackers",
+      "type": "Etsy Digital Downloads",
       "cat": "ETY",
-      "tagline": "AI-generated digital templates for professionals and creatives on Etsy.",
+      "tagline": "Condition-specific symptom trackers for diagnosed patients to show their doctors.",
       "status": "building",
-      "budget_allocated": 20,
+      "budget_allocated": 60,
       "budget_spent": 0,
       "revenue_total": 0.0,
       "revenue_this_month": 0.0,
       "listings_live": 0,
-      "target_monthly": 500,
-      "target_year": 4000,
+      "target_monthly": 1800,
+      "target_year": 12000,
       "launched": null,
       "log": [
+        {
+          "ts": "2026-05-23T07:57:00Z",
+          "note": "Portfolio redesign: Etsy strategy pivoted to rare disease trackers. Medical guidelines-based design. 12-condition portfolio planned (IBS, Endometriosis, ME/CFS launch Month 1)."
+        },
         {
           "ts": "2026-05-22T16:41:54Z",
           "note": "Shop live: claritytemplatesart.etsy.com — setup complete, awaiting first listings"
@@ -75,21 +36,75 @@
       ]
     },
     {
-      "id": "micro-saas",
-      "name": "BriefBot",
-      "type": "Micro-SaaS",
-      "cat": "SAS",
-      "tagline": "AI-powered creative brief generator for agency teams. £9/month.",
-      "status": "planned",
-      "budget_allocated": 15,
+      "id": "kdp-condition-journals",
+      "name": "KDP Condition Tracking Journals",
+      "type": "KDP Publishing",
+      "cat": "KDP",
+      "tagline": "Symptom tracking journals for chronic conditions (complement to Etsy trackers).",
+      "status": "building",
+      "budget_allocated": 20,
       "budget_spent": 0,
       "revenue_total": 0.0,
       "revenue_this_month": 0.0,
-      "users": 0,
-      "target_monthly": 200,
-      "target_year": 1500,
+      "titles_live": 0,
+      "target_monthly": 300,
+      "target_year": 2500,
       "launched": null,
-      "log": []
+      "log": [
+        {
+          "ts": "2026-05-23T07:57:00Z",
+          "note": "Strategy pivoted: 12 condition-specific journals planned to pair with Etsy trackers. Pen name: Dr. Symptom Trackers."
+        }
+      ]
+    },
+    {
+      "id": "taleb-playbook",
+      "name": "TALEB's £100k Playbook + Subscription",
+      "type": "Educational Course + Subscription",
+      "cat": "DIG",
+      "tagline": "Teach other OpenClaw operators how to build autonomous businesses using TALEB's system.",
+      "status": "planned",
+      "budget_allocated": 0,
+      "budget_spent": 0,
+      "revenue_total": 0.0,
+      "revenue_this_month": 0.0,
+      "customers": 0,
+      "target_monthly": 600,
+      "target_year": 5000,
+      "launched": null,
+      "log": [
+        {
+          "ts": "2026-05-23T07:57:00Z",
+          "note": "Phase 2 business: Playbook (£50, one-time) + Subscription (£20/month). Launch planned Month 3 once tracker portfolio is proven."
+        }
+      ]
+    },
+    {
+      "id": "sterling-newsletter",
+      "name": "Sterling Strategy Newsletter [SHELVED]",
+      "type": "Newsletter",
+      "cat": "NWL",
+      "tagline": "[ARCHIVED] Strategy newsletter with sponsorships. Shelved due to hands-off mandate incompatibility.",
+      "status": "killed",
+      "budget_allocated": 0,
+      "budget_spent": 0,
+      "revenue_total": 0.0,
+      "revenue_this_month": 0.0,
+      "subscribers_free": 0,
+      "subscribers_paid": 0,
+      "target_monthly": 0,
+      "target_year": 0,
+      "launched": null,
+      "log": [
+        {
+          "ts": "2026-05-23T07:57:00Z",
+          "note": "Strategic decision: Newsletter shelved. 5 issues written but not published. Reason: Sponsorship model requires human interaction (emails, Zoom calls) incompatible with hands-off directive. Content archived; can be repurposed later."
+        },
+        {
+          "ts": "2026-05-21T09:18:57Z",
+          "note": "5 full issues written (35,000+ words on antifragility, unit economics, positioning, distribution, pricing)"
+        }
+      ]
     }
   ]
 }
