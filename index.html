@@ -296,8 +296,7 @@
     // Make URLs clickable
     out = out.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
     // Newlines to breaks
-    out = out.replace(/
-/g, '<br>');
+    out = out.split('\n').join('<br>');
     return out;
   }
 
