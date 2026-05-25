@@ -138,7 +138,7 @@ exports.handler = async (event, context) => {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'History too long' }) };
         }
 
-        const openaiApiKey = process.env.OPENAI_API_KEY;
+        const openaiApiKey = process.env.OpenAIKey || process.env.OPENAI_API_KEY;
         if (!openaiApiKey) {
             console.error('OPENAI_API_KEY not set');
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'API configuration error' }) };
