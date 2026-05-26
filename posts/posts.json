@@ -18,7 +18,7 @@
     "slug": "i-accidentally-got-a-butler",
     "title": "I Accidentally Got a Butler",
     "date": "2026-04-10",
-    "excerpt": "What happens when a non-technical person sets up their own personal AI assistant — and accidentally builds a farmhouse-hunting database in the process.",
+    "excerpt": "What happens when a non-technical person sets up their own personal AI assistant \u2014 and accidentally builds a farmhouse-hunting database in the process.",
     "tags": [
       "ai",
       "strategy",
@@ -32,7 +32,7 @@
     "slug": "i-think-i-made-the-job-pocalypse-too-simple",
     "title": "I Think I Made the Job-pocalypse Too Simple",
     "date": "2026-04-02",
-    "excerpt": "I’ve been fairly vocal about AI and jobs.",
+    "excerpt": "I\u2019ve been fairly vocal about AI and jobs.",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -59,9 +59,9 @@
   },
   {
     "slug": "the-brains-secret-pharmacy",
-    "title": "The Brain’s Secret Pharmacy",
+    "title": "The Brain\u2019s Secret Pharmacy",
     "date": "2026-03-05",
-    "excerpt": "I’d like to try and persuade you of something.",
+    "excerpt": "I\u2019d like to try and persuade you of something.",
     "tags": [
       "creativity",
       "healthcare",
@@ -74,7 +74,7 @@
     "slug": "if-ai-stopped-improving-today-would-you-still-have-a-job",
     "title": "If AI Stopped Improving Today, Would You Still Have a Job?",
     "date": "2026-02-27",
-    "excerpt": "Co-authored by Harry Sharman 🧠https://www.linkedin.com/in/harrysharman?miniProfileUrn=urn%3Ali%3AfsminiProfile%3AACoAAAL9ccBTOHIT7KkfXgfB7pY1vfFQRyxNbE & Josh...",
+    "excerpt": "Co-authored by Harry Sharman \ud83e\udde0https://www.linkedin.com/in/harrysharman?miniProfileUrn=urn%3Ali%3AfsminiProfile%3AACoAAAL9ccBTOHIT7KkfXgfB7pY1vfFQRyxNbE & Josh...",
     "tags": [
       "strategy",
       "ai",
@@ -88,7 +88,7 @@
     "slug": "today-i-realised-i-am-vibe-coding-my-way-to-a-robot-army",
     "title": "Today I Realised I Am Vibe Coding My Way to a Robot Army",
     "date": "2026-02-12",
-    "excerpt": "For the past few weeks, I’ve been doing something that feels faintly illegal.",
+    "excerpt": "For the past few weeks, I\u2019ve been doing something that feels faintly illegal.",
     "tags": [
       "behavioural-science",
       "ai",
@@ -102,7 +102,7 @@
     "slug": "a-quiet-catch-up-on-where-ai-actually-is",
     "title": "A quiet catch-up on where AI actually is",
     "date": "2026-02-04",
-    "excerpt": "I’ve been asked a version of the same question often enough recently that it stopped feeling accidental.",
+    "excerpt": "I\u2019ve been asked a version of the same question often enough recently that it stopped feeling accidental.",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -115,7 +115,7 @@
   },
   {
     "slug": "were-going-to-need-brain-gyms",
-    "title": "We’re Going to Need Brain Gyms",
+    "title": "We\u2019re Going to Need Brain Gyms",
     "date": "2026-01-29",
     "excerpt": "At some point in the not-too-distant future, the idea of a brain gym will stop sounding whimsical and start sounding inevitable.",
     "tags": [
@@ -125,11 +125,12 @@
       "healthcare",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/were-going-to-need-brain-gyms.png"
   },
   {
     "slug": "your-brain-isnt-broken-your-software-is",
-    "title": "Your brain isn’t broken. Your software is.",
+    "title": "Your brain isn\u2019t broken. Your software is.",
     "date": "2026-01-21",
     "excerpt": "The digital world was built for rational actors.",
     "tags": [
@@ -139,13 +140,14 @@
       "creativity",
       "beautiful-thinking"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/your-brain-isnt-broken-your-software-is.png"
   },
   {
     "slug": "the-moment-ai-changed-medicine-forever-just-happened",
     "title": "The Moment AI Changed Medicine Forever Just Happened",
     "date": "2026-01-14",
-    "excerpt": "Last week, something rather important happened in healthcare — and almost nobody outside a small group of obsessives noticed.",
+    "excerpt": "Last week, something rather important happened in healthcare \u2014 and almost nobody outside a small group of obsessives noticed.",
     "tags": [
       "ai",
       "creativity",
@@ -157,9 +159,9 @@
   },
   {
     "slug": "im-in-the-top-1-of-chatgpt-users",
-    "title": "I’m in the Top 1% of ChatGPT Users.",
+    "title": "I\u2019m in the Top 1% of ChatGPT Users.",
     "date": "2026-01-07",
-    "excerpt": "According to OpenAI’s own usage metrics, I landed in the top 1% of ChatGPT users by volume.",
+    "excerpt": "According to OpenAI\u2019s own usage metrics, I landed in the top 1% of ChatGPT users by volume.",
     "tags": [
       "behavioural-science",
       "ai",
@@ -173,7 +175,7 @@
     "slug": "why-humans-would-rather-be-wrong-than-uncomfortable",
     "title": "Why Humans Would Rather Be Wrong Than Uncomfortable",
     "date": "2025-12-18",
-    "excerpt": "Most of us like to think we’re open-minded. Evidence-driven. The sort of people who change their views when the facts change.",
+    "excerpt": "Most of us like to think we\u2019re open-minded. Evidence-driven. The sort of people who change their views when the facts change.",
     "tags": [
       "behavioural-science",
       "ai",
@@ -188,7 +190,7 @@
     "slug": "a-love-letter-to-genai-the-tool-that-gave-me-back-myself",
     "title": "A Love Letter to GenAI: The Tool That Gave Me Back Myself",
     "date": "2025-12-10",
-    "excerpt": "I’ve been accused recently — with a certain nervous laughter — of being a pessimist about...",
+    "excerpt": "I\u2019ve been accused recently \u2014 with a certain nervous laughter \u2014 of being a pessimist about...",
     "tags": [
       "ai",
       "creativity",
@@ -201,7 +203,7 @@
     "slug": "meet-the-godfather-of-ai-the-rebel-who-spent-40-years-building-the-thing-he-now-",
     "title": "Meet the Godfather of AI: The Rebel Who Spent 40 Years Building the Thing He Now Warns Could Destroy Us",
     "date": "2025-12-03",
-    "excerpt": "Beautiful Rebels is my ongoing series about people who bend the world out of shape — thinkers who don’t just challenge the status quo, they quietly rewire it. They’re the...",
+    "excerpt": "Beautiful Rebels is my ongoing series about people who bend the world out of shape \u2014 thinkers who don\u2019t just challenge the status quo, they quietly rewire it. They\u2019re the...",
     "tags": [
       "ai",
       "creativity",
@@ -212,9 +214,9 @@
   },
   {
     "slug": "ai-x-creativity-the-directors-cut-bill-ecay-and-the-90-question",
-    "title": "AI x Creativity: The Director’s Cut: Bill Ecay and the 90% Question",
+    "title": "AI x Creativity: The Director\u2019s Cut: Bill Ecay and the 90% Question",
     "date": "2025-11-25",
-    "excerpt": "When a creative director teaches AI to think like him, who’s really doing the creating?",
+    "excerpt": "When a creative director teaches AI to think like him, who\u2019s really doing the creating?",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -245,7 +247,7 @@
     "slug": "creativity-x-ai-the-last-human-superpower-is-the-tickle",
     "title": "Creativity x AI: The Last Human Superpower Is the Tickle",
     "date": "2025-11-13",
-    "excerpt": "If comedy runs on surprise and AI runs on probability, then the final frontier isn’t intelligence. It’s laughter.",
+    "excerpt": "If comedy runs on surprise and AI runs on probability, then the final frontier isn\u2019t intelligence. It\u2019s laughter.",
     "tags": [
       "ai",
       "creativity",
@@ -258,7 +260,7 @@
     "slug": "the-end-of-the-world-over-aperitivo",
     "title": "The End of the World (Over Aperitivo)",
     "date": "2025-11-04",
-    "excerpt": "A letter from Sicily — and an apology in advance.",
+    "excerpt": "A letter from Sicily \u2014 and an apology in advance.",
     "tags": [
       "ai",
       "creativity",
@@ -269,9 +271,9 @@
   },
   {
     "slug": "futurism-vs-fatherhood-building-a-childhood-for-a-future-that-doesnt-exist",
-    "title": "Futurism vs. Fatherhood: Building a Childhood for a Future That Doesn’t Exist.",
+    "title": "Futurism vs. Fatherhood: Building a Childhood for a Future That Doesn\u2019t Exist.",
     "date": "2025-10-14",
-    "excerpt": "Lately I’ve become a little obsessed with the future that AI is dragging toward us. I even wrote a piece arguing that it’ll take most knowledge-work jobs within a...",
+    "excerpt": "Lately I\u2019ve become a little obsessed with the future that AI is dragging toward us. I even wrote a piece arguing that it\u2019ll take most knowledge-work jobs within a...",
     "tags": [
       "strategy",
       "ai",
@@ -341,9 +343,9 @@
   },
   {
     "slug": "99-of-us-wont-have-a-job-in-10-years",
-    "title": "99% of Us Won’t Have a Job in 10 Years",
+    "title": "99% of Us Won\u2019t Have a Job in 10 Years",
     "date": "2025-09-09",
-    "excerpt": "I’ve managed to make myself redundant.",
+    "excerpt": "I\u2019ve managed to make myself redundant.",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -359,7 +361,7 @@
     "slug": "ai-succeeds-at-the-speed-of-behaviour-change",
     "title": "AI Succeeds at the Speed of Behaviour Change",
     "date": "2025-09-02",
-    "excerpt": "I’ll start with the confession: I am a believer. Not cautious, hedge-your-bets believer. A full-throated, “buy another round and I’ll tell you the future” kind of believer.",
+    "excerpt": "I\u2019ll start with the confession: I am a believer. Not cautious, hedge-your-bets believer. A full-throated, \u201cbuy another round and I\u2019ll tell you the future\u201d kind of believer.",
     "tags": [
       "behavioural-science",
       "ai",
@@ -387,7 +389,7 @@
     "slug": "beautiful-rebels-the-two-women-who-reprogramed-life-itself",
     "title": "Beautiful Rebels: The Two Women Who Reprogramed Life Itself",
     "date": "2025-08-21",
-    "excerpt": "If you wanted to rewrite the code of life—literally change the instructions inside every living cell—you’d need a tool.",
+    "excerpt": "If you wanted to rewrite the code of life\u2014literally change the instructions inside every living cell\u2014you\u2019d need a tool.",
     "tags": [
       "creativity",
       "beautiful-thinking"
@@ -399,7 +401,7 @@
     "slug": "beautiful-thinking-200-days-inside-my-mindful-brain",
     "title": "Beautiful Thinking: 200 Days Inside My Mindful Brain",
     "date": "2025-08-19",
-    "excerpt": "This hasn’t been an easy year. In fact, there were weeks where life felt like juggling chainsaws while being pecked at by pigeons. And in the very worst patch, I remembered...",
+    "excerpt": "This hasn\u2019t been an easy year. In fact, there were weeks where life felt like juggling chainsaws while being pecked at by pigeons. And in the very worst patch, I remembered...",
     "tags": [
       "behavioural-science",
       "ai",
@@ -413,7 +415,7 @@
     "slug": "the-agentic-revolution",
     "title": "The Agentic Revolution",
     "date": "2025-08-12",
-    "excerpt": "aka The Great Unbundling of Human Cognitive Labor™️",
+    "excerpt": "aka The Great Unbundling of Human Cognitive Labor\u2122\ufe0f",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -426,9 +428,9 @@
   },
   {
     "slug": "ai-its-the-human-stupid",
-    "title": "AI: It’s the Human, Stupid",
+    "title": "AI: It\u2019s the Human, Stupid",
     "date": "2025-08-05",
-    "excerpt": "Or: Why AI isn’t just Clippy with a six-pack",
+    "excerpt": "Or: Why AI isn\u2019t just Clippy with a six-pack",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -441,9 +443,9 @@
   },
   {
     "slug": "barry-marshall-the-man-who-infected-himself-with-the-truth",
-    "title": "🦠 Barry Marshall — The Man Who Infected Himself With the Truth",
+    "title": "\ud83e\udda0 Barry Marshall \u2014 The Man Who Infected Himself With the Truth",
     "date": "2025-07-31",
-    "excerpt": "“Everyone was against me… They thought I was crazy.” — Barry Marshall",
+    "excerpt": "\u201cEveryone was against me\u2026 They thought I was crazy.\u201d \u2014 Barry Marshall",
     "tags": [
       "creativity",
       "healthcare",
@@ -456,7 +458,7 @@
     "slug": "chatgpt-broke-his-mind",
     "title": "ChatGPT Broke His Mind",
     "date": "2025-07-29",
-    "excerpt": "How AI is gaslighting the vulnerable—and nobody’s fucking watching.",
+    "excerpt": "How AI is gaslighting the vulnerable\u2014and nobody\u2019s fucking watching.",
     "tags": [
       "behavioural-science",
       "ai"
@@ -466,7 +468,7 @@
   },
   {
     "slug": "beautiful-rebels-karl-von-frisch-and-the-language-of-the-dance",
-    "title": "🐝 Beautiful Rebels: Karl von Frisch and the Language of the Dance",
+    "title": "\ud83d\udc1d Beautiful Rebels: Karl von Frisch and the Language of the Dance",
     "date": "2025-07-24",
     "excerpt": "Most scientists were busy giving animals mazes.",
     "tags": [
@@ -478,9 +480,9 @@
   },
   {
     "slug": "the-centaur-in-your-head",
-    "title": "🧠 The Centaur in Your Head",
+    "title": "\ud83e\udde0 The Centaur in Your Head",
     "date": "2025-07-22",
-    "excerpt": "Big news! Admittedly, you may have missed it—unless you, like me, spend evenings combing Nature for juicy psychology x AI breakthroughs…",
+    "excerpt": "Big news! Admittedly, you may have missed it\u2014unless you, like me, spend evenings combing Nature for juicy psychology x AI breakthroughs\u2026",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -496,7 +498,7 @@
     "slug": "a-case-for-being-unreasonable",
     "title": "A Case for Being Unreasonable",
     "date": "2025-07-15",
-    "excerpt": "I’m fucking angry. And you should be too.",
+    "excerpt": "I\u2019m fucking angry. And you should be too.",
     "tags": [
       "behavioural-science",
       "creativity",
@@ -522,9 +524,9 @@
   },
   {
     "slug": "the-body-count-of-bias-women-arent-just-small-men",
-    "title": "The Body Count of Bias: Women Aren’t Just Small Men",
+    "title": "The Body Count of Bias: Women Aren\u2019t Just Small Men",
     "date": "2025-07-01",
-    "excerpt": "Let’s get one thing straight: Women aren’t just small men.",
+    "excerpt": "Let\u2019s get one thing straight: Women aren\u2019t just small men.",
     "tags": [
       "behavioural-science",
       "creativity",
@@ -550,7 +552,7 @@
     "slug": "cognitive-dissonance-is-a-bug-strategic-dissonance-is-a-feature",
     "title": "Cognitive Dissonance Is a Bug. Strategic Dissonance Is a Feature.",
     "date": "2025-06-17",
-    "excerpt": "Us psychologists call it cognitive dissonance—that gnawing discomfort when your beliefs and actions don’t match. It’s not just a vibe. It’s a threat. So your brain races to fix it:",
+    "excerpt": "Us psychologists call it cognitive dissonance\u2014that gnawing discomfort when your beliefs and actions don\u2019t match. It\u2019s not just a vibe. It\u2019s a threat. So your brain races to fix it:",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -564,7 +566,7 @@
     "slug": "rational-bs",
     "title": "Rational BS",
     "date": "2025-06-10",
-    "excerpt": "“The sooner you realised Amos Tversky was smarter than you, the smarter you were.” — Lee Ross, Stanford psychologist and close friend",
+    "excerpt": "\u201cThe sooner you realised Amos Tversky was smarter than you, the smarter you were.\u201d \u2014 Lee Ross, Stanford psychologist and close friend",
     "tags": [
       "behavioural-science",
       "creativity",
@@ -575,9 +577,9 @@
   },
   {
     "slug": "beautiful-thinking-how-we-created-the-emoji",
-    "title": "Beautiful Thinking: How we created the 🧠 emoji",
+    "title": "Beautiful Thinking: How we created the \ud83e\udde0 emoji",
     "date": "2025-06-03",
-    "excerpt": "It was 2017, and I was deep in the trenches of a multiple sclerosis brand. “Brain fog” was the symptom du jour—slippery, hard to pin down. My junior at the time, Ryan who I’m...",
+    "excerpt": "It was 2017, and I was deep in the trenches of a multiple sclerosis brand. \u201cBrain fog\u201d was the symptom du jour\u2014slippery, hard to pin down. My junior at the time, Ryan who I\u2019m...",
     "tags": [
       "strategy",
       "creativity",
@@ -591,7 +593,7 @@
     "slug": "beautiful-rebels-charles-darwin",
     "title": "Beautiful Rebels: Charles Darwin",
     "date": "2025-05-29",
-    "excerpt": "Some ideas don’t just explain the world. They recode it.",
+    "excerpt": "Some ideas don\u2019t just explain the world. They recode it.",
     "tags": [
       "creativity",
       "beautiful-thinking"
@@ -601,9 +603,9 @@
   },
   {
     "slug": "beautiful-thinking-ideas-that-misbehave-the-anti-ted-newsletter",
-    "title": "Beautiful Thinking – Ideas that Misbehave. The Anti-TED Newsletter.",
+    "title": "Beautiful Thinking \u2013 Ideas that Misbehave. The Anti-TED Newsletter.",
     "date": "2025-05-27",
-    "excerpt": "If you love TED’s “ideas worth spreading,” but crave something edgier—this is for you.",
+    "excerpt": "If you love TED\u2019s \u201cideas worth spreading,\u201d but crave something edgier\u2014this is for you.",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -619,12 +621,13 @@
     "slug": "micro-laziness-the-1-losses-your-brain-keeps-calling-wins",
     "title": "Micro-Laziness: The 1% losses your brain keeps calling wins",
     "date": "2025-04-14",
-    "excerpt": "I haven’t been invited to TED. Or Davos. Yet. But I still think it’s one of the best ways to understand how we think, act, and quietly self-sabotage.",
+    "excerpt": "I haven\u2019t been invited to TED. Or Davos. Yet. But I still think it\u2019s one of the best ways to understand how we think, act, and quietly self-sabotage.",
     "tags": [
       "behavioural-science",
       "healthcare"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/micro-laziness-the-1-losses.png"
   },
   {
     "slug": "the-dyslexic-revolution-a-manifesto",
@@ -635,32 +638,35 @@
       "ai",
       "creativity"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/the-dyslexic-revolution-a-manifesto.png"
   },
   {
     "slug": "ai-wont-kill-creativitybut-it-will-change-it-forever",
-    "title": "AI Won’t Kill Creativity—But It Will Change It Forever",
+    "title": "AI Won\u2019t Kill Creativity\u2014But It Will Change It Forever",
     "date": "2025-01-31",
-    "excerpt": "For a long time, I believed AI’s encroachment on human creativity was inevitable. The trajectory seemed clear: AI models were getting better, faster, more sophisticated, and their...",
+    "excerpt": "For a long time, I believed AI\u2019s encroachment on human creativity was inevitable. The trajectory seemed clear: AI models were getting better, faster, more sophisticated, and their...",
     "tags": [
       "strategy",
       "ai",
       "creativity"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/ai-wont-kill-creativity.png"
   },
   {
     "slug": "2024-juggling-sleep-deprived-and-innovation-the-year-of-productivity",
     "title": "2024: Juggling Sleep Deprived and Innovation - The Year of Productivity",
     "date": "2025-01-16",
-    "excerpt": "As 2025 begins and my 11-month-old proudly takes his first steps, I’ve been reflecting on my own strides forward. Last year wasn’t easy—balancing less sleep than ever, a new job,...",
+    "excerpt": "As 2025 begins and my 11-month-old proudly takes his first steps, I\u2019ve been reflecting on my own strides forward. Last year wasn\u2019t easy\u2014balancing less sleep than ever, a new job,...",
     "tags": [
       "behavioural-science",
       "strategy",
       "ai",
       "creativity"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/2024-juggling-sleep-deprived-and-innovation.png"
   },
   {
     "slug": "did-i-tell-you-about-that-time-i-almost-won-a-genetic-upgrade-and-joined-a-death",
@@ -670,7 +676,8 @@
     "tags": [
       "healthcare"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/did-i-tell-you-about-the-genetic-upgrade.png"
   },
   {
     "slug": "mental-life-hacks-how-to-overcome-lifes-challenges-part-2-of-2",
@@ -682,7 +689,8 @@
       "strategy",
       "creativity"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/mental-life-hacks-part-2.png"
   },
   {
     "slug": "mental-life-hacks-how-to-overcome-lifes-challenges-part-1-of-2",
@@ -692,7 +700,8 @@
     "tags": [
       "behavioural-science"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/mental-life-hacks-part-1.png"
   },
   {
     "slug": "fing-over-ones-future-self-the-psychology-of-inertia",
@@ -710,7 +719,7 @@
     "slug": "the-brand-is-dead-long-live-the-brand",
     "title": "The Brand is dead. Long live the Brand!",
     "date": "2019-03-26",
-    "excerpt": "For a Brand loving marketer like myself, the idea of Brand being dead is very upsetting. It makes me shudder at the thought of the alternative – a world where products and...",
+    "excerpt": "For a Brand loving marketer like myself, the idea of Brand being dead is very upsetting. It makes me shudder at the thought of the alternative \u2013 a world where products and...",
     "tags": [
       "strategy"
     ],
@@ -725,7 +734,8 @@
     "tags": [
       "ideas"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/we-should-all-ask-for-help.png"
   },
   {
     "slug": "why-micro-laziness-is-making-you-macro-lazy",
@@ -784,7 +794,8 @@
       "creativity",
       "healthcare"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/how-to-be-a-great-strategic-planner.png"
   },
   {
     "slug": "2016-how-the-elections-generated-brilliant-creativity-even-if-the-outcomes-were-",
@@ -795,7 +806,8 @@
       "strategy",
       "creativity"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/2016-elections-and-creativity.png"
   },
   {
     "slug": "what-does-the-zombie-apocalypse-teach-us-about-brand-strategy",
@@ -805,7 +817,8 @@
     "tags": [
       "strategy"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/zombie-apocalypse-brand-strategy.png"
   },
   {
     "slug": "5-things-i-learned-from-thinking-digital-manchester-2016-conference",
@@ -815,7 +828,8 @@
     "tags": [
       "strategy"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/5-things-thinking-digital-2016.png"
   },
   {
     "slug": "do-you-really-think-that-you-chose-to-make-that-choice-think-again",
@@ -827,11 +841,12 @@
       "strategy",
       "healthcare"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/do-you-really-think-you-chose.png"
   },
   {
     "slug": "healthcares-imminent-data-revolution",
-    "title": "Healthcare’s imminent data revolution",
+    "title": "Healthcare\u2019s imminent data revolution",
     "date": "2016-10-01",
     "excerpt": "Originally written for the Strategic North Blog - http://www.strategicnorth.com/blog/healthcares-imminent-data-revolution/",
     "tags": [
@@ -846,7 +861,7 @@
     "slug": "howtomeasuresocialmedia",
     "title": "#HowToMeasureSocialMedia",
     "date": "2015-02-13",
-    "excerpt": "As part of Delineo’s aim of ‘Known Marketing’, where our clients can get a full understanding of what the outcomes of their marketing spend are, we have been looking at measuring...",
+    "excerpt": "As part of Delineo\u2019s aim of \u2018Known Marketing\u2019, where our clients can get a full understanding of what the outcomes of their marketing spend are, we have been looking at measuring...",
     "tags": [
       "behavioural-science",
       "strategy",
@@ -868,13 +883,14 @@
   },
   {
     "slug": "signalling-theory-displaying-your-peacock-tail",
-    "title": "signalling theory – displaying your peacock tail",
+    "title": "signalling theory \u2013 displaying your peacock tail",
     "date": "2014-11-26",
     "excerpt": "Last summer I went on holiday to New York, and on my trip my wife commented on the large number of Dr Dre Beats headphones you see on people walking around the city. What is so...",
     "tags": [
       "behavioural-science",
       "strategy"
     ],
-    "featured": false
+    "featured": false,
+    "image": "/assets/uploads/signalling-theory-peacock-tail.png"
   }
 ]
