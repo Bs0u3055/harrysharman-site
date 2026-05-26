@@ -219,10 +219,73 @@
   }
 
   // ── Init ────────────────────────────────────
+  // ── initPostPage (static post index.html files) ─────────────
+  async function initPostPage() {
+    // Only run on static post pages (has post-page body class, has article element)
+    if (!document.body.classList.contains('post-page')) return;
+    if (!document.querySelector('article')) return;
+    // The SPA post.html uses renderPost() — skip if no slug in URL path
+    var match = window.location.pathname.match(/\/posts\/([^/]+)\//);
+    if (!match) return;
+    var slug = match[1];
+
+    // 1. Reading progress bar
+    var bar = document.createElement('div');
+    bar.id = 'reading-progress-bar';
+    document.body.insertBefore(bar, document.body.firstChild);
+    window.addEventListener('scroll', function () {
+      var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    });
+
+    // 2. Footer nav
+    var footer = document.querySelector('.site-footer');
+    if (footer && !footer.querySelector('.footer-nav')) {
+      var nav = document.createElement('div');
+      nav.className = 'footer-nav';
+      nav.innerHTML =
+        '<a href="/" class="footer-nav-link">Home</a>' +
+        '<a href="/blog.html" class="footer-nav-link">Writing</a>' +
+        '<a href="/#podcast" class="footer-nav-link">Podcast</a>' +
+        '<a href="/#building" class="footer-nav-link">Building</a>' +
+        '<a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-nav-link">LinkedIn ↗</a>';
+      footer.insertBefore(nav, footer.firstChild);
+    }
+
+    // 3. Post-after: read next + email signup
+    var article = document.querySelector('article');
+    if (!article) return;
+
+    var postAfter = document.createElement('div');
+    postAfter.className = 'post-after container';
+
+    // Email signup
+    postAfter.innerHTML =
+      '<div id="read-next"></div>' +
+      '<div class="post-signup">' +
+        '<strong>Enjoyed this? Get the next one.</strong>' +
+        '<form name="newsletter" method="POST" data-netlify="true" class="signup-form signup-form-post">' +
+          '<input type="hidden" name="form-name" value="newsletter">' +
+          '<input type="email" name="email" placeholder="your@email.com" required class="signup-input">' +
+          '<button type="submit" class="signup-btn">Subscribe →</button>' +
+        '</form>' +
+      '</div>';
+
+    article.parentNode.insertBefore(postAfter, article.nextSibling);
+
+    // 4. Load posts and render read-next
+    var posts = await loadJSON('/posts/posts.json');
+    if (!posts) return;
+    var postMeta = posts.find(function (p) { return p.slug === slug; });
+    var tags = postMeta ? (postMeta.tags || []) : [];
+    renderReadNext(slug, tags, posts);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
     renderEssayList();
     renderBlogList();
     renderPost();
     renderProjects();
+    initPostPage();
   });
 })();
