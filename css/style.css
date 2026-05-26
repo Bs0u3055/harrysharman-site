@@ -240,11 +240,12 @@ body {
    PODCAST
 ══════════════════════════════ */
 .podcast-section { padding: 80px 40px; background: var(--red); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); text-align: center; }
-.podcast-inner { max-width: 600px; margin: 0 auto; }
+.podcast-inner { max-width: 700px; margin: 0 auto; }
 .podcast-label { font-family: var(--f-mono); font-size: 11px; letter-spacing: 0.18em; margin-bottom: 14px; opacity: 0.65; }
 .podcast-title { font-family: var(--f-sans); font-weight: 800; font-size: clamp(36px, 5.5vw, 64px); line-height: 0.95; letter-spacing: -0.03em; margin-bottom: 20px; }
 .podcast-title em { font-style: italic; font-weight: 400; }
 .podcast-desc { font-size: 16px; line-height: 1.65; opacity: 0.8; margin-bottom: 32px; }
+.podcast-player { margin-bottom: 24px; }
 .podcast-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
 .podcast-btn {
   display: inline-flex; align-items: center; gap: 8px;
