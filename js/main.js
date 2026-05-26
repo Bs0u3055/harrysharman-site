@@ -76,7 +76,10 @@
       return '<a href="/posts/' + post.slug + '/" class="essay-row">' +
         '<span class="essay-n">' + n + '</span>' +
         '<span class="essay-cat">' + cat + '</span>' +
+        '<span class="essay-title-wrap">' +
         '<span class="essay-title">' + post.title + '</span>' +
+        (post.excerpt ? '<span class="essay-excerpt">' + post.excerpt + '</span>' : '') +
+      '</span>' +
         '<span class="essay-date">' + shortDate(post.date) + '</span>' +
         '<span class="essay-arrow">·</span>' +
         '</a>';
@@ -122,7 +125,10 @@
       return '<a href="/posts/' + post.slug + '/" class="blog-list-item" data-tags="' + (post.tags || []).join(',') + '">' +
         '<span class="essay-n">' + n + '</span>' +
         '<span class="essay-cat">' + cat + '</span>' +
+        '<span class="essay-title-wrap">' +
         '<span class="blog-list-title">' + post.title + '</span>' +
+        (post.excerpt ? '<span class="essay-excerpt">' + post.excerpt + '</span>' : '') +
+      '</span>' +
         '<span class="essay-date blog-list-date">' + shortDate(post.date) + '</span>' +
         '<span class="essay-arrow">·</span>' +
         '</a>';
@@ -159,6 +165,35 @@
     } else {
       bodyEl.innerHTML = '<p class="empty-state">Could not load post.</p>';
     }
+
+    renderReadNext(slug, postMeta.tags || [], posts);
+  }
+
+  // ── renderReadNext (post.html) ─────────────
+  function renderReadNext(currentSlug, currentTags, posts) {
+    var container = document.getElementById('read-next');
+    if (!container || !posts) return;
+    var others = posts.filter(function(p) { return p.slug !== currentSlug; });
+    var related = others.filter(function(p) {
+      return p.tags && p.tags.some(function(t) { return currentTags.indexOf(t) !== -1; });
+    });
+    if (related.length < 2) {
+      var slugs = related.map(function(p){ return p.slug; });
+      others.forEach(function(p){ if (related.length < 2 && slugs.indexOf(p.slug) === -1) related.push(p); });
+    }
+    var picks = related.slice(0, 2);
+    if (!picks.length) return;
+    container.innerHTML =
+      '<div class="read-next-label">Keep reading</div>' +
+      '<div class="read-next-grid">' +
+      picks.map(function(p) {
+        return '<a href="/posts/' + p.slug + '/" class="read-next-card">' +
+          '<span class="read-next-cat">' + (p.tags && p.tags[0] ? p.tags[0] : 'essay') + '</span>' +
+          '<span class="read-next-title">' + p.title + '</span>' +
+          (p.excerpt ? '<span class="read-next-excerpt">' + p.excerpt + '</span>' : '') +
+          '</a>';
+      }).join('') +
+      '</div>';
   }
 
   // ── renderProjects (index.html) ────────────

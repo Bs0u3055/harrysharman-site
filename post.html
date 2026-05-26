@@ -12,6 +12,7 @@
   <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body class="post-page">
+  <div id="reading-progress-bar"></div>
 
   <header class="site-header">
     <div class="container header-inner">
@@ -37,7 +38,27 @@
     </div>
   </article>
 
+  <!-- ── Read next + email ── -->
+  <div class="post-after container">
+    <div id="read-next"></div>
+    <div class="post-signup">
+      <strong>Enjoyed this? Get the next one.</strong>
+      <form name="newsletter" method="POST" data-netlify="true" class="signup-form signup-form-post">
+        <input type="hidden" name="form-name" value="newsletter">
+        <input type="email" name="email" placeholder="your@email.com" required class="signup-input">
+        <button type="submit" class="signup-btn">Subscribe →</button>
+      </form>
+    </div>
+  </div>
+
   <footer class="site-footer">
+    <div class="footer-nav">
+      <a href="/" class="footer-nav-link">Home</a>
+      <a href="/blog.html" class="footer-nav-link">Writing</a>
+      <a href="/#podcast" class="footer-nav-link">Podcast</a>
+      <a href="/#building" class="footer-nav-link">Building</a>
+      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-nav-link">LinkedIn ↗</a>
+    </div>
     <div class="footer-h">Want to talk?</div>
     <div class="footer-links">
       <a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-link">linkedin/harrysharman ↗</a>
@@ -47,5 +68,14 @@
 
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    // Reading progress bar
+    window.addEventListener('scroll', function() {
+      var el = document.getElementById('reading-progress-bar');
+      if (!el) return;
+      var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      el.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    });
+  </script>
 </body>
 </html>
