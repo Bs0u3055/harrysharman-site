@@ -119,24 +119,26 @@
       });
     }
 
-    container.innerHTML = posts.map(function (post, i) {
-      var n   = String(i + 1).padStart(2, '0');
+    container.innerHTML = posts.map(function (post) {
       var cat = (post.tags && post.tags[0]) ? post.tags[0] : 'essay';
-      return '<a href="/posts/' + post.slug + '/" class="blog-list-item" data-tags="' + (post.tags || []).join(',') + '">' +
-        '<span class="essay-n">' + n + '</span>' +
-        '<span class="essay-cat">' + cat + '</span>' +
-        '<span class="essay-title-wrap">' +
-        '<span class="blog-list-title">' + post.title + '</span>' +
-        (post.excerpt ? '<span class="essay-excerpt">' + post.excerpt + '</span>' : '') +
-      '</span>' +
-        '<span class="essay-date blog-list-date">' + shortDate(post.date) + '</span>' +
-        '<span class="essay-arrow">·</span>' +
+      var imgHtml = post.image
+        ? '<img src="' + post.image + '" alt="' + post.title.replace(/"/g, '&quot;') + '" loading="lazy">'
+        : '<div class="bt-thumb-placeholder"></div>';
+      return '<a href="/posts/' + post.slug + '/" class="blog-list-item bt-card" data-tags="' + (post.tags || []).join(',') + '">' +
+        '<div class="bt-thumb">' + imgHtml + '</div>' +
+        '<div class="bt-body">' +
+          '<span class="bt-tag">' + cat + '</span>' +
+          '<h3 class="bt-title">' + post.title + '</h3>' +
+          '<div class="bt-footer">' +
+            '<span class="bt-date">' + shortDate(post.date) + '</span>' +
+            '<span class="bt-arrow">→</span>' +
+          '</div>' +
+        '</div>' +
         '</a>';
     }).join('');
-    addRowHover(container);
   }
 
-  // ── renderPost (post.html) ─────────────────
+  // ── renderPost (post.html)  // ── renderPost (post.html) ─────────────────
   async function renderPost() {
     var headerEl = document.getElementById('post-header');
     var bodyEl   = document.getElementById('post-body');

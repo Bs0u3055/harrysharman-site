@@ -479,3 +479,126 @@ body {
   .read-next-grid { grid-template-columns: 1fr; }
   .post-signup { flex-direction: column; align-items: flex-start; }
 }
+
+/* ── Beautiful Thinking Card Grid ──────────────────────────── */
+#blog-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 0;
+}
+
+.bt-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--cream);
+  border: 1.5px solid rgba(26,20,16,0.1);
+  color: var(--ink);
+  text-decoration: none;
+  overflow: hidden;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+  cursor: pointer;
+}
+
+.bt-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(26,20,16,0.15);
+  border-color: var(--red);
+}
+
+.bt-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--ink);
+  flex-shrink: 0;
+}
+
+.bt-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease, opacity 0.3s ease;
+  opacity: 0.88;
+}
+
+.bt-card:hover .bt-thumb img {
+  transform: scale(1.07);
+  opacity: 1;
+}
+
+.bt-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a1410 0%, #3a2e28 100%);
+}
+
+.bt-body {
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8px;
+}
+
+.bt-tag {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--red);
+  line-height: 1;
+}
+
+.bt-title {
+  font-family: var(--f-sans);
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  transition: color 0.18s ease;
+  flex: 1;
+}
+
+.bt-card:hover .bt-title {
+  color: var(--red);
+}
+
+.bt-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(26,20,16,0.08);
+}
+
+.bt-date {
+  font-family: var(--f-mono);
+  font-size: 10px;
+  opacity: 0.45;
+}
+
+.bt-arrow {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--red);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.bt-card:hover .bt-arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 900px) {
+  #blog-list { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+}
+
+@media (max-width: 560px) {
+  #blog-list { grid-template-columns: 1fr; gap: 14px; }
+  .bt-body { padding: 12px 14px 14px; }
+}
