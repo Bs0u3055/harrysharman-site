@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How Briefly AI is Made — Harry Sharman</title>
+  <meta name="description" content="Seven steps, no humans, every morning at 7am. The live pipeline behind the Briefly AI podcast.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ── Pipeline-specific tokens ── */
+    :root {
+      --ink-60: rgba(26, 20, 16, 0.6);
+      --ink-20: rgba(26, 20, 16, 0.2);
+      --ink-08: rgba(26, 20, 16, 0.08);
+      --red-glow: rgba(230, 58, 37, 0.35);
+      --flow-accent: var(--red);
+      --flow-speed: 2.4s;
+    }
+
+    /* ── Base overrides for pipeline page ── */
+    html, body { background: var(--cream); }
+    .site-header { background: var(--cream); }
+    .site-header .brand-slash { color: var(--ink); opacity: 0.3; }
+    .site-header .nav-link { color: var(--ink); }
+    .site-header .nav-link:hover { color: var(--red); }
+
+    /* ── Back nav ── */
+    .pipeline-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+      opacity: 0.45;
+      padding: 28px 40px 0;
+      transition: opacity 0.15s;
+      text-decoration: none;
+    }
+    .pipeline-back:hover { opacity: 1; }
+
+    /* ── Hero header ── */
+    .pipeline-hero {
+      padding: 20px 40px 56px;
+      background: var(--cream);
+      border-bottom: 2px solid var(--ink);
+    }
+    .pipeline-hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: end;
+    }
+    .pipeline-label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      opacity: 0.5;
+      margin-bottom: 14px;
+    }
+    .pipeline-title {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(36px, 5vw, 64px);
+      line-height: 0.93;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .pipeline-title em {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--red);
+    }
+    .pipeline-sub {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--ink);
+      opacity: 0.7;
+      max-width: 540px;
+      margin-bottom: 28px;
+    }
+
+    /* ── Cold-open typewriter ── */
+    .cold-open-wrap {
+      background: var(--ink);
+      padding: 16px 22px;
+      border: 2px solid var(--ink);
+      max-width: 700px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+    .cold-open-label {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .cold-open-text {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--cream);
+      min-height: 1.6em;
+    }
+    .cold-open-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--red);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: cursorBlink 1s step-end infinite;
+    }
+
+    /* ── Status bar ── */
+    .pipeline-status-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #999;
+      flex-shrink: 0;
+    }
+    .status-dot[data-state="ok"]      { background: #22c55e; animation: dotPulse 2s ease-in-out infinite; }
+    .status-dot[data-state="warn"]    { background: #f59e0b; }
+    .status-dot[data-state="fail"]    { background: var(--red); }
+    .status-dot[data-state="skipped"] { background: #999; }
+    .status-text {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      color: var(--ink);
+      opacity: 0.55;
+    }
+    .status-text time { font-weight: 500; }
+
+    /* ── Mode toggle ── */
+    .pipeline-toggle-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 14px;
+    }
+    .pipeline-toggle-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      opacity: 0.4;
+      text-transform: uppercase;
+    }
+    .pipeline-toggle {
+      position: relative;
+      display: flex;
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      padding: 3px;
+      gap: 2px;
+    }
+    .pt-btn {
+      position: relative;
+      z-index: 1;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      padding: 7px 16px;
+      cursor: pointer;
+      color: var(--ink);
+      border: none;
+      background: transparent;
+      transition: color 0.2s;
+    }
+    .pt-btn[aria-selected="true"] { color: var(--cream); }
+    .pt-thumb {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      height: calc(100% - 6px);
+      background: var(--ink);
+      transition: transform 0.25s cubic-bezier(.22,.61,.36,1), width 0.25s;
+      z-index: 0;
+    }
+
+    /* ── Skipped state overlay ── */
+    .pipeline-skipped-msg {
+      display: none;
+      background: var(--ink-08);
+      border: 2px solid var(--ink-20);
+      padding: 28px 32px;
+      margin: 40px auto;
+      max-width: 640px;
+      text-align: center;
+    }
+    .pipeline-skipped-msg p {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--ink);
+      opacity: 0.7;
+    }
+    .pipeline-skipped-msg strong {
+      display: block;
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: 20px;
+      margin-bottom: 10px;
+      opacity: 1;
+    }
+
+    /* ════════════════════════════
+       PIPELINE FLOW SECTION
+    ════════════════════════════ */
+    .pipeline-section {
+      background: var(--cream);
+      padding: 60px 40px 0;
+    }
+    .pipeline-section[data-mode="weekend"]         { --flow-accent: var(--ink); --flow-speed: 4s; }
+    .pipeline-section[data-mode="weekend-preview"] { --flow-accent: var(--red); --flow-speed: 3.2s; }
+    .pipeline-section[data-mode="weekday"]         { --flow-accent: var(--red); --flow-speed: 2.4s; }
+
+    .pipeline-flow-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .pipeline-flow-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      opacity: 0.35;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    /* ── The 7-node flow ── */
+    .flow-track {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .flow-track::-webkit-scrollbar { height: 4px; }
+    .flow-track::-webkit-scrollbar-thumb { background: var(--ink-20); }
+
+    /* ── Individual node ── */
+    .node {
+      flex: 1;
+      min-width: 130px;
+      display: flex;
+      flex-direction: column;
+      list-style: none;
+      position: relative;
+    }
+    /* Stagger-based ignite animation */
+    @media (prefers-reduced-motion: no-preference) {
+      .node .node-card {
+        animation: nodeIgnite var(--flow-speed) ease-in-out infinite;
+        animation-delay: calc(var(--i, 0) * (var(--flow-speed) / 7));
+      }
+    }
+
+    .node-card {
+      flex: 1;
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      padding: 20px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      cursor: default;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    /* Hard offset shadow on hover */
+    .node-card:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--ink);
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.3s;
+    }
+
+    /* State colours */
+    .node[data-state="warn"]    .node-card { border-color: #c98a00; }
+    .node[data-state="fail"]    .node-card { border-color: var(--red); }
+    .node[data-state="skipped"] .node-card { opacity: 0.35; filter: grayscale(1); pointer-events: none; }
+    .node[data-state="skipped"] .node-connector .spark { display: none; }
+
+    .node-num {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-family: var(--f-mono);
+      font-size: 10px;
+      opacity: 0.3;
+      letter-spacing: 0.06em;
+    }
+    .node-icon {
+      font-size: 22px;
+      margin-bottom: 10px;
+      display: block;
+      line-height: 1;
+    }
+    .node-name {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+    .node-desc {
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--ink);
+      opacity: 0.55;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+    .node-data {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0;
+      border-top: 1px solid var(--ink-20);
+      padding-top: 12px;
+    }
+    .node-data > div {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 6px;
+    }
+    .node-data dt {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .node-data dd {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--ink);
+      text-align: right;
+      min-width: 24px;
+    }
+    .node-data dd.small {
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    /* ── Connector between nodes ── */
+    .node-connector {
+      width: 40px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    /* The circuit "wire" */
+    .node-connector::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--ink);
+      transform: translateY(-50%);
+    }
+    /* Tick marks like a ruler */
+    .node-connector::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 1px;
+      height: 8px;
+      background: var(--ink);
+      opacity: 0.3;
+      transform: translate(-50%, -50%);
+    }
+    /* The travelling spark dot */
+    .spark {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--flow-accent);
+      transform: translateY(-50%);
+      box-shadow: 0 0 0 3px var(--red-glow);
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .spark {
+        animation: sparkTravel var(--flow-speed) ease-in-out infinite;
+        animation-delay: calc(var(--i, 0) * (var(--flow-speed) / 7));
+      }
+    }
+
+    /* ── Ghost node (Sunday preview echo) ── */
+    .node-echo {
+      display: none;
+      opacity: 0.45;
+    }
+    .node-echo .node-card {
+      border-style: dashed;
+      border-color: var(--ink-20);
+    }
+    .node-echo .node-connector::before { border-style: dashed; background: none; border-top: 2px dashed var(--ink-20); height: 0; }
+    .pipeline-section[data-mode="weekend-preview"] .node-echo { display: flex; }
+
+    /* ════════════════════════════
+       EPISODE CARD
+    ════════════════════════════ */
+    .episode-section {
+      padding: 0 40px 60px;
+      background: var(--cream);
+    }
+    .episode-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      border-top: 2px solid var(--ink);
+      padding-top: 40px;
+    }
+    .episode-section-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      opacity: 0.35;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .episode-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      background: var(--ink);
+      border: 2px solid var(--ink);
+      padding: 32px;
+      box-shadow: 6px 6px 0 rgba(26,20,16,0.15);
+    }
+    .ec-art {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .ec-art-box {
+      width: 200px;
+      height: 200px;
+      background: var(--red);
+      border: 2px solid var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .ec-art-box:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 5px 5px 0 var(--cream);
+    }
+    .ec-art-box img { width: 100%; height: 100%; object-fit: cover; }
+    .ec-art-placeholder {
+      font-size: 48px;
+      opacity: 0.4;
+    }
+    .ec-badge {
+      position: absolute;
+      bottom: -2px;
+      left: -2px;
+      background: var(--red);
+      color: var(--cream);
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      padding: 4px 8px;
+      text-transform: uppercase;
+    }
+    .ec-body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .ec-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      color: var(--cream);
+      opacity: 0.45;
+    }
+    .ec-dot { opacity: 0.3; }
+    .ec-title {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(18px, 2.5vw, 28px);
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      color: var(--cream);
+    }
+    .ec-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .ec-topic-chip {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border: 1.5px solid rgba(254,252,247,0.25);
+      color: var(--cream);
+      opacity: 0.7;
+    }
+    .ec-sources-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .ec-sources-label {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.35;
+      white-space: nowrap;
+    }
+    .ec-sources-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .ec-source-chip {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      padding: 3px 8px;
+      background: rgba(254,252,247,0.08);
+      color: var(--cream);
+      opacity: 0.5;
+    }
+    .ec-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+    /* Reuse existing podcast-btn classes but override for dark bg */
+    .ec-actions .podcast-btn {
+      font-size: 11px;
+      padding: 10px 18px;
+    }
+    .ec-actions .podcast-btn-spotify {
+      background: var(--red);
+      border-color: var(--red);
+      color: var(--cream);
+    }
+    .ec-actions .podcast-btn-apple {
+      background: transparent;
+      border-color: rgba(254,252,247,0.4);
+      color: var(--cream);
+    }
+    .ec-actions .podcast-btn-apple:hover {
+      border-color: var(--cream);
+      box-shadow: 4px 4px 0 var(--cream);
+    }
+    .ec-actions .podcast-btn-spotify:hover {
+      transform: translate(-2px,-2px);
+      box-shadow: 4px 4px 0 var(--cream);
+    }
+
+    /* ── Footer micro-stat ── */
+    .pipeline-footer {
+      background: var(--ink);
+      border-top: 2px solid var(--ink);
+      padding: 20px 40px;
+      text-align: center;
+    }
+    .pipeline-footer-stat {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      color: var(--cream);
+      opacity: 0.4;
+      letter-spacing: 0.06em;
+    }
+    .pipeline-footer-stat span {
+      opacity: 1;
+      color: var(--red);
+      font-weight: 500;
+    }
+
+    /* ════════════════════════════
+       ANIMATIONS
+    ════════════════════════════ */
+    @keyframes sparkTravel {
+      0%   { left: -8px; opacity: 0; }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { left: calc(100% + 8px); opacity: 0; }
+    }
+    @keyframes nodeIgnite {
+      0%, 100% {
+        border-color: var(--ink);
+        box-shadow: none;
+      }
+      50% {
+        border-color: var(--flow-accent);
+        box-shadow: 0 0 0 3px var(--red-glow);
+      }
+    }
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+    @keyframes countUp {
+      from { opacity: 0.3; }
+      to   { opacity: 1; }
+    }
+
+    /* ════════════════════════════
+       MOBILE
+    ════════════════════════════ */
+    @media (max-width: 900px) {
+      .pipeline-back { padding: 20px 24px 0; }
+      .pipeline-hero { padding: 16px 24px 40px; }
+      .pipeline-hero-inner { grid-template-columns: 1fr; gap: 24px; }
+      .pipeline-toggle-wrap { align-items: flex-start; }
+      .pipeline-section { padding: 40px 24px 0; }
+      .episode-section { padding: 0 24px 48px; }
+      .pipeline-footer { padding: 18px 24px; }
+      .cold-open-wrap { padding: 14px 16px; }
+
+      .flow-track {
+        flex-direction: column;
+        overflow-x: visible;
+        gap: 0;
+      }
+      .node {
+        flex-direction: column;
+        min-width: auto;
+      }
+      .node-connector {
+        width: auto;
+        height: 36px;
+        flex-direction: column;
+      }
+      .node-connector::before {
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        right: auto;
+        width: 2px;
+        height: 100%;
+        transform: translateX(-50%);
+      }
+      .node-connector::after {
+        top: 50%;
+        left: 50%;
+        width: 8px;
+        height: 1px;
+        transform: translate(-50%, -50%);
+      }
+      @media (prefers-reduced-motion: no-preference) {
+        .spark {
+          animation: sparkTravelV var(--flow-speed) ease-in-out infinite;
+          animation-delay: calc(var(--i, 0) * (var(--flow-speed) / 7));
+        }
+      }
+
+      .episode-card {
+        grid-template-columns: 1fr;
+      }
+      .ec-art-box {
+        width: 120px;
+        height: 120px;
+      }
+    }
+
+    @keyframes sparkTravelV {
+      0%   { top: -8px; opacity: 0; left: 50%; transform: translateX(-50%); }
+      8%   { opacity: 1; }
+      92%  { opacity: 1; }
+      100% { top: calc(100% + 8px); opacity: 0; left: 50%; transform: translateX(-50%); }
+    }
+
+    @media (max-width: 600px) {
+      .pipeline-title { font-size: 32px; }
+      .episode-card { padding: 20px; gap: 20px; }
+      .ec-title { font-size: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">HARRY<span class="brand-slash">/</span>SHARMAN</a>
+      <nav class="top-nav" id="nav-links">
+        <a href="blog.html" class="nav-link">writing</a>
+        <a href="index.html#podcast" class="nav-link">listen</a>
+        <a href="index.html#building" class="nav-link">building</a>
+      </nav>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </header>
+
+  <!-- ── Back link ── -->
+  <a href="index.html#podcast" class="pipeline-back">&#8592;&nbsp;back to site</a>
+
+  <!-- ── Hero / Header ── -->
+  <section class="pipeline-hero">
+    <div class="pipeline-hero-inner">
+      <div>
+        <div class="pipeline-label">BRIEFLY AI — THE MACHINE ROOM</div>
+        <h1 class="pipeline-title">Seven steps.<br>No humans.<br><em>Every morning.</em></h1>
+        <p class="pipeline-sub">At 7am UK time, a pipeline runs — pulling news, filtering signal from noise, writing a script in my voice, cloning my voice, and publishing to Spotify and Apple. This is today's run, live.</p>
+
+        <!-- Cold-open typewriter -->
+        <div class="cold-open-wrap" id="coldOpenWrap" style="display:none">
+          <div class="cold-open-label">Today's cold open</div>
+          <p class="cold-open-text" id="coldOpenText"><span class="cold-open-cursor"></span></p>
+        </div>
+
+        <!-- Status -->
+        <div class="pipeline-status-bar">
+          <span class="status-dot" id="statusDot" data-state="ok" aria-hidden="true"></span>
+          <span class="status-text">Last run <time id="lastRun" datetime="">loading&hellip;</time></span>
+          <span class="status-text" id="runDuration" style="display:none"></span>
+        </div>
+      </div>
+
+      <!-- Mode toggle -->
+      <div class="pipeline-toggle-wrap">
+        <span class="pipeline-toggle-label">Episode type</span>
+        <div class="pipeline-toggle" role="tablist" aria-label="Episode type" id="modeToggle">
+          <button class="pt-btn" data-mode="weekday" role="tab" aria-selected="true">Weekday</button>
+          <button class="pt-btn" data-mode="weekend" role="tab" aria-selected="false">Weekend</button>
+          <span class="pt-thumb" id="ptThumb" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Skipped state ── -->
+  <div class="pipeline-skipped-msg" id="skippedMsg">
+    <p>
+      <strong>No episode today.</strong>
+      Nothing fresh enough to say. Brand integrity over daily noise.
+      <br><br>
+      <span id="skippedReason"></span>
+    </p>
+  </div>
+
+  <!-- ════════════════════════════
+       THE PIPELINE FLOW
+  ════════════════════════════ -->
+  <section class="pipeline-section" id="pipelineSection" data-mode="weekday">
+    <div class="pipeline-flow-inner">
+      <div class="pipeline-flow-label">The flow &mdash; 7 stages, automated</div>
+
+      <ol class="flow-track" id="pipelineFlow" aria-label="Pipeline stages">
+
+        <!-- 01 Collect -->
+        <li class="node" data-stage="collect" data-state="ok" style="--i:0">
+          <div class="node-card">
+            <span class="node-num">01</span>
+            <span class="node-icon" aria-hidden="true">&#128225;</span>
+            <h3 class="node-name">Collect</h3>
+            <p class="node-desc">Newsletters, RSS &amp; fresh AI news pulled at dawn.</p>
+            <dl class="node-data">
+              <div><dt>feeds</dt><dd data-bind="sources_count">&#8212;</dd></div>
+              <div><dt>items</dt><dd data-bind="articles_found">&#8212;</dd></div>
+            </dl>
+          </div>
+          <div class="node-connector" aria-hidden="true"><span class="spark" style="--i:0"></span></div>
+        </li>
+
+        <!-- 02 Research -->
+        <li class="node" data-stage="research" data-state="ok" style="--i:1">
+          <div class="node-card">
+            <span class="node-num">02</span>
+            <span class="node-icon" aria-hidden="true">&#128269;</span>
+            <h3 class="node-name">Research</h3>
+            <p class="node-desc">Brave search across 8 angles + psych cache.</p>
+            <dl class="node-data">
+              <div><dt>queries</dt><dd data-bind="search_queries">&#8212;</dd></div>
+              <div><dt>psych hits</dt><dd data-bind="psych_articles">&#8212;</dd></div>
+            </dl>
+          </div>
+          <div class="node-connector" aria-hidden="true"><span class="spark" style="--i:1"></span></div>
+        </li>
+
+        <!-- 03 Filter -->
+        <li class="node" data-stage="filter" data-state="ok" style="--i:2">
+          <div class="node-card">
+            <span class="node-num">03</span>
+            <span class="node-icon" aria-hidden="true">&#9878;&#65039;</span>
+            <h3 class="node-name">Filter</h3>
+            <p class="node-desc">Variety check against the topic ledger.</p>
+            <dl class="node-data">
+              <div><dt>fresh</dt><dd data-bind="fresh">&#8212;</dd></div>
+              <div><dt>over-covered</dt><dd data-bind="over_covered">&#8212;</dd></div>
+            </dl>
+          </div>
+          <div class="node-connector" aria-hidden="true"><span class="spark" style="--i:2"></span></div>
+        </li>
+
+        <!-- 04 Write -->
+        <li class="node" data-stage="write" data-state="ok" style="--i:3">
+          <div class="node-card">
+            <span class="node-num">04</span>
+            <span class="node-icon" aria-hidden="true">&#9997;&#65039;</span>
+            <h3 class="node-name">Write</h3>
+            <p class="node-desc">Claude Sonnet drafts the script in my voice.</p>
+            <dl class="node-data">
+              <div><dt>model</dt><dd data-bind="model" class="small">&#8212;</dd></div>
+              <div><dt>words</dt><dd data-bind="word_count">&#8212;</dd></div>
+            </dl>
+          </div>
+          <div class="node-connector" aria-hidden="true"><span class="spark" style="--i:3"></span></div>
+        </li>
+
+        <!-- 05 Analyse -->
+        <li class="node" data-stage="analyse" data-state="ok" style="--i:4">
+          <div class="node-card">
+            <span class="node-num">05</span>
+            <span class="node-icon" aria-hidden="true">&#127991;&#65039;</span>
+            <h3 class="node-name">Analyse</h3>
+            <p class="node-desc">Title + story slugs extracted, QA gate.</p>
+            <dl class="node-data">
+              <div><dt>QA</dt><dd data-bind="qa_verdict" class="small">&#8212;</dd></div>
+              <div><dt>topics</dt><dd data-bind="topics_count">&#8212;</dd></div>
+            </dl>
+          </div>
+          <div class="node-connector" aria-hidden="true"><span class="spark" style="--i:4"></span></div>
+        </li>
+
+        <!-- 06 Voice -->
+        <li class="node" data-stage="voice" data-state="ok" style="--i:5">
+          <div class="node-card">
+            <span class="node-num">06</span>
+            <span class="node-icon" aria-hidden="true">&#127897;&#65039;</span>
+            <h3 class="node-name">Voice</h3>
+            <p class="node-desc">ElevenLabs renders my cloned voice.</p>
+            <dl class="node-data">
+              <div><dt>duration</dt><dd data-bind="duration" class="small">&#8212;</dd></div>
+              <div><dt>size</dt><dd data-bind="audio_size" class="small">&#8212;</dd></div>
+            </dl>
+          </div>
+          <div class="node-connector" aria-hidden="true"><span class="spark" style="--i:5"></span></div>
+        </li>
+
+        <!-- 07 Publish -->
+        <li class="node" data-stage="publish" data-state="ok" style="--i:6">
+          <div class="node-card">
+            <span class="node-num">07</span>
+            <span class="node-icon" aria-hidden="true">&#128228;</span>
+            <h3 class="node-name">Publish</h3>
+            <p class="node-desc">Podbean &#8594; Spotify + Apple Podcasts.</p>
+            <dl class="node-data">
+              <div><dt>published</dt><dd data-bind="published_at" class="small">&#8212;</dd></div>
+              <div><dt>platforms</dt><dd data-bind="platforms_count">&#8212;</dd></div>
+            </dl>
+          </div>
+          <!-- No connector after last node -->
+        </li>
+
+        <!-- 08 Echo (Sunday preview only) -->
+        <li class="node node-echo" data-stage="echo" style="--i:7">
+          <div class="node-connector" aria-hidden="true"><span class="spark" style="--i:6"></span></div>
+          <div class="node-card">
+            <span class="node-num">08</span>
+            <span class="node-icon" aria-hidden="true">&#129710;</span>
+            <h3 class="node-name">Echo</h3>
+            <p class="node-desc">Sunday wrap &#8594; LinkedIn post.</p>
+            <dl class="node-data">
+              <div><dt>track</dt><dd class="small">LinkedIn</dd></div>
+            </dl>
+          </div>
+        </li>
+
+      </ol>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       TODAY'S EPISODE CARD
+  ════════════════════════════ -->
+  <section class="episode-section">
+    <div class="episode-inner">
+      <div class="episode-section-label">Output &mdash; today's episode</div>
+
+      <article class="episode-card" id="episodeCard">
+        <div class="ec-art">
+          <div class="ec-art-box" id="ecArtBox">
+            <span class="ec-art-placeholder" id="ecArtPlaceholder" aria-hidden="true">&#127897;</span>
+            <img id="ecArtImg" alt="Episode artwork" style="display:none" loading="lazy">
+          </div>
+          <span class="ec-badge" id="ecBadge">WEEKDAY</span>
+        </div>
+        <div class="ec-body">
+          <div class="ec-meta">
+            <time id="ecDate" datetime="">&#8212;</time>
+            <span class="ec-dot">&middot;</span>
+            <span id="ecDuration">&#8212;</span>
+            <span class="ec-dot">&middot;</span>
+            <span id="ecWords">&#8212;</span>&nbsp;words
+          </div>
+          <h3 class="ec-title" id="ecTitle">Loading today's episode&hellip;</h3>
+          <ul class="ec-topics" id="ecTopics"></ul>
+          <div class="ec-sources-wrap">
+            <span class="ec-sources-label">Researched from</span>
+            <ul class="ec-sources-list" id="ecSources"></ul>
+          </div>
+          <div class="ec-actions">
+            <a class="podcast-btn podcast-btn-spotify" id="ecSpotify" href="https://open.spotify.com/show/3P1pU7lrfX3mnvR7u9Hj90" target="_blank" rel="noopener">&#9654;&nbsp;Spotify</a>
+            <a class="podcast-btn podcast-btn-apple" id="ecApple" href="https://podcasts.apple.com/gb/podcast/briefly-ai/id1893899361" target="_blank" rel="noopener">&#9654;&nbsp;Apple Podcasts</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── Footer micro-stat ── -->
+  <div class="pipeline-footer">
+    <p class="pipeline-footer-stat">
+      Episode&nbsp;<span id="footerEpNum">#47</span>
+      &nbsp;&middot;&nbsp; running daily since <span>2026-04-07</span>
+      &nbsp;&middot;&nbsp; <span>0</span>&nbsp;humans in the loop
+    </p>
+  </div>
+
+  <!-- ── Site footer ── -->
+  <footer class="site-footer">
+    <div class="footer-nav">
+      <a href="/" class="footer-nav-link">Home</a>
+      <a href="/blog.html" class="footer-nav-link">Writing</a>
+      <a href="/#podcast" class="footer-nav-link">Podcast</a>
+      <a href="/#building" class="footer-nav-link">Building</a>
+      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-nav-link">LinkedIn &#8599;</a>
+    </div>
+    <div class="footer-h">Want to talk?</div>
+    <div class="footer-links">
+      <a href="https://linkedin.com/in/harrysharman" target="_blank" class="footer-link">linkedin/harrysharman &#8599;</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 Harry Sharman. Built with care.</div>
+  </footer>
+
+  <script src="js/site-nav.js" defer></script>
+  <script defer>
+  /* ════════════════════════════
+     PIPELINE HYDRATION — vanilla, no deps
+  ════════════════════════════ */
+  (function() {
+
+    // ── Helpers ──────────────────────────────────────────
+    function secsToMMSS(s) {
+      if (!s && s !== 0) return '—';
+      var m = Math.floor(s / 60), sec = s % 60;
+      return m + ':' + String(sec).padStart(2, '0');
+    }
+    function bytesToMB(b) {
+      if (!b) return '—';
+      return (b / 1048576).toFixed(1) + ' MB';
+    }
+    function relativeTime(isoStr) {
+      if (!isoStr) return '—';
+      var diff = Date.now() - new Date(isoStr).getTime();
+      var hrs = Math.floor(diff / 3600000);
+      var mins = Math.floor(diff / 60000);
+      if (hrs >= 24) return 'yesterday';
+      if (hrs >= 1) return hrs + 'h ago';
+      if (mins >= 1) return mins + 'min ago';
+      return 'just now';
+    }
+    function formatDate(dateStr) {
+      if (!dateStr) return '—';
+      try {
+        return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      } catch(e) { return dateStr; }
+    }
+
+    // ── Count-up ticker ──────────────────────────────────
+    function countUp(el, target, duration) {
+      if (typeof target !== 'number' || isNaN(target)) {
+        el.textContent = target;
+        return;
+      }
+      var start = performance.now();
+      var from = 0;
+      function step(now) {
+        var progress = Math.min((now - start) / duration, 1);
+        var ease = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        el.textContent = Math.round(from + (target - from) * ease);
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target;
+      }
+      // Only animate if reduced-motion not preferred
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.textContent = target;
+      } else {
+        requestAnimationFrame(step);
+      }
+    }
+
+    // ── Mode copy map ─────────────────────────────────────
+    var MODE_COPY = {
+      weekday: { badge: 'WEEKDAY', toggleActive: 0 },
+      'weekend-roundup': { badge: 'THE WEEK IN REVIEW', toggleActive: 1 },
+      'weekend-preview': { badge: "WHAT'S COMING", toggleActive: 1 },
+      weekend: { badge: 'WEEKEND', toggleActive: 1 }
+    };
+
+    // ── Toggle logic ──────────────────────────────────────
+    var pipelineSection = document.getElementById('pipelineSection');
+    var modeToggle = document.getElementById('modeToggle');
+    var ptBtns = modeToggle ? Array.from(modeToggle.querySelectorAll('.pt-btn')) : [];
+    var ptThumb = document.getElementById('ptThumb');
+
+    function setThumb(idx) {
+      if (!ptThumb || !ptBtns[idx]) return;
+      var btn = ptBtns[idx];
+      ptThumb.style.width = btn.offsetWidth + 'px';
+      ptThumb.style.transform = 'translateX(' + btn.offsetLeft + 'px)';
+    }
+
+    function setMode(mode) {
+      var normMode = (mode === 'weekend-roundup' || mode === 'weekend-preview') ? mode : (mode === 'weekend' ? 'weekend' : 'weekday');
+      pipelineSection.setAttribute('data-mode', normMode);
+      var copy = MODE_COPY[normMode] || MODE_COPY.weekday;
+      var badge = document.getElementById('ecBadge');
+      if (badge) badge.textContent = copy.badge;
+      ptBtns.forEach(function(b, i) {
+        b.setAttribute('aria-selected', i === copy.toggleActive ? 'true' : 'false');
+      });
+      setThumb(copy.toggleActive);
+    }
+
+    if (modeToggle) {
+      modeToggle.addEventListener('click', function(e) {
+        var btn = e.target.closest('.pt-btn');
+        if (!btn) return;
+        setMode(btn.getAttribute('data-mode'));
+      });
+      // Init thumb size after fonts load
+      document.fonts.ready.then(function() { setThumb(0); });
+    }
+
+    // ── Typewriter ────────────────────────────────────────
+    function typewriter(el, text, speed) {
+      var i = 0;
+      var cursor = el.querySelector('.cold-open-cursor') || document.createElement('span');
+      cursor.className = 'cold-open-cursor';
+      el.innerHTML = '';
+      el.appendChild(cursor);
+      var interval = setInterval(function() {
+        if (i >= text.length) {
+          clearInterval(interval);
+          return;
+        }
+        cursor.insertAdjacentText('beforebegin', text[i]);
+        i++;
+      }, speed || 28);
+    }
+
+    // ── Hydrate nodes ─────────────────────────────────────
+    function hydrateNode(stageKey, stageData) {
+      var node = document.querySelector('[data-stage="' + stageKey + '"]');
+      if (!node) return;
+      // State
+      if (stageData.state) node.setAttribute('data-state', stageData.state);
+      // Binds
+      var binds = node.querySelectorAll('[data-bind]');
+      binds.forEach(function(el) {
+        var key = el.getAttribute('data-bind');
+        var val = stageData[key];
+        if (val === undefined || val === null) return;
+        if (typeof val === 'number') {
+          countUp(el, val, 600);
+        } else {
+          el.textContent = val;
+        }
+      });
+    }
+
+    // ── Intersection Observer (lazy-start animations) ─────
+    function startAnimationsWhenVisible() {
+      var section = document.getElementById('pipelineSection');
+      if (!section) return;
+      if (!window.IntersectionObserver) {
+        section.classList.add('anim-active');
+        return;
+      }
+      var obs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(e) {
+          if (e.isIntersecting) {
+            section.classList.add('anim-active');
+            obs.unobserve(section);
+          }
+        });
+      }, { threshold: 0.1 });
+      obs.observe(section);
+    }
+
+    // ── Main fetch ────────────────────────────────────────
+    fetch('/data/pipeline-latest.json')
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+
+        // Status bar
+        var dot = document.getElementById('statusDot');
+        var lastRunEl = document.getElementById('lastRun');
+        var durationEl = document.getElementById('runDuration');
+
+        if (dot && data.status) {
+          dot.setAttribute('data-state', data.status.state || 'ok');
+        }
+        if (lastRunEl && data.status && data.status.last_run) {
+          var rel = relativeTime(data.status.last_run);
+          lastRunEl.textContent = rel;
+          lastRunEl.setAttribute('datetime', data.status.last_run);
+        }
+        if (durationEl && data.status && data.status.duration_seconds) {
+          durationEl.textContent = '(' + data.status.duration_seconds + 's total)';
+          durationEl.style.display = '';
+        }
+
+        // Skipped state
+        if (data.status && data.status.state === 'skipped') {
+          var skippedMsg = document.getElementById('skippedMsg');
+          if (skippedMsg) {
+            skippedMsg.style.display = 'block';
+            var reasonEl = document.getElementById('skippedReason');
+            if (reasonEl && data.status.skipped_reason) {
+              reasonEl.textContent = data.status.skipped_reason;
+            }
+          }
+          // Grey all nodes
+          document.querySelectorAll('.node').forEach(function(n) {
+            n.setAttribute('data-state', 'skipped');
+          });
+        }
+
+        // Mode
+        if (data.mode || (data.episode && data.episode.mode)) {
+          setMode(data.mode || data.episode.mode);
+        }
+
+        // Hydrate each stage
+        var stageMap = {
+          collect:  1,
+          research: 2,
+          filter:   3,
+          write:    4,
+          analyse:  5,
+          voice:    6,
+          publish:  7
+        };
+        if (data.stages) {
+          // Special formatting before passing to hydrate
+          var stages = data.stages;
+
+          // Voice: compute display values
+          if (stages.voice) {
+            stages.voice.duration = secsToMMSS(stages.voice.duration_seconds);
+            stages.voice.audio_size = bytesToMB(stages.voice.audio_bytes);
+          }
+
+          // Publish: published_at relative time, platforms count
+          if (stages.publish) {
+            if (stages.publish.published_at) {
+              stages.publish.published_at = relativeTime(stages.publish.published_at);
+            }
+            if (stages.publish.platforms) {
+              stages.publish.platforms_count = stages.publish.platforms.length;
+            }
+          }
+
+          // Write: shorten model name
+          if (stages.write && stages.write.model) {
+            stages.write.model = stages.write.model.replace('claude-', '').replace('-', ' ');
+          }
+
+          Object.keys(stages).forEach(function(key) {
+            hydrateNode(key, stages[key]);
+          });
+        }
+
+        // Cold open typewriter
+        if (data.episode && data.episode.cold_open) {
+          var wrap = document.getElementById('coldOpenWrap');
+          var textEl = document.getElementById('coldOpenText');
+          if (wrap && textEl) {
+            wrap.style.display = 'block';
+            var cursor = document.createElement('span');
+            cursor.className = 'cold-open-cursor';
+            textEl.innerHTML = '';
+            textEl.appendChild(cursor);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+              setTimeout(function() {
+                typewriter(textEl, data.episode.cold_open, 22);
+              }, 800);
+            } else {
+              textEl.textContent = data.episode.cold_open;
+            }
+          }
+        }
+
+        // Episode card
+        if (data.episode) {
+          var ep = data.episode;
+
+          var ecDate = document.getElementById('ecDate');
+          if (ecDate && ep.date) {
+            ecDate.textContent = formatDate(ep.date);
+            ecDate.setAttribute('datetime', ep.date);
+          }
+
+          var ecDuration = document.getElementById('ecDuration');
+          if (ecDuration && ep.duration_seconds) {
+            ecDuration.textContent = secsToMMSS(ep.duration_seconds);
+          }
+
+          var ecWords = document.getElementById('ecWords');
+          if (ecWords && ep.word_count) ecWords.textContent = ep.word_count;
+
+          var ecTitle = document.getElementById('ecTitle');
+          if (ecTitle && ep.title) ecTitle.textContent = ep.title;
+
+          // Artwork
+          if (ep.artwork_url) {
+            var img = document.getElementById('ecArtImg');
+            var ph = document.getElementById('ecArtPlaceholder');
+            if (img) {
+              img.src = ep.artwork_url;
+              img.style.display = 'block';
+              if (ph) ph.style.display = 'none';
+            }
+          }
+
+          // Topics
+          var topicsEl = document.getElementById('ecTopics');
+          if (topicsEl && ep.topics && ep.topics.length) {
+            topicsEl.innerHTML = ep.topics.map(function(t) {
+              return '<li class="ec-topic-chip">' + t.label + '</li>';
+            }).join('');
+          }
+
+          // Sources
+          var sourcesEl = document.getElementById('ecSources');
+          if (sourcesEl && ep.sources && ep.sources.length) {
+            sourcesEl.innerHTML = ep.sources.map(function(s) {
+              return '<li class="ec-source-chip">' + s.name + '</li>';
+            }).join('');
+          }
+
+          // Platform links
+          if (ep.spotify_url) {
+            var spotBtn = document.getElementById('ecSpotify');
+            if (spotBtn) spotBtn.href = ep.spotify_url;
+          }
+          if (ep.apple_url) {
+            var appleBtn = document.getElementById('ecApple');
+            if (appleBtn) appleBtn.href = ep.apple_url;
+          }
+        }
+
+        // Footer meta
+        if (data.meta) {
+          var epNum = document.getElementById('footerEpNum');
+          if (epNum && data.meta.episode_number) {
+            epNum.textContent = '#' + data.meta.episode_number;
+          }
+        }
+
+        // Start animations
+        startAnimationsWhenVisible();
+      })
+      .catch(function(err) {
+        console.warn('Pipeline JSON unavailable:', err.message);
+        var lastRunEl = document.getElementById('lastRun');
+        if (lastRunEl) lastRunEl.textContent = 'couldn\'t reach the pipeline';
+        var dot = document.getElementById('statusDot');
+        if (dot) dot.setAttribute('data-state', 'fail');
+        startAnimationsWhenVisible();
+      });
+
+  })();
+  </script>
+
+</body>
+</html>
