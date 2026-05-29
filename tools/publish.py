@@ -469,10 +469,13 @@ def publish_to_site(post: dict, image_path: str | None, dry_run: bool = False) -
 # ---------------------------------------------------------------------------
 def publish_to_linkedin(post: dict, image_path: str | None, dry_run: bool = False) -> bool:
     """
-    Convert markdown body to formatted text suitable for LinkedIn newsletter
-    and save it locally for manual posting.
+    Format post as LinkedIn newsletter text and save to file.
+
+    Harry posts to his LinkedIn Newsletter manually — the API cannot create
+    LinkedIn Newsletter issues, only regular feed posts. So we prep the text
+    and he pastes it in. The file is at tools/output/linkedin-{slug}.txt.
     """
-    heading("Preparing LinkedIn text")
+    heading("Preparing LinkedIn newsletter text")
 
     output_dir = TOOLS_DIR / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -484,100 +487,235 @@ def publish_to_linkedin(post: dict, image_path: str | None, dry_run: bool = Fals
     if post.get("linkedin_intro"):
         formatted_text = post["linkedin_intro"]
     else:
-        # Strip markdown formatting for LinkedIn plain text
         body = post["body"]
-        # Remove headers markup but keep the text
         body = re.sub(r"^#{1,6}\s+", "", body, flags=re.MULTILINE)
-        # Remove bold/italic markers
         body = re.sub(r"\*\*(.+?)\*\*", r"\1", body)
         body = re.sub(r"\*(.+?)\*", r"\1", body)
-        # Remove links but keep text
         body = re.sub(r"\[(.+?)\]\(.+?\)", r"\1", body)
-        # Remove images
         body = re.sub(r"!\[.*?\]\(.+?\)", "", body)
-        # Clean up extra blank lines
         body = re.sub(r"\n{3,}", "\n\n", body)
         formatted_text = f"{post['title']}\n\n{body.strip()}"
 
-    # Truncate if needed for LinkedIn 3000 char limit
-    if len(formatted_text) > 3000:
-        truncated = formatted_text[:2800].rsplit(" ", 1)[0]
-        formatted_text = f"{truncated}...\n\nRead the full article at {post_url}"
+    output_file.write_text(formatted_text, encoding="utf-8")
 
     if dry_run:
-        info(f"[DRY RUN] Would save LinkedIn text to {output_file}")
+        info(f"[DRY RUN] Would save LinkedIn text ({len(formatted_text)} chars) to {output_file}")
         return True
 
-    # Build the output with instructions
-    output_content = (
-        "=== LinkedIn Newsletter Text ===\n"
-        f"Title: {post['title']}\n"
-        f"Excerpt: {post['excerpt']}\n"
-        f"URL: {post_url}\n"
-        f"Character count: {len(formatted_text)}\n"
-        "\n"
-        "=== Formatted Text (copy below this line) ===\n"
-        "\n"
-        f"{formatted_text}\n"
-        "\n"
-        "=== End of Text ===\n"
-        "\n"
-        "Notes:\n"
-        "- Hero image is generated separately in assets/\n"
-        "- Paste the text above into LinkedIn as a new post or newsletter\n"
-        "- Add the hero image manually when posting\n"
-    )
-
-    output_file.write_text(output_content, encoding="utf-8")
-    ok(f"LinkedIn text saved to {output_file}")
-    info(f"Character count: {len(formatted_text)}")
-    print(f"LinkedIn text saved to /root/harrysharman-site/tools/output/linkedin-{post['slug']}.txt")
+    ok(f"LinkedIn text ready ({len(formatted_text)} chars): {output_file}")
+    info(f"Post URL for first comment: {post_url}")
     return True
 
 
 # ---------------------------------------------------------------------------
 # 5. Publish to Substack (Draft)
 # ---------------------------------------------------------------------------
+def _markdown_to_tiptap(body: str) -> dict:
+    """
+    Convert a markdown body to Substack's Tiptap/ProseMirror JSON format.
+    Handles: headings, paragraphs, bold, italic, bullet lists, horizontal rules.
+    Good enough for a draft — Harry will polish in Substack's editor before sending.
+    """
+    def text_node(text: str, bold: bool = False, italic: bool = False) -> dict:
+        node: dict = {"type": "text", "text": text}
+        marks = []
+        if bold:
+            marks.append({"type": "bold"})
+        if italic:
+            marks.append({"type": "italic"})
+        if marks:
+            node["marks"] = marks
+        return node
+
+    def inline_parse(line: str) -> list:
+        """Parse inline bold/italic markers into text nodes."""
+        nodes = []
+        # Simple alternating bold parser
+        parts = re.split(r"(\*\*[^*]+\*\*|\*[^*]+\*)", line)
+        for part in parts:
+            if part.startswith("**") and part.endswith("**"):
+                nodes.append(text_node(part[2:-2], bold=True))
+            elif part.startswith("*") and part.endswith("*"):
+                nodes.append(text_node(part[1:-1], italic=True))
+            elif part:
+                # Strip links but keep text
+                cleaned = re.sub(r"\[(.+?)\]\(.+?\)", r"\1", part)
+                if cleaned:
+                    nodes.append(text_node(cleaned))
+        return nodes if nodes else [text_node(line)]
+
+    def paragraph(*content) -> dict:
+        c = list(content)
+        return {"type": "paragraph", "content": c} if c else {"type": "paragraph"}
+
+    def heading(text: str, level: int) -> dict:
+        return {"type": "heading", "attrs": {"level": level}, "content": [text_node(text)]}
+
+    nodes = []
+    lines = body.split("\n")
+    bullet_buffer: list = []
+
+    def flush_bullets():
+        if bullet_buffer:
+            nodes.append({"type": "bulletList", "content": list(bullet_buffer)})
+            bullet_buffer.clear()
+
+    for line in lines:
+        # Heading
+        h_match = re.match(r"^(#{1,6})\s+(.+)", line)
+        if h_match:
+            flush_bullets()
+            nodes.append(heading(h_match.group(2).strip(), len(h_match.group(1))))
+            continue
+
+        # Horizontal rule
+        if re.match(r"^[-*_]{3,}$", line.strip()):
+            flush_bullets()
+            nodes.append({"type": "horizontalRule"})
+            continue
+
+        # Bullet
+        b_match = re.match(r"^[-*]\s+(.+)", line)
+        if b_match:
+            item_content = inline_parse(b_match.group(1))
+            bullet_buffer.append({
+                "type": "listItem",
+                "content": [paragraph(*item_content)]
+            })
+            continue
+
+        # Empty line
+        if not line.strip():
+            flush_bullets()
+            nodes.append(paragraph())
+            continue
+
+        # Paragraph
+        flush_bullets()
+        inline = inline_parse(line.strip())
+        nodes.append(paragraph(*inline))
+
+    flush_bullets()
+    return {"type": "doc", "content": nodes}
+
+
+def _get_substack_session() -> tuple[str | None, str | None]:
+    """
+    Return (sid_cookie, lli_cookie) for beautifulthinking.substack.com.
+    Checks tools/.env first, then falls back to the AI Habit .env
+    (same Substack account — cookie value is account-level).
+    """
+    sid = os.getenv("SUBSTACK_SESSION_COOKIE")
+    lli = os.getenv("SUBSTACK_LLI_COOKIE")
+    if sid:
+        return sid, lli
+
+    # Fallback: AI Habit .env (same account)
+    aihabit_env = Path("/root/.openclaw-rory/workspace/projects/ai-habit/theaihabit/.env")
+    if aihabit_env.exists():
+        from dotenv import dotenv_values
+        vals = dotenv_values(aihabit_env)
+        sid = vals.get("SUBSTACK_SESSION_COOKIE")
+        lli = vals.get("SUBSTACK_LLI_COOKIE")
+
+    return sid, lli
+
+
 def publish_to_substack(post: dict, dry_run: bool = False) -> bool:
     """
-    Convert markdown body to HTML and save locally for manual Substack upload.
-    """
-    heading("Preparing Substack HTML")
+    Create an unscheduled DRAFT on beautifulthinking.substack.com via cookie API.
+    Harry reviews and publishes manually — nothing goes to subscribers until he hits send.
 
+    Falls back to saving HTML if cookies are missing or expired.
+    To refresh cookies: log into substack.com in Chrome, copy substack.sid and
+    substack.lli cookies into /root/harrysharman-site/tools/.env.
+    """
+    heading("Creating Substack draft")
+
+    PUBLICATION = "beautifulthinking"
+    BASE_URL = f"https://{PUBLICATION}.substack.com/api/v1"
+
+    if dry_run:
+        info(f"[DRY RUN] Would create Substack draft: {post['title']}")
+        return True
+
+    sid, lli = _get_substack_session()
+
+    if not sid:
+        warn("No SUBSTACK_SESSION_COOKIE found — saving HTML fallback instead.")
+        warn("To enable: add SUBSTACK_SESSION_COOKIE to /root/harrysharman-site/tools/.env")
+        return _save_substack_html_fallback(post)
+
+    # Build authenticated session
+    session = requests.Session()
+    session.cookies.set("substack.sid", sid, domain=f".substack.com")
+    if lli:
+        session.cookies.set("substack.lli", lli, domain=f".substack.com")
+    session.headers.update({
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (compatible; BeautifulThinking-Publisher/1.0)",
+        "Referer": f"https://{PUBLICATION}.substack.com/",
+        "Origin": f"https://{PUBLICATION}.substack.com",
+    })
+
+    # Convert to Tiptap
+    tiptap = _markdown_to_tiptap(post["body"])
+
+    payload = {
+        "type": "newsletter",
+        "draft_title": post["title"],
+        "draft_subtitle": post.get("excerpt", ""),
+        "draft_body": json.dumps(tiptap),
+        "draft_cover_image": None,
+        "section_id": None,
+        "audience": "everyone",
+    }
+
+    try:
+        resp = session.post(f"{BASE_URL}/drafts", json=payload, timeout=15)
+    except Exception as e:
+        fail(f"Substack API request failed: {e}")
+        return _save_substack_html_fallback(post)
+
+    if resp.status_code in (401, 403):
+        fail(f"Substack auth failed ({resp.status_code}) — cookies may have expired.")
+        warn("Refresh: log into substack.com, copy substack.sid + substack.lli to tools/.env")
+        return _save_substack_html_fallback(post)
+
+    if resp.status_code not in (200, 201):
+        fail(f"Substack API returned {resp.status_code}: {resp.text[:200]}")
+        return _save_substack_html_fallback(post)
+
+    data = resp.json()
+    post_id = data.get("id")
+    if not post_id:
+        fail(f"Substack response had no post ID: {str(data)[:200]}")
+        return _save_substack_html_fallback(post)
+
+    draft_url = f"https://{PUBLICATION}.substack.com/publish/post/{post_id}"
+    ok(f"Substack DRAFT created (not sent): {draft_url}")
+    info("Harry reviews and sends manually — nothing goes to subscribers until you hit send.")
+    return True
+
+
+def _save_substack_html_fallback(post: dict) -> bool:
+    """Fallback: save HTML when Substack API is unavailable."""
     output_dir = TOOLS_DIR / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
     output_file = output_dir / f"substack-{post['slug']}.html"
-
-    if dry_run:
-        info(f"[DRY RUN] Would save Substack HTML to {output_file}")
-        return True
-
     try:
-        html_body = md_lib.markdown(post["body"], extensions=["extra", "codehilite"])
-
+        html_body = md_lib.markdown(post["body"], extensions=["extra"])
         html_content = (
-            "<!DOCTYPE html>\n"
-            "<html>\n"
-            "<head>\n"
-            '    <meta charset="utf-8">\n'
-            f"    <title>{post['title']}</title>\n"
-            "</head>\n"
-            "<body>\n"
-            f"    <h1>{post['title']}</h1>\n"
-            f"    <p><em>{post['excerpt']}</em></p>\n"
-            "    <hr>\n"
-            f"    {html_body}\n"
-            "</body>\n"
-            "</html>"
+            f"<h1>{post['title']}</h1>\n"
+            f"<p><em>{post.get('excerpt', '')}</em></p>\n"
+            "<hr>\n"
+            f"{html_body}"
         )
-
         output_file.write_text(html_content, encoding="utf-8")
-        ok(f"Substack HTML saved to {output_file}")
-        print(f"Substack HTML saved to /root/harrysharman-site/tools/output/substack-{post['slug']}.html")
-        return True
-
+        warn(f"HTML fallback saved: {output_file}")
+        return False  # Partial success — note as False so summary shows it needs attention
     except Exception as e:
-        fail(f"Substack HTML generation failed: {e}")
+        fail(f"HTML fallback also failed: {e}")
         return False
 
 # ---------------------------------------------------------------------------

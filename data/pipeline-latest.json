@@ -42,7 +42,10 @@
     },
     "publish": {
       "published_at": "2026-05-28T06:01:41Z",
-      "platforms": ["spotify", "apple"],
+      "platforms": [
+        "spotify",
+        "apple"
+      ],
       "state": "ok"
     }
   },
@@ -53,14 +56,53 @@
     "word_count": 966,
     "mode": "weekday",
     "cold_open": "Welcome to Briefly AI. Today: Google's image generator can't spell its own name, AI agents are getting brokerage accounts, and new research shows AI adoption comes with a psychological price tag most companies aren't measuring.",
-    "topics": [{"slug": "google-imagen-spelling-failure", "label": "Google Imagen Spelling Failure"}, {"slug": "cognition-ai-1b-raise", "label": "Cognition Ai 1B Raise"}, {"slug": "robinhood-ai-agent-trading", "label": "Robinhood Ai Agent Trading"}, {"slug": "remote-ai-productivity-no-headcount", "label": "Remote Ai Productivity No Headcount"}, {"slug": "ai-psychological-debt-research", "label": "Ai Psychological Debt Research"}],
+    "topics": [
+      {
+        "slug": "google-imagen-spelling-failure",
+        "label": "Google Imagen Spelling Failure"
+      },
+      {
+        "slug": "cognition-ai-1b-raise",
+        "label": "Cognition Ai 1B Raise"
+      },
+      {
+        "slug": "robinhood-ai-agent-trading",
+        "label": "Robinhood Ai Agent Trading"
+      },
+      {
+        "slug": "remote-ai-productivity-no-headcount",
+        "label": "Remote Ai Productivity No Headcount"
+      },
+      {
+        "slug": "ai-psychological-debt-research",
+        "label": "Ai Psychological Debt Research"
+      }
+    ],
     "sources": [
-      { "type": "rss",        "name": "Techmeme" },
-      { "type": "rss",        "name": "TechCrunch AI" },
-      { "type": "rss",        "name": "The Verge AI" },
-      { "type": "search",     "name": "Brave Search" },
-      { "type": "newsletter", "name": "The Rundown" },
-      { "type": "psych",      "name": "AI x Psychology cache" }
+      {
+        "type": "rss",
+        "name": "Techmeme"
+      },
+      {
+        "type": "rss",
+        "name": "TechCrunch AI"
+      },
+      {
+        "type": "rss",
+        "name": "The Verge AI"
+      },
+      {
+        "type": "search",
+        "name": "Brave Search"
+      },
+      {
+        "type": "newsletter",
+        "name": "The Rundown"
+      },
+      {
+        "type": "psych",
+        "name": "AI x Psychology cache"
+      }
     ],
     "artwork_url": null,
     "spotify_url": "https://open.spotify.com/show/3P1pU7lrfX3mnvR7u9Hj90",
@@ -70,5 +112,12 @@
     "episode_number": 52,
     "running_since": "2026-04-07",
     "humans_in_loop": 0
-  }
+  },
+  "stats": {
+    "total_episodes": 39,
+    "total_errors": 0,
+    "running_since": "2026-04-07",
+    "humans_in_loop": 0
+  },
+  "issues_log": []
 }

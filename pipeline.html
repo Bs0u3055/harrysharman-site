@@ -649,6 +649,149 @@
     }
 
     /* ════════════════════════════
+       EPISODE COUNTER STATS
+    ════════════════════════════ */
+    .ep-counter-wrap {
+      display: flex;
+      align-items: flex-end;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+    .ep-stat {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .ep-stat-number {
+      font-family: var(--f-sans);
+      font-weight: 900;
+      font-size: clamp(56px, 8vw, 96px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      animation: countUp 0.4s ease-out both;
+    }
+    .ep-stat-number.accent { color: var(--red); }
+    .ep-stat-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      color: var(--ink);
+    }
+    .ep-stat-divider {
+      width: 1px;
+      height: 60px;
+      background: var(--ink-20);
+      align-self: center;
+    }
+    .ep-stat-tooltip {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      opacity: 0.35;
+      color: var(--ink);
+      font-style: italic;
+    }
+
+    /* ════════════════════════════
+       EXPERIMENT LOG / ISSUES TICKER
+    ════════════════════════════ */
+    .experiment-log {
+      background: var(--ink);
+      padding: 48px 40px;
+      border-top: 2px solid var(--ink);
+    }
+    .experiment-log-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .experiment-log-heading {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cream);
+      opacity: 0.4;
+      margin-bottom: 8px;
+    }
+    .experiment-log-sub {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(20px, 3vw, 32px);
+      letter-spacing: -0.025em;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .experiment-log-desc {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--cream);
+      opacity: 0.4;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .experiment-log-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .experiment-log-entry {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      gap: 24px;
+      align-items: baseline;
+      padding: 14px 0;
+      border-top: 1px solid rgba(254,252,247,0.08);
+    }
+    .experiment-log-entry:last-child {
+      border-bottom: 1px solid rgba(254,252,247,0.08);
+    }
+    .log-date {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      color: var(--cream);
+      opacity: 0.3;
+      letter-spacing: 0.04em;
+    }
+    .log-label {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: var(--cream);
+      opacity: 0.75;
+      line-height: 1.5;
+    }
+    .log-resolved {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: #22c55e;
+      opacity: 0.7;
+      white-space: nowrap;
+    }
+    .experiment-log-empty {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      color: var(--cream);
+      opacity: 0.4;
+      padding: 20px 0;
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .experiment-log { padding: 36px 24px; }
+      .experiment-log-entry { grid-template-columns: 90px 1fr; gap: 12px; }
+      .log-resolved { display: none; }
+      .ep-counter-wrap { gap: 24px; }
+      .ep-stat-divider { display: none; }
+    }
+
+    /* ════════════════════════════
        MOBILE
     ════════════════════════════ */
     @media (max-width: 900px) {
@@ -746,6 +889,20 @@
         <div class="pipeline-label">BRIEFLY AI — THE MACHINE ROOM</div>
         <h1 class="pipeline-title">Seven steps.<br>No humans.<br><em>Every morning.</em></h1>
         <p class="pipeline-sub">At 7am UK time, a pipeline runs — pulling news, filtering signal from noise, writing a script in my voice, cloning my voice, and publishing to Spotify and Apple. This is today's run, live.</p>
+
+        <!-- Episode counter stats -->
+        <div class="ep-counter-wrap">
+          <div class="ep-stat">
+            <span class="ep-stat-number" id="epCounterTotal">—</span>
+            <span class="ep-stat-label">episodes published</span>
+          </div>
+          <div class="ep-stat-divider" aria-hidden="true"></div>
+          <div class="ep-stat">
+            <span class="ep-stat-number accent" id="epCounterErrors">—</span>
+            <span class="ep-stat-label">glitches logged</span>
+            <span class="ep-stat-tooltip">part of the experiment</span>
+          </div>
+        </div>
 
         <!-- Cold-open typewriter -->
         <div class="cold-open-wrap" id="coldOpenWrap" style="display:none">
@@ -950,6 +1107,20 @@
           </div>
         </div>
       </article>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════
+       EXPERIMENT LOG
+  ════════════════════════════ -->
+  <section class="experiment-log" aria-label="Experiment log">
+    <div class="experiment-log-inner">
+      <div class="experiment-log-heading">Experiment log</div>
+      <h2 class="experiment-log-sub">The anomalies.</h2>
+      <p class="experiment-log-desc">Briefly AI is an ongoing experiment. This is what went wrong.</p>
+      <ul class="experiment-log-list" id="issuesLogList">
+        <li class="experiment-log-empty">No anomalies recorded. Suspicious.</li>
+      </ul>
     </div>
   </section>
 
@@ -1305,6 +1476,40 @@
           var epNum = document.getElementById('footerEpNum');
           if (epNum && data.meta.episode_number) {
             epNum.textContent = '#' + data.meta.episode_number;
+          }
+        }
+
+        // Episode counter
+        if (data.stats) {
+          var epTotal = document.getElementById('epCounterTotal');
+          var epErrors = document.getElementById('epCounterErrors');
+          if (epTotal && typeof data.stats.total_episodes === 'number') {
+            countUp(epTotal, data.stats.total_episodes, 1200);
+          }
+          if (epErrors && typeof data.stats.total_errors === 'number') {
+            countUp(epErrors, data.stats.total_errors, 900);
+          }
+        } else if (data.meta && data.meta.episode_number) {
+          // Fallback: use episode_number if stats not available
+          var epTotal = document.getElementById('epCounterTotal');
+          if (epTotal) countUp(epTotal, data.meta.episode_number, 1200);
+          var epErrors = document.getElementById('epCounterErrors');
+          if (epErrors) epErrors.textContent = '0';
+        }
+
+        // Issues log
+        var issuesList = document.getElementById('issuesLogList');
+        if (issuesList && data.issues_log) {
+          if (data.issues_log.length === 0) {
+            issuesList.innerHTML = '<li class="experiment-log-empty">No anomalies recorded. Suspicious.</li>';
+          } else {
+            issuesList.innerHTML = data.issues_log.map(function(issue) {
+              return '<li class="experiment-log-entry">' +
+                '<span class="log-date">' + (issue.date || '—') + '</span>' +
+                '<span class="log-label">' + (issue.funny_label || issue.type || '—') + '</span>' +
+                '<span class="log-resolved">&#8594; resolved</span>' +
+                '</li>';
+            }).join('');
           }
         }
 
