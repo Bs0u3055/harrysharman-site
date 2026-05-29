@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Episode Archive — Briefly AI</title>
+  <meta name="description" content="Every episode of Briefly AI — the fully automated daily AI podcast. Browse transcripts, search topics, ask the show anything.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body { background: var(--cream); }
+
+    .archive-hero {
+      padding: 64px 40px 48px;
+      background: var(--ink);
+      color: var(--cream);
+      border-bottom: 2px solid var(--ink);
+    }
+    .archive-hero-inner { max-width: 960px; margin: 0 auto; }
+    .archive-label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 16px;
+    }
+    .archive-title {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(36px, 6vw, 72px);
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+      margin-bottom: 20px;
+    }
+    .archive-title em { font-style: italic; color: var(--red); font-weight: 400; }
+    .archive-sub {
+      font-size: 16px;
+      opacity: 0.65;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+    .archive-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .archive-stat { display: flex; flex-direction: column; gap: 2px; }
+    .archive-stat-n {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+      color: var(--red);
+    }
+    .archive-stat-l {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+
+    /* ── Ask section ── */
+    .ask-section {
+      background: var(--red);
+      border-bottom: 2px solid var(--ink);
+      padding: 48px 40px;
+    }
+    .ask-inner { max-width: 720px; margin: 0 auto; }
+    .ask-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 12px;
+    }
+    .ask-heading {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(22px, 3vw, 32px);
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .ask-sub {
+      font-size: 14px;
+      opacity: 0.75;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .ask-form {
+      display: flex;
+      gap: 0;
+      border: 2px solid var(--ink);
+    }
+    .ask-input {
+      flex: 1;
+      padding: 14px 18px;
+      font-family: var(--f-sans);
+      font-size: 15px;
+      border: none;
+      background: var(--cream);
+      color: var(--ink);
+      outline: none;
+      min-width: 0;
+    }
+    .ask-input::placeholder { opacity: 0.45; }
+    .ask-btn {
+      padding: 14px 24px;
+      background: var(--ink);
+      color: var(--cream);
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .ask-btn:hover { background: #3a2e28; }
+    .ask-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .ask-response {
+      margin-top: 20px;
+      padding: 20px;
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      display: none;
+    }
+    .ask-response.visible { display: block; }
+    .ask-response-text {
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink);
+      white-space: pre-wrap;
+    }
+    .ask-thinking {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      opacity: 0.6;
+      display: none;
+      margin-top: 16px;
+    }
+    .ask-thinking.visible { display: block; }
+
+    /* ── Episode list ── */
+    .archive-main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 40px;
+    }
+    .archive-search-bar {
+      margin-bottom: 32px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .archive-search {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 14px;
+      font-family: var(--f-sans);
+      font-size: 14px;
+      border: 2px solid var(--ink);
+      background: var(--cream);
+      color: var(--ink);
+      outline: none;
+    }
+    .archive-search::placeholder { opacity: 0.4; }
+    .archive-filter-btns { display: flex; gap: 0; }
+    .archive-filter-btn {
+      padding: 10px 16px;
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border: 2px solid var(--ink);
+      margin-right: -2px;
+      background: var(--cream);
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+    }
+    .archive-filter-btn.active,
+    .archive-filter-btn:hover { background: var(--ink); color: var(--cream); }
+
+    .episode-list { display: flex; flex-direction: column; gap: 0; }
+    .episode-row {
+      display: grid;
+      grid-template-columns: 120px 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(26,20,16,0.1);
+      text-decoration: none;
+      color: var(--ink);
+      transition: background 0.12s;
+    }
+    .episode-row:hover { background: rgba(26,20,16,0.03); margin: 0 -16px; padding-left: 16px; padding-right: 16px; }
+    .episode-row:hover .ep-title { color: var(--red); }
+    .episode-row:hover .ep-arrow { opacity: 1; transform: translateX(0); }
+    .ep-date {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      opacity: 0.45;
+      white-space: nowrap;
+    }
+    .ep-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .ep-title {
+      font-family: var(--f-sans);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+      transition: color 0.15s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ep-badge {
+      font-family: var(--f-mono);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.45;
+    }
+    .ep-badge.weekend { color: var(--red); opacity: 0.8; }
+    .ep-arrow {
+      font-size: 14px;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.15s, transform 0.15s;
+      color: var(--red);
+      font-weight: 700;
+    }
+    .no-results {
+      text-align: center;
+      padding: 48px;
+      font-family: var(--f-mono);
+      font-size: 13px;
+      opacity: 0.45;
+      display: none;
+    }
+
+    /* ── Transcript viewer modal ── */
+    .transcript-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(26,20,16,0.85);
+      z-index: 1000;
+      overflow-y: auto;
+      padding: 40px 20px;
+    }
+    .transcript-modal.open { display: flex; align-items: flex-start; justify-content: center; }
+    .transcript-panel {
+      background: var(--cream);
+      max-width: 720px;
+      width: 100%;
+      padding: 48px;
+      position: relative;
+    }
+    .transcript-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.15s;
+      background: none;
+      border: none;
+      color: var(--ink);
+    }
+    .transcript-close:hover { opacity: 1; }
+    .transcript-date {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      opacity: 0.45;
+      margin-bottom: 10px;
+    }
+    .transcript-title {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(22px, 3.5vw, 34px);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .transcript-body {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--ink);
+    }
+    .transcript-body p { margin-bottom: 16px; }
+    .transcript-loading {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      opacity: 0.5;
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      .archive-hero, .ask-section, .archive-main { padding-left: 24px; padding-right: 24px; }
+      .episode-row { grid-template-columns: 80px 1fr auto; gap: 12px; }
+      .ep-title { font-size: 13px; }
+      .transcript-panel { padding: 28px 20px; }
+      .archive-filter-btns { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">HARRY<span class="brand-slash">/</span>SHARMAN</a>
+      <nav class="top-nav" id="nav-links">
+        <a href="blog.html" class="nav-link">writing</a>
+        <a href="podcast.html" class="nav-link">listen</a>
+        <a href="index.html#building" class="nav-link">building</a>
+        <a href="index.html" class="nav-pill">say hi &#8599;</a>
+      </nav>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    </div>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="archive-hero">
+    <div class="archive-hero-inner">
+      <div class="archive-label">Briefly, AI — Episode Archive</div>
+      <h1 class="archive-title">Every episode.<br><em>Searchable.</em></h1>
+      <p class="archive-sub">Browse and read every Briefly AI transcript. Or ask the show a question — it'll search across everything it's ever covered.</p>
+      <div class="archive-stats">
+        <div class="archive-stat">
+          <span class="archive-stat-n" id="statEpisodes">—</span>
+          <span class="archive-stat-l">episodes</span>
+        </div>
+        <div class="archive-stat">
+          <span class="archive-stat-n" id="statWords">—</span>
+          <span class="archive-stat-l">words published</span>
+        </div>
+        <div class="archive-stat">
+          <span class="archive-stat-n">0</span>
+          <span class="archive-stat-l">humans in the loop</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Ask Briefly AI ── -->
+  <section class="ask-section">
+    <div class="ask-inner">
+      <div class="ask-label">Ask the archive</div>
+      <h2 class="ask-heading">What has Briefly AI covered?</h2>
+      <p class="ask-sub">Ask anything — topics, companies, trends. It searches across all <span id="askEpCount">47</span> episodes and tells you what the show has said about it.</p>
+      <div class="ask-form">
+        <input type="text" class="ask-input" id="askInput" placeholder="e.g. What has been covered about AI agents?" maxlength="300">
+        <button class="ask-btn" id="askBtn" onclick="askBrieflyAI()">Ask &#8594;</button>
+      </div>
+      <div class="ask-thinking" id="askThinking">Searching the archive&#8230;</div>
+      <div class="ask-response" id="askResponse">
+        <div class="ask-response-text" id="askResponseText"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Episode list ── -->
+  <main class="archive-main">
+    <div class="archive-search-bar">
+      <input type="text" class="archive-search" id="epSearch" placeholder="Search episodes by title&#8230;" oninput="filterEpisodes()">
+      <div class="archive-filter-btns">
+        <button class="archive-filter-btn active" data-mode="all" onclick="setFilter(this)">All</button>
+        <button class="archive-filter-btn" data-mode="weekday" onclick="setFilter(this)">Weekday</button>
+        <button class="archive-filter-btn" data-mode="weekend" onclick="setFilter(this)">Weekend</button>
+      </div>
+    </div>
+    <div class="episode-list" id="episodeList">
+      <p style="font-family:var(--f-mono);font-size:12px;opacity:0.45;padding:20px 0;">Loading archive&#8230;</p>
+    </div>
+    <div class="no-results" id="noResults">No episodes match your search.</div>
+  </main>
+
+  <!-- ── Transcript modal ── -->
+  <div class="transcript-modal" id="transcriptModal" onclick="if(event.target===this)closeTranscript()">
+    <div class="transcript-panel">
+      <button class="transcript-close" onclick="closeTranscript()">CLOSE &#215;</button>
+      <div class="transcript-date" id="tDate"></div>
+      <h2 class="transcript-title" id="tTitle"></h2>
+      <div class="transcript-body" id="tBody"><p class="transcript-loading">Loading transcript&#8230;</p></div>
+    </div>
+  </div>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer">
+    <div class="footer-nav">
+      <a href="/" class="footer-nav-link">Home</a>
+      <a href="/blog.html" class="footer-nav-link">Writing</a>
+      <a href="/podcast.html" class="footer-nav-link">Podcast</a>
+      <a href="/pipeline.html" class="footer-nav-link">Pipeline</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 Harry Sharman.</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+  var allEpisodes = [];
+  var activeMode = 'all';
+
+  // Load episode index
+  fetch('/data/transcripts-index.json')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      allEpisodes = data;
+      var totalWords = data.reduce(function(s,e){ return s + (e.words||0); }, 0);
+      document.getElementById('statEpisodes').textContent = data.length;
+      document.getElementById('statWords').textContent = (totalWords/1000).toFixed(0) + 'k';
+      document.getElementById('askEpCount').textContent = data.length;
+      renderList(data);
+    })
+    .catch(function(){ document.getElementById('episodeList').innerHTML = '<p style="opacity:0.45;font-family:var(--f-mono);font-size:12px;">Could not load archive.</p>'; });
+
+  function formatDate(str) {
+    try {
+      return new Date(str + 'T00:00:00').toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+    } catch(e){ return str; }
+  }
+
+  function renderList(eps) {
+    var list = document.getElementById('episodeList');
+    var noRes = document.getElementById('noResults');
+    if (!eps.length) {
+      list.innerHTML = '';
+      noRes.style.display = 'block';
+      return;
+    }
+    noRes.style.display = 'none';
+    list.innerHTML = eps.map(function(ep){
+      var isWeekend = ep.mode && ep.mode.indexOf('weekend') !== -1;
+      var badge = isWeekend ? (ep.mode === 'weekend-roundup' ? 'Weekly roundup' : 'Week preview') : 'Daily episode';
+      return '<a href="#" class="episode-row" data-date="' + ep.date + '" data-title="' + ep.title.replace(/"/g,'&quot;') + '" data-mode="' + (ep.mode||'weekday') + '" onclick="openTranscript(event,this)">' +
+        '<span class="ep-date">' + formatDate(ep.date) + '</span>' +
+        '<span class="ep-meta">' +
+          '<span class="ep-title">' + ep.title + '</span>' +
+          '<span class="ep-badge' + (isWeekend ? ' weekend' : '') + '">' + badge + (ep.words ? ' &middot; ' + ep.words + ' words' : '') + '</span>' +
+        '</span>' +
+        '<span class="ep-arrow">&#8594;</span>' +
+      '</a>';
+    }).join('');
+  }
+
+  function filterEpisodes() {
+    var q = document.getElementById('epSearch').value.toLowerCase();
+    var filtered = allEpisodes.filter(function(ep){
+      var modeMatch = activeMode === 'all' ||
+        (activeMode === 'weekend' && ep.mode && ep.mode.indexOf('weekend') !== -1) ||
+        (activeMode === 'weekday' && (!ep.mode || ep.mode === 'weekday'));
+      var textMatch = !q || ep.title.toLowerCase().indexOf(q) !== -1 || ep.date.indexOf(q) !== -1;
+      return modeMatch && textMatch;
+    });
+    renderList(filtered);
+  }
+
+  function setFilter(btn) {
+    document.querySelectorAll('.archive-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeMode = btn.dataset.mode;
+    filterEpisodes();
+  }
+
+  // ── Transcript modal ──────────────────────────────────────────────────────
+  function openTranscript(e, el) {
+    e.preventDefault();
+    var date  = el.dataset.date;
+    var title = el.dataset.title;
+    document.getElementById('tDate').textContent  = formatDate(date);
+    document.getElementById('tTitle').textContent = title;
+    document.getElementById('tBody').innerHTML    = '<p class="transcript-loading">Loading&#8230;</p>';
+    document.getElementById('transcriptModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    fetch('/transcripts/' + date + '.md')
+      .then(function(r){ return r.text(); })
+      .then(function(md){
+        // Strip frontmatter
+        var body = md.replace(/^---[\s\S]*?---\s*/m, '').trim();
+        // Convert double-newlines to paragraphs, strip markdown
+        var paras = body.split(/
+
++/).map(function(p){
+          p = p.replace(/^#+\s*/gm,'').replace(/\*\*/g,'').replace(/\*/g,'').trim();
+          return p ? '<p>' + p + '</p>' : '';
+        }).join('');
+        document.getElementById('tBody').innerHTML = paras || '<p style="opacity:0.5">Transcript unavailable.</p>';
+      })
+      .catch(function(){ document.getElementById('tBody').innerHTML = '<p style="opacity:0.5">Could not load transcript.</p>'; });
+  }
+
+  function closeTranscript() {
+    document.getElementById('transcriptModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeTranscript(); });
+
+  // ── Ask Briefly AI ───────────────────────────────────────────────────────
+  document.getElementById('askInput').addEventListener('keydown', function(e){
+    if(e.key==='Enter') askBrieflyAI();
+  });
+
+  function askBrieflyAI() {
+    var q = document.getElementById('askInput').value.trim();
+    if (!q) return;
+    var btn      = document.getElementById('askBtn');
+    var thinking = document.getElementById('askThinking');
+    var response = document.getElementById('askResponse');
+    var responseText = document.getElementById('askResponseText');
+
+    btn.disabled = true;
+    thinking.classList.add('visible');
+    response.classList.remove('visible');
+
+    fetch('/.netlify/functions/briefly-ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: q })
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      thinking.classList.remove('visible');
+      responseText.textContent = d.answer || 'No answer returned.';
+      response.classList.add('visible');
+      btn.disabled = false;
+    })
+    .catch(function(){
+      thinking.classList.remove('visible');
+      responseText.textContent = 'Could not reach the archive right now. Try again in a moment.';
+      response.classList.add('visible');
+      btn.disabled = false;
+    });
+  }
+  </script>
+</body>
+</html>
