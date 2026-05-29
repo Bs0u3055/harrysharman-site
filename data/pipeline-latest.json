@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-05-29T11:16:37Z",
+  "mode": "weekday",
+  "status": {
+    "state": "ok",
+    "last_run": "2026-05-28T06:01:41Z",
+    "duration_seconds": 194,
+    "skipped_reason": null
+  },
+  "stages": {
+    "collect": {
+      "sources_count": 12,
+      "articles_found": 41,
+      "state": "ok"
+    },
+    "research": {
+      "search_queries": 8,
+      "psych_articles": 3,
+      "state": "ok"
+    },
+    "filter": {
+      "fresh": 6,
+      "over_covered": 2,
+      "state": "ok"
+    },
+    "write": {
+      "model": "claude-sonnet-4-6",
+      "word_count": 23,
+      "state": "ok"
+    },
+    "analyse": {
+      "qa_verdict": "PASS",
+      "topics_count": 5,
+      "state": "ok"
+    },
+    "voice": {
+      "duration_seconds": 8,
+      "audio_bytes": 5982711,
+      "voice": "Harry (cloned)",
+      "state": "ok"
+    },
+    "publish": {
+      "published_at": "2026-05-28T06:01:41Z",
+      "platforms": ["spotify", "apple"],
+      "state": "ok"
+    }
+  },
+  "episode": {
+    "date": "2026-05-28",
+    "title": "Google Can't Spell, Agents Can Trade, and the Pope Has Notes",
+    "duration_seconds": 8,
+    "word_count": 23,
+    "mode": "weekday",
+    "cold_open": "title: Google Can't Spell, Agents Can Trade, and the Pope Has Notes | Briefly, AI date: 2026-05-28 stories: google-imagen-spelling-failure, cognition-ai-1b-raise, robinhood-ai-agent-trading, remote-ai-productivity-no-headcount, ai-psychological-debt-research ",
+    "topics": [{"slug": "google-imagen-spelling-failure", "label": "Google Imagen Spelling Failure"}, {"slug": "cognition-ai-1b-raise", "label": "Cognition Ai 1B Raise"}, {"slug": "robinhood-ai-agent-trading", "label": "Robinhood Ai Agent Trading"}, {"slug": "remote-ai-productivity-no-headcount", "label": "Remote Ai Productivity No Headcount"}, {"slug": "ai-psychological-debt-research", "label": "Ai Psychological Debt Research"}],
+    "sources": [
+      { "type": "rss",        "name": "Techmeme" },
+      { "type": "rss",        "name": "TechCrunch AI" },
+      { "type": "rss",        "name": "The Verge AI" },
+      { "type": "search",     "name": "Brave Search" },
+      { "type": "newsletter", "name": "The Rundown" },
+      { "type": "psych",      "name": "AI x Psychology cache" }
+    ],
+    "artwork_url": null,
+    "spotify_url": "https://open.spotify.com/show/3P1pU7lrfX3mnvR7u9Hj90",
+    "apple_url": "https://podcasts.apple.com/gb/podcast/briefly-ai/id1893899361"
+  },
+  "meta": {
+    "episode_number": 52,
+    "running_since": "2026-04-07",
+    "humans_in_loop": 0
+  }
+}
