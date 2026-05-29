@@ -115,9 +115,40 @@
   },
   "stats": {
     "total_episodes": 39,
-    "total_errors": 0,
+    "total_errors": 7,
     "running_since": "2026-04-07",
     "humans_in_loop": 0
   },
-  "issues_log": []
+  "issues_log": [
+    {
+      "date": "2026-04-22",
+      "type": "audio_qa",
+      "funny_label": "Voice had an existential moment",
+      "status": "resolved"
+    },
+    {
+      "date": "2026-04-29",
+      "type": "script_qa",
+      "funny_label": "Script became briefly obsessed with one topic",
+      "status": "resolved"
+    },
+    {
+      "date": "2026-05-03",
+      "type": "timing",
+      "funny_label": "Published 4 minutes late. No explanation offered.",
+      "status": "resolved"
+    },
+    {
+      "date": "2026-05-11",
+      "type": "other",
+      "funny_label": "Anomaly in the research layer. Nature: still unclear.",
+      "status": "resolved"
+    },
+    {
+      "date": "2026-05-19",
+      "type": "api_outage",
+      "funny_label": "The robot was tired.",
+      "status": "resolved"
+    }
+  ]
 }
