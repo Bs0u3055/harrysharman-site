@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-05-29T11:16:37Z",
+  "generated_at": "2026-05-29T11:24:11Z",
   "mode": "weekday",
   "status": {
     "state": "ok",
@@ -26,7 +26,7 @@
     },
     "write": {
       "model": "claude-sonnet-4-6",
-      "word_count": 23,
+      "word_count": 966,
       "state": "ok"
     },
     "analyse": {
@@ -35,7 +35,7 @@
       "state": "ok"
     },
     "voice": {
-      "duration_seconds": 8,
+      "duration_seconds": 371,
       "audio_bytes": 5982711,
       "voice": "Harry (cloned)",
       "state": "ok"
@@ -49,10 +49,10 @@
   "episode": {
     "date": "2026-05-28",
     "title": "Google Can't Spell, Agents Can Trade, and the Pope Has Notes",
-    "duration_seconds": 8,
-    "word_count": 23,
+    "duration_seconds": 371,
+    "word_count": 966,
     "mode": "weekday",
-    "cold_open": "title: Google Can't Spell, Agents Can Trade, and the Pope Has Notes | Briefly, AI date: 2026-05-28 stories: google-imagen-spelling-failure, cognition-ai-1b-raise, robinhood-ai-agent-trading, remote-ai-productivity-no-headcount, ai-psychological-debt-research ",
+    "cold_open": "Welcome to Briefly AI. Today: Google's image generator can't spell its own name, AI agents are getting brokerage accounts, and new research shows AI adoption comes with a psychological price tag most companies aren't measuring.",
     "topics": [{"slug": "google-imagen-spelling-failure", "label": "Google Imagen Spelling Failure"}, {"slug": "cognition-ai-1b-raise", "label": "Cognition Ai 1B Raise"}, {"slug": "robinhood-ai-agent-trading", "label": "Robinhood Ai Agent Trading"}, {"slug": "remote-ai-productivity-no-headcount", "label": "Remote Ai Productivity No Headcount"}, {"slug": "ai-psychological-debt-research", "label": "Ai Psychological Debt Research"}],
     "sources": [
       { "type": "rss",        "name": "Techmeme" },
