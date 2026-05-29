@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Briefly, AI — Harry Sharman</title>
+  <meta name="description" content="The three biggest AI stories, every weekday morning. An automated daily podcast built and hosted by Harry Sharman.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    html, body { background: var(--red); }
+
+    .podcast-page-hero {
+      padding: 72px 40px 64px;
+      background: var(--red);
+      border-bottom: 2px solid var(--ink);
+      text-align: center;
+    }
+    .podcast-page-label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.65;
+      margin-bottom: 18px;
+    }
+    .podcast-page-title {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(52px, 9vw, 104px);
+      line-height: 0.92;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    .podcast-page-title em { font-style: italic; font-weight: 400; }
+    .podcast-page-desc {
+      font-size: 17px;
+      line-height: 1.65;
+      opacity: 0.8;
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .podcast-stats-row {
+      display: flex;
+      gap: 40px;
+      justify-content: center;
+      margin-bottom: 0;
+      flex-wrap: wrap;
+    }
+    .podcast-stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .podcast-stat-n {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: 36px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .podcast-stat-l {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+
+    .podcast-player-section {
+      background: var(--cream);
+      border-bottom: 2px solid var(--ink);
+      padding: 64px 40px;
+    }
+    .podcast-player-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .podcast-player-section .podcast-player { margin-bottom: 24px; }
+    .podcast-player-section .podcast-links {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 0;
+    }
+
+    .podcast-about {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 64px 40px;
+      border-bottom: 2px solid var(--ink);
+    }
+    .podcast-about-inner {
+      max-width: 720px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .podcast-about-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      margin-bottom: 14px;
+    }
+    .podcast-about-heading {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .podcast-about-text {
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.75;
+    }
+    .podcast-schedule-row {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .schedule-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border: 1px solid rgba(254,252,247,0.12);
+    }
+    .schedule-day {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.5;
+      white-space: nowrap;
+      padding-top: 2px;
+      min-width: 80px;
+    }
+    .schedule-desc {
+      font-size: 14px;
+      line-height: 1.5;
+      opacity: 0.85;
+    }
+
+    .podcast-pipeline-teaser {
+      background: var(--cream);
+      border-bottom: 2px solid var(--ink);
+      padding: 56px 40px;
+      text-align: center;
+    }
+    .podcast-pipeline-teaser-inner { max-width: 600px; margin: 0 auto; }
+    .teaser-label {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.45;
+      margin-bottom: 16px;
+    }
+    .teaser-heading {
+      font-family: var(--f-sans);
+      font-weight: 800;
+      font-size: clamp(24px, 3.5vw, 40px);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    .teaser-sub {
+      font-size: 15px;
+      line-height: 1.65;
+      opacity: 0.65;
+      margin-bottom: 28px;
+    }
+    .teaser-steps {
+      display: flex;
+      gap: 0;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 32px;
+    }
+    .teaser-step {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border: 1.5px solid var(--ink);
+      margin-right: -1.5px;
+      margin-bottom: -1.5px;
+      background: var(--cream);
+    }
+    .teaser-btn {
+      display: inline-block;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      background: var(--ink);
+      color: var(--cream);
+      border: 2px solid var(--ink);
+      transition: background 0.15s, color 0.15s;
+    }
+    .teaser-btn:hover { background: var(--red); border-color: var(--red); color: var(--cream); }
+
+    .podcast-page-footer {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .podcast-page-footer .footer-nav { margin-bottom: 20px; }
+    .podcast-page-footer .footer-nav-link { color: var(--cream); opacity: 0.55; }
+    .podcast-page-footer .footer-nav-link:hover { opacity: 1; }
+    .podcast-page-footer .footer-copy { font-family: var(--f-mono); font-size: 11px; opacity: 0.35; }
+
+    @media (max-width: 700px) {
+      .podcast-page-hero { padding: 48px 24px 40px; }
+      .podcast-player-section, .podcast-about, .podcast-pipeline-teaser { padding: 48px 24px; }
+      .podcast-about-inner { grid-template-columns: 1fr; gap: 32px; }
+      .podcast-stats-row { gap: 24px; }
+      .podcast-stat-n { font-size: 28px; }
+    }
+  </style>
+</head>
+<body class="podcast-page">
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand">HARRY<span class="brand-slash">/</span>SHARMAN</a>
+      <nav class="top-nav" id="nav-links">
+        <a href="blog.html" class="nav-link">writing</a>
+        <a href="podcast.html" class="nav-link" style="opacity:0.45">listen</a>
+        <a href="index.html#building" class="nav-link">building</a>
+        <a href="index.html" class="nav-pill" onclick="return false;" style="cursor:default">say hi ↗</a>
+      </nav>
+      <button id="nav-toggle" class="nav-toggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <!-- ── Hero ── -->
+  <section class="podcast-page-hero">
+    <div class="podcast-page-label">02 — LISTEN</div>
+    <h1 class="podcast-page-title">Briefly,&nbsp;<em>AI.</em></h1>
+    <p class="podcast-page-desc">The three biggest AI stories of the morning, scripted and read by an AI voice trained on Harry's voice. Every weekday. No humans required.</p>
+    <div class="podcast-stats-row">
+      <div class="podcast-stat">
+        <span class="podcast-stat-n" id="ep-count">—</span>
+        <span class="podcast-stat-l">episodes</span>
+      </div>
+      <div class="podcast-stat">
+        <span class="podcast-stat-n">0</span>
+        <span class="podcast-stat-l">humans in the loop</span>
+      </div>
+      <div class="podcast-stat">
+        <span class="podcast-stat-n">Daily</span>
+        <span class="podcast-stat-l">7am London</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Player ── -->
+  <section class="podcast-player-section">
+    <div class="podcast-player-inner">
+      <div class="podcast-player">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/show/3P1pU7lrfX3mnvR7u9Hj90?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      </div>
+      <div class="podcast-links">
+        <a href="https://open.spotify.com/show/3P1pU7lrfX3mnvR7u9Hj90" target="_blank" class="podcast-btn podcast-btn-spotify">&#9654;&nbsp;Spotify</a>
+        <a href="https://podcasts.apple.com/gb/podcast/briefly-ai/id1893899361" target="_blank" class="podcast-btn podcast-btn-apple">&#9654;&nbsp;Apple Podcasts</a>
+        <a href="https://feed.podbean.com/harrysharman/feed.xml" target="_blank" class="podcast-btn podcast-btn-apple">RSS Feed</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── About ── -->
+  <section class="podcast-about">
+    <div class="podcast-about-inner">
+      <div>
+        <div class="podcast-about-label">About the show</div>
+        <h2 class="podcast-about-heading">AI news, without the noise.</h2>
+        <p class="podcast-about-text">Briefly, AI is an experiment in fully automated media. Every morning, a pipeline pulls the day's most interesting AI stories, writes a script, runs it through a voice model trained on Harry's voice, and publishes — without anyone pressing a button.</p>
+        <p class="podcast-about-text" style="margin-top:14px;">The result is a tight 5–7 minute briefing on what actually matters in AI that day. No ads. No filler. No human gatekeeping.</p>
+      </div>
+      <div>
+        <div class="podcast-about-label">Schedule</div>
+        <div class="podcast-schedule-row">
+          <div class="schedule-item">
+            <span class="schedule-day">Mon – Fri</span>
+            <span class="schedule-desc">The three biggest AI stories of the morning. Scripted, voiced, published by 7am London.</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-day">Saturday</span>
+            <span class="schedule-desc">Weekly roundup — the stories that mattered most, and why they connect.</span>
+          </div>
+          <div class="schedule-item">
+            <span class="schedule-day">Sunday</span>
+            <span class="schedule-desc">What to watch for next week. A forward-looking briefing to start the week right.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pipeline teaser ── -->
+  <section class="podcast-pipeline-teaser">
+    <div class="podcast-pipeline-teaser-inner">
+      <div class="teaser-label">Behind the scenes</div>
+      <h2 class="teaser-heading">Seven steps.<br>No humans.</h2>
+      <p class="teaser-sub">From RSS feeds and research papers through to ElevenLabs, Podbean, and your earphones — fully automated, every morning.</p>
+      <div class="teaser-steps">
+        <span class="teaser-step">Collect</span>
+        <span class="teaser-step">Research</span>
+        <span class="teaser-step">Filter</span>
+        <span class="teaser-step">Write</span>
+        <span class="teaser-step">Analyse</span>
+        <span class="teaser-step">Voice</span>
+        <span class="teaser-step">Publish</span>
+      </div>
+      <a href="pipeline.html" class="teaser-btn">See the live pipeline →</a>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="site-footer podcast-page-footer">
+    <div class="footer-nav">
+      <a href="/" class="footer-nav-link">Home</a>
+      <a href="/blog.html" class="footer-nav-link">Writing</a>
+      <a href="/podcast.html" class="footer-nav-link">Podcast</a>
+      <a href="/pipeline.html" class="footer-nav-link">Pipeline</a>
+    </div>
+    <div class="footer-copy">© 2026 Harry Sharman. Built with care.</div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Load episode count from pipeline JSON
+    fetch('/data/pipeline-latest.json')
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var n = (d.stats && d.stats.total_episodes) || (d.meta && d.meta.episode_number) || null;
+        if (n) {
+          var el = document.getElementById('ep-count');
+          var start = 0, end = parseInt(n), dur = 1200, step = 16;
+          var timer = setInterval(function(){
+            start += Math.ceil((end - start) / 6);
+            el.textContent = start;
+            if (start >= end){ el.textContent = end; clearInterval(timer); }
+          }, step);
+        }
+      })
+      .catch(function(){});
+  </script>
+</body>
+</html>
