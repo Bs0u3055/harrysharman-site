@@ -1,12 +1,12 @@
 {
   "meta": {
-    "mission": "£100 → Maximum Autonomous Revenue in 12 Months",
-    "budget_total": 100,
+    "mission": "£0 → First Non-Harry Sale → Maximum Autonomous Revenue in 12 Months",
+    "budget_total": 0,
     "currency": "GBP",
     "mission_start": "2025-05-01",
-    "last_updated": "2026-05-23T07:57:00Z",
+    "last_updated": "2026-06-01T20:28:40Z",
     "updated_by": "Taleb",
-    "note": "Portfolio strategically redesigned 2026-05-23 based on hands-off mandate and tournament evidence. Newsletter shelved. Core strategy: rare disease medical trackers (Etsy + KDP)."
+    "note": "Revenue-first lock active 2026-06-01: Harry's £100 is a performance reserve, not working capital. TALEB has £0 discretionary spend until first visible non-Harry sale or explicit written override. Core strategy: B2B custom tracker wedge + rare disease medical trackers (Etsy + KDP)."
   },
   "businesses": [
     {
@@ -16,7 +16,7 @@
       "cat": "ETY",
       "tagline": "Condition-specific symptom trackers for diagnosed patients to show their doctors.",
       "status": "building",
-      "budget_allocated": 60,
+      "budget_allocated": 0.0,
       "budget_spent": 0,
       "revenue_total": 0.0,
       "revenue_this_month": 0.0,
@@ -32,6 +32,10 @@
         {
           "ts": "2026-05-22T16:41:54Z",
           "note": "Shop live: claritytemplatesart.etsy.com — setup complete, awaiting first listings"
+        },
+        {
+          "ts": "2026-06-01T20:28:40Z",
+          "note": "Revenue-first lock active: prior £60 allocation removed; no spend until first non-Harry sale or explicit written override."
         }
       ]
     },
@@ -42,7 +46,7 @@
       "cat": "KDP",
       "tagline": "Symptom tracking journals for chronic conditions (complement to Etsy trackers).",
       "status": "building",
-      "budget_allocated": 20,
+      "budget_allocated": 0.0,
       "budget_spent": 0,
       "revenue_total": 0.0,
       "revenue_this_month": 0.0,
@@ -54,6 +58,14 @@
         {
           "ts": "2026-05-23T07:57:00Z",
           "note": "Strategy pivoted: 12 condition-specific journals planned to pair with Etsy trackers. Pen name: Dr. Symptom Trackers."
+        },
+        {
+          "ts": "2026-06-01T14:17:01Z",
+          "note": "KDP publishing arm activated. First 3 health workbooks (IBS, Endometriosis, Migraine) in production. Target Phase 1 launch: June 5, 2026. Aligned with live Etsy medical tracker portfolio."
+        },
+        {
+          "ts": "2026-06-01T20:28:40Z",
+          "note": "Revenue-first lock active: prior £20 allocation removed; KDP draft automation remains £0."
         }
       ]
     },
@@ -103,6 +115,27 @@
         {
           "ts": "2026-05-21T09:18:57Z",
           "note": "5 full issues written (35,000+ words on antifragility, unit economics, positioning, distribution, pricing)"
+        }
+      ]
+    },
+    {
+      "id": "b2b-custom-trackers",
+      "name": "B2B Custom Trackers",
+      "type": "Productised Service",
+      "cat": "AGY",
+      "tagline": "Custom branded symptom tracker PDFs for practitioners, coaches, educators, and patient communities.",
+      "status": "live",
+      "budget_allocated": 0,
+      "budget_spent": 0,
+      "revenue_total": 0.0,
+      "revenue_this_month": 0.0,
+      "target_monthly": 500.0,
+      "target_year": 6000.0,
+      "launched": "2026-06-01",
+      "log": [
+        {
+          "ts": "2026-06-01T20:28:40Z",
+          "note": "First-sale wedge launched: personalised B2B outreach, £49-£149 packages, zero-spend until first non-Harry sale."
         }
       ]
     }
