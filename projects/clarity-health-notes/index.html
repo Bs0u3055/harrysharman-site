@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clarity Health Notes — Custom Health Trackers for Providers</title>
+  <meta name="description" content="Custom branded printable health trackers for clinics, dietitians, coaches, therapists, and patient educators.">
+  <meta property="og:title" content="Clarity Health Notes">
+  <meta property="og:description" content="Custom branded printable health trackers for providers and patient educators.">
+  <meta property="og:image" content="/assets/clarity-health-notes/fibromyalgia-cover.png">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --chn-teal: #0f766e;
+      --chn-teal-dark: #134e4a;
+      --chn-blue: #1d4ed8;
+      --chn-paper: #fffdf8;
+      --chn-line: rgba(26, 20, 16, 0.16);
+      --chn-muted: rgba(26, 20, 16, 0.66);
+    }
+
+    html,
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: var(--f-sans);
+    }
+
+    .chn-page {
+      background: var(--cream);
+      min-height: 100vh;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .chn-section {
+      border-bottom: 2px solid var(--ink);
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    .chn-hero {
+      background: var(--cream);
+      padding: 56px 0 48px;
+    }
+
+    .chn-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 48px;
+      align-items: center;
+    }
+
+    .chn-hero-grid > *,
+    .chn-head > *,
+    .chn-safety > *,
+    .chn-form-wrap > * {
+      min-width: 0;
+    }
+
+    .chn-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 13px;
+      border: 2px solid var(--ink);
+      background: var(--chn-paper);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    .chn-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--chn-teal);
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.18);
+    }
+
+    .chn-title {
+      font-size: clamp(42px, 6.4vw, 82px);
+      line-height: 0.92;
+      letter-spacing: 0;
+      font-weight: 900;
+      max-width: 920px;
+      margin-bottom: 22px;
+    }
+
+    .chn-title-mark {
+      color: var(--chn-teal);
+    }
+
+    .chn-lede {
+      max-width: 680px;
+      font-size: clamp(17px, 2vw, 21px);
+      line-height: 1.55;
+      color: var(--ink);
+      margin-bottom: 28px;
+      overflow-wrap: break-word;
+    }
+
+    .chn-lede strong {
+      font-weight: 800;
+    }
+
+    .chn-lede span {
+      display: block;
+    }
+
+    .chn-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .chn-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 13px 20px;
+      border: 2px solid var(--ink);
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .chn-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--ink);
+    }
+
+    .chn-btn-primary {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .chn-btn-secondary {
+      background: var(--chn-paper);
+      color: var(--ink);
+    }
+
+    .chn-proof-line {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--chn-muted);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .chn-proof-line span {
+      border-left: 2px solid var(--chn-line);
+      padding-left: 10px;
+    }
+
+    .chn-proof-line span:first-child {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .chn-visual {
+      position: relative;
+      min-height: 460px;
+    }
+
+    .chn-hero-card {
+      position: absolute;
+      background: var(--chn-paper);
+      border: 2px solid var(--ink);
+      box-shadow: 8px 8px 0 var(--ink);
+      padding: 10px;
+    }
+
+    .chn-hero-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 1px solid var(--chn-line);
+      background: #fff;
+    }
+
+    .chn-hero-card-main {
+      width: min(86%, 430px);
+      aspect-ratio: 5 / 4;
+      right: 0;
+      top: 18px;
+      transform: rotate(1.5deg);
+      z-index: 2;
+    }
+
+    .chn-hero-card-side {
+      width: min(54%, 260px);
+      aspect-ratio: 1 / 1;
+      left: 0;
+      bottom: 18px;
+      transform: rotate(-3deg);
+      z-index: 3;
+    }
+
+    .chn-hero-note {
+      position: absolute;
+      left: 22px;
+      top: 18px;
+      max-width: 230px;
+      background: var(--chn-teal-dark);
+      color: var(--cream);
+      border: 2px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+      padding: 14px 16px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.55;
+      z-index: 4;
+    }
+
+    .chn-strip {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 18px 0;
+    }
+
+    .chn-strip-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: rgba(254, 252, 247, 0.18);
+      border: 1px solid rgba(254, 252, 247, 0.18);
+    }
+
+    .chn-strip-item {
+      background: var(--ink);
+      padding: 20px;
+      min-height: 112px;
+    }
+
+    .chn-strip-item strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 8px;
+      color: var(--cream);
+    }
+
+    .chn-strip-item span {
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(254, 252, 247, 0.72);
+    }
+
+    .chn-band {
+      padding: 56px 0;
+      background: var(--cream);
+    }
+
+    .chn-band-alt {
+      background: var(--chn-paper);
+    }
+
+    .chn-head {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1fr);
+      gap: 40px;
+      margin-bottom: 32px;
+      align-items: start;
+    }
+
+    .chn-label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--chn-teal);
+    }
+
+    .chn-h2 {
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1;
+      letter-spacing: 0;
+      font-weight: 900;
+      margin-bottom: 14px;
+    }
+
+    .chn-copy {
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--chn-muted);
+      max-width: 780px;
+      overflow-wrap: break-word;
+    }
+
+    .chn-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 2px solid var(--ink);
+      border-left: 2px solid var(--ink);
+    }
+
+    .chn-tile {
+      min-height: 230px;
+      padding: 24px;
+      border-right: 2px solid var(--ink);
+      border-bottom: 2px solid var(--ink);
+      background: var(--cream);
+    }
+
+    .chn-tile h3 {
+      font-size: 22px;
+      line-height: 1.12;
+      letter-spacing: 0;
+      margin-bottom: 12px;
+    }
+
+    .chn-tile p,
+    .chn-tile li {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--chn-muted);
+    }
+
+    .chn-tile ul {
+      padding-left: 18px;
+    }
+
+    .chn-price {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--chn-blue);
+      margin-bottom: 12px;
+    }
+
+    .chn-examples {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .chn-example {
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
+      min-width: 0;
+    }
+
+    .chn-example-img {
+      width: 100%;
+      aspect-ratio: 5 / 4;
+      border-bottom: 2px solid var(--ink);
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .chn-example-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .chn-example-body {
+      padding: 18px;
+    }
+
+    .chn-example-body h3 {
+      font-size: 18px;
+      letter-spacing: 0;
+      margin-bottom: 8px;
+    }
+
+    .chn-example-body p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--chn-muted);
+    }
+
+    .chn-process {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 2px solid var(--ink);
+      background: var(--ink);
+    }
+
+    .chn-step {
+      background: var(--cream);
+      padding: 24px;
+      min-height: 190px;
+      border-right: 2px solid var(--ink);
+    }
+
+    .chn-step:last-child {
+      border-right: none;
+    }
+
+    .chn-step-num {
+      display: block;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--chn-teal);
+      margin-bottom: 22px;
+    }
+
+    .chn-step h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      letter-spacing: 0;
+    }
+
+    .chn-step p {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--chn-muted);
+    }
+
+    .chn-safety {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 0.62fr);
+      gap: 36px;
+      align-items: stretch;
+    }
+
+    .chn-safety-main {
+      background: var(--ink);
+      color: var(--cream);
+      border: 2px solid var(--ink);
+      padding: 34px;
+    }
+
+    .chn-safety-main h2 {
+      font-size: clamp(28px, 3.4vw, 44px);
+      line-height: 1;
+      letter-spacing: 0;
+      margin-bottom: 16px;
+    }
+
+    .chn-safety-main p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: rgba(254, 252, 247, 0.78);
+      max-width: 760px;
+    }
+
+    .chn-safety-list {
+      background: var(--cream);
+      border: 2px solid var(--ink);
+      padding: 28px;
+    }
+
+    .chn-safety-list ul {
+      padding-left: 18px;
+    }
+
+    .chn-safety-list li {
+      margin-bottom: 12px;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--chn-muted);
+    }
+
+    .chn-form-wrap {
+      display: grid;
+      grid-template-columns: minmax(260px, 0.6fr) minmax(0, 1fr);
+      gap: 40px;
+      align-items: start;
+    }
+
+    .chn-form-panel {
+      border: 2px solid var(--ink);
+      background: var(--cream);
+      box-shadow: 6px 6px 0 var(--ink);
+      padding: 28px;
+    }
+
+    .chn-form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .chn-field-full {
+      grid-column: 1 / -1;
+    }
+
+    .chn-form label {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+
+    .chn-form input,
+    .chn-form select,
+    .chn-form textarea {
+      width: 100%;
+      min-height: 44px;
+      border: 2px solid var(--ink);
+      background: var(--chn-paper);
+      color: var(--ink);
+      padding: 10px 12px;
+      font-family: var(--f-sans);
+      font-size: 15px;
+      line-height: 1.4;
+      outline: none;
+    }
+
+    .chn-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .chn-form input:focus,
+    .chn-form select:focus,
+    .chn-form textarea:focus {
+      border-color: var(--chn-teal);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.16);
+    }
+
+    .chn-form button {
+      justify-self: start;
+    }
+
+    .chn-small {
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--chn-muted);
+      margin-top: 14px;
+    }
+
+    .chn-footer {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 40px 0;
+    }
+
+    .chn-footer .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      color: rgba(254, 252, 247, 0.7);
+    }
+
+    .chn-footer a {
+      color: var(--cream);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 980px) {
+      .chn-hero-grid,
+      .chn-head,
+      .chn-safety,
+      .chn-form-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .chn-visual {
+        min-height: 420px;
+      }
+
+      .chn-strip-grid,
+      .chn-process {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chn-step:nth-child(2) {
+        border-right: none;
+      }
+
+      .chn-step:nth-child(1),
+      .chn-step:nth-child(2) {
+        border-bottom: 2px solid var(--ink);
+      }
+
+      .chn-grid-3,
+      .chn-examples {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .container {
+        padding: 0 20px;
+      }
+
+      .chn-hero {
+        padding-top: 36px;
+      }
+
+      .chn-hero-grid {
+        display: block;
+        width: 100%;
+      }
+
+      .chn-hero-grid > div {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .chn-title {
+        font-size: clamp(34px, 10.4vw, 41px);
+        line-height: 1.02;
+        max-width: 100%;
+      }
+
+      .chn-title-mark {
+        display: block;
+      }
+
+      .chn-lede {
+        font-size: 16px;
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .chn-actions,
+      .chn-proof-line {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .chn-proof-line span {
+        border-left: none;
+        padding-left: 0;
+      }
+
+      .chn-btn {
+        width: 100%;
+      }
+
+      .chn-visual {
+        min-height: 340px;
+        overflow: hidden;
+      }
+
+      .chn-hero-card-main {
+        width: calc(100% - 36px);
+        right: 18px;
+      }
+
+      .chn-hero-card-side,
+      .chn-hero-note {
+        display: none;
+      }
+
+      .chn-strip-grid,
+      .chn-process,
+      .chn-form {
+        grid-template-columns: 1fr;
+      }
+
+      .chn-step,
+      .chn-step:nth-child(2) {
+        border-right: none;
+        border-bottom: 2px solid var(--ink);
+      }
+
+      .chn-step:last-child {
+        border-bottom: none;
+      }
+
+      .chn-form-panel,
+      .chn-safety-main,
+      .chn-safety-list {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="chn-page">
+    <section class="chn-section chn-hero">
+      <div class="container chn-hero-grid">
+        <div>
+          <div class="chn-kicker">Clarity Health Notes</div>
+          <h1 class="chn-title">Custom health trackers for the messy bit <span class="chn-title-mark">between appointments.</span></h1>
+          <p class="chn-lede">
+            <span>Branded printable trackers for providers.</span>
+            <span>Helps clients arrive with clearer notes.</span>
+            <span>Not a memory test.</span>
+          </p>
+          <div class="chn-actions">
+            <a class="chn-btn chn-btn-primary" href="#request">Request a sample</a>
+            <a class="chn-btn chn-btn-secondary" href="#examples">See examples</a>
+          </div>
+          <div class="chn-proof-line" aria-label="Service highlights">
+            <span>Provider packs from £99</span>
+            <span>Starter pilots from £49</span>
+            <span>A4 + US Letter PDFs</span>
+            <span>No diagnosis or treatment claims</span>
+          </div>
+        </div>
+        <div class="chn-visual" aria-label="Preview examples of printable health trackers">
+          <div class="chn-hero-note">For IBS/FODMAP, endometriosis, fibromyalgia, migraine and other chronic-condition workflows.</div>
+          <figure class="chn-hero-card chn-hero-card-main">
+            <img src="/assets/clarity-health-notes/fibromyalgia-cover.png" alt="Fibromyalgia tracker cover preview">
+          </figure>
+          <figure class="chn-hero-card chn-hero-card-side">
+            <img src="/assets/clarity-health-notes/ibs-daily-page.png" alt="IBS daily tracker page preview">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="chn-strip chn-section" aria-label="Credibility summary">
+      <div class="container">
+        <div class="chn-strip-grid">
+          <div class="chn-strip-item">
+            <strong>20+ yrs</strong>
+            <span>Behavioural science and healthcare strategy experience behind the product framing.</span>
+          </div>
+          <div class="chn-strip-item">
+            <strong>3 days</strong>
+            <span>Typical first branded sample turnaround once the brief is clear.</span>
+          </div>
+          <div class="chn-strip-item">
+            <strong>£0</strong>
+            <span>Cost to request a sample outline before deciding whether to buy.</span>
+          </div>
+          <div class="chn-strip-item">
+            <strong>Human</strong>
+            <span>Plain-language worksheets designed for real clients, not generic wellness fluff.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chn-section chn-band" id="offer">
+      <div class="container">
+        <div class="chn-head">
+          <div class="chn-label">The offer</div>
+          <div>
+            <h2 class="chn-h2">A small, useful thing your clients can actually complete.</h2>
+            <p class="chn-copy">
+              The product is a branded PDF pack: symptom notes, trigger patterns, appointment prompts, weekly summaries and simple reflection pages adapted to your audience. It is not a clinical protocol. It is a practical bridge between lived experience and the next conversation.
+            </p>
+          </div>
+        </div>
+
+        <div class="chn-grid-3">
+          <article class="chn-tile">
+            <span class="chn-price">Pilot sample · £49</span>
+            <h3>One branded tracker</h3>
+            <p>A focused one-page tracker for one condition or client workflow. Useful as a quick test before a larger pack.</p>
+          </article>
+          <article class="chn-tile">
+            <span class="chn-price">Provider pack · £99</span>
+            <h3>5-8 page printable PDF</h3>
+            <p>Cover, daily tracker, weekly summary, appointment notes, plain-language instructions and safety/disclaimer page.</p>
+          </article>
+          <article class="chn-tile">
+            <span class="chn-price">Condition bundle · £149</span>
+            <h3>Up to three linked trackers</h3>
+            <p>For providers who support multiple related needs, such as IBS + migraine, pain + fatigue, or symptom + medication notes.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="chn-section chn-band chn-band-alt" id="examples">
+      <div class="container">
+        <div class="chn-head">
+          <div class="chn-label">Examples</div>
+          <div>
+            <h2 class="chn-h2">Existing tracker formats we can adapt.</h2>
+            <p class="chn-copy">
+              These are examples of the current design system. A provider version can use your logo, preferred wording, client population, page mix and print format.
+            </p>
+          </div>
+        </div>
+        <div class="chn-examples">
+          <article class="chn-example">
+            <div class="chn-example-img">
+              <img src="/assets/clarity-health-notes/ibs-daily-page.png" alt="IBS tracker daily page preview">
+            </div>
+            <div class="chn-example-body">
+              <h3>IBS / FODMAP</h3>
+              <p>Food, symptoms, stress, sleep and appointment notes arranged for quick scanning.</p>
+            </div>
+          </article>
+          <article class="chn-example">
+            <div class="chn-example-img">
+              <img src="/assets/clarity-health-notes/endometriosis-pages.png" alt="Endometriosis tracker page examples">
+            </div>
+            <div class="chn-example-body">
+              <h3>Endometriosis</h3>
+              <p>Pain, cycle context, fatigue, activity and appointment preparation pages.</p>
+            </div>
+          </article>
+          <article class="chn-example">
+            <div class="chn-example-img">
+              <img src="/assets/clarity-health-notes/fibromyalgia-pages.png" alt="Fibromyalgia tracker page examples">
+            </div>
+            <div class="chn-example-body">
+              <h3>Fibromyalgia</h3>
+              <p>Energy, pain, sleep, pacing and flare-pattern pages for ongoing self-observation.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="chn-section chn-band">
+      <div class="container">
+        <div class="chn-head">
+          <div class="chn-label">How it works</div>
+          <div>
+            <h2 class="chn-h2">Simple enough to try without turning it into a project.</h2>
+            <p class="chn-copy">
+              The point is speed to usefulness. If the tracker is not relevant to your clients, we learn that quickly. If it is, you have something practical to share.
+            </p>
+          </div>
+        </div>
+        <div class="chn-process">
+          <article class="chn-step">
+            <span class="chn-step-num">01</span>
+            <h3>Brief</h3>
+            <p>Tell us the condition, audience, setting and what clients struggle to remember or explain.</p>
+          </article>
+          <article class="chn-step">
+            <span class="chn-step-num">02</span>
+            <h3>Sample</h3>
+            <p>We create a first branded sample using existing tracker patterns and plain-language copy.</p>
+          </article>
+          <article class="chn-step">
+            <span class="chn-step-num">03</span>
+            <h3>Review</h3>
+            <p>You check terminology, safety wording and whether the questions match your client conversations.</p>
+          </article>
+          <article class="chn-step">
+            <span class="chn-step-num">04</span>
+            <h3>Deliver</h3>
+            <p>You receive print-ready A4 and/or US Letter PDFs for client handouts, downloads or workshops.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="chn-section chn-band chn-band-alt">
+      <div class="container chn-safety">
+        <div class="chn-safety-main">
+          <h2>Clear boundaries matter.</h2>
+          <p>
+            These trackers are designed for self-observation, appointment preparation and client-provider conversation. They do not diagnose, treat, prevent or promise health outcomes. Provider approval is required before a custom version is shared with clients.
+          </p>
+        </div>
+        <div class="chn-safety-list">
+          <ul>
+            <li>No claims that tracking will improve, treat or manage a condition.</li>
+            <li>No replacement for medical advice, clinical assessment or emergency care.</li>
+            <li>Condition wording can be adapted to your professional standards.</li>
+            <li>Plain-language disclaimers are included in every pack.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="chn-section chn-band" id="request">
+      <div class="container chn-form-wrap">
+        <div>
+          <div class="chn-label">Request a sample</div>
+          <h2 class="chn-h2">Tell us what would be useful.</h2>
+          <p class="chn-copy">
+            Use this if you run a clinic, coaching practice, dietetic service, therapy practice, patient group or education programme and want to test a branded tracker.
+          </p>
+          <p class="chn-small">
+            Introductory pricing is for early provider pilots while the product is being validated. If the fit is poor, we will say so rather than force it.
+          </p>
+        </div>
+        <div class="chn-form-panel">
+          <form class="chn-form" name="provider-sample-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/projects/clarity-health-notes/thanks.html">
+            <input type="hidden" name="form-name" value="provider-sample-request">
+            <p style="display:none">
+              <label>Do not fill this out <input name="bot-field"></label>
+            </p>
+            <label>
+              Name
+              <input type="text" name="name" autocomplete="name" required>
+            </label>
+            <label>
+              Work email
+              <input type="email" name="email" autocomplete="email" required>
+            </label>
+            <label>
+              Organisation
+              <input type="text" name="organisation" autocomplete="organization">
+            </label>
+            <label>
+              Role
+              <input type="text" name="role" placeholder="Dietitian, coach, therapist...">
+            </label>
+            <label>
+              Condition area
+              <input type="text" name="condition" placeholder="IBS, endometriosis, fibromyalgia...">
+            </label>
+            <label>
+              Package interest
+              <select name="package">
+                <option value="pilot-sample">Pilot sample · £49</option>
+                <option value="provider-pack">Provider pack · £99</option>
+                <option value="condition-bundle">Condition bundle · £149</option>
+                <option value="not-sure">Not sure yet</option>
+              </select>
+            </label>
+            <label class="chn-field-full">
+              What should the tracker help clients capture?
+              <textarea name="need" placeholder="Symptoms, triggers, appointment notes, fatigue patterns, pacing, food/symptom links..."></textarea>
+            </label>
+            <div class="chn-field-full">
+              <button class="chn-btn chn-btn-primary" type="submit">Request sample</button>
+              <p class="chn-small">No mailing list. No automated clinical advice. Just a reply about whether a useful sample is possible.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="chn-footer">
+    <div class="container">
+      <span>Clarity Health Notes · A Harry Sharman / OpenClaw experiment</span>
+      <a href="/">Back to harrysharman.com</a>
+    </div>
+  </footer>
+</body>
+</html>
