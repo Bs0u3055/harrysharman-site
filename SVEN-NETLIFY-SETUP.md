@@ -1,0 +1,70 @@
+# Sven Netlify Setup
+
+Sven is now built into this Netlify site as Functions.
+
+## Public Endpoints
+
+- Telegram webhook: `/api/sven-telegram?secret=SVEN_WEBHOOK_SECRET_PATH`
+- Setup page: `/api/sven-setup?token=...`
+- Billing checkout: `/api/sven-billing?token=...&pack=starter`
+- Stripe webhook: `/api/sven-stripe-webhook`
+- Admin: `/api/sven-admin?token=SVEN_ADMIN_TOKEN`
+- Set Telegram webhook: `/api/sven-set-webhook?token=SVEN_ADMIN_TOKEN`
+
+## Required Netlify Environment Variables
+
+Minimum BYOK beta:
+
+```text
+TELEGRAM_BOT_TOKEN
+SVEN_PUBLIC_BASE_URL=https://harrysharman.com
+SVEN_WEBHOOK_SECRET_PATH
+SVEN_SECRET
+SVEN_ADMIN_TOKEN
+OPENAI_DEFAULT_MODEL=gpt-5-nano
+SVEN_DAILY_TOKEN_LIMIT=120000
+SETUP_TOKEN_TTL_MINUTES=60
+```
+
+Prepaid credits:
+
+```text
+CENTRAL_OPENAI_API_KEY
+STRIPE_SECRET_KEY
+STRIPE_WEBHOOK_SECRET
+STRIPE_PRICE_ID_STARTER
+STRIPE_PRICE_ID_STANDARD
+CREDIT_TOKENS_STARTER=250000
+CREDIT_TOKENS_STANDARD=750000
+```
+
+## Launch Steps
+
+1. Set the environment variables in Netlify project settings.
+2. Deploy `main`.
+3. Open:
+
+   ```text
+   https://harrysharman.com/api/sven-set-webhook?token=SVEN_ADMIN_TOKEN
+   ```
+
+4. Message:
+
+   ```text
+   https://t.me/Sven_DadFit_Bot
+   ```
+
+5. Open admin:
+
+   ```text
+   https://harrysharman.com/api/sven-admin?token=SVEN_ADMIN_TOKEN
+   ```
+
+## Notes
+
+- Production storage uses Netlify Blobs.
+- Local tests use `.sven-data/`.
+- User API keys are encrypted with `SVEN_SECRET`.
+- Friends can use BYOK immediately once Telegram webhook is set.
+- Stripe checkout needs the Stripe webhook secret before credit purchases are automatic.
+

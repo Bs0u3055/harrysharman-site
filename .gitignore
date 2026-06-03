@@ -4,6 +4,8 @@ tools/.env
 # Local Netlify folder
 .netlify
 output/
+.sven-data/
+node_modules/
 
 # Defence in depth — never let secret backups or pyc cache enter git
 *.bak

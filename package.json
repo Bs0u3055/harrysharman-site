@@ -1,0 +1,14 @@
+{
+  "name": "harrysharman-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site with Netlify Functions.",
+  "scripts": {
+    "test:sven": "node tests/sven-functions.test.js"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^9.1.2",
+    "@netlify/functions": "^2.8.2",
+    "stripe": "^15.12.0"
+  }
+}
