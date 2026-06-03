@@ -51,6 +51,8 @@ exports.handler = async (event) => {
   const apiKey = String(body.api_key || '').trim();
   const model = String(body.model || config.openaiDefaultModel).trim() || config.openaiDefaultModel;
   if (!config.svenSecret) return messagePage('Setup problem', 'SVEN_SECRET is not configured.', 500);
+  const row = await db.getSetupToken(token);
+  if (!db.tokenIsValid(row)) return messagePage('Setup link expired', 'Ask Sven for /setup again.', 400);
   if (!config.skipKeyValidation) {
     try {
       await validateOpenAIKey(apiKey);
@@ -58,8 +60,6 @@ exports.handler = async (event) => {
       return messagePage('Key rejected', error.message, 400);
     }
   }
-  const row = await db.getSetupToken(token);
-  if (!db.tokenIsValid(row)) return messagePage('Setup link expired', 'Ask Sven for /setup again.', 400);
   await db.saveApiKey(row.telegram_chat_id, {
     provider: 'openai',
     model,
@@ -71,4 +71,3 @@ exports.handler = async (event) => {
   await db.markSetupTokenUsed(token);
   return messagePage('Connected', 'Return to Telegram and send /status.');
 };
-

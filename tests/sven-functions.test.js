@@ -73,12 +73,39 @@ async function testSupportTickets() {
   assert.strictEqual(rows[0].note, 'setup link says expired');
 }
 
+async function testHelpMentionsSupport() {
+  const { commandHelp } = require('../netlify/functions/sven/lib/engine');
+  const help = commandHelp();
+  assert(help.includes('/bug'));
+  assert(help.includes('support inbox'));
+}
+
+async function testSetupChecksTokenBeforeKeyShape() {
+  await resetStorage();
+  const originalSkip = process.env.SVEN_SKIP_KEY_VALIDATION;
+  process.env.SVEN_SKIP_KEY_VALIDATION = '0';
+  try {
+    const { handler } = require('../netlify/functions/sven-setup');
+    const response = await handler({
+      httpMethod: 'POST',
+      body: 'token=not-real&api_key=not-an-openai-key&model=gpt-5-nano'
+    });
+    assert.strictEqual(response.statusCode, 400);
+    assert(response.body.includes('Setup link expired'));
+    assert(!response.body.includes('Key rejected'));
+  } finally {
+    process.env.SVEN_SKIP_KEY_VALIDATION = originalSkip;
+  }
+}
+
 async function run() {
   await testPromptTrimming();
   await testIdempotentMessages();
   await testIdempotentStripeCredits();
   await testCryptoRoundTrip();
   await testSupportTickets();
+  await testHelpMentionsSupport();
+  await testSetupChecksTokenBeforeKeyShape();
   await resetStorage();
   console.log('sven function tests ok');
 }
