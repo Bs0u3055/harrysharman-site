@@ -240,6 +240,17 @@ async function addFeedback(chatId, rating, note) {
   await addToIndex('feedback', key, 500);
 }
 
+async function addSupportTicket(chatId, note) {
+  const key = `support:${Date.now()}:${chatId}:${Math.random().toString(16).slice(2)}`;
+  await setJSON(key, {
+    telegram_chat_id: String(chatId),
+    note: String(note || '').slice(0, 1200),
+    status: 'open',
+    created_at: nowISO()
+  });
+  await addToIndex('support', key, 500);
+}
+
 async function addSafetyFlag(chatId, source, term, textExcerpt) {
   const key = `safety:${Date.now()}:${chatId}:${Math.random().toString(16).slice(2)}`;
   await setJSON(key, {
@@ -284,12 +295,14 @@ async function dashboardStats() {
   const usageRows = await rowsFromIndex('usage', 2000);
   const feedbackRows = await rowsFromIndex('feedback', 1000);
   const safetyRows = await rowsFromIndex('safety', 1000);
+  const supportRows = await rowsFromIndex('support', 1000);
   return {
     users: users.length,
     onboarded: users.filter((user) => user.onboarding_completed_at).length,
     byok: users.filter((user) => user.funding_mode === 'byok').length,
     credits: users.filter((user) => user.funding_mode === 'credits').length,
     feedback: feedbackRows.length,
+    support: supportRows.filter((row) => row.status !== 'closed').length,
     open_flags: safetyRows.filter((row) => !row.resolved_at).length,
     tokens: usageRows.reduce((sum, row) => sum + Number(row.input_tokens || 0) + Number(row.output_tokens || 0), 0),
     credit_balance_tokens: users.reduce((sum, row) => sum + Number(row.credit_balance_tokens || 0), 0)
@@ -326,6 +339,7 @@ module.exports = {
   addUsage,
   dailyTokensUsed,
   addFeedback,
+  addSupportTicket,
   addSafetyFlag,
   deleteUser,
   recentUsers,
@@ -333,4 +347,3 @@ module.exports = {
   dashboardStats,
   saveWeeklyReport
 };
-

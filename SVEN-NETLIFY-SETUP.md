@@ -67,4 +67,4 @@ CREDIT_TOKENS_STANDARD=750000
 - User API keys are encrypted with `SVEN_SECRET`.
 - Friends can use BYOK immediately once Telegram webhook is set.
 - Stripe checkout needs the Stripe webhook secret before credit purchases are automatic.
-
+- Friends can report broken flows with `/bug what happened`; these appear in the admin Support Inbox and weekly report.

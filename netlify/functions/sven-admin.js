@@ -35,6 +35,7 @@ async function adminPage(config, token) {
   const stats = await db.dashboardStats();
   const users = await db.recentUsers(50);
   const feedback = await db.rowsFromIndex('feedback', 20);
+  const support = await db.rowsFromIndex('support', 20);
   const flags = await db.rowsFromIndex('safety', 20);
   const reports = await db.rowsFromIndex('reports', 5);
   return htmlResponse(200, 'Sven Admin', `<h1>Sven Admin</h1>
@@ -73,6 +74,9 @@ async function adminPage(config, token) {
     <h2>Recent Feedback</h2>
     <table><tr><th>Time</th><th>User</th><th>Rating</th><th>Note</th></tr>${genericRows(feedback, ['created_at', 'telegram_chat_id', 'rating', 'note'])}</table>
 
+    <h2>Support Inbox</h2>
+    <table><tr><th>Time</th><th>User</th><th>Status</th><th>Issue</th></tr>${genericRows(support, ['created_at', 'telegram_chat_id', 'status', 'note'])}</table>
+
     <h2>Safety Flags</h2>
     <table><tr><th>Time</th><th>User</th><th>Term</th><th>Excerpt</th></tr>${genericRows(flags, ['created_at', 'telegram_chat_id', 'term', 'text_excerpt'])}</table>
 
@@ -103,4 +107,3 @@ exports.handler = async (event) => {
   }
   return { statusCode: 303, headers: { Location: `/api/sven-admin?token=${encodeURIComponent(token)}` }, body: '' };
 };
-

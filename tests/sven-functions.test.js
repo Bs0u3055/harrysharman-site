@@ -61,11 +61,24 @@ async function testCryptoRoundTrip() {
   assert.strictEqual(decryptText('secret', encrypted), 'sk-test');
 }
 
+async function testSupportTickets() {
+  await resetStorage();
+  const db = require('../netlify/functions/sven/lib/db');
+  await db.ensureUser('chat-1', 'Harry', { openaiDefaultModel: 'gpt-5-nano', dailyTokenLimit: 120000 });
+  await db.addSupportTicket('chat-1', 'setup link says expired');
+  const rows = await db.rowsFromIndex('support', 10);
+  assert.strictEqual(rows.length, 1);
+  assert.strictEqual(rows[0].telegram_chat_id, 'chat-1');
+  assert.strictEqual(rows[0].status, 'open');
+  assert.strictEqual(rows[0].note, 'setup link says expired');
+}
+
 async function run() {
   await testPromptTrimming();
   await testIdempotentMessages();
   await testIdempotentStripeCredits();
   await testCryptoRoundTrip();
+  await testSupportTickets();
   await resetStorage();
   console.log('sven function tests ok');
 }
@@ -74,4 +87,3 @@ run().catch((error) => {
   console.error(error);
   process.exit(1);
 });
-

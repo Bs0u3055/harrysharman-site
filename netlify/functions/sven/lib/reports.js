@@ -16,6 +16,7 @@ function formatCounts(counts) {
 async function buildWeeklyReport() {
   const stats = await db.dashboardStats();
   const feedback = await db.rowsFromIndex('feedback', 50);
+  const support = await db.rowsFromIndex('support', 50);
   const flags = await db.rowsFromIndex('safety', 50);
   const users = await db.recentUsers(100);
   const ratings = countBy(feedback, 'rating');
@@ -29,6 +30,7 @@ async function buildWeeklyReport() {
     `Total model tokens: ${stats.tokens}`,
     `Outstanding prepaid token balance: ${stats.credit_balance_tokens}`,
     `Feedback count: ${stats.feedback}`,
+    `Open support tickets: ${stats.support}`,
     `Feedback mix: ${formatCounts(ratings)}`,
     `Open safety flags: ${stats.open_flags}`,
     '',
@@ -38,6 +40,12 @@ async function buildWeeklyReport() {
     for (const row of feedback.slice(0, 10)) lines.push(`- ${row.rating}: ${String(row.note || '').slice(0, 180)}`);
   } else {
     lines.push('- No feedback yet.');
+  }
+  lines.push('', 'Recent support tickets:');
+  if (support.length) {
+    for (const row of support.slice(0, 10)) lines.push(`- ${row.status}: ${String(row.note || '').slice(0, 180)}`);
+  } else {
+    lines.push('- No support tickets.');
   }
   lines.push('', 'Recent safety flags:');
   if (flags.length) {
@@ -62,4 +70,3 @@ module.exports = {
   buildWeeklyReport,
   saveAndSendWeeklyReport
 };
-

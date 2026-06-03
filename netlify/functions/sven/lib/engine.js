@@ -22,6 +22,7 @@ function commandHelp() {
     '/status - check setup and usage',
     '/credits - show prepaid credit balance',
     '/profile - show saved profile',
+    '/bug what broke - send a problem to the Sven support inbox',
     '/restart_onboarding - redo the profile questions',
     '/delete_key - remove your API key',
     '/delete_me confirm - delete your Sven data',
@@ -56,6 +57,7 @@ async function processCommand(config, chatId, text) {
   if (command === '/status') return status(config, chatId);
   if (command === '/credits') return credits(config, chatId);
   if (command === '/profile') return profile(config, chatId);
+  if (command === '/bug' || command === '/support' || command === '/broken') return support(config, chatId, rest);
   if (command === '/restart_onboarding') return restartOnboarding(config, chatId);
   if (command === '/delete_key') return deleteKey(config, chatId);
   if (command === '/delete_me') return deleteMe(config, chatId, rest);
@@ -143,6 +145,15 @@ async function feedback(config, chatId, rest) {
   await sendMessage(config, chatId, 'Feedback saved. That helps improve Sven Core.');
 }
 
+async function support(config, chatId, rest) {
+  if (!rest) {
+    await sendMessage(config, chatId, 'Use: /bug what happened, what you expected, and anything you tapped or typed before it broke.');
+    return;
+  }
+  await db.addSupportTicket(chatId, rest);
+  await sendMessage(config, chatId, 'Logged in the Sven support inbox. You can keep using Sven, or send /bug again if you notice another issue.');
+}
+
 async function answerOnboarding(config, chatId, user, text) {
   const index = Number(user.onboarding_index || 0);
   const question = getQuestion(index);
@@ -219,4 +230,3 @@ module.exports = {
   setupUrl,
   commandHelp
 };
-
