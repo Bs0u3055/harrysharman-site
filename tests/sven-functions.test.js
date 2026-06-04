@@ -297,7 +297,7 @@ async function testSvenBetaPageGating() {
     assert(open.headers['Set-Cookie'].includes('sven_beta_invite='));
     assert(open.body.includes('/start DADFIT9K4M'));
     assert(open.body.includes('Message Sven on Telegram'));
-    assert(open.body.includes('No laminated gym nonsense'));
+    assert(open.body.includes('No laminated'));
   } finally {
     restoreEnv('SVEN_BETA_ACCESS_CODE', originalCode);
   }

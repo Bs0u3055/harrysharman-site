@@ -132,7 +132,7 @@ function openPage(config) {
     <div class="container sven-hero-grid">
       <div>
         <div class="sven-kicker"><span></span> SVEN FRIEND BETA</div>
-        <h1 class="sven-title">A coach in your<br>pocket.<br><strong>No laminated gym nonsense.</strong></h1>
+        <h1 class="sven-title">A coach in<br>your pocket.<br><strong>No laminated<br>gym nonsense.</strong></h1>
         <p class="sven-copy">Sven is a text-first AI personal trainer and nutrition coach. You message it like a coach: food, training, sleep, travel, screenshots, voice notes, the messy real-life stuff. The more context you give it, the sharper it gets.</p>
         <div class="sven-cta-row">
           <a class="sven-link-button" href="${botUrl}" rel="nofollow">Message Sven on Telegram</a>
