@@ -1,9 +1,11 @@
 const { getConfig } = require('./sven/lib/config');
 const db = require('./sven/lib/db');
 const { createCheckoutSession } = require('./sven/lib/billing');
+const { connectStorage } = require('./sven/lib/storage');
 const { messagePage } = require('./sven/lib/html');
 
 exports.handler = async (event) => {
+  connectStorage(event);
   const config = getConfig();
   if (!config.enablePrepaidCredits) {
     return messagePage('Prepaid credits disabled', 'For this beta, Sven uses each tester’s own OpenAI API key.', 400);

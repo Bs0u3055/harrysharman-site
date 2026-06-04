@@ -1,7 +1,9 @@
 const { getConfig } = require('./sven/lib/config');
 const { processTelegramUpdate } = require('./sven/lib/engine');
+const { connectStorage } = require('./sven/lib/storage');
 
 exports.handler = async (event) => {
+  connectStorage(event);
   const config = getConfig();
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method not allowed' };
@@ -19,4 +21,3 @@ exports.handler = async (event) => {
     return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ok: false }) };
   }
 };
-

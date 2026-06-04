@@ -1,8 +1,10 @@
 const { schedule } = require('@netlify/functions');
 const { getConfig } = require('./sven/lib/config');
 const { autoRefreshCoreLearnings } = require('./sven/lib/autolearning');
+const { connectStorage } = require('./sven/lib/storage');
 
-async function run() {
+async function run(event) {
+  connectStorage(event);
   const config = getConfig();
   const result = await autoRefreshCoreLearnings(config);
   return {

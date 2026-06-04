@@ -2,6 +2,7 @@ const querystring = require('querystring');
 const { getConfig } = require('./sven/lib/config');
 const db = require('./sven/lib/db');
 const { saveAndSendWeeklyReport } = require('./sven/lib/reports');
+const { connectStorage } = require('./sven/lib/storage');
 const { escapeHTML, htmlResponse, messagePage } = require('./sven/lib/html');
 
 function requireAdmin(config, token) {
@@ -165,6 +166,7 @@ async function adminPage(config, token) {
 }
 
 exports.handler = async (event) => {
+  connectStorage(event);
   const config = getConfig();
   const queryToken = (event.queryStringParameters || {}).token || '';
   if (event.httpMethod === 'GET') {

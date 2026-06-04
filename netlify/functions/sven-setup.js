@@ -3,6 +3,7 @@ const { getConfig, stripeConfigured } = require('./sven/lib/config');
 const db = require('./sven/lib/db');
 const { encryptText } = require('./sven/lib/crypto');
 const { validateOpenAIKey } = require('./sven/lib/openai');
+const { connectStorage } = require('./sven/lib/storage');
 const { escapeHTML, htmlResponse, messagePage } = require('./sven/lib/html');
 
 function setupPage(token, config) {
@@ -39,6 +40,7 @@ function setupPage(token, config) {
 }
 
 exports.handler = async (event) => {
+  connectStorage(event);
   const config = getConfig();
   if (event.httpMethod === 'GET') {
     const token = (event.queryStringParameters || {}).token || '';

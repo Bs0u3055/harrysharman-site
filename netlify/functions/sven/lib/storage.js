@@ -1,6 +1,16 @@
 const fs = require('fs/promises');
 const path = require('path');
 
+function connectStorage(event) {
+  if (!event || !event.blobs) return;
+  try {
+    const { connectLambda } = require('@netlify/blobs');
+    connectLambda(event);
+  } catch {
+    // Local/dev environments can fall back to the filesystem store.
+  }
+}
+
 function localDir() {
   const cwd = process.cwd();
   if (process.env.AWS_LAMBDA_FUNCTION_NAME || cwd === '/var/task' || cwd.startsWith('/var/task/')) {
@@ -97,6 +107,7 @@ async function readIndex(indexName, max = 100) {
 }
 
 module.exports = {
+  connectStorage,
   getJSON,
   setJSON,
   deleteKey,
