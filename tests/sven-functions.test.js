@@ -276,6 +276,79 @@ async function testHelpMentionsSupport() {
   assert(help.includes('support inbox'));
 }
 
+async function testSvenBetaPageGating() {
+  const originalCode = process.env.SVEN_BETA_ACCESS_CODE;
+  process.env.SVEN_BETA_ACCESS_CODE = 'DADFIT9K4M';
+  try {
+    const { handler } = require('../netlify/functions/sven-beta');
+    const locked = await handler({ httpMethod: 'GET', queryStringParameters: {}, headers: {} });
+    assert.strictEqual(locked.statusCode, 200);
+    assert.strictEqual(locked.headers['X-Robots-Tag'], 'noindex, nofollow, noarchive');
+    assert(locked.body.includes('Enter invite code'));
+    assert(!locked.body.includes('/start DADFIT9K4M'));
+    assert(!locked.body.includes('Message Sven on Telegram'));
+
+    const wrong = await handler({ httpMethod: 'GET', queryStringParameters: { invite: 'wrong' }, headers: {} });
+    assert.strictEqual(wrong.statusCode, 403);
+    assert(wrong.body.includes('That invite code did not work'));
+
+    const open = await handler({ httpMethod: 'GET', queryStringParameters: { invite: 'DADFIT9K4M' }, headers: {} });
+    assert.strictEqual(open.statusCode, 200);
+    assert(open.headers['Set-Cookie'].includes('sven_beta_invite='));
+    assert(open.body.includes('/start DADFIT9K4M'));
+    assert(open.body.includes('Message Sven on Telegram'));
+    assert(open.body.includes('No laminated gym nonsense'));
+  } finally {
+    restoreEnv('SVEN_BETA_ACCESS_CODE', originalCode);
+  }
+}
+
+async function testTelegramInviteGate() {
+  await resetStorage();
+  const originalCode = process.env.SVEN_BETA_ACCESS_CODE;
+  const originalFetch = global.fetch;
+  process.env.SVEN_BETA_ACCESS_CODE = 'DADFIT9K4M';
+  const sentMessages = [];
+  let openAICalled = false;
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    if (target.includes('api.openai.com')) {
+      openAICalled = true;
+      return new Response(JSON.stringify({ data: [] }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    const db = require('../netlify/functions/sven/lib/db');
+    const config = getConfig();
+    await processTelegramUpdate(config, telegramUpdate('chat-gated', '/start', 701));
+    await processTelegramUpdate(config, telegramUpdate('chat-gated', '/setup', 702));
+    await processTelegramUpdate(config, telegramUpdate('chat-gated', 'Can you help me?', 703));
+    assert(sentMessages.filter((text) => text.includes('private friend beta')).length >= 3);
+    assert(!sentMessages.some((text) => text.includes('/api/sven-setup?token=')));
+    assert.strictEqual(openAICalled, false);
+
+    await processTelegramUpdate(config, telegramUpdate('chat-gated', '/start wrong', 704));
+    assert(sentMessages.some((text) => text.includes('invite code did not work')));
+
+    await processTelegramUpdate(config, telegramUpdate('chat-gated', '/start DADFIT9K4M', 705));
+    const user = await db.getUser('chat-gated');
+    assert(user.invite_accepted_at);
+    assert(sentMessages.some((text) => text.includes('laminated gym-poster advice')));
+  } finally {
+    restoreEnv('SVEN_BETA_ACCESS_CODE', originalCode);
+    global.fetch = originalFetch;
+  }
+}
+
 async function testWhoamiShowsTelegramChatId() {
   await resetStorage();
   const originalFetch = global.fetch;
@@ -786,6 +859,8 @@ async function run() {
   await testSupportTickets();
   await testDeleteUserDataClearsSecondaryRecords();
   await testHelpMentionsSupport();
+  await testSvenBetaPageGating();
+  await testTelegramInviteGate();
   await testWhoamiShowsTelegramChatId();
   await testAdminTelegramCanAddCoreLearning();
   await testNonAdminCannotAddCoreLearning();

@@ -38,6 +38,34 @@ function commandHelp() {
   ].join('\n');
 }
 
+function betaCode(config) {
+  return String(config.betaAccessCode || '').trim().toLowerCase();
+}
+
+function betaInviteConfigured(config) {
+  return Boolean(betaCode(config));
+}
+
+function betaInviteMatches(config, value) {
+  const expected = betaCode(config);
+  const supplied = String(value || '').trim().toLowerCase();
+  return Boolean(expected && supplied && supplied === expected);
+}
+
+function isAdminTelegram(config, chatId) {
+  return Boolean(config.adminTelegramChatId && String(config.adminTelegramChatId) === String(chatId));
+}
+
+function betaAccessAllowed(config, user, chatId) {
+  if (!betaInviteConfigured(config)) return true;
+  if (isAdminTelegram(config, chatId)) return true;
+  return Boolean(user && (user.invite_accepted_at || user.onboarding_completed_at));
+}
+
+async function inviteRequired(config, chatId) {
+  await sendMessage(config, chatId, 'Sven is in a private friend beta at the moment. If Harry sent you an invite, use the private beta page or send:\n\n/start YOUR_INVITE_CODE');
+}
+
 function messageText(message) {
   return String(message.text || message.caption || '').trim();
 }
@@ -175,6 +203,10 @@ async function missingFundingMessage(config, chatId) {
 
 async function requireModelAccess(config, chatId) {
   const user = await db.getUser(chatId);
+  if (!betaAccessAllowed(config, user, chatId)) {
+    await inviteRequired(config, chatId);
+    return null;
+  }
   if (!db.onboardingComplete(user)) {
     await sendMessage(config, chatId, 'Do the text onboarding first with /start. Once your profile and API key are connected, you can send photos, screenshots, and voice notes.');
     return null;
@@ -208,7 +240,12 @@ async function processTelegramUpdate(config, update) {
   const chat = message.chat || {};
   const chatId = String(chat.id);
   const displayName = chat.first_name || chat.username || '';
-  await db.ensureUser(chatId, displayName, config);
+  const user = await db.ensureUser(chatId, displayName, config);
+  const command = text.startsWith('/') ? text.split(' ')[0].toLowerCase() : '';
+  if (!betaAccessAllowed(config, user, chatId) && !['/start', '/help', '/whoami'].includes(command)) {
+    await inviteRequired(config, chatId);
+    return;
+  }
   for (const term of detectSafetyTerms(text)) {
     await db.addSafetyFlag(chatId, 'user', term, text);
     await db.addLearningSignal(learningSignal(config, chatId, 'safety', term, text, 'redacted_safety_excerpt'));
@@ -230,7 +267,11 @@ async function processCommand(config, chatId, text) {
   const [rawCommand, ...restParts] = text.split(' ');
   const command = rawCommand.toLowerCase();
   const rest = restParts.join(' ').trim();
-  if (command === '/start') return start(config, chatId);
+  const user = await db.getUser(chatId);
+  if (command === '/start') return start(config, chatId, rest);
+  if (!betaAccessAllowed(config, user, chatId) && command !== '/help' && command !== '/whoami') {
+    return inviteRequired(config, chatId);
+  }
   if (command === '/setup') return setup(config, chatId);
   if (command === '/help') return sendMessage(config, chatId, commandHelp());
   if (command === '/status') return status(config, chatId);
@@ -248,10 +289,6 @@ async function processCommand(config, chatId, text) {
 
 async function whoami(config, chatId) {
   await sendMessage(config, chatId, `Your Telegram chat ID is:\n${chatId}\n\nHarry can use this as ADMIN_TELEGRAM_CHAT_ID in Netlify so admin-only Sven commands work.`);
-}
-
-function isAdminTelegram(config, chatId) {
-  return Boolean(config.adminTelegramChatId && String(config.adminTelegramChatId) === String(chatId));
 }
 
 function parseCoreLearning(rest) {
@@ -278,8 +315,20 @@ async function addCoreFromTelegram(config, chatId, rest) {
   await sendMessage(config, chatId, `Saved to Sven Core under "${category}". This will flow into future Sven replies for everyone.`);
 }
 
-async function start(config, chatId) {
+async function start(config, chatId, inviteCode = '') {
   const user = await db.getUser(chatId);
+  if (!betaAccessAllowed(config, user, chatId)) {
+    if (!inviteCode) {
+      await inviteRequired(config, chatId);
+      return;
+    }
+    if (!betaInviteMatches(config, inviteCode)) {
+      await sendMessage(config, chatId, 'That invite code did not work. Check the private beta page Harry sent you, then try:\n\n/start YOUR_INVITE_CODE');
+      return;
+    }
+    user.invite_accepted_at = user.invite_accepted_at || new Date().toISOString();
+    await db.saveUser(user);
+  }
   if (db.onboardingComplete(user)) {
     await sendMessage(config, chatId, 'You are onboarded. Send me a food log, training update, question, or plan request. Give me the real version, not the Instagram version.');
     return;
@@ -549,6 +598,10 @@ async function processAudio(config, chatId, text, attachment, telegramMessageId 
 
 async function processText(config, chatId, text, telegramMessageId = null) {
   let user = await db.getUser(chatId);
+  if (!betaAccessAllowed(config, user, chatId)) {
+    await inviteRequired(config, chatId);
+    return;
+  }
   if (!db.onboardingComplete(user)) return answerOnboarding(config, chatId, user, text);
   const keyRecord = await db.getApiKey(chatId);
   const funding = fundingForUser(config, user, keyRecord);

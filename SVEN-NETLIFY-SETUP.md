@@ -7,6 +7,7 @@ For the beta operating model, user-separation notes, learning workflow, and laun
 ## Public Endpoints
 
 - Telegram webhook: `/api/sven-telegram?secret=SVEN_WEBHOOK_SECRET_PATH`
+- Private friend beta page: `/sven-beta?invite=SVEN_BETA_ACCESS_CODE`
 - Setup page: `/api/sven-setup?token=...`
 - Billing checkout: `/api/sven-billing?token=...&pack=starter` (disabled unless prepaid credits are explicitly enabled)
 - Stripe webhook: `/api/sven-stripe-webhook` (future prepaid-credit mode)
@@ -24,6 +25,7 @@ SVEN_WEBHOOK_SECRET_PATH
 SVEN_SECRET
 SVEN_ADMIN_TOKEN
 OPENAI_DEFAULT_MODEL=gpt-5-nano
+SVEN_BETA_ACCESS_CODE
 SVEN_DAILY_TOKEN_LIMIT=120000
 SETUP_TOKEN_TTL_MINUTES=60
 ```
@@ -54,6 +56,8 @@ SVEN_AUTO_LEARNING_MAX_PROMOTIONS=4
 `ADMIN_TELEGRAM_CHAT_ID` enables admin-only Telegram commands such as `/core`. To find it, message Sven with `/whoami`, then add the returned ID to Netlify environment variables and redeploy.
 
 `SVEN_LEARNING_OPENAI_KEY` enables the daily background Sven Core learner. It is used only for low-volume admin learning distillation, not friend chat replies.
+
+`SVEN_BETA_ACCESS_CODE` gates both the private friend instruction page and Telegram onboarding. Friends can open `/sven-beta?invite=...` and start Sven with `/start CODE`. Without the code, the page hides setup instructions and the bot does not generate setup links.
 
 Optional future prepaid credits:
 
@@ -95,7 +99,8 @@ CREDIT_TOKENS_STANDARD=750000
 - Production storage uses Netlify Blobs.
 - Local tests use `.sven-data/`.
 - User API keys are encrypted with `SVEN_SECRET`.
-- Friends can use BYOK immediately once Telegram webhook is set.
+- Friends can use BYOK once Telegram webhook is set and they have the private beta code.
+- The private friend beta page is blocked from search indexing and is not linked from the public navigation.
 - Telegram text, voice notes, food photos, and screenshots are supported.
 - Sven is not directly connected to Apple Health or Google Fit yet. Users should send screenshots or context messages for health, workout, sleep, and recovery data.
 - Raw Telegram photos, screenshots, and audio files are downloaded temporarily for model calls and are not stored by Sven.

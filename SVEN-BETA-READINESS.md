@@ -6,6 +6,8 @@ Sven is ready for a small Telegram beta using bring-your-own OpenAI keys only.
 
 Friends message the same bot, but each Telegram chat is treated as a separate user workspace. Their profile, messages, API key, credits, usage, and onboarding state are stored under their own Telegram chat ID.
 
+The friend beta is invite-gated. The private instruction page lives at `/sven-beta?invite=SVEN_BETA_ACCESS_CODE`, is blocked from search indexing, and is not linked from public navigation. Telegram onboarding also requires the same code via `/start CODE`, so random users who find the bot cannot reach setup links or model calls.
+
 The beta is text-first, but users can also send:
 
 - Telegram voice notes or audio clips
@@ -84,6 +86,12 @@ Required environment variable for full automation:
 
 ```text
 SVEN_LEARNING_OPENAI_KEY
+```
+
+Required environment variable for the private friend beta gate:
+
+```text
+SVEN_BETA_ACCESS_CODE
 ```
 
 Required for shared persistent Sven memory if Netlify's automatic Blob context is unavailable:

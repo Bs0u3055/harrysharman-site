@@ -1,5 +1,8 @@
 User-agent: *
 Disallow: /admin/
 Disallow: /drafts/
+Disallow: /sven-beta
+Disallow: /api/sven-beta
+Disallow: /SVEN-FRIEND-BETA-MESSAGE.md
 
 Sitemap: https://harrysharman.com/sitemap.xml
