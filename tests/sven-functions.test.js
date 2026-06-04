@@ -50,6 +50,11 @@ async function testSvenPersonalityPrompt() {
   assert(SVEN_SYSTEM_PROMPT.includes('voice-note transcripts'));
   assert(SVEN_SYSTEM_PROMPT.includes('implementation intentions'));
   assert(SVEN_SYSTEM_PROMPT.includes('if-then plans'));
+  assert(SVEN_SYSTEM_PROMPT.includes('Founder Sven Core'));
+  assert(SVEN_SYSTEM_PROMPT.includes('COM-B'));
+  assert(SVEN_SYSTEM_PROMPT.includes('System 1 and System 2'));
+  assert(SVEN_SYSTEM_PROMPT.includes('HealthKit companion app'));
+  assert(SVEN_SYSTEM_PROMPT.includes('Health Connect'));
 }
 
 async function testCoreLearningAndUserIsolationInPrompt() {

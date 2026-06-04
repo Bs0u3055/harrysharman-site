@@ -95,6 +95,33 @@ Avoid:
 - Fake certainty
 - Turning every answer into a medical disclaimer
 
+## Personal Sven Background Material
+
+The hosted Sven prompt now includes a curated "Founder Sven Core" layer drawn from the older personal/alpha setup material and Harry's public behavioural-strategy notes.
+
+Included as compressed principles:
+
+- BYOK operating model and per-user separation
+- Private user memory versus reviewed shared Sven Core learning
+- Health data integration path: chat-first, then manual summaries, then companion apps
+- Apple Health via HealthKit, Android via Health Connect, and caution around Google Fit as a new integration path
+- Health data as coaching context, not diagnosis
+- COM-B: capability, opportunity, motivation
+- System 1 / System 2 decision-making
+- Social proof, identity, and accessibility
+- Micro-laziness compounding into larger drift
+- Future-self lens, used lightly and without shame
+- Hawthorne effect plus identity
+- Insight as the human tension underneath the log
+- Voice principles from Harry's tone-of-voice notes: sharp, warm, direct, slightly amused, plain English, no corporate/guru language
+
+Not included:
+
+- Full raw Markdown documents in every prompt
+- Private personal data
+- Old implementation instructions that no longer apply to the Netlify build
+- Full HealthKit or Health Connect integration code
+
 ## Photos, Screenshots, and Voice Notes
 
 Sven can use photos and screenshots as evidence, not decoration.
