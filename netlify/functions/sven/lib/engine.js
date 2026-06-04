@@ -74,15 +74,15 @@ async function processCommand(config, chatId, text) {
 async function start(config, chatId) {
   const user = await db.getUser(chatId);
   if (db.onboardingComplete(user)) {
-    await sendMessage(config, chatId, 'You are onboarded. Send me a food log, training update, question, or plan request.');
+    await sendMessage(config, chatId, 'You are onboarded. Send me a food log, training update, question, or plan request. Give me the real version, not the Instagram version.');
     return;
   }
-  await sendMessage(config, chatId, `Welcome to Sven. I need a proper starting profile first.\n\n${formatQuestion(user.onboarding_index)}`);
+  await sendMessage(config, chatId, `Welcome to Sven. I am going to ask a few questions so the coaching is actually useful, not laminated gym-poster advice.\n\n${formatQuestion(user.onboarding_index)}`);
 }
 
 async function setup(config, chatId) {
   const url = await setupUrl(config, chatId);
-  await sendMessage(config, chatId, `Set up Sven here by connecting your own OpenAI API key:\n\n${url}`);
+  await sendMessage(config, chatId, `Set up Sven here by connecting your own OpenAI API key. This keeps your usage on your account and keeps Harry out of the bill-paying business, which is healthier for everyone involved.\n\n${url}`);
 }
 
 async function status(config, chatId) {
@@ -110,7 +110,7 @@ async function profile(config, chatId) {
   const answers = user && user.answers ? user.answers : {};
   const keys = Object.keys(answers);
   if (!keys.length) {
-    await sendMessage(config, chatId, 'No profile answers saved yet. Send /start to begin.');
+    await sendMessage(config, chatId, 'No profile answers saved yet. Send /start and I will ask the useful questions first.');
     return;
   }
   const lines = ['Saved profile:'];
@@ -129,7 +129,7 @@ async function restartOnboarding(config, chatId) {
 
 async function deleteKey(config, chatId) {
   await db.deleteApiKey(chatId);
-  await sendMessage(config, chatId, 'Your stored API key has been removed.');
+  await sendMessage(config, chatId, 'Your stored API key has been removed. Sensible housekeeping.');
 }
 
 async function deleteMe(config, chatId, rest) {
@@ -138,7 +138,7 @@ async function deleteMe(config, chatId, rest) {
     return;
   }
   await db.deleteUserData(chatId, userHash(config, chatId));
-  await sendMessage(config, chatId, 'Your Sven data has been deleted.');
+  await sendMessage(config, chatId, 'Your Sven data has been deleted. Clean slate.');
 }
 
 async function feedback(config, chatId, rest) {
@@ -155,7 +155,7 @@ async function feedback(config, chatId, rest) {
   const note = noteParts.join(' ').trim();
   await db.addFeedback(chatId, rating, note);
   await db.addLearningSignal(learningSignal(config, chatId, 'feedback', rating, note, 'user_submitted_feedback'));
-  await sendMessage(config, chatId, 'Feedback saved. That helps improve Sven Core.');
+  await sendMessage(config, chatId, 'Feedback saved. Useful. That helps sharpen Sven Core.');
 }
 
 async function support(config, chatId, rest) {
@@ -165,7 +165,7 @@ async function support(config, chatId, rest) {
   }
   await db.addSupportTicket(chatId, rest);
   await db.addLearningSignal(learningSignal(config, chatId, 'support', 'open_ticket', rest, 'user_submitted_support'));
-  await sendMessage(config, chatId, 'Logged in the Sven support inbox. You can keep using Sven, or send /bug again if you notice another issue.');
+  await sendMessage(config, chatId, 'Logged in the Sven support inbox. Annoying, but useful. You can keep using Sven, or send /bug again if something else breaks.');
 }
 
 async function answerOnboarding(config, chatId, user, text) {
@@ -179,7 +179,7 @@ async function answerOnboarding(config, chatId, user, text) {
     return;
   }
   if (question.id === 'consent_boundary' && !['yes', 'y', 'agree', 'i agree'].includes(text.trim().toLowerCase())) {
-    await sendMessage(config, chatId, 'I need a clear yes before Sven can continue. This keeps the beta in a general wellness lane.');
+    await sendMessage(config, chatId, 'I need a clear yes before we continue. Boring boundary, important boundary.');
     return;
   }
   user.answers = user.answers || {};
@@ -197,7 +197,7 @@ async function answerOnboarding(config, chatId, user, text) {
     { private_field: Boolean(question.private) }
   ));
   if (user.onboarding_index >= questionCount()) {
-    await sendMessage(config, chatId, 'Onboarding complete. Next step: send /setup and connect your own OpenAI API key.');
+    await sendMessage(config, chatId, 'Onboarding complete. Good. Next step: send /setup and connect your own OpenAI API key so we can get to the useful bit.');
     return;
   }
   await sendMessage(config, chatId, formatQuestion(user.onboarding_index));
@@ -227,7 +227,7 @@ async function processText(config, chatId, text, telegramMessageId = null) {
   }
   const used = await db.dailyTokensUsed(chatId);
   if (used >= user.daily_token_limit) {
-    await sendMessage(config, chatId, "You have hit today's Sven token limit. Send /status to check usage.");
+    await sendMessage(config, chatId, "You have hit today's Sven token limit. Annoying, but the guardrail is doing its job. Send /status to check usage.");
     return;
   }
   const inserted = await db.addUserMessageOnce(chatId, text, telegramMessageId);

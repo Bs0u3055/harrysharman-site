@@ -38,6 +38,15 @@ async function testPromptTrimming() {
   assert(prompt.length < 7000);
 }
 
+async function testSvenPersonalityPrompt() {
+  const { SVEN_SYSTEM_PROMPT } = require('../netlify/functions/sven/lib/prompts');
+  assert(SVEN_SYSTEM_PROMPT.includes('real coach'));
+  assert(SVEN_SYSTEM_PROMPT.includes('lightly funny'));
+  assert(SVEN_SYSTEM_PROMPT.includes('no corporate wellness fog'));
+  assert(SVEN_SYSTEM_PROMPT.includes('not judged'));
+  assert(SVEN_SYSTEM_PROMPT.includes('Sound like Sven'));
+}
+
 async function testCoreLearningAndUserIsolationInPrompt() {
   const { buildChatPrompt } = require('../netlify/functions/sven/lib/prompts');
   const prompt = buildChatPrompt(
@@ -255,6 +264,7 @@ async function testEndToEndSvenFlow() {
     let messageId = 1;
 
     await processTelegramUpdate(config, telegramUpdate(chatId, '/start', messageId++));
+    assert(sentMessages.some((text) => text.includes('laminated gym-poster advice')));
     const answers = [
       'Beta Tester',
       '39',
@@ -414,6 +424,7 @@ async function testAdminShowsPaymentMonitoringSections() {
 
 async function run() {
   await testPromptTrimming();
+  await testSvenPersonalityPrompt();
   await testCoreLearningAndUserIsolationInPrompt();
   await testPrepaidCreditsDisabledByDefault();
   await testLearningRedactionAndHashing();
