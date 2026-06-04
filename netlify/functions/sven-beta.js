@@ -41,13 +41,14 @@ function shell(title, body) {
     .sven-private-mark{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;border:2px solid var(--ink);border-radius:999px;padding:7px 12px;background:var(--cream)}
     .sven-hero{background:var(--red);border-bottom:2px solid var(--ink);padding:54px 0 44px}
     .sven-hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(280px,.85fr);gap:34px;align-items:end}
+    .sven-hero-grid>*{min-width:0}
     .sven-kicker{display:inline-flex;align-items:center;gap:9px;font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:8px 14px;margin-bottom:20px}
     .sven-kicker span{width:7px;height:7px;background:var(--ink);border-radius:999px;display:inline-block}
-    .sven-title{font-family:var(--f-sans);font-weight:900;font-size:clamp(46px,7vw,92px);line-height:.88;letter-spacing:-.04em;max-width:880px}
+    .sven-title{font-family:var(--f-sans);font-weight:900;font-size:clamp(46px,7vw,92px);line-height:.88;letter-spacing:-.04em;max-width:880px;overflow-wrap:break-word}
     .sven-title strong{display:inline;background:var(--ink);color:var(--cream);padding:2px 13px 4px;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
     .sven-copy{font-size:17px;line-height:1.55;max-width:620px;margin-top:24px}
     .sven-note{font-family:var(--f-hand);font-size:30px;font-weight:700;color:var(--cream);transform:rotate(-3deg);display:inline-block;margin-top:18px}
-    .sven-panel{background:var(--cream);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:24px}
+    .sven-panel{background:var(--cream);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:24px;min-width:0}
     .sven-panel h2,.sven-section h2{font-size:clamp(28px,3vw,42px);line-height:.96;letter-spacing:-.03em;margin-bottom:14px}
     .sven-panel p,.sven-section p,.sven-section li{font-size:15px;line-height:1.58}
     .sven-form{display:grid;gap:12px;margin-top:18px}
@@ -62,13 +63,14 @@ function shell(title, body) {
     .sven-section{background:var(--cream);border-bottom:2px solid var(--ink);padding:44px 0}
     .sven-section.dark{background:var(--ink);color:var(--cream)}
     .sven-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--ink);border-bottom:0}
-    .sven-card{padding:22px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);background:var(--cream);color:var(--ink);min-height:180px}
+    .sven-card{padding:22px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);background:var(--cream);color:var(--ink);min-height:180px;min-width:0}
     .sven-card:nth-child(3n){border-right:0}
     .sven-card.dark{background:var(--ink);color:var(--cream)}
     .sven-card-label{font-family:var(--f-mono);font-size:10px;letter-spacing:.16em;opacity:.62;margin-bottom:12px}
     .sven-card h3{font-size:22px;line-height:1;letter-spacing:-.02em;margin-bottom:12px}
     .sven-steps{display:grid;gap:12px;counter-reset:sven-step;margin-top:22px}
     .sven-step{display:grid;grid-template-columns:48px 1fr;gap:16px;align-items:start;border-top:2px solid var(--ink);padding-top:16px}
+    .sven-step>div{min-width:0}
     .sven-step:before{counter-increment:sven-step;content:counter(sven-step);display:grid;place-items:center;width:38px;height:38px;background:var(--red);border:2px solid var(--ink);font:900 16px var(--f-sans)}
     .sven-code{display:inline-block;background:var(--ink);color:var(--cream);font-family:var(--f-mono);font-size:13px;padding:4px 7px;margin:2px 0}
     .sven-cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
@@ -80,7 +82,7 @@ function shell(title, body) {
     }
     @media (max-width:520px){
       .sven-hero{padding:36px 0 34px}
-      .sven-title{font-size:clamp(38px,12vw,52px);letter-spacing:-.035em}
+      .sven-title{font-size:clamp(34px,10vw,42px);letter-spacing:-.03em}
       .sven-copy{font-size:16px}
       .sven-panel{padding:20px}
       .sven-step{grid-template-columns:48px minmax(0,1fr);gap:12px}
