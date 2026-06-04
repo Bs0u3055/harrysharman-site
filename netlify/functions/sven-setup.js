@@ -20,6 +20,7 @@ function setupPage(token, config) {
 
   return htmlResponse(200, 'Set up Sven', `<h1>Set up Sven</h1>
     <p>Connect your own OpenAI API key. Do not paste API keys into Telegram.</p>
+    <p>After setup, Sven can reply to text, Telegram voice notes, food photos, and screenshots of workout, sleep, recovery, or health data.</p>
     <div class="grid">
       <div class="card">
         <h2>Use your own OpenAI key</h2>

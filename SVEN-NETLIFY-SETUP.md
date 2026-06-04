@@ -28,6 +28,12 @@ SVEN_DAILY_TOKEN_LIMIT=120000
 SETUP_TOKEN_TTL_MINUTES=60
 ```
 
+Optional BYOK beta tuning:
+
+```text
+OPENAI_TRANSCRIPTION_MODEL=gpt-4o-mini-transcribe
+```
+
 Optional future prepaid credits:
 
 ```text
@@ -69,5 +75,8 @@ CREDIT_TOKENS_STANDARD=750000
 - Local tests use `.sven-data/`.
 - User API keys are encrypted with `SVEN_SECRET`.
 - Friends can use BYOK immediately once Telegram webhook is set.
+- Telegram text, voice notes, food photos, and screenshots are supported.
+- Sven is not directly connected to Apple Health or Google Fit yet. Users should send screenshots or context messages for health, workout, sleep, and recovery data.
+- Raw Telegram photos, screenshots, and audio files are downloaded temporarily for model calls and are not stored by Sven.
 - Prepaid Stripe checkout is disabled for the beta unless `SVEN_ENABLE_PREPAID_CREDITS=true` is deliberately configured.
 - Friends can report broken flows with `/bug what happened`; these appear in the admin Support Inbox and weekly report.

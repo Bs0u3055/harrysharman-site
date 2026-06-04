@@ -30,6 +30,7 @@ function getConfig() {
     adminToken: env('SVEN_ADMIN_TOKEN'),
     adminTelegramChatId: env('ADMIN_TELEGRAM_CHAT_ID'),
     openaiDefaultModel: env('OPENAI_DEFAULT_MODEL', 'gpt-5-nano'),
+    openaiTranscriptionModel: env('OPENAI_TRANSCRIPTION_MODEL', 'gpt-4o-mini-transcribe'),
     dailyTokenLimit: intEnv('SVEN_DAILY_TOKEN_LIMIT', 120000),
     setupTokenTtlMinutes: intEnv('SETUP_TOKEN_TTL_MINUTES', 60),
     centralOpenAIKey: env('CENTRAL_OPENAI_API_KEY'),

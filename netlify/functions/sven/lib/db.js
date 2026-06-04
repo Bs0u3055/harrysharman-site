@@ -220,6 +220,22 @@ async function addUserMessageOnce(chatId, text, telegramMessageId) {
   return true;
 }
 
+async function updateUserMessageText(chatId, telegramMessageId, text) {
+  if (telegramMessageId === null || telegramMessageId === undefined) return false;
+  const messages = await getJSON(messagesKey(chatId), []);
+  const id = String(telegramMessageId);
+  for (let index = messages.length - 1; index >= 0; index -= 1) {
+    const message = messages[index];
+    if (message && message.role === 'user' && String(message.telegram_message_id) === id) {
+      message.text = text;
+      message.updated_at = nowISO();
+      await setJSON(messagesKey(chatId), messages.slice(-MAX_MESSAGES_PER_USER));
+      return true;
+    }
+  }
+  return false;
+}
+
 async function addUsage(chatId, provider, model, fundingMode, inputTokens, outputTokens, raw) {
   const usageKey = `usage:${Date.now()}:${chatId}:${Math.random().toString(16).slice(2)}`;
   await setJSON(usageKey, {
@@ -398,6 +414,7 @@ module.exports = {
   getMessages,
   addMessage,
   addUserMessageOnce,
+  updateUserMessageText,
   addUsage,
   dailyTokensUsed,
   addFeedback,

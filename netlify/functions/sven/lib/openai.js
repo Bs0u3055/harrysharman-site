@@ -57,14 +57,7 @@ function outputText(body) {
   return String(body.output_text || '').trim();
 }
 
-async function callOpenAI(apiKey, model, instructions, input, maxOutputTokens = 700) {
-  const payload = {
-    model,
-    instructions,
-    input,
-    max_output_tokens: maxOutputTokens,
-    text: { verbosity: 'low' }
-  };
+async function createResponse(apiKey, payload) {
   const { response, body } = await requestJSON('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
@@ -94,9 +87,94 @@ async function callOpenAI(apiKey, model, instructions, input, maxOutputTokens = 
   };
 }
 
+async function callOpenAI(apiKey, model, instructions, input, maxOutputTokens = 700) {
+  const payload = {
+    model,
+    instructions,
+    input,
+    max_output_tokens: maxOutputTokens,
+    text: { verbosity: 'low' }
+  };
+  return createResponse(apiKey, payload);
+}
+
+async function callOpenAIWithImage(apiKey, model, instructions, inputText, imageDataUrl, maxOutputTokens = 700) {
+  const payload = {
+    model,
+    instructions,
+    input: [{
+      role: 'user',
+      content: [
+        { type: 'input_text', text: inputText },
+        { type: 'input_image', image_url: imageDataUrl, detail: 'auto' }
+      ]
+    }],
+    max_output_tokens: maxOutputTokens,
+    text: { verbosity: 'low' }
+  };
+  return createResponse(apiKey, payload);
+}
+
+async function requestMultipartJSON(url, apiKey, form, attempts = 2) {
+  let lastError = null;
+  for (let attempt = 1; attempt <= attempts; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${apiKey}` },
+        body: form
+      });
+      const text = await response.text();
+      let body = {};
+      try {
+        body = text ? JSON.parse(text) : {};
+      } catch {
+        body = { error: { message: text.slice(0, 500) } };
+      }
+      if (TRANSIENT_STATUS.has(response.status) && attempt < attempts) {
+        await sleep(Math.min(500 * attempt, 2000));
+        continue;
+      }
+      return { response, body };
+    } catch (error) {
+      lastError = error;
+      if (attempt >= attempts) break;
+      await sleep(Math.min(500 * attempt, 2000));
+    }
+  }
+  throw new Error('OpenAI audio request failed: ' + (lastError ? lastError.message : 'unknown error'));
+}
+
+async function transcribeOpenAIAudio(apiKey, audio, model = 'gpt-4o-mini-transcribe') {
+  const form = new FormData();
+  const blob = new Blob([audio.bytes], { type: audio.mimeType || 'application/octet-stream' });
+  form.append('file', blob, audio.filename || 'telegram-audio.webm');
+  form.append('model', model || 'gpt-4o-mini-transcribe');
+  form.append('response_format', 'json');
+  form.append('prompt', 'Fitness and nutrition coaching voice note for Sven. Preserve meals, exercises, weights, reps, sets, sleep, fatigue, soreness, travel context, body measurements, calories, macros, and dates accurately.');
+
+  const { response, body } = await requestMultipartJSON('https://api.openai.com/v1/audio/transcriptions', apiKey, form);
+  if (!response.ok) {
+    const message = body && body.error && body.error.message ? body.error.message : 'OpenAI transcription failed.';
+    throw new Error(message);
+  }
+  const text = String(body.text || body.transcript || '').trim();
+  if (!text) throw new Error('The transcription returned no text.');
+  const usage = body.usage || {};
+  return {
+    text,
+    usage: {
+      input_tokens: usage.input_tokens || 0,
+      output_tokens: usage.output_tokens || 0
+    },
+    raw: { model, usage }
+  };
+}
+
 module.exports = {
   callOpenAI,
+  callOpenAIWithImage,
+  transcribeOpenAIAudio,
   validateOpenAIKey,
   requestJSON
 };
-

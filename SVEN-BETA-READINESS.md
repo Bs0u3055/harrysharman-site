@@ -6,6 +6,15 @@ Sven is ready for a small Telegram beta using bring-your-own OpenAI keys only.
 
 Friends message the same bot, but each Telegram chat is treated as a separate user workspace. Their profile, messages, API key, credits, usage, and onboarding state are stored under their own Telegram chat ID.
 
+The beta is text-first, but users can also send:
+
+- Telegram voice notes or audio clips
+- Food photos
+- Workout, sleep, weight, step, heart-rate, recovery, Apple Health, Google Fit, or wearable screenshots
+- Context messages such as "I am travelling", "I am in a hotel", "I am eating out", or "sleep was bad"
+
+Sven is not directly integrated with Apple Health, Google Fit, Garmin, Fitbit, MyFitnessPal, or food scales yet. The practical beta path is screenshots, food photos, voice notes, and plain-language context.
+
 ## User Separation
 
 - Per-user profile: `user:<telegram_chat_id>`
@@ -24,6 +33,8 @@ Sven now has three layers:
    - Used only for that user.
    - Includes onboarding answers and recent conversation.
    - Stores up to 1,000 messages per user for beta review/history, while only the recent slice is sent into the model prompt.
+   - Voice notes are transcribed using that user's OpenAI key and stored as private text context.
+   - Raw photos, screenshots, and audio files are not stored by Sven. They are downloaded temporarily for the model call.
 
 2. Redacted learning queue
    - Stores anonymized signals from onboarding, messages, feedback, support, and safety flags.
@@ -83,6 +94,48 @@ Avoid:
 - Long generic pep talks
 - Fake certainty
 - Turning every answer into a medical disclaimer
+
+## Photos, Screenshots, and Voice Notes
+
+Sven can use photos and screenshots as evidence, not decoration.
+
+Good user inputs:
+
+- "Hotel breakfast. Eggs, toast, fruit. Not sure on portions." plus a food photo
+- "Apple Health sleep from last night" plus a sleep screenshot
+- "Workout from this morning" plus a workout screenshot
+- A voice note explaining the day, energy, hunger, training, stress, travel, and what they actually ate
+
+Food photos:
+
+- Sven gives rough calories/macros with uncertainty.
+- Sven asks for weights, volumes, brands, sauces, and cooking methods only when needed.
+- More detail makes the estimate better.
+
+Health/workout screenshots:
+
+- Sven extracts only visible data.
+- Sven should connect sleep debt, tiredness, fatigue, soreness, steps, training load, and recovery to the user's eating and fitness goals.
+- Sven should not pretend to have live tracker access.
+
+Voice notes:
+
+- Users can monologue instead of typing.
+- Sven transcribes the audio with that user's own OpenAI key, then replies like normal.
+- The transcript becomes part of that user's private Sven memory.
+
+## Behavioural Science Nudges
+
+Sven now carries the behavioural science layer in the base prompt:
+
+- Diagnose friction before motivation.
+- Use tiny next actions and if-then plans.
+- Make good defaults easier and bad defaults slightly harder.
+- Track enough to learn, not enough to create shame.
+- Reinforce identity through evidence, not empty affirmations.
+- Reset after messy days with the next meal, next walk, or next session.
+- Pair habits with existing routines and reduce decision load.
+- Treat user input as a feedback loop that gets smarter over time.
 
 ## User Support
 
@@ -149,6 +202,8 @@ Before inviting friends:
 5. Add an OpenAI API key.
 6. Send `/status` and confirm the API key says connected.
 7. Send one normal coaching question.
-8. Send `/bug test support inbox`.
-9. Confirm the ticket appears in Sven Admin.
-10. Run `/delete_key` if you want to remove the test key.
+8. Send a food photo with a short caption.
+9. Send a Telegram voice note.
+10. Send `/bug test support inbox`.
+11. Confirm the ticket appears in Sven Admin.
+12. Run `/delete_key` if you want to remove the test key.

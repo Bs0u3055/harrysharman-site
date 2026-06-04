@@ -45,6 +45,11 @@ async function testSvenPersonalityPrompt() {
   assert(SVEN_SYSTEM_PROMPT.includes('no corporate wellness fog'));
   assert(SVEN_SYSTEM_PROMPT.includes('not judged'));
   assert(SVEN_SYSTEM_PROMPT.includes('Sound like Sven'));
+  assert(SVEN_SYSTEM_PROMPT.includes('food photos'));
+  assert(SVEN_SYSTEM_PROMPT.includes('Apple Health'));
+  assert(SVEN_SYSTEM_PROMPT.includes('voice-note transcripts'));
+  assert(SVEN_SYSTEM_PROMPT.includes('implementation intentions'));
+  assert(SVEN_SYSTEM_PROMPT.includes('if-then plans'));
 }
 
 async function testCoreLearningAndUserIsolationInPrompt() {
@@ -227,6 +232,65 @@ function telegramUpdate(chatId, text, messageId) {
   };
 }
 
+function telegramPhotoUpdate(chatId, caption, messageId) {
+  return {
+    message: {
+      message_id: messageId,
+      caption,
+      photo: [
+        { file_id: 'photo-small', file_size: 2, width: 90, height: 90 },
+        { file_id: 'photo-large', file_size: 4, width: 1200, height: 900 }
+      ],
+      chat: {
+        id: chatId,
+        first_name: 'Beta'
+      }
+    }
+  };
+}
+
+function telegramVoiceUpdate(chatId, messageId) {
+  return {
+    message: {
+      message_id: messageId,
+      voice: {
+        file_id: 'voice-file',
+        file_size: 4,
+        duration: 42,
+        mime_type: 'audio/ogg'
+      },
+      chat: {
+        id: chatId,
+        first_name: 'Beta'
+      }
+    }
+  };
+}
+
+async function createReadyByokUser(chatId) {
+  const db = require('../netlify/functions/sven/lib/db');
+  const { encryptText } = require('../netlify/functions/sven/lib/crypto');
+  await db.ensureUser(chatId, 'Beta', { openaiDefaultModel: 'gpt-5-nano', dailyTokenLimit: 120000 });
+  const user = await db.getUser(chatId);
+  user.onboarding_completed_at = new Date().toISOString();
+  user.answers = {
+    primary_goal: 'fat loss and consistency',
+    motivation: 'energy for family life',
+    tracking_comfort: 'photos and rough macros',
+    schedule_constraints: 'childcare, work, and travel',
+    recovery_sleep: 'sleep is patchy'
+  };
+  await db.saveUser(user);
+  await db.saveApiKey(chatId, {
+    provider: 'openai',
+    model: 'gpt-5-nano',
+    key_ciphertext: encryptText('test-secret', 'sk-test-valid'),
+    key_last4: 'alid',
+    created_at: db.nowISO(),
+    updated_at: db.nowISO()
+  });
+}
+
 async function testEndToEndSvenFlow() {
   await resetStorage();
   const originalFetch = global.fetch;
@@ -320,6 +384,127 @@ async function testEndToEndSvenFlow() {
     assert(learning.length >= 20);
     assert(learning.every((row) => row.user_hash && !Object.prototype.hasOwnProperty.call(row, 'telegram_chat_id')));
     assert(learning.some((row) => row.source === 'support' && row.text_excerpt.includes('setup link was confusing')));
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+async function testTelegramPhotoAnalysisFlow() {
+  await resetStorage();
+  await createReadyByokUser('chat-photo');
+  const originalFetch = global.fetch;
+  const sentMessages = [];
+  let responsePayload = null;
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('/file/botfake-token/photos/meal.jpg')) {
+      return new Response(Buffer.from([1, 2, 3, 4]), {
+        status: 200,
+        headers: { 'content-type': 'image/jpeg', 'content-length': '4' }
+      });
+    }
+    if (target.includes('/botfake-token/getFile')) {
+      const body = JSON.parse(options.body || '{}');
+      assert.strictEqual(body.file_id, 'photo-large');
+      return new Response(JSON.stringify({ ok: true, result: { file_path: 'photos/meal.jpg', file_size: 4 } }), { status: 200 });
+    }
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || body.action || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    if (target === 'https://api.openai.com/v1/responses') {
+      responsePayload = JSON.parse(options.body || '{}');
+      return new Response(JSON.stringify({
+        id: 'resp_photo',
+        status: 'completed',
+        output: [{ type: 'message', content: [{ type: 'output_text', text: 'Looks like a chicken-and-rice meal. Roughly 550-700 kcal; send weights next time and I will tighten it up.' }] }],
+        usage: { input_tokens: 222, output_tokens: 66 }
+      }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    const db = require('../netlify/functions/sven/lib/db');
+    await processTelegramUpdate(getConfig(), telegramPhotoUpdate('chat-photo', 'Lunch at hotel buffet, not sure on portions', 101));
+    assert(responsePayload);
+    assert.strictEqual(responsePayload.input[0].content[0].type, 'input_text');
+    assert.strictEqual(responsePayload.input[0].content[1].type, 'input_image');
+    assert(responsePayload.input[0].content[1].image_url.startsWith('data:image/jpeg;base64,'));
+    assert(responsePayload.input[0].content[0].text.includes('weights/volumes'));
+    assert(responsePayload.input[0].content[0].text.includes('Apple Health'));
+    assert(sentMessages.some((text) => text.includes('chicken-and-rice')));
+    const usage = await db.rowsFromIndex('usage', 10);
+    assert.strictEqual(usage.length, 1);
+    const learning = await db.rowsFromIndex('learning', 20);
+    assert(learning.some((row) => row.source === 'media' && row.signal === 'image_message'));
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+async function testTelegramVoiceNoteFlow() {
+  await resetStorage();
+  await createReadyByokUser('chat-voice');
+  const originalFetch = global.fetch;
+  const sentMessages = [];
+  let responsePrompt = '';
+  let transcriptionRequested = false;
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('/file/botfake-token/voice/file_1.ogg')) {
+      return new Response(Buffer.from([5, 6, 7, 8]), {
+        status: 200,
+        headers: { 'content-type': 'audio/ogg', 'content-length': '4' }
+      });
+    }
+    if (target.includes('/botfake-token/getFile')) {
+      const body = JSON.parse(options.body || '{}');
+      assert.strictEqual(body.file_id, 'voice-file');
+      return new Response(JSON.stringify({ ok: true, result: { file_path: 'voice/file_1.ogg', file_size: 4 } }), { status: 200 });
+    }
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || body.action || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    if (target === 'https://api.openai.com/v1/audio/transcriptions') {
+      transcriptionRequested = true;
+      assert(options.body instanceof FormData);
+      return new Response(JSON.stringify({
+        text: 'I am travelling and staying in a hotel. Slept badly, trained yesterday, and breakfast was eggs, toast and fruit.',
+        usage: { input_tokens: 33, output_tokens: 7 }
+      }), { status: 200 });
+    }
+    if (target === 'https://api.openai.com/v1/responses') {
+      responsePrompt = JSON.parse(options.body || '{}').input || '';
+      return new Response(JSON.stringify({
+        id: 'resp_voice',
+        status: 'completed',
+        output: [{ type: 'message', content: [{ type: 'output_text', text: 'Hotel week, so we keep it simple: protein breakfast, walk after lunch, short full-body session if sleep improves.' }] }],
+        usage: { input_tokens: 200, output_tokens: 50 }
+      }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    const db = require('../netlify/functions/sven/lib/db');
+    await processTelegramUpdate(getConfig(), telegramVoiceUpdate('chat-voice', 201));
+    assert.strictEqual(transcriptionRequested, true);
+    assert(responsePrompt.includes('Voice note transcript'));
+    assert(responsePrompt.includes('staying in a hotel'));
+    assert(sentMessages.some((text) => text.includes('Hotel week')));
+    const messages = await db.getMessages('chat-voice', 10);
+    assert(messages.some((message) => message.role === 'user' && message.text.includes('Slept badly')));
+    const usage = await db.rowsFromIndex('usage', 10);
+    assert.strictEqual(usage.length, 2);
+    assert(usage.some((row) => row.model === 'gpt-4o-mini-transcribe'));
   } finally {
     global.fetch = originalFetch;
   }
@@ -437,6 +622,8 @@ async function run() {
   await testSetupChecksTokenBeforeKeyShape();
   await testBillingEndpointDisabledByDefault();
   await testEndToEndSvenFlow();
+  await testTelegramPhotoAnalysisFlow();
+  await testTelegramVoiceNoteFlow();
   await testCreditModeRequiresSafeReserveBeforeOpenAI();
   await testCentralKeyIgnoredWhenPrepaidDisabled();
   await testAdminShowsPaymentMonitoringSections();
