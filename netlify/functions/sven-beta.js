@@ -114,19 +114,19 @@ function lockedPage(error = '') {
       <div>
         <div class="sven-kicker"><span></span> INVITE ONLY</div>
         <h1 class="sven-title">Sven is in <strong>friend beta.</strong></h1>
-        <p class="sven-copy">This page is private, hidden from the site navigation, and blocked from search indexing. If Harry sent you the beta link, paste the invite code below.</p>
+        <p class="sven-copy">This is the not-quite-public door. Sven is private, hidden from the main site, and blocked from search engines while Harry finds out what breaks when real humans use it.</p>
         <div class="sven-note">tiny velvet rope, basically.</div>
       </div>
       <div class="sven-panel">
-        <h2>Enter invite code</h2>
-        <p>This stops random traffic getting to the setup flow while Sven is still being tested.</p>
+        <h2>Got the code?</h2>
+        <p>Pop it in below. This keeps random internet wanderers away from the setup flow while Sven is still wearing his beta shoes.</p>
         <form class="sven-form" method="get" action="/sven-beta">
           <label for="invite">Invite code</label>
           <input class="sven-input" id="invite" name="invite" autocomplete="off" required>
-          <button class="sven-button" type="submit">Open beta page</button>
+          <button class="sven-button" type="submit">Let me in</button>
         </form>
         ${error ? `<div class="sven-error">${escapeHTML(error)}</div>` : ''}
-        <p class="sven-small">Do not share this page publicly. Sven is not ready for open signups.</p>
+        <p class="sven-small">No code, no coach. Dramatic, but useful. Please do not share this publicly yet.</p>
       </div>
     </div>
   </section>`;
@@ -141,15 +141,16 @@ function openPage(config) {
       <div>
         <div class="sven-kicker"><span></span> SVEN FRIEND BETA</div>
         <h1 class="sven-title">A coach in<br>your pocket.<br><strong>No laminated<br>gym nonsense.</strong></h1>
-        <p class="sven-copy">Sven is a text-first AI personal trainer and nutrition coach. You message it like a coach: food, training, sleep, travel, screenshots, voice notes, the messy real-life stuff. The more context you give it, the sharper it gets.</p>
+        <p class="sven-copy">Sven is a text-first AI personal trainer and nutrition coach. You message it like a coach: food, training, sleep, travel, screenshots, voice notes, the messy real-life stuff. The more context you give it, the sharper it gets. Like a coach, but less likely to shout across a gym.</p>
         <div class="sven-cta-row">
-          <a class="sven-link-button" href="${botUrl}" rel="nofollow">Message Sven on Telegram</a>
-          <a class="sven-link-button alt" href="https://platform.openai.com/api-keys" rel="nofollow">Create OpenAI API key</a>
+          <a class="sven-link-button" href="${botUrl}" target="_blank" rel="noopener noreferrer nofollow">Message Sven on Telegram</a>
+          <a class="sven-link-button alt" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer nofollow">Create OpenAI API key</a>
         </div>
       </div>
       <div class="sven-panel">
         <h2>Important first</h2>
-        <p>You pay OpenAI directly using your own API key. Harry is giving you the Sven coaching harness, not bankrolling everyone's token usage.</p>
+        <p>Sven runs on an LLM, which means replies use OpenAI tokens. Your OpenAI API key is what pays for your own Sven chats, photos, voice notes, and screenshots.</p>
+        <p>Harry is giving you the Sven coaching harness, not bankrolling everyone's token usage. A noble boundary. Also a financially necessary one.</p>
         <p>Sven is not a doctor, dietitian, therapist, or emergency service. Do not use it for diagnosis, urgent issues, eating-disorder support, acute injuries, or medical treatment decisions.</p>
       </div>
     </div>
@@ -159,11 +160,12 @@ function openPage(config) {
     <div class="container">
       <h2>Set up in ten minutes.</h2>
       <div class="sven-steps">
-        <div class="sven-step"><div><strong>Download Telegram.</strong><p>Install Telegram on your phone if you do not already have it.</p></div></div>
-        <div class="sven-step"><div><strong>Create your OpenAI API key.</strong><p>Go to <a href="https://platform.openai.com/api-keys" rel="nofollow">platform.openai.com/api-keys</a>, log in, add billing if asked, and create a secret key. Copy it once.</p></div></div>
+        <div class="sven-step"><div><strong>Download Telegram.</strong><p>Install Telegram on your phone if you do not already have it. This is where Sven lives for the beta.</p></div></div>
+        <div class="sven-step"><div><strong>Create your OpenAI API key.</strong><p>Open <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer nofollow">platform.openai.com/api-keys</a> in a new tab, log in, add billing if asked, and create a secret API key.</p><p>Copy the key somewhere safe on your phone or in a password manager immediately. OpenAI only shows a new secret key once. Blink and it goes back into the fog.</p></div></div>
         <div class="sven-step"><div><strong>Start Sven with the beta code.</strong><p>Tap the Telegram button above, or message Sven and send:</p><span class="sven-code">/start ${escapeHTML(code)}</span></div></div>
-        <div class="sven-step"><div><strong>Answer the onboarding questions.</strong><p>Sven asks about goals, training, food, injuries/constraints, sleep, schedule, tracking style, and coaching style.</p></div></div>
+        <div class="sven-step"><div><strong>Answer the onboarding questions.</strong><p>Sven will ask about your goals, training history, food, injuries or constraints, sleep, schedule, tracking style, and how you like to be coached. It is not a test. The messier and more honest the context, the better Sven gets.</p></div></div>
         <div class="sven-step"><div><strong>Connect your API key safely.</strong><p>After onboarding, send <span class="sven-code">/setup</span>. Open the secure setup link Sven sends. Paste your OpenAI key there. Do not paste the API key directly into Telegram.</p></div></div>
+        <div class="sven-step"><div><strong>Then use it like a coach.</strong><p>Send food photos, sleep screenshots, workout data, voice notes, travel chaos, low-energy days, and actual questions. Sven works best when it gets the real version, not the tidy version.</p></div></div>
       </div>
     </div>
   </section>

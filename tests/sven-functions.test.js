@@ -284,7 +284,7 @@ async function testSvenBetaPageGating() {
     const locked = await handler({ httpMethod: 'GET', queryStringParameters: {}, headers: {} });
     assert.strictEqual(locked.statusCode, 200);
     assert.strictEqual(locked.headers['X-Robots-Tag'], 'noindex, nofollow, noarchive');
-    assert(locked.body.includes('Enter invite code'));
+    assert(locked.body.includes('Got the code?'));
     assert(!locked.body.includes('/start DADFIT9K4M'));
     assert(!locked.body.includes('Message Sven on Telegram'));
 
