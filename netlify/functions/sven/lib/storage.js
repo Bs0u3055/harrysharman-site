@@ -1,21 +1,39 @@
 const fs = require('fs/promises');
 const path = require('path');
 
-const LOCAL_DIR = path.join(process.cwd(), '.sven-data');
+function localDir() {
+  const cwd = process.cwd();
+  if (process.env.AWS_LAMBDA_FUNCTION_NAME || cwd === '/var/task' || cwd.startsWith('/var/task/')) {
+    return path.join('/tmp', '.sven-data');
+  }
+  return path.join(cwd, '.sven-data');
+}
 
 function keyToFilename(key) {
   return encodeURIComponent(key).replace(/%/g, '_') + '.json';
 }
 
 async function localPath(key) {
-  await fs.mkdir(LOCAL_DIR, { recursive: true });
-  return path.join(LOCAL_DIR, keyToFilename(key));
+  const dir = localDir();
+  await fs.mkdir(dir, { recursive: true });
+  return path.join(dir, keyToFilename(key));
 }
 
 async function blobStore() {
-  if (!process.env.NETLIFY) return null;
-  const { getStore } = await import('@netlify/blobs');
-  return getStore('sven');
+  const likelyNetlifyRuntime = Boolean(
+    process.env.NETLIFY ||
+    process.env.AWS_LAMBDA_FUNCTION_NAME ||
+    process.env.NETLIFY_BLOBS_CONTEXT ||
+    process.env.NETLIFY_SITE_ID ||
+    process.env.SITE_ID
+  );
+  if (!likelyNetlifyRuntime) return null;
+  try {
+    const { getStore } = await import('@netlify/blobs');
+    return getStore('sven');
+  } catch {
+    return null;
+  }
 }
 
 async function getJSON(key, fallback = null) {
@@ -82,4 +100,3 @@ module.exports = {
   addToIndex,
   readIndex
 };
-
