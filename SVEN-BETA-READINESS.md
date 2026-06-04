@@ -91,6 +91,28 @@ STRIPE_WEBHOOK_SECRET
 
 After those are added to Netlify, redeploy and run a real low-value Stripe checkout test before sharing prepaid credits.
 
+## Credit Monitoring
+
+Credits are measured in model tokens, not pounds. Stripe controls how much a user pays; Netlify environment variables control how many Sven tokens that payment grants.
+
+Monitor prepaid usage in Sven Admin:
+
+- Users: current funding mode and remaining token balance
+- Recent Usage: each model call, funding mode, model, input tokens, output tokens, total tokens
+- Credit Ledger: positive paid grants and negative model-usage deductions
+- Stripe Checkout Sessions: created and paid Stripe sessions
+
+Sven grants credits only after the signed Stripe webhook confirms `checkout.session.completed` with `payment_status=paid`.
+
+Sven spends Harry's central OpenAI key only when:
+
+- the user has no BYOK key,
+- the user has a positive prepaid credit balance,
+- `CENTRAL_OPENAI_API_KEY` is configured,
+- and the balance is high enough for a conservative next-response reserve.
+
+If the balance is too low, Sven sends the user back to `/setup` before calling OpenAI.
+
 ## Pre-Share Smoke Test
 
 Before inviting friends:

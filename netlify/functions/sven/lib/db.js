@@ -169,7 +169,8 @@ async function consumeCredits(chatId, amountTokens, reason) {
 }
 
 async function addCheckoutSession(sessionId, chatId, packName, creditTokens) {
-  await setJSON(`checkout:${sessionId}`, {
+  const key = `checkout:${sessionId}`;
+  await setJSON(key, {
     stripe_session_id: sessionId,
     telegram_chat_id: String(chatId),
     pack_name: packName,
@@ -178,6 +179,7 @@ async function addCheckoutSession(sessionId, chatId, packName, creditTokens) {
     created_at: nowISO(),
     updated_at: nowISO()
   });
+  await addToIndex('checkout', key, 1000);
 }
 
 async function getCheckoutSession(sessionId) {

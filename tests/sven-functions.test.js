@@ -80,10 +80,14 @@ async function testIdempotentStripeCredits() {
   await resetStorage();
   const db = require('../netlify/functions/sven/lib/db');
   await db.ensureUser('chat-1', 'Harry', { openaiDefaultModel: 'gpt-5-nano', dailyTokenLimit: 120000 });
+  await db.addCheckoutSession('cs_123', 'chat-1', 'starter', 1000);
   assert.strictEqual(await db.addCredits('chat-1', 1000, 'stripe_starter', 'cs_123'), true);
   assert.strictEqual(await db.addCredits('chat-1', 1000, 'stripe_starter', 'cs_123'), false);
   const user = await db.getUser('chat-1');
   assert.strictEqual(user.credit_balance_tokens, 1000);
+  const checkouts = await db.rowsFromIndex('checkout', 10);
+  assert.strictEqual(checkouts.length, 1);
+  assert.strictEqual(checkouts[0].stripe_session_id, 'cs_123');
 }
 
 async function testCryptoRoundTrip() {
@@ -262,6 +266,63 @@ async function testEndToEndSvenFlow() {
   }
 }
 
+async function testCreditModeRequiresSafeReserveBeforeOpenAI() {
+  await resetStorage();
+  const originalFetch = global.fetch;
+  const sentMessages = [];
+  let openAICalled = false;
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    if (target.includes('api.openai.com')) {
+      openAICalled = true;
+      return new Response(JSON.stringify({ data: [] }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    const db = require('../netlify/functions/sven/lib/db');
+    const config = { ...getConfig(), centralOpenAIKey: 'sk-test-central' };
+    await db.ensureUser('chat-credit', 'Credit', config);
+    const user = await db.getUser('chat-credit');
+    user.onboarding_completed_at = new Date().toISOString();
+    user.answers = { primary_goal: 'strength' };
+    user.credit_balance_tokens = 1600;
+    user.funding_mode = 'credits';
+    await db.saveUser(user);
+    await processTelegramUpdate(config, telegramUpdate('chat-credit', 'Give me a plan today', 1));
+    assert.strictEqual(openAICalled, false);
+    assert(sentMessages.some((text) => text.includes('credit balance is too low')));
+    assert.strictEqual((await db.rowsFromIndex('usage', 10)).length, 0);
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+async function testAdminShowsPaymentMonitoringSections() {
+  await resetStorage();
+  const db = require('../netlify/functions/sven/lib/db');
+  const { handler } = require('../netlify/functions/sven-admin');
+  const config = { openaiDefaultModel: 'gpt-5-nano', dailyTokenLimit: 120000 };
+  await db.ensureUser('chat-1', 'Harry', config);
+  await db.addCheckoutSession('cs_admin', 'chat-1', 'starter', 250000);
+  await db.addCredits('chat-1', 250000, 'stripe_starter', 'cs_admin');
+  await db.addUsage('chat-1', 'openai', 'gpt-5-nano', 'credits', 10, 20, {});
+  const response = await handler({ httpMethod: 'GET', queryStringParameters: { token: 'admin-token' } });
+  assert.strictEqual(response.statusCode, 200);
+  assert(response.body.includes('Recent Usage'));
+  assert(response.body.includes('Credit Ledger'));
+  assert(response.body.includes('Stripe Checkout Sessions'));
+  assert(response.body.includes('cs_admin'));
+}
+
 async function run() {
   await testPromptTrimming();
   await testCoreLearningAndUserIsolationInPrompt();
@@ -274,6 +335,8 @@ async function run() {
   await testHelpMentionsSupport();
   await testSetupChecksTokenBeforeKeyShape();
   await testEndToEndSvenFlow();
+  await testCreditModeRequiresSafeReserveBeforeOpenAI();
+  await testAdminShowsPaymentMonitoringSections();
   await resetStorage();
   console.log('sven function tests ok');
 }

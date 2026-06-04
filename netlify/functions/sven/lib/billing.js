@@ -47,6 +47,7 @@ async function handleStripeWebhook(config, event) {
   const stripeEvent = stripe.webhooks.constructEvent(rawBody, signature, config.stripeWebhookSecret);
   if (stripeEvent.type !== 'checkout.session.completed') return 'ignored';
   const session = stripeEvent.data.object;
+  if (session.payment_status && session.payment_status !== 'paid') return 'not_paid';
   const row = await db.getCheckoutSession(session.id);
   if (!row || row.status === 'paid') return 'already_handled';
   await db.addCredits(row.telegram_chat_id, row.credit_tokens, `stripe_${row.pack_name}`, session.id);
@@ -58,4 +59,3 @@ module.exports = {
   createCheckoutSession,
   handleStripeWebhook
 };
-

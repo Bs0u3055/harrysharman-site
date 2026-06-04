@@ -8,6 +8,8 @@ const { sendMessage, sendTyping } = require('./telegram');
 const { learningSignal, userHash } = require('./learning');
 
 const MIN_CREDIT_TOKENS_TO_START = 1500;
+const MAX_OUTPUT_TOKENS = 700;
+const CREDIT_SAFETY_MARGIN_TOKENS = 5000;
 
 async function setupUrl(config, chatId) {
   const token = generateToken(24);
@@ -204,6 +206,10 @@ function fundingForUser(config, user, keyRecord) {
   return null;
 }
 
+function estimatePromptTokens(prompt) {
+  return Math.ceil(String(prompt || '').length / 4);
+}
+
 async function processText(config, chatId, text, telegramMessageId = null) {
   let user = await db.getUser(chatId);
   if (!db.onboardingComplete(user)) return answerOnboarding(config, chatId, user, text);
@@ -224,11 +230,20 @@ async function processText(config, chatId, text, telegramMessageId = null) {
   await db.addLearningSignal(learningSignal(config, chatId, 'message', 'user_message', text, 'redacted_user_input'));
   const recent = await db.getMessages(chatId, 12);
   const coreLearnings = await db.activeCoreLearnings(20);
+  const prompt = buildChatPrompt(user, recent, text, 12000, coreLearnings);
+  if (funding.mode === 'credits') {
+    const estimatedTokens = estimatePromptTokens(prompt) + MAX_OUTPUT_TOKENS + CREDIT_SAFETY_MARGIN_TOKENS;
+    if (Number(user.credit_balance_tokens || 0) < estimatedTokens) {
+      const url = await setupUrl(config, chatId);
+      await sendMessage(config, chatId, `Your Sven credit balance is too low for the next safe reply.\n\nBalance: ${user.credit_balance_tokens} tokens\nEstimated reserve needed: ${estimatedTokens} tokens\n\nTop up or connect your own OpenAI key here:\n${url}`);
+      return;
+    }
+  }
   await sendTyping(config, chatId);
   let result;
   try {
     const apiKey = keyRecord ? decryptText(config.svenSecret, keyRecord.key_ciphertext) : funding.apiKey;
-    result = await callOpenAI(apiKey, funding.model, SVEN_SYSTEM_PROMPT, buildChatPrompt(user, recent, text, 12000, coreLearnings));
+    result = await callOpenAI(apiKey, funding.model, SVEN_SYSTEM_PROMPT, prompt, MAX_OUTPUT_TOKENS);
   } catch (error) {
     await sendMessage(config, chatId, 'Sven could not call the model: ' + error.message);
     return;

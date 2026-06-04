@@ -31,9 +31,28 @@ function genericRows(rows, cols) {
   return rows.map((row) => `<tr>${cols.map((col) => `<td>${escapeHTML(row[col] || '')}</td>`).join('')}</tr>`).join('');
 }
 
+function usageRows(rows) {
+  if (!rows.length) return '<tr><td colspan="7">Nothing yet.</td></tr>';
+  return rows.map((row) => {
+    const total = Number(row.input_tokens || 0) + Number(row.output_tokens || 0);
+    return `<tr>
+      <td>${escapeHTML(row.created_at)}</td>
+      <td>${escapeHTML(row.telegram_chat_id)}</td>
+      <td>${escapeHTML(row.funding_mode)}</td>
+      <td>${escapeHTML(row.model)}</td>
+      <td>${escapeHTML(row.input_tokens)}</td>
+      <td>${escapeHTML(row.output_tokens)}</td>
+      <td>${escapeHTML(total)}</td>
+    </tr>`;
+  }).join('');
+}
+
 async function adminPage(config, token) {
   const stats = await db.dashboardStats();
   const users = await db.recentUsers(50);
+  const usage = await db.rowsFromIndex('usage', 30);
+  const credits = await db.rowsFromIndex('credits', 30);
+  const checkouts = await db.rowsFromIndex('checkout', 30);
   const feedback = await db.rowsFromIndex('feedback', 20);
   const support = await db.rowsFromIndex('support', 20);
   const flags = await db.rowsFromIndex('safety', 20);
@@ -85,6 +104,18 @@ async function adminPage(config, token) {
 
     <h2>Users</h2>
     <table><tr><th>Name</th><th>Chat</th><th>Onboarded</th><th>Funding</th><th>Credits</th><th>Updated</th></tr>${userRows(users)}</table>
+
+    <h2>Recent Usage</h2>
+    <p>Rows with funding mode "credits" used Harry's central OpenAI key and should have a matching paid credit grant. Rows with "byok" used the user's own OpenAI key.</p>
+    <table><tr><th>Time</th><th>User</th><th>Funding</th><th>Model</th><th>Input</th><th>Output</th><th>Total</th></tr>${usageRows(usage)}</table>
+
+    <h2>Credit Ledger</h2>
+    <p>Positive rows are credit grants. Stripe grants include a Stripe session ID. Negative rows are model usage deductions.</p>
+    <table><tr><th>Time</th><th>User</th><th>Delta tokens</th><th>Reason</th><th>Stripe session</th></tr>${genericRows(credits, ['created_at', 'telegram_chat_id', 'delta_tokens', 'reason', 'stripe_session_id'])}</table>
+
+    <h2>Stripe Checkout Sessions</h2>
+    <p>A user is funded only after a session moves from created to paid through the signed Stripe webhook.</p>
+    <table><tr><th>Time</th><th>User</th><th>Session</th><th>Pack</th><th>Tokens</th><th>Status</th><th>Updated</th></tr>${genericRows(checkouts, ['created_at', 'telegram_chat_id', 'stripe_session_id', 'pack_name', 'credit_tokens', 'status', 'updated_at'])}</table>
 
     <h2>Recent Feedback</h2>
     <table><tr><th>Time</th><th>User</th><th>Rating</th><th>Note</th></tr>${genericRows(feedback, ['created_at', 'telegram_chat_id', 'rating', 'note'])}</table>
