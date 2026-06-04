@@ -86,6 +86,13 @@ Required environment variable for full automation:
 SVEN_LEARNING_OPENAI_KEY
 ```
 
+Required for shared persistent Sven memory if Netlify's automatic Blob context is unavailable:
+
+```text
+NETLIFY_BLOBS_SITE_ID
+NETLIFY_BLOBS_TOKEN
+```
+
 Optional controls:
 
 ```text

@@ -28,6 +28,17 @@ SVEN_DAILY_TOKEN_LIMIT=120000
 SETUP_TOKEN_TTL_MINUTES=60
 ```
 
+Persistent storage:
+
+Sven uses Netlify Blobs. If Netlify's automatic Blob context is not available in Functions, add:
+
+```text
+NETLIFY_BLOBS_SITE_ID=819b95ca-a82b-4ccc-8b38-4ac4a02436da
+NETLIFY_BLOBS_TOKEN
+```
+
+`NETLIFY_BLOBS_TOKEN` should be a Netlify access token stored as a secret environment variable.
+
 Optional BYOK beta tuning:
 
 ```text

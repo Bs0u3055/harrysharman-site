@@ -20,16 +20,20 @@ async function localPath(key) {
 }
 
 async function blobStore() {
+  const explicitSiteId = process.env.NETLIFY_BLOBS_SITE_ID || process.env.NETLIFY_SITE_ID || process.env.SITE_ID;
+  const explicitToken = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN;
   const likelyNetlifyRuntime = Boolean(
     process.env.NETLIFY ||
     process.env.AWS_LAMBDA_FUNCTION_NAME ||
     process.env.NETLIFY_BLOBS_CONTEXT ||
-    process.env.NETLIFY_SITE_ID ||
-    process.env.SITE_ID
+    explicitSiteId
   );
   if (!likelyNetlifyRuntime) return null;
   try {
     const { getStore } = await import('@netlify/blobs');
+    if (explicitSiteId && explicitToken) {
+      return getStore({ name: 'sven', siteID: explicitSiteId, token: explicitToken });
+    }
     return getStore('sven');
   } catch {
     return null;
