@@ -47,6 +47,29 @@ function usageRows(rows) {
   }).join('');
 }
 
+function creditOperationsCard(config, token) {
+  if (!config.enablePrepaidCredits) {
+    return `<div class="card">
+      <h3>Prepaid credits</h3>
+      <p>Disabled for this beta. Friends use their own OpenAI API keys, so usage and costs stay with them.</p>
+    </div>`;
+  }
+  return `<div class="card">
+    <h3>Grant credits</h3>
+    <form method="post" action="/api/sven-admin">
+      <input type="hidden" name="token" value="${escapeHTML(token)}">
+      <input type="hidden" name="action" value="grant_credits">
+      <label for="telegram_chat_id">Telegram chat ID</label>
+      <input id="telegram_chat_id" name="telegram_chat_id" required>
+      <label for="tokens">Tokens</label>
+      <input id="tokens" name="tokens" type="number" value="250000" required>
+      <label for="reason">Reason</label>
+      <input id="reason" name="reason" value="manual_admin_grant">
+      <button type="submit">Grant credits</button>
+    </form>
+  </div>`;
+}
+
 async function adminPage(config, token) {
   const stats = await db.dashboardStats();
   const users = await db.recentUsers(50);
@@ -64,20 +87,7 @@ async function adminPage(config, token) {
 
     <h2>Manual Operations</h2>
     <div class="grid">
-      <div class="card">
-        <h3>Grant credits</h3>
-        <form method="post" action="/api/sven-admin">
-          <input type="hidden" name="token" value="${escapeHTML(token)}">
-          <input type="hidden" name="action" value="grant_credits">
-          <label for="telegram_chat_id">Telegram chat ID</label>
-          <input id="telegram_chat_id" name="telegram_chat_id" required>
-          <label for="tokens">Tokens</label>
-          <input id="tokens" name="tokens" type="number" value="250000" required>
-          <label for="reason">Reason</label>
-          <input id="reason" name="reason" value="manual_admin_grant">
-          <button type="submit">Grant credits</button>
-        </form>
-      </div>
+      ${creditOperationsCard(config, token)}
       <div class="card">
         <h3>Weekly report</h3>
         <p>Generate and save the current learning report. If admin Telegram is configured, Sven sends it to you.</p>
@@ -149,6 +159,7 @@ exports.handler = async (event) => {
   const token = String(body.token || '');
   if (!requireAdmin(config, token)) return messagePage('Forbidden', 'Admin token required.', 403);
   if (body.action === 'grant_credits') {
+    if (!config.enablePrepaidCredits) return messagePage('Prepaid credits disabled', 'Manual credit grants are disabled for the BYOK beta.', 400);
     const chatId = String(body.telegram_chat_id || '').trim();
     const amount = parseInt(body.tokens || '0', 10);
     const user = await db.getUser(chatId);

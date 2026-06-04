@@ -21,9 +21,9 @@ function commandHelp() {
   return [
     'Sven commands:',
     '/start - start or resume onboarding',
-    '/setup - connect API key or buy credits',
+    '/setup - connect your own OpenAI key',
     '/status - check setup and usage',
-    '/credits - show prepaid credit balance',
+    '/credits - check prepaid credit mode',
     '/profile - show saved profile',
     '/bug what broke - send a problem to the Sven support inbox',
     '/restart_onboarding - redo the profile questions',
@@ -82,7 +82,7 @@ async function start(config, chatId) {
 
 async function setup(config, chatId) {
   const url = await setupUrl(config, chatId);
-  await sendMessage(config, chatId, `Set up Sven here. You can connect your own OpenAI key or buy prepaid credits:\n\n${url}`);
+  await sendMessage(config, chatId, `Set up Sven here by connecting your own OpenAI API key:\n\n${url}`);
 }
 
 async function status(config, chatId) {
@@ -91,12 +91,17 @@ async function status(config, chatId) {
   const used = await db.dailyTokensUsed(chatId);
   const onboarding = db.onboardingComplete(user) ? 'complete' : `in progress (${user.onboarding_index}/${questionCount()})`;
   const keyText = key ? `connected, ending ${key.key_last4}` : 'not connected';
-  await sendMessage(config, chatId, `Onboarding: ${onboarding}\nFunding: ${user.funding_mode}\nAPI key: ${keyText}\nCredits: ${user.credit_balance_tokens} tokens\nModel: ${user.preferred_model}\nToday tokens: ${used} / ${user.daily_token_limit}`);
+  const creditText = config.enablePrepaidCredits ? `${user.credit_balance_tokens} tokens` : 'disabled for this beta';
+  await sendMessage(config, chatId, `Onboarding: ${onboarding}\nFunding: ${user.funding_mode}\nAPI key: ${keyText}\nPrepaid credits: ${creditText}\nModel: ${user.preferred_model}\nToday tokens: ${used} / ${user.daily_token_limit}`);
 }
 
 async function credits(config, chatId) {
   const user = await db.getUser(chatId);
   const url = await setupUrl(config, chatId);
+  if (!config.enablePrepaidCredits) {
+    await sendMessage(config, chatId, `Prepaid credits are disabled for this beta. Sven runs on your own OpenAI API key.\n\nConnect or update your key here:\n${url}`);
+    return;
+  }
   await sendMessage(config, chatId, `Credit balance: ${user.credit_balance_tokens} tokens.\n\nAdd credits or connect your own API key here:\n${url}`);
 }
 
@@ -170,7 +175,7 @@ async function answerOnboarding(config, chatId, user, text) {
     user.onboarding_index = questionCount();
     user.onboarding_completed_at = user.onboarding_completed_at || new Date().toISOString();
     await db.saveUser(user);
-    await sendMessage(config, chatId, 'Onboarding complete. Send /setup to connect your own API key or buy credits.');
+    await sendMessage(config, chatId, 'Onboarding complete. Send /setup to connect your own OpenAI API key.');
     return;
   }
   if (question.id === 'consent_boundary' && !['yes', 'y', 'agree', 'i agree'].includes(text.trim().toLowerCase())) {
@@ -192,7 +197,7 @@ async function answerOnboarding(config, chatId, user, text) {
     { private_field: Boolean(question.private) }
   ));
   if (user.onboarding_index >= questionCount()) {
-    await sendMessage(config, chatId, 'Onboarding complete. Next step: send /setup so Sven can be funded.');
+    await sendMessage(config, chatId, 'Onboarding complete. Next step: send /setup and connect your own OpenAI API key.');
     return;
   }
   await sendMessage(config, chatId, formatQuestion(user.onboarding_index));
@@ -200,7 +205,7 @@ async function answerOnboarding(config, chatId, user, text) {
 
 function fundingForUser(config, user, keyRecord) {
   if (keyRecord) return { mode: 'byok', provider: keyRecord.provider, model: keyRecord.model, apiKey: null };
-  if (user.credit_balance_tokens >= MIN_CREDIT_TOKENS_TO_START && config.centralOpenAIKey) {
+  if (config.enablePrepaidCredits && user.credit_balance_tokens >= MIN_CREDIT_TOKENS_TO_START && config.centralOpenAIKey) {
     return { mode: 'credits', provider: 'openai', model: user.preferred_model, apiKey: config.centralOpenAIKey };
   }
   return null;
@@ -217,7 +222,7 @@ async function processText(config, chatId, text, telegramMessageId = null) {
   const funding = fundingForUser(config, user, keyRecord);
   if (!funding) {
     const url = await setupUrl(config, chatId);
-    await sendMessage(config, chatId, `Sven needs funding before replying. Connect your own key or buy credits here:\n\n${url}`);
+    await sendMessage(config, chatId, `Sven needs your own OpenAI API key before replying. Connect it here:\n\n${url}`);
     return;
   }
   const used = await db.dailyTokensUsed(chatId);

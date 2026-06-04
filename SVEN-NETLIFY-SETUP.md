@@ -8,8 +8,8 @@ For the beta operating model, user-separation notes, learning workflow, and laun
 
 - Telegram webhook: `/api/sven-telegram?secret=SVEN_WEBHOOK_SECRET_PATH`
 - Setup page: `/api/sven-setup?token=...`
-- Billing checkout: `/api/sven-billing?token=...&pack=starter`
-- Stripe webhook: `/api/sven-stripe-webhook`
+- Billing checkout: `/api/sven-billing?token=...&pack=starter` (disabled unless prepaid credits are explicitly enabled)
+- Stripe webhook: `/api/sven-stripe-webhook` (future prepaid-credit mode)
 - Admin: `/api/sven-admin?token=SVEN_ADMIN_TOKEN`
 - Set Telegram webhook: `/api/sven-set-webhook?token=SVEN_ADMIN_TOKEN`
 
@@ -28,9 +28,10 @@ SVEN_DAILY_TOKEN_LIMIT=120000
 SETUP_TOKEN_TTL_MINUTES=60
 ```
 
-Prepaid credits:
+Optional future prepaid credits:
 
 ```text
+SVEN_ENABLE_PREPAID_CREDITS=true
 CENTRAL_OPENAI_API_KEY
 STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET
@@ -68,5 +69,5 @@ CREDIT_TOKENS_STANDARD=750000
 - Local tests use `.sven-data/`.
 - User API keys are encrypted with `SVEN_SECRET`.
 - Friends can use BYOK immediately once Telegram webhook is set.
-- Stripe checkout needs the Stripe webhook secret before credit purchases are automatic.
+- Prepaid Stripe checkout is disabled for the beta unless `SVEN_ENABLE_PREPAID_CREDITS=true` is deliberately configured.
 - Friends can report broken flows with `/bug what happened`; these appear in the admin Support Inbox and weekly report.

@@ -39,6 +39,7 @@ function getConfig() {
     stripePriceIdStandard: env('STRIPE_PRICE_ID_STANDARD'),
     creditTokensStarter: intEnv('CREDIT_TOKENS_STARTER', 250000),
     creditTokensStandard: intEnv('CREDIT_TOKENS_STANDARD', 750000),
+    enablePrepaidCredits: boolEnv('SVEN_ENABLE_PREPAID_CREDITS', false),
     skipKeyValidation: boolEnv('SVEN_SKIP_KEY_VALIDATION', false),
     autoSetWebhook: boolEnv('AUTO_SET_TELEGRAM_WEBHOOK', false)
   };
@@ -46,6 +47,7 @@ function getConfig() {
 
 function stripeConfigured(config = getConfig()) {
   return Boolean(
+    config.enablePrepaidCredits &&
     config.stripeSecretKey &&
     config.stripeWebhookSecret &&
     config.stripePriceIdStarter &&
@@ -57,4 +59,3 @@ module.exports = {
   getConfig,
   stripeConfigured
 };
-

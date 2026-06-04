@@ -14,15 +14,15 @@ function setupPage(token, config) {
         <p><a class="button secondary" href="/api/sven-billing?token=${escapeHTML(token)}&pack=standard">Buy standard credits</a></p>
       </div>`
     : `<div class="card">
-        <h2>Option 2: prepaid credits</h2>
-        <p>Prepaid credits are not configured yet. Use your own API key for this beta.</p>
+        <h2>Beta mode</h2>
+        <p>For this beta, Sven is a coaching harness around your own OpenAI account. Add your own API key so usage and costs stay with you.</p>
       </div>`;
 
   return htmlResponse(200, 'Set up Sven', `<h1>Set up Sven</h1>
-    <p>Choose how Sven should pay for model calls. Do not paste API keys into Telegram.</p>
+    <p>Connect your own OpenAI API key. Do not paste API keys into Telegram.</p>
     <div class="grid">
       <div class="card">
-        <h2>Option 1: use your own OpenAI key</h2>
+        <h2>Use your own OpenAI key</h2>
         <p>You pay OpenAI directly. Sven stores the key encrypted and uses it only for your chat.</p>
         <form method="post" action="/api/sven-setup">
           <input type="hidden" name="token" value="${escapeHTML(token)}">

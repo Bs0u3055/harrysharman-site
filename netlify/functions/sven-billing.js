@@ -5,6 +5,9 @@ const { messagePage } = require('./sven/lib/html');
 
 exports.handler = async (event) => {
   const config = getConfig();
+  if (!config.enablePrepaidCredits) {
+    return messagePage('Prepaid credits disabled', 'For this beta, Sven uses each tester’s own OpenAI API key.', 400);
+  }
   const query = event.queryStringParameters || {};
   const token = query.token || '';
   const pack = query.pack || 'starter';
@@ -17,4 +20,3 @@ exports.handler = async (event) => {
     return messagePage('Billing unavailable', error.message, 400);
   }
 };
-

@@ -2,7 +2,7 @@
 
 ## Current Launch Mode
 
-Sven is ready for a small Telegram beta using bring-your-own OpenAI keys.
+Sven is ready for a small Telegram beta using bring-your-own OpenAI keys only.
 
 Friends message the same bot, but each Telegram chat is treated as a separate user workspace. Their profile, messages, API key, credits, usage, and onboarding state are stored under their own Telegram chat ID.
 
@@ -78,13 +78,18 @@ These tickets appear in the Admin Support Inbox and the weekly report.
 
 `/delete_me confirm` removes the user's profile, API key, messages, usage rows, credit rows, feedback rows, support tickets, safety flags, and learning queue records linked to that user hash.
 
-## Remaining Stripe Setup
+## Stripe / Prepaid Credits
 
-Bring-your-own-key is the recommended beta path.
+Bring-your-own-key is the beta path.
 
-Prepaid credit packs still need:
+Prepaid credits are disabled unless `SVEN_ENABLE_PREPAID_CREDITS=true` is deliberately added in Netlify.
+
+Leave this unset for the friend beta. The point is that you provide the Sven harness, while testers provide their own OpenAI API key and see their own usage/value directly.
+
+If prepaid credits are reintroduced later, they need:
 
 ```text
+SVEN_ENABLE_PREPAID_CREDITS=true
 STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET
 ```
@@ -104,7 +109,7 @@ Monitor prepaid usage in Sven Admin:
 
 Sven grants credits only after the signed Stripe webhook confirms `checkout.session.completed` with `payment_status=paid`.
 
-Sven spends Harry's central OpenAI key only when:
+Sven spends Harry's central OpenAI key only when prepaid credits have been explicitly re-enabled and:
 
 - the user has no BYOK key,
 - the user has a positive prepaid credit balance,
@@ -122,7 +127,8 @@ Before inviting friends:
 3. Complete onboarding.
 4. Run `/setup`.
 5. Add an OpenAI API key.
-6. Send one normal coaching question.
-7. Send `/bug test support inbox`.
-8. Confirm the ticket appears in Sven Admin.
-9. Run `/delete_key` if you want to remove the test key.
+6. Send `/status` and confirm the API key says connected.
+7. Send one normal coaching question.
+8. Send `/bug test support inbox`.
+9. Confirm the ticket appears in Sven Admin.
+10. Run `/delete_key` if you want to remove the test key.

@@ -15,6 +15,11 @@ async function resetStorage() {
   await fs.rm(storageDir, { recursive: true, force: true });
 }
 
+function restoreEnv(name, value) {
+  if (value === undefined) delete process.env[name];
+  else process.env[name] = value;
+}
+
 async function testPromptTrimming() {
   const { buildChatPrompt } = require('../netlify/functions/sven/lib/prompts');
   const prompt = buildChatPrompt(
@@ -45,6 +50,37 @@ async function testCoreLearningAndUserIsolationInPrompt() {
   assert(prompt.includes('Prefer repeatable progressions'));
   assert(prompt.includes('blue kettlebell'));
   assert(!prompt.includes('another user private detail'));
+}
+
+async function testPrepaidCreditsDisabledByDefault() {
+  const { getConfig, stripeConfigured } = require('../netlify/functions/sven/lib/config');
+  const original = {
+    enable: process.env.SVEN_ENABLE_PREPAID_CREDITS,
+    stripeSecret: process.env.STRIPE_SECRET_KEY,
+    stripeWebhook: process.env.STRIPE_WEBHOOK_SECRET,
+    starter: process.env.STRIPE_PRICE_ID_STARTER,
+    standard: process.env.STRIPE_PRICE_ID_STANDARD
+  };
+  process.env.SVEN_ENABLE_PREPAID_CREDITS = '';
+  process.env.STRIPE_SECRET_KEY = 'sk_test_stripe';
+  process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test';
+  process.env.STRIPE_PRICE_ID_STARTER = 'price_starter';
+  process.env.STRIPE_PRICE_ID_STANDARD = 'price_standard';
+  try {
+    const config = getConfig();
+    assert.strictEqual(config.enablePrepaidCredits, false);
+    assert.strictEqual(stripeConfigured(config), false);
+    process.env.SVEN_ENABLE_PREPAID_CREDITS = 'true';
+    const enabled = getConfig();
+    assert.strictEqual(enabled.enablePrepaidCredits, true);
+    assert.strictEqual(stripeConfigured(enabled), true);
+  } finally {
+    restoreEnv('SVEN_ENABLE_PREPAID_CREDITS', original.enable);
+    restoreEnv('STRIPE_SECRET_KEY', original.stripeSecret);
+    restoreEnv('STRIPE_WEBHOOK_SECRET', original.stripeWebhook);
+    restoreEnv('STRIPE_PRICE_ID_STARTER', original.starter);
+    restoreEnv('STRIPE_PRICE_ID_STANDARD', original.standard);
+  }
 }
 
 async function testLearningRedactionAndHashing() {
@@ -152,7 +188,20 @@ async function testSetupChecksTokenBeforeKeyShape() {
     assert(response.body.includes('Setup link expired'));
     assert(!response.body.includes('Key rejected'));
   } finally {
-    process.env.SVEN_SKIP_KEY_VALIDATION = originalSkip;
+    restoreEnv('SVEN_SKIP_KEY_VALIDATION', originalSkip);
+  }
+}
+
+async function testBillingEndpointDisabledByDefault() {
+  const original = process.env.SVEN_ENABLE_PREPAID_CREDITS;
+  process.env.SVEN_ENABLE_PREPAID_CREDITS = '';
+  try {
+    const { handler } = require('../netlify/functions/sven-billing');
+    const response = await handler({ httpMethod: 'GET', queryStringParameters: { token: 'anything', pack: 'starter' } });
+    assert.strictEqual(response.statusCode, 400);
+    assert(response.body.includes('Prepaid credits disabled'));
+  } finally {
+    restoreEnv('SVEN_ENABLE_PREPAID_CREDITS', original);
   }
 }
 
@@ -289,7 +338,7 @@ async function testCreditModeRequiresSafeReserveBeforeOpenAI() {
     const { getConfig } = require('../netlify/functions/sven/lib/config');
     const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
     const db = require('../netlify/functions/sven/lib/db');
-    const config = { ...getConfig(), centralOpenAIKey: 'sk-test-central' };
+    const config = { ...getConfig(), centralOpenAIKey: 'sk-test-central', enablePrepaidCredits: true };
     await db.ensureUser('chat-credit', 'Credit', config);
     const user = await db.getUser('chat-credit');
     user.onboarding_completed_at = new Date().toISOString();
@@ -300,6 +349,46 @@ async function testCreditModeRequiresSafeReserveBeforeOpenAI() {
     await processTelegramUpdate(config, telegramUpdate('chat-credit', 'Give me a plan today', 1));
     assert.strictEqual(openAICalled, false);
     assert(sentMessages.some((text) => text.includes('credit balance is too low')));
+    assert.strictEqual((await db.rowsFromIndex('usage', 10)).length, 0);
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+async function testCentralKeyIgnoredWhenPrepaidDisabled() {
+  await resetStorage();
+  const originalFetch = global.fetch;
+  const sentMessages = [];
+  let openAICalled = false;
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    if (target.includes('api.openai.com')) {
+      openAICalled = true;
+      return new Response(JSON.stringify({ data: [] }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    const db = require('../netlify/functions/sven/lib/db');
+    const config = { ...getConfig(), centralOpenAIKey: 'sk-test-central', enablePrepaidCredits: false };
+    await db.ensureUser('chat-disabled', 'Disabled', config);
+    const user = await db.getUser('chat-disabled');
+    user.onboarding_completed_at = new Date().toISOString();
+    user.answers = { primary_goal: 'strength' };
+    user.credit_balance_tokens = 999999;
+    user.funding_mode = 'credits';
+    await db.saveUser(user);
+    await processTelegramUpdate(config, telegramUpdate('chat-disabled', 'Give me a plan today', 1));
+    assert.strictEqual(openAICalled, false);
+    assert(sentMessages.some((text) => text.includes('own OpenAI API key')));
     assert.strictEqual((await db.rowsFromIndex('usage', 10)).length, 0);
   } finally {
     global.fetch = originalFetch;
@@ -326,6 +415,7 @@ async function testAdminShowsPaymentMonitoringSections() {
 async function run() {
   await testPromptTrimming();
   await testCoreLearningAndUserIsolationInPrompt();
+  await testPrepaidCreditsDisabledByDefault();
   await testLearningRedactionAndHashing();
   await testIdempotentMessages();
   await testIdempotentStripeCredits();
@@ -334,8 +424,10 @@ async function run() {
   await testDeleteUserDataClearsSecondaryRecords();
   await testHelpMentionsSupport();
   await testSetupChecksTokenBeforeKeyShape();
+  await testBillingEndpointDisabledByDefault();
   await testEndToEndSvenFlow();
   await testCreditModeRequiresSafeReserveBeforeOpenAI();
+  await testCentralKeyIgnoredWhenPrepaidDisabled();
   await testAdminShowsPaymentMonitoringSections();
   await resetStorage();
   console.log('sven function tests ok');
