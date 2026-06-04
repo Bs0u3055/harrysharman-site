@@ -23,9 +23,11 @@ Sven now has three layers:
 1. Private user memory
    - Used only for that user.
    - Includes onboarding answers and recent conversation.
+   - Stores up to 1,000 messages per user for beta review/history, while only the recent slice is sent into the model prompt.
 
 2. Redacted learning queue
    - Stores anonymized signals from onboarding, messages, feedback, support, and safety flags.
+   - Keeps up to 5,000 recent learning signals during beta.
    - Uses a hashed user reference, not the raw Telegram chat ID.
    - Redacts API keys, emails, phone numbers, and token-like URL parameters.
    - This queue is for admin review and is not automatically shown to other users.
@@ -102,4 +104,3 @@ Before inviting friends:
 7. Send `/bug test support inbox`.
 8. Confirm the ticket appears in Sven Admin.
 9. Run `/delete_key` if you want to remove the test key.
-

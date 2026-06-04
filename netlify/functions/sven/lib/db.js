@@ -1,5 +1,8 @@
 const { getJSON, setJSON, deleteKey, addToIndex, readIndex } = require('./storage');
 
+const MAX_MESSAGES_PER_USER = 1000;
+const MAX_LEARNING_SIGNALS = 5000;
+
 function nowISO() {
   return new Date().toISOString();
 }
@@ -197,7 +200,7 @@ async function getMessages(chatId, limit = 12) {
 async function addMessage(chatId, role, text, telegramMessageId = null) {
   const messages = await getJSON(messagesKey(chatId), []);
   messages.push({ role, text, telegram_message_id: telegramMessageId, created_at: nowISO() });
-  await setJSON(messagesKey(chatId), messages.slice(-80));
+  await setJSON(messagesKey(chatId), messages.slice(-MAX_MESSAGES_PER_USER));
 }
 
 async function addUserMessageOnce(chatId, text, telegramMessageId) {
@@ -265,7 +268,7 @@ async function addLearningSignal(signal) {
     ...signal,
     created_at: nowISO()
   });
-  await addToIndex('learning', key, 2000);
+  await addToIndex('learning', key, MAX_LEARNING_SIGNALS);
 }
 
 async function addCoreLearning(category, note, source = 'manual_admin') {
