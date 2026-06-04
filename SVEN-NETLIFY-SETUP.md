@@ -32,7 +32,10 @@ Optional BYOK beta tuning:
 
 ```text
 OPENAI_TRANSCRIPTION_MODEL=gpt-4o-mini-transcribe
+ADMIN_TELEGRAM_CHAT_ID
 ```
+
+`ADMIN_TELEGRAM_CHAT_ID` enables admin-only Telegram commands such as `/core`. To find it, message Sven with `/whoami`, then add the returned ID to Netlify environment variables and redeploy.
 
 Optional future prepaid credits:
 

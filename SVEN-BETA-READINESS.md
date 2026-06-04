@@ -45,8 +45,32 @@ Sven now has three layers:
 
 3. Reviewed Sven Core learnings
    - Manually added in Sven Admin after review.
+   - Can also be added by Harry/admin in Telegram with `/core category | reviewed lesson`.
    - These are the only shared lessons injected into every user's Sven prompt.
    - This is the safety boundary that lets everyone make Sven smarter without leaking one user's raw data into another user's experience.
+
+## Central Learning Loop
+
+There are two routes into the central Sven Core repository:
+
+1. Harry's personal Sven improvements
+   - When Harry finds a reusable coaching rule in his own Sven, he can send it to the Telegram bot as admin:
+
+     ```text
+     /core coaching | When a user is tired, first reduce decision load before adding more accountability.
+     ```
+
+   - The command is admin-only and saves the reviewed lesson directly into Sven Core.
+   - It requires `ADMIN_TELEGRAM_CHAT_ID` in Netlify. Harry can get the right ID by messaging Sven with `/whoami`.
+   - The lesson then appears in Sven Admin and is injected into future hosted Sven replies for every user.
+
+2. Friend beta learnings
+   - Users send messages, screenshots, voice notes, feedback, and bugs.
+   - Sven stores private user context only for that user.
+   - Sven also creates redacted learning signals in the Learning Queue.
+   - Harry reviews those signals and turns repeated useful patterns into general Sven Core learnings.
+
+This means the system improves centrally, but only through reviewed general lessons. Raw user details do not automatically flow into everyone else's Sven.
 
 ## Admin Workflow
 
@@ -61,6 +85,12 @@ Open Sven Admin and review:
 - Weekly Reports
 
 When a repeated useful lesson appears in feedback or the learning queue, rewrite it as a general coaching rule and add it through "Add Sven Core learning".
+
+From Telegram, Harry/admin can also add:
+
+```text
+/core category | reviewed general lesson
+```
 
 Good Sven Core examples:
 

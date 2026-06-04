@@ -135,7 +135,7 @@ async function adminPage(config, token) {
     <table><tr><th>Time</th><th>User hash</th><th>Source</th><th>Signal</th><th>Privacy</th><th>Excerpt</th></tr>${genericRows(learning, ['created_at', 'user_hash', 'source', 'signal', 'privacy', 'text_excerpt'])}</table>
 
     <h2>Sven Core Learnings</h2>
-    <table><tr><th>Time</th><th>Category</th><th>Status</th><th>Note</th></tr>${genericRows(coreLearnings, ['created_at', 'category', 'status', 'note'])}</table>
+    <table><tr><th>Time</th><th>Category</th><th>Source</th><th>Status</th><th>Note</th></tr>${genericRows(coreLearnings, ['created_at', 'category', 'source', 'status', 'note'])}</table>
 
     <h2>Support Inbox</h2>
     <table><tr><th>Time</th><th>User</th><th>Status</th><th>Issue</th></tr>${genericRows(support, ['created_at', 'telegram_chat_id', 'status', 'note'])}</table>

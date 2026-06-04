@@ -8,6 +8,7 @@ process.env.TELEGRAM_BOT_TOKEN = 'fake-token';
 process.env.SVEN_PUBLIC_BASE_URL = 'https://example.com';
 process.env.SVEN_WEBHOOK_SECRET_PATH = 'secret-path';
 process.env.SVEN_SKIP_KEY_VALIDATION = '1';
+process.env.ADMIN_TELEGRAM_CHAT_ID = 'admin-chat';
 
 const storageDir = path.join(process.cwd(), '.sven-data');
 
@@ -190,7 +191,85 @@ async function testHelpMentionsSupport() {
   const { commandHelp } = require('../netlify/functions/sven/lib/engine');
   const help = commandHelp();
   assert(help.includes('/bug'));
+  assert(help.includes('/whoami'));
   assert(help.includes('support inbox'));
+}
+
+async function testWhoamiShowsTelegramChatId() {
+  await resetStorage();
+  const originalFetch = global.fetch;
+  const sentMessages = [];
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    await processTelegramUpdate(getConfig(), telegramUpdate('chat-whoami', '/whoami', 503));
+    assert(sentMessages.some((text) => text.includes('chat-whoami')));
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+async function testAdminTelegramCanAddCoreLearning() {
+  await resetStorage();
+  const originalFetch = global.fetch;
+  const sentMessages = [];
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    const db = require('../netlify/functions/sven/lib/db');
+    await processTelegramUpdate(getConfig(), telegramUpdate('admin-chat', '/core travel | When a user is in a hotel, make the plan fit the available breakfast and equipment.', 501));
+    const rows = await db.activeCoreLearnings(10);
+    assert.strictEqual(rows.length, 1);
+    assert.strictEqual(rows[0].category, 'travel');
+    assert.strictEqual(rows[0].source, 'telegram_admin');
+    assert(rows[0].note.includes('hotel'));
+    assert(sentMessages.some((text) => text.includes('Saved to Sven Core')));
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+async function testNonAdminCannotAddCoreLearning() {
+  await resetStorage();
+  const originalFetch = global.fetch;
+  const sentMessages = [];
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target.includes('api.telegram.org')) {
+      const body = JSON.parse(options.body || '{}');
+      sentMessages.push(body.text || '');
+      return new Response(JSON.stringify({ ok: true, result: { message_id: sentMessages.length } }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+  try {
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { processTelegramUpdate } = require('../netlify/functions/sven/lib/engine');
+    const db = require('../netlify/functions/sven/lib/db');
+    await processTelegramUpdate(getConfig(), telegramUpdate('not-admin', '/core coaching | bad lesson should not save', 502));
+    assert.strictEqual((await db.activeCoreLearnings(10)).length, 0);
+    assert(sentMessages.some((text) => text.includes('only for the Sven admin')));
+  } finally {
+    global.fetch = originalFetch;
+  }
 }
 
 async function testSetupChecksTokenBeforeKeyShape() {
@@ -624,6 +703,9 @@ async function run() {
   await testSupportTickets();
   await testDeleteUserDataClearsSecondaryRecords();
   await testHelpMentionsSupport();
+  await testWhoamiShowsTelegramChatId();
+  await testAdminTelegramCanAddCoreLearning();
+  await testNonAdminCannotAddCoreLearning();
   await testSetupChecksTokenBeforeKeyShape();
   await testBillingEndpointDisabledByDefault();
   await testEndToEndSvenFlow();

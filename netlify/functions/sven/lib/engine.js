@@ -29,6 +29,7 @@ function commandHelp() {
     '/status - check setup and usage',
     '/credits - check prepaid credit mode',
     '/profile - show saved profile',
+    '/whoami - show your Telegram chat ID',
     '/bug what broke - send a problem to the Sven support inbox',
     '/restart_onboarding - redo the profile questions',
     '/delete_key - remove your API key',
@@ -235,12 +236,46 @@ async function processCommand(config, chatId, text) {
   if (command === '/status') return status(config, chatId);
   if (command === '/credits') return credits(config, chatId);
   if (command === '/profile') return profile(config, chatId);
+  if (command === '/whoami') return whoami(config, chatId);
   if (command === '/bug' || command === '/support' || command === '/broken') return support(config, chatId, rest);
   if (command === '/restart_onboarding') return restartOnboarding(config, chatId);
   if (command === '/delete_key') return deleteKey(config, chatId);
   if (command === '/delete_me') return deleteMe(config, chatId, rest);
   if (command === '/feedback') return feedback(config, chatId, rest);
+  if (command === '/core' || command === '/sven_core') return addCoreFromTelegram(config, chatId, rest);
   return sendMessage(config, chatId, 'I do not know that command yet. Send /help for the current list.');
+}
+
+async function whoami(config, chatId) {
+  await sendMessage(config, chatId, `Your Telegram chat ID is:\n${chatId}\n\nHarry can use this as ADMIN_TELEGRAM_CHAT_ID in Netlify so admin-only Sven commands work.`);
+}
+
+function isAdminTelegram(config, chatId) {
+  return Boolean(config.adminTelegramChatId && String(config.adminTelegramChatId) === String(chatId));
+}
+
+function parseCoreLearning(rest) {
+  const text = String(rest || '').trim();
+  const separator = text.indexOf('|');
+  if (separator === -1) return { category: 'coaching', note: text };
+  const category = text.slice(0, separator).trim() || 'coaching';
+  const note = text.slice(separator + 1).trim();
+  return { category, note };
+}
+
+async function addCoreFromTelegram(config, chatId, rest) {
+  if (!isAdminTelegram(config, chatId)) {
+    await sendMessage(config, chatId, 'That command is only for the Sven admin.');
+    return;
+  }
+  const { category, note } = parseCoreLearning(rest);
+  if (!note || note.length < 12) {
+    await sendMessage(config, chatId, 'Use:\n/core category | reviewed general lesson for Sven Core');
+    return;
+  }
+  await db.addCoreLearning(category, note, 'telegram_admin');
+  await db.addLearningSignal(learningSignal(config, chatId, 'core', 'telegram_admin_core_learning', note, 'admin_reviewed_core_learning', { category }));
+  await sendMessage(config, chatId, `Saved to Sven Core under "${category}". This will flow into future Sven replies for everyone.`);
 }
 
 async function start(config, chatId) {
