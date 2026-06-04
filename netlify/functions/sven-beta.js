@@ -80,9 +80,12 @@ function shell(title, body) {
       .sven-card,.sven-card:nth-child(3n){border-right:0}
       .sven-private-mark{display:none}
     }
+    @media (max-width:700px){
+      .sven-beta-page .container{width:390px;max-width:100%;margin:0;padding-left:24px;padding-right:24px}
+    }
     @media (max-width:520px){
       html{overflow-x:hidden}
-      .sven-beta-page .container{max-width:100%;overflow-x:hidden}
+      .sven-beta-page .container{overflow-x:hidden}
       .sven-hero{padding:36px 0 34px}
       .sven-title{font-size:36px;line-height:.92;letter-spacing:-.025em}
       .sven-title strong{padding-left:8px;padding-right:8px}
