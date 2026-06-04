@@ -36,7 +36,7 @@ function shell(title, body) {
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
   <style>
-    body.sven-beta-page{background:#e63a25;color:#1a1410}
+    body.sven-beta-page{background:#e63a25;color:#1a1410;max-width:100%;overflow-x:hidden}
     .sven-beta-page .site-header{background:#e63a25}
     .sven-private-mark{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;border:2px solid var(--ink);border-radius:999px;padding:7px 12px;background:var(--cream)}
     .sven-hero{background:var(--red);border-bottom:2px solid var(--ink);padding:54px 0 44px}
@@ -81,10 +81,13 @@ function shell(title, body) {
       .sven-private-mark{display:none}
     }
     @media (max-width:520px){
+      html{overflow-x:hidden}
+      .sven-beta-page .container{max-width:100%;overflow-x:hidden}
       .sven-hero{padding:36px 0 34px}
-      .sven-title{font-size:clamp(34px,10vw,42px);letter-spacing:-.03em}
+      .sven-title{font-size:36px;line-height:.92;letter-spacing:-.025em}
+      .sven-title strong{padding-left:8px;padding-right:8px}
       .sven-copy{font-size:16px}
-      .sven-panel{padding:20px}
+      .sven-panel{padding:20px;box-shadow:0 8px 0 var(--ink)}
       .sven-step{grid-template-columns:48px minmax(0,1fr);gap:12px}
       .sven-code{max-width:100%;white-space:normal;word-break:break-word}
     }
