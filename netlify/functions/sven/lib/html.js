@@ -22,7 +22,8 @@ function layout(title, body) {
     a.button,button{display:inline-block;margin-top:14px;padding:11px 15px;border:0;border-radius:8px;background:#145c52;color:white;font-weight:700;text-decoration:none;font-size:15px;cursor:pointer}
     button.secondary,a.secondary{background:#334155}
     label{display:block;font-weight:650;margin-top:16px}
-    input,select{width:100%;box-sizing:border-box;padding:12px;border:1px solid #b9c2ca;border-radius:8px;font-size:16px}
+    input,select,textarea{width:100%;box-sizing:border-box;padding:12px;border:1px solid #b9c2ca;border-radius:8px;font-size:16px}
+    textarea{min-height:110px;resize:vertical}
     .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
     .card{background:white;border:1px solid #d8dfdd;border-radius:8px;padding:16px}
     .note{background:#eef7f4;border-left:4px solid #145c52;padding:12px;margin:16px 0}
@@ -55,4 +56,3 @@ module.exports = {
   htmlResponse,
   messagePage
 };
-

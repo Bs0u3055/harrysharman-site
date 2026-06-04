@@ -54,15 +54,28 @@ function buildProfileBlock(profile, maxChars = 5000) {
   return compactText(lines.join('\n'), maxChars) || 'No profile answers saved yet.';
 }
 
-function buildChatPrompt(profile, recentMessages, userText, maxPromptTokens = 12000) {
+function buildCoreLearningBlock(coreLearnings, maxChars = 2200) {
+  const rows = Array.isArray(coreLearnings) ? coreLearnings : [];
+  const lines = rows
+    .filter((row) => row && row.note)
+    .slice(0, 20)
+    .map((row) => `- ${row.category || 'general'}: ${compactText(row.note, 500)}`);
+  return compactText(lines.join('\n'), maxChars) || 'No reviewed shared learnings yet.';
+}
+
+function buildChatPrompt(profile, recentMessages, userText, maxPromptTokens = 12000, coreLearnings = []) {
   const maxPromptChars = Math.max(2400, maxPromptTokens * 4);
   const latest = compactText(userText, Math.max(1200, Math.floor(maxPromptChars / 3)));
   const profileBudget = Math.min(5000, Math.max(1200, Math.floor(maxPromptChars / 4)));
-  const historyBudget = Math.max(1200, maxPromptChars - latest.length - profileBudget - 900);
+  const coreBudget = Math.min(2200, Math.max(600, Math.floor(maxPromptChars / 7)));
+  const historyBudget = Math.max(1200, maxPromptChars - latest.length - profileBudget - coreBudget - 1100);
   const lines = (recentMessages || []).map((message) => `${String(message.role).toUpperCase()}: ${message.text}`);
 
   return `User profile:
 ${buildProfileBlock(profile, profileBudget)}
+
+Reviewed Sven Core learnings:
+${buildCoreLearningBlock(coreLearnings, coreBudget)}
 
 Recent conversation:
 ${fitRecentLines(lines, historyBudget)}
@@ -76,6 +89,6 @@ Reply as Sven.`;
 module.exports = {
   SVEN_SYSTEM_PROMPT,
   buildChatPrompt,
+  buildCoreLearningBlock,
   compactText
 };
-

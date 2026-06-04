@@ -5,6 +5,7 @@ const { buildChatPrompt, SVEN_SYSTEM_PROMPT } = require('./prompts');
 const { callOpenAI } = require('./openai');
 const { detectSafetyTerms } = require('./safety');
 const { sendMessage, sendTyping } = require('./telegram');
+const { learningSignal, userHash } = require('./learning');
 
 const MIN_CREDIT_TOKENS_TO_START = 1500;
 
@@ -39,7 +40,10 @@ async function processTelegramUpdate(config, update) {
   const chatId = String(chat.id);
   const displayName = chat.first_name || chat.username || '';
   await db.ensureUser(chatId, displayName, config);
-  for (const term of detectSafetyTerms(text)) await db.addSafetyFlag(chatId, 'user', term, text);
+  for (const term of detectSafetyTerms(text)) {
+    await db.addSafetyFlag(chatId, 'user', term, text);
+    await db.addLearningSignal(learningSignal(config, chatId, 'safety', term, text, 'redacted_safety_excerpt'));
+  }
   if (text.startsWith('/')) {
     await processCommand(config, chatId, text);
   } else {
@@ -126,7 +130,7 @@ async function deleteMe(config, chatId, rest) {
     await sendMessage(config, chatId, 'To delete your Sven data, send:\n/delete_me confirm');
     return;
   }
-  await db.deleteUser(chatId);
+  await db.deleteUserData(chatId, userHash(config, chatId));
   await sendMessage(config, chatId, 'Your Sven data has been deleted.');
 }
 
@@ -141,7 +145,9 @@ async function feedback(config, chatId, rest) {
     await sendMessage(config, chatId, 'Feedback rating must be good, bad, wrong, or unsafe.');
     return;
   }
-  await db.addFeedback(chatId, rating, noteParts.join(' ').trim());
+  const note = noteParts.join(' ').trim();
+  await db.addFeedback(chatId, rating, note);
+  await db.addLearningSignal(learningSignal(config, chatId, 'feedback', rating, note, 'user_submitted_feedback'));
   await sendMessage(config, chatId, 'Feedback saved. That helps improve Sven Core.');
 }
 
@@ -151,6 +157,7 @@ async function support(config, chatId, rest) {
     return;
   }
   await db.addSupportTicket(chatId, rest);
+  await db.addLearningSignal(learningSignal(config, chatId, 'support', 'open_ticket', rest, 'user_submitted_support'));
   await sendMessage(config, chatId, 'Logged in the Sven support inbox. You can keep using Sven, or send /bug again if you notice another issue.');
 }
 
@@ -173,6 +180,15 @@ async function answerOnboarding(config, chatId, user, text) {
   user.onboarding_index = index + 1;
   if (user.onboarding_index >= questionCount()) user.onboarding_completed_at = user.onboarding_completed_at || new Date().toISOString();
   await db.saveUser(user);
+  await db.addLearningSignal(learningSignal(
+    config,
+    chatId,
+    'onboarding',
+    question.id,
+    question.private ? '' : text,
+    question.private ? 'private_omitted' : 'redacted_profile_answer',
+    { private_field: Boolean(question.private) }
+  ));
   if (user.onboarding_index >= questionCount()) {
     await sendMessage(config, chatId, 'Onboarding complete. Next step: send /setup so Sven can be funded.');
     return;
@@ -205,23 +221,29 @@ async function processText(config, chatId, text, telegramMessageId = null) {
   }
   const inserted = await db.addUserMessageOnce(chatId, text, telegramMessageId);
   if (!inserted) return;
+  await db.addLearningSignal(learningSignal(config, chatId, 'message', 'user_message', text, 'redacted_user_input'));
   const recent = await db.getMessages(chatId, 12);
+  const coreLearnings = await db.activeCoreLearnings(20);
   await sendTyping(config, chatId);
   let result;
   try {
     const apiKey = keyRecord ? decryptText(config.svenSecret, keyRecord.key_ciphertext) : funding.apiKey;
-    result = await callOpenAI(apiKey, funding.model, SVEN_SYSTEM_PROMPT, buildChatPrompt(user, recent, text));
+    result = await callOpenAI(apiKey, funding.model, SVEN_SYSTEM_PROMPT, buildChatPrompt(user, recent, text, 12000, coreLearnings));
   } catch (error) {
     await sendMessage(config, chatId, 'Sven could not call the model: ' + error.message);
     return;
   }
   const reply = result.text;
   await db.addMessage(chatId, 'assistant', reply);
+  await db.addLearningSignal(learningSignal(config, chatId, 'message', 'assistant_response', reply, 'redacted_assistant_output'));
   await db.addUsage(chatId, funding.provider, funding.model, funding.mode, result.usage.input_tokens, result.usage.output_tokens, result.raw);
   if (funding.mode === 'credits') {
     await db.consumeCredits(chatId, Number(result.usage.input_tokens || 0) + Number(result.usage.output_tokens || 0), 'model_usage');
   }
-  for (const term of detectSafetyTerms(reply)) await db.addSafetyFlag(chatId, 'assistant', term, reply);
+  for (const term of detectSafetyTerms(reply)) {
+    await db.addSafetyFlag(chatId, 'assistant', term, reply);
+    await db.addLearningSignal(learningSignal(config, chatId, 'safety', term, reply, 'redacted_safety_excerpt'));
+  }
   await sendMessage(config, chatId, reply);
 }
 

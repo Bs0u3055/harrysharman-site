@@ -24,6 +24,14 @@ function setupTokenKey(token) {
   return `setup-token:${token}`;
 }
 
+function learningKey() {
+  return `learning:${Date.now()}:${Math.random().toString(16).slice(2)}`;
+}
+
+function coreLearningKey() {
+  return `core-learning:${Date.now()}:${Math.random().toString(16).slice(2)}`;
+}
+
 async function ensureUser(chatId, displayName, config) {
   const key = userKey(chatId);
   let user = await getJSON(key, null);
@@ -251,6 +259,32 @@ async function addSupportTicket(chatId, note) {
   await addToIndex('support', key, 500);
 }
 
+async function addLearningSignal(signal) {
+  const key = learningKey();
+  await setJSON(key, {
+    ...signal,
+    created_at: nowISO()
+  });
+  await addToIndex('learning', key, 2000);
+}
+
+async function addCoreLearning(category, note, source = 'manual_admin') {
+  const key = coreLearningKey();
+  await setJSON(key, {
+    category: String(category || 'general').slice(0, 80),
+    note: String(note || '').slice(0, 1000),
+    source,
+    status: 'active',
+    created_at: nowISO()
+  });
+  await addToIndex('core-learning', key, 200);
+}
+
+async function activeCoreLearnings(limit = 20) {
+  const rows = await rowsFromIndex('core-learning', limit);
+  return rows.filter((row) => row.status === 'active' && row.note);
+}
+
 async function addSafetyFlag(chatId, source, term, textExcerpt) {
   const key = `safety:${Date.now()}:${chatId}:${Math.random().toString(16).slice(2)}`;
   await setJSON(key, {
@@ -265,9 +299,7 @@ async function addSafetyFlag(chatId, source, term, textExcerpt) {
 }
 
 async function deleteUser(chatId) {
-  await deleteKey(userKey(chatId));
-  await deleteKey(apiKeyKey(chatId));
-  await deleteKey(messagesKey(chatId));
+  await deleteUserData(chatId);
 }
 
 async function recentUsers(limit = 100) {
@@ -290,12 +322,35 @@ async function rowsFromIndex(indexName, limit = 50) {
   return rows;
 }
 
+async function deleteRowsMatching(indexName, limit, predicate) {
+  const keys = await readIndex(indexName, limit);
+  for (const key of keys) {
+    const row = await getJSON(key, null);
+    if (row && predicate(row)) await deleteKey(key);
+  }
+}
+
+async function deleteUserData(chatId, hashedUser = null) {
+  const id = String(chatId);
+  await deleteKey(userKey(id));
+  await deleteKey(apiKeyKey(id));
+  await deleteKey(messagesKey(id));
+  await deleteRowsMatching('usage', 5000, (row) => row.telegram_chat_id === id);
+  await deleteRowsMatching('credits', 5000, (row) => row.telegram_chat_id === id);
+  await deleteRowsMatching('feedback', 2000, (row) => row.telegram_chat_id === id);
+  await deleteRowsMatching('support', 2000, (row) => row.telegram_chat_id === id);
+  await deleteRowsMatching('safety', 2000, (row) => row.telegram_chat_id === id);
+  if (hashedUser) await deleteRowsMatching('learning', 5000, (row) => row.user_hash === hashedUser);
+}
+
 async function dashboardStats() {
   const users = await recentUsers(1000);
   const usageRows = await rowsFromIndex('usage', 2000);
   const feedbackRows = await rowsFromIndex('feedback', 1000);
   const safetyRows = await rowsFromIndex('safety', 1000);
   const supportRows = await rowsFromIndex('support', 1000);
+  const learningRows = await rowsFromIndex('learning', 2000);
+  const coreRows = await activeCoreLearnings(200);
   return {
     users: users.length,
     onboarded: users.filter((user) => user.onboarding_completed_at).length,
@@ -303,6 +358,8 @@ async function dashboardStats() {
     credits: users.filter((user) => user.funding_mode === 'credits').length,
     feedback: feedbackRows.length,
     support: supportRows.filter((row) => row.status !== 'closed').length,
+    learning_signals: learningRows.length,
+    core_learnings: coreRows.length,
     open_flags: safetyRows.filter((row) => !row.resolved_at).length,
     tokens: usageRows.reduce((sum, row) => sum + Number(row.input_tokens || 0) + Number(row.output_tokens || 0), 0),
     credit_balance_tokens: users.reduce((sum, row) => sum + Number(row.credit_balance_tokens || 0), 0)
@@ -340,8 +397,12 @@ module.exports = {
   dailyTokensUsed,
   addFeedback,
   addSupportTicket,
+  addLearningSignal,
+  addCoreLearning,
+  activeCoreLearnings,
   addSafetyFlag,
   deleteUser,
+  deleteUserData,
   recentUsers,
   rowsFromIndex,
   dashboardStats,

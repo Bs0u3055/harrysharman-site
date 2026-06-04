@@ -18,6 +18,8 @@ async function buildWeeklyReport() {
   const feedback = await db.rowsFromIndex('feedback', 50);
   const support = await db.rowsFromIndex('support', 50);
   const flags = await db.rowsFromIndex('safety', 50);
+  const learning = await db.rowsFromIndex('learning', 50);
+  const coreLearnings = await db.activeCoreLearnings(20);
   const users = await db.recentUsers(100);
   const ratings = countBy(feedback, 'rating');
   const funding = countBy(users, 'funding_mode');
@@ -31,6 +33,8 @@ async function buildWeeklyReport() {
     `Outstanding prepaid token balance: ${stats.credit_balance_tokens}`,
     `Feedback count: ${stats.feedback}`,
     `Open support tickets: ${stats.support}`,
+    `Learning signals: ${stats.learning_signals}`,
+    `Reviewed Sven Core learnings: ${stats.core_learnings}`,
     `Feedback mix: ${formatCounts(ratings)}`,
     `Open safety flags: ${stats.open_flags}`,
     '',
@@ -46,6 +50,18 @@ async function buildWeeklyReport() {
     for (const row of support.slice(0, 10)) lines.push(`- ${row.status}: ${String(row.note || '').slice(0, 180)}`);
   } else {
     lines.push('- No support tickets.');
+  }
+  lines.push('', 'Recent learning signals:');
+  if (learning.length) {
+    for (const row of learning.slice(0, 10)) lines.push(`- ${row.source}/${row.signal}/${row.privacy}: ${String(row.text_excerpt || '').slice(0, 160)}`);
+  } else {
+    lines.push('- No learning signals yet.');
+  }
+  lines.push('', 'Reviewed Sven Core lessons:');
+  if (coreLearnings.length) {
+    for (const row of coreLearnings.slice(0, 10)) lines.push(`- ${row.category}: ${String(row.note || '').slice(0, 160)}`);
+  } else {
+    lines.push('- No reviewed shared lessons yet.');
   }
   lines.push('', 'Recent safety flags:');
   if (flags.length) {

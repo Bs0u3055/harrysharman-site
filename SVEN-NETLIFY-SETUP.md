@@ -2,6 +2,8 @@
 
 Sven is now built into this Netlify site as Functions.
 
+For the beta operating model, user-separation notes, learning workflow, and launch checklist, see `SVEN-BETA-READINESS.md`.
+
 ## Public Endpoints
 
 - Telegram webhook: `/api/sven-telegram?secret=SVEN_WEBHOOK_SECRET_PATH`

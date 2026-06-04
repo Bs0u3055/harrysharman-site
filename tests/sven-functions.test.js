@@ -33,6 +33,38 @@ async function testPromptTrimming() {
   assert(prompt.length < 7000);
 }
 
+async function testCoreLearningAndUserIsolationInPrompt() {
+  const { buildChatPrompt } = require('../netlify/functions/sven/lib/prompts');
+  const prompt = buildChatPrompt(
+    { answers: { goal: 'build strength', constraints: 'busy work week' } },
+    [{ role: 'user', text: 'my private detail is blue kettlebell' }],
+    'What should I do today?',
+    800,
+    [{ category: 'coaching', note: 'Prefer repeatable progressions over novelty.' }]
+  );
+  assert(prompt.includes('Prefer repeatable progressions'));
+  assert(prompt.includes('blue kettlebell'));
+  assert(!prompt.includes('another user private detail'));
+}
+
+async function testLearningRedactionAndHashing() {
+  const { learningSignal, userHash } = require('../netlify/functions/sven/lib/learning');
+  const config = { svenSecret: 'hash-secret' };
+  const signal = learningSignal(
+    config,
+    'chat-1',
+    'message',
+    'user_message',
+    'Email me at person@example.com, call +44 7700 900123, key sk-abc123abc123abc123abc123 token=secret'
+  );
+  assert.strictEqual(signal.user_hash, userHash(config, 'chat-1'));
+  assert(!signal.text_excerpt.includes('person@example.com'));
+  assert(!signal.text_excerpt.includes('+44 7700 900123'));
+  assert(!signal.text_excerpt.includes('sk-abc'));
+  assert(!signal.text_excerpt.includes('token=secret'));
+  assert(!Object.prototype.hasOwnProperty.call(signal, 'telegram_chat_id'));
+}
+
 async function testIdempotentMessages() {
   await resetStorage();
   const db = require('../netlify/functions/sven/lib/db');
@@ -71,6 +103,28 @@ async function testSupportTickets() {
   assert.strictEqual(rows[0].telegram_chat_id, 'chat-1');
   assert.strictEqual(rows[0].status, 'open');
   assert.strictEqual(rows[0].note, 'setup link says expired');
+}
+
+async function testDeleteUserDataClearsSecondaryRecords() {
+  await resetStorage();
+  const db = require('../netlify/functions/sven/lib/db');
+  const { learningSignal, userHash } = require('../netlify/functions/sven/lib/learning');
+  const config = { openaiDefaultModel: 'gpt-5-nano', dailyTokenLimit: 120000, svenSecret: 'delete-secret' };
+  await db.ensureUser('chat-1', 'Harry', config);
+  await db.addMessage('chat-1', 'user', 'private message');
+  await db.addUsage('chat-1', 'openai', 'gpt-5-nano', 'byok', 1, 2, {});
+  await db.addFeedback('chat-1', 'bad', 'wrong tone');
+  await db.addSupportTicket('chat-1', 'broken setup');
+  await db.addSafetyFlag('chat-1', 'user', 'injury', 'knee pain');
+  await db.addLearningSignal(learningSignal(config, 'chat-1', 'message', 'user_message', 'private message'));
+  await db.deleteUserData('chat-1', userHash(config, 'chat-1'));
+  assert.strictEqual(await db.getUser('chat-1'), null);
+  assert.deepStrictEqual(await db.getMessages('chat-1', 10), []);
+  assert.strictEqual((await db.rowsFromIndex('usage', 10)).length, 0);
+  assert.strictEqual((await db.rowsFromIndex('feedback', 10)).length, 0);
+  assert.strictEqual((await db.rowsFromIndex('support', 10)).length, 0);
+  assert.strictEqual((await db.rowsFromIndex('safety', 10)).length, 0);
+  assert.strictEqual((await db.rowsFromIndex('learning', 10)).length, 0);
 }
 
 async function testHelpMentionsSupport() {
@@ -115,6 +169,7 @@ async function testEndToEndSvenFlow() {
   await resetStorage();
   const originalFetch = global.fetch;
   const sentMessages = [];
+  let responsePrompt = '';
   global.fetch = async (url, options = {}) => {
     const target = String(url);
     if (target.includes('api.telegram.org')) {
@@ -126,6 +181,7 @@ async function testEndToEndSvenFlow() {
       return new Response(JSON.stringify({ data: [] }), { status: 200 });
     }
     if (target === 'https://api.openai.com/v1/responses') {
+      responsePrompt = JSON.parse(options.body || '{}').input || '';
       return new Response(JSON.stringify({
         id: 'resp_test',
         status: 'completed',
@@ -186,15 +242,21 @@ async function testEndToEndSvenFlow() {
     assert(postResponse.body.includes('Connected'));
     assert(await db.getApiKey(chatId));
 
+    await db.addCoreLearning('coaching', 'Prefer boring repeatable progressions over novelty for busy parents.');
     await processTelegramUpdate(config, telegramUpdate(chatId, 'Can you plan today?', messageId++));
     const usage = await db.rowsFromIndex('usage', 10);
     assert.strictEqual(usage.length, 1);
+    assert(responsePrompt.includes('Prefer boring repeatable progressions'));
     assert(sentMessages.some((text) => text.includes('warm up')));
 
     await processTelegramUpdate(config, telegramUpdate(chatId, '/bug setup link was confusing', messageId++));
     const support = await db.rowsFromIndex('support', 10);
     assert.strictEqual(support.length, 1);
     assert.strictEqual(support[0].note, 'setup link was confusing');
+    const learning = await db.rowsFromIndex('learning', 100);
+    assert(learning.length >= 20);
+    assert(learning.every((row) => row.user_hash && !Object.prototype.hasOwnProperty.call(row, 'telegram_chat_id')));
+    assert(learning.some((row) => row.source === 'support' && row.text_excerpt.includes('setup link was confusing')));
   } finally {
     global.fetch = originalFetch;
   }
@@ -202,10 +264,13 @@ async function testEndToEndSvenFlow() {
 
 async function run() {
   await testPromptTrimming();
+  await testCoreLearningAndUserIsolationInPrompt();
+  await testLearningRedactionAndHashing();
   await testIdempotentMessages();
   await testIdempotentStripeCredits();
   await testCryptoRoundTrip();
   await testSupportTickets();
+  await testDeleteUserDataClearsSecondaryRecords();
   await testHelpMentionsSupport();
   await testSetupChecksTokenBeforeKeyShape();
   await testEndToEndSvenFlow();

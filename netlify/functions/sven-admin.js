@@ -37,6 +37,8 @@ async function adminPage(config, token) {
   const feedback = await db.rowsFromIndex('feedback', 20);
   const support = await db.rowsFromIndex('support', 20);
   const flags = await db.rowsFromIndex('safety', 20);
+  const learning = await db.rowsFromIndex('learning', 30);
+  const coreLearnings = await db.activeCoreLearnings(20);
   const reports = await db.rowsFromIndex('reports', 5);
   return htmlResponse(200, 'Sven Admin', `<h1>Sven Admin</h1>
     <div class="grid">${statCards(stats)}</div>
@@ -66,6 +68,19 @@ async function adminPage(config, token) {
           <button type="submit">Generate report</button>
         </form>
       </div>
+      <div class="card">
+        <h3>Add Sven Core learning</h3>
+        <p>Use this only for reviewed lessons that should apply to every user.</p>
+        <form method="post" action="/api/sven-admin">
+          <input type="hidden" name="token" value="${escapeHTML(token)}">
+          <input type="hidden" name="action" value="add_core_learning">
+          <label for="category">Category</label>
+          <input id="category" name="category" value="coaching">
+          <label for="note">Reviewed lesson</label>
+          <textarea id="note" name="note" required></textarea>
+          <button type="submit">Add to Sven Core</button>
+        </form>
+      </div>
     </div>
 
     <h2>Users</h2>
@@ -73,6 +88,13 @@ async function adminPage(config, token) {
 
     <h2>Recent Feedback</h2>
     <table><tr><th>Time</th><th>User</th><th>Rating</th><th>Note</th></tr>${genericRows(feedback, ['created_at', 'telegram_chat_id', 'rating', 'note'])}</table>
+
+    <h2>Learning Queue</h2>
+    <p>Redacted shared signals for review. These are not used in user chats until you add a reviewed lesson to Sven Core.</p>
+    <table><tr><th>Time</th><th>User hash</th><th>Source</th><th>Signal</th><th>Privacy</th><th>Excerpt</th></tr>${genericRows(learning, ['created_at', 'user_hash', 'source', 'signal', 'privacy', 'text_excerpt'])}</table>
+
+    <h2>Sven Core Learnings</h2>
+    <table><tr><th>Time</th><th>Category</th><th>Status</th><th>Note</th></tr>${genericRows(coreLearnings, ['created_at', 'category', 'status', 'note'])}</table>
 
     <h2>Support Inbox</h2>
     <table><tr><th>Time</th><th>User</th><th>Status</th><th>Issue</th></tr>${genericRows(support, ['created_at', 'telegram_chat_id', 'status', 'note'])}</table>
@@ -104,6 +126,11 @@ exports.handler = async (event) => {
   }
   if (body.action === 'generate_report') {
     await saveAndSendWeeklyReport(config);
+  }
+  if (body.action === 'add_core_learning') {
+    const note = String(body.note || '').trim();
+    if (!note) return messagePage('Missing note', 'Add a reviewed lesson before saving to Sven Core.', 400);
+    await db.addCoreLearning(String(body.category || 'coaching'), note);
   }
   return { statusCode: 303, headers: { Location: `/api/sven-admin?token=${encodeURIComponent(token)}` }, body: '' };
 };
