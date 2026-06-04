@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanks - AI Habit</title>
+  <meta name="description" content="Thanks for sharing your AI Habit reflection.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --ai-paper: #fffdf8;
+      --ai-ink: #171615;
+      --ai-red: #e63a25;
+      --ai-blue: #2434ff;
+      --ai-line: rgba(23, 22, 21, 0.18);
+    }
+
+    html,
+    body {
+      background: var(--ai-paper);
+      color: var(--ai-ink);
+      font-family: var(--f-sans);
+    }
+
+    .thanks {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 48px 24px;
+      background:
+        linear-gradient(90deg, rgba(23, 22, 21, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(23, 22, 21, 0.04) 1px, transparent 1px),
+        var(--ai-paper);
+      background-size: 28px 28px;
+    }
+
+    .box {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      border: 2px solid var(--ai-ink);
+      background: #fff;
+      box-shadow: 8px 8px 0 var(--ai-ink);
+      padding: clamp(26px, 5vw, 54px);
+    }
+
+    .kicker {
+      display: inline-flex;
+      border: 2px solid var(--ai-ink);
+      background: var(--ai-red);
+      color: var(--ai-paper);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 10px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      font-size: clamp(44px, 8vw, 86px);
+      line-height: 0.92;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    p {
+      margin: 0 0 16px;
+      max-width: 620px;
+      font-size: clamp(18px, 2.1vw, 23px);
+      line-height: 1.45;
+    }
+
+    .small {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      line-height: 1.55;
+      border-top: 2px solid var(--ai-line);
+      padding-top: 16px;
+      margin-top: 22px;
+    }
+
+    a {
+      color: var(--ai-blue);
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+  <main class="thanks">
+    <section class="box">
+      <div class="kicker">AI Habit</div>
+      <h1>Thanks.</h1>
+      <p>This is exactly the data needed to decide the next step.</p>
+      <p>If Phase 2 happens, it will be based on what people actually did and said, not a made-up launch story.</p>
+      <p class="small"><a href="/">Back to Harry's site</a></p>
+    </section>
+  </main>
+</body>
+</html>

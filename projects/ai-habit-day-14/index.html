@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Habit Day 14 Reflection - Harry Sharman</title>
+  <meta name="description" content="A short AI Habit reflection form to decide whether the experiment should stay free, pause, or become a paid programme.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="AI Habit Day 14 Reflection">
+  <meta property="og:description" content="Help decide the next step for AI Habit by sharing what you actually used, what was useful, and what should happen next.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --ai-paper: #fffdf8;
+      --ai-ink: #171615;
+      --ai-red: #e63a25;
+      --ai-blue: #2434ff;
+      --ai-green: #14764d;
+      --ai-line: rgba(23, 22, 21, 0.18);
+      --ai-muted: rgba(23, 22, 21, 0.68);
+      --ai-soft: #f5f0e7;
+    }
+
+    html,
+    body {
+      background: var(--ai-paper);
+      color: var(--ai-ink);
+      font-family: var(--f-sans);
+    }
+
+    .ai-page {
+      min-height: 100vh;
+      background:
+        linear-gradient(90deg, rgba(23, 22, 21, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(23, 22, 21, 0.04) 1px, transparent 1px),
+        var(--ai-paper);
+      background-size: 28px 28px;
+    }
+
+    .ai-alert {
+      background: var(--ai-red);
+      color: var(--ai-paper);
+      border-bottom: 2px solid var(--ai-ink);
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 20px;
+      text-align: center;
+    }
+
+    .ai-wrap {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 54px 28px 72px;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.82fr) minmax(420px, 1.18fr);
+      gap: 38px;
+      align-items: start;
+    }
+
+    .ai-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 11px;
+      border: 2px solid var(--ai-ink);
+      background: var(--ai-paper);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .ai-kicker::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border: 2px solid var(--ai-ink);
+      background: var(--ai-blue);
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: clamp(42px, 7vw, 84px);
+      line-height: 0.92;
+      letter-spacing: 0;
+      font-weight: 900;
+      margin: 0 0 22px;
+      max-width: 720px;
+    }
+
+    .ai-lede {
+      font-size: clamp(18px, 2.1vw, 23px);
+      line-height: 1.42;
+      max-width: 660px;
+      margin-bottom: 26px;
+    }
+
+    .ai-note {
+      border: 2px solid var(--ai-ink);
+      background: var(--ai-soft);
+      padding: 16px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      line-height: 1.55;
+      max-width: 560px;
+      box-shadow: 6px 6px 0 var(--ai-ink);
+    }
+
+    .ai-note strong {
+      display: block;
+      margin-bottom: 7px;
+      font-family: var(--f-sans);
+      font-size: 15px;
+    }
+
+    .ai-form-shell {
+      background: #fff;
+      border: 2px solid var(--ai-ink);
+      box-shadow: 8px 8px 0 var(--ai-ink);
+      padding: 24px;
+    }
+
+    .ai-form-shell h2 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .ai-form-shell p {
+      margin: 0 0 18px;
+      color: var(--ai-muted);
+      line-height: 1.55;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    label,
+    legend {
+      font-weight: 760;
+      font-size: 15px;
+      line-height: 1.32;
+    }
+
+    .hint {
+      color: var(--ai-muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      border: 2px solid var(--ai-ink);
+      border-radius: 0;
+      background: var(--ai-paper);
+      color: var(--ai-ink);
+      font: 15px/1.45 var(--f-sans);
+      padding: 12px;
+    }
+
+    textarea {
+      min-height: 118px;
+      resize: vertical;
+    }
+
+    fieldset {
+      border: 2px solid var(--ai-line);
+      padding: 14px;
+      margin: 0;
+    }
+
+    .choices {
+      display: grid;
+      gap: 9px;
+      margin-top: 10px;
+    }
+
+    .choice {
+      display: grid;
+      grid-template-columns: 20px 1fr;
+      gap: 9px;
+      align-items: start;
+      font-weight: 500;
+    }
+
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin: 2px 0 0;
+      accent-color: var(--ai-blue);
+    }
+
+    .ai-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 54px;
+      border: 2px solid var(--ai-ink);
+      background: var(--ai-ink);
+      color: var(--ai-paper);
+      font-family: var(--f-mono);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .ai-submit:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0 var(--ai-blue);
+    }
+
+    .privacy {
+      margin-top: 12px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.55;
+      color: var(--ai-muted);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .ai-wrap {
+        padding: 36px 18px 52px;
+      }
+
+      .ai-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ai-form-shell {
+        padding: 18px;
+        box-shadow: 5px 5px 0 var(--ai-ink);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="ai-page">
+    <div class="ai-alert">AI Habit reflection</div>
+    <div class="ai-wrap">
+      <div class="ai-grid">
+        <section aria-labelledby="page-title">
+          <div class="ai-kicker">AI Habit validation</div>
+          <h1 id="page-title">Day 14 reflection</h1>
+          <p class="ai-lede">Thanks for trying AI Habit. This short reflection helps decide whether the experiment should stay free, pause, or become a paid programme.</p>
+          <div class="ai-note">
+            <strong>No trick questions.</strong>
+            Please answer honestly. The useful signal is what people actually did, what helped at work, and whether there is real appetite for a paid next step.
+          </div>
+        </section>
+
+        <section class="ai-form-shell" aria-labelledby="form-title">
+          <h2 id="form-title">Share your reflection</h2>
+          <p>Most people can finish this in under four minutes.</p>
+          <form name="ai-habit-day-14-reflection" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/projects/ai-habit-day-14/thanks.html">
+            <input type="hidden" name="form-name" value="ai-habit-day-14-reflection">
+            <p class="hidden">
+              <label>Do not fill this out if you are human: <input name="bot-field"></label>
+            </p>
+
+            <div class="form-grid">
+              <div class="field">
+                <label for="email">Email, optional</label>
+                <span class="hint">Only needed if you want an update about Phase 2.</span>
+                <input id="email" name="email" type="email" autocomplete="email">
+              </div>
+
+              <fieldset>
+                <legend>Did you complete the 14-day AI Habit sequence?</legend>
+                <div class="choices">
+                  <label class="choice"><input type="radio" name="completion" value="Yes, all or nearly all of it" required> Yes, all or nearly all of it</label>
+                  <label class="choice"><input type="radio" name="completion" value="Some of it"> Some of it</label>
+                  <label class="choice"><input type="radio" name="completion" value="I started but stopped"> I started but stopped</label>
+                  <label class="choice"><input type="radio" name="completion" value="I signed up but did not start"> I signed up but did not start</label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="usefulness">How useful was the workout format?</label>
+                <span class="hint">1 = not useful. 5 = very useful.</span>
+                <select id="usefulness" name="usefulness" required>
+                  <option value="">Select one</option>
+                  <option value="1">1 - not useful</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5 - very useful</option>
+                </select>
+              </div>
+
+              <fieldset>
+                <legend>Did you use any output from a workout in real work?</legend>
+                <div class="choices">
+                  <label class="choice"><input type="radio" name="work_use" value="Yes" required> Yes</label>
+                  <label class="choice"><input type="radio" name="work_use" value="Not yet, but I can see how I would"> Not yet, but I can see how I would</label>
+                  <label class="choice"><input type="radio" name="work_use" value="No"> No</label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="most_useful">What was the most useful workout or moment?</label>
+                <textarea id="most_useful" name="most_useful"></textarea>
+              </div>
+
+              <div class="field">
+                <label for="built_or_improved">What did you actually build, improve, or change during the 14 days?</label>
+                <span class="hint">A document, workflow, habit, decision, prompt, plan, client output, team process, or "nothing yet" are all valid answers.</span>
+                <textarea id="built_or_improved" name="built_or_improved"></textarea>
+              </div>
+
+              <div class="field">
+                <label for="friction">What was frustrating, confusing, or too much?</label>
+                <textarea id="friction" name="friction"></textarea>
+              </div>
+
+              <fieldset>
+                <legend>If AI Habit continued, which next step would be most useful?</legend>
+                <div class="choices">
+                  <label class="choice"><input type="radio" name="next_step_interest" value="GBP 9-19 template or workout pack" required> GBP 9-19 template or workout pack</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="GBP 29-49 guided 14-day challenge"> GBP 29-49 guided 14-day challenge</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="GBP 99+ setup or team help"> GBP 99+ setup or team help</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="Not interested in a paid next step"> Not interested in a paid next step</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="Not sure yet"> Not sure yet</label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="paid_condition">What would make a paid next step worth it?</label>
+                <span class="hint">A specific outcome, format, support level, or "nothing yet" are all useful answers.</span>
+                <textarea id="paid_condition" name="paid_condition"></textarea>
+              </div>
+
+              <fieldset>
+                <legend>Would you like to be told if Phase 2 opens?</legend>
+                <span class="hint">If you choose yes or maybe, add an email above so Harry can send the update.</span>
+                <div class="choices">
+                  <label class="choice"><input type="radio" name="waitlist" value="Yes, add me to the waitlist" required> Yes, add me to the waitlist</label>
+                  <label class="choice"><input type="radio" name="waitlist" value="Maybe, send me one update"> Maybe, send me one update</label>
+                  <label class="choice"><input type="radio" name="waitlist" value="No thanks"> No thanks</label>
+                </div>
+              </fieldset>
+
+              <fieldset>
+                <legend>What kind of AI practice would you most want next?</legend>
+                <div class="choices">
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Writing and editing"> Writing and editing</label>
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Research"> Research</label>
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Strategy and planning"> Strategy and planning</label>
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Data analysis"> Data analysis</label>
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Personal productivity"> Personal productivity</label>
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Management and delegation"> Management and delegation</label>
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Building agents"> Building agents</label>
+                  <label class="choice"><input type="checkbox" name="next_practice" value="Other"> Other</label>
+                </div>
+              </fieldset>
+
+              <div class="field">
+                <label for="quote">If you are happy to share a sentence we can quote, write it here.</label>
+                <textarea id="quote" name="quote"></textarea>
+              </div>
+
+              <label class="choice">
+                <input type="checkbox" name="quote_permission" value="Yes">
+                You can quote my sentence anonymously.
+              </label>
+
+              <button class="ai-submit" type="submit">Send reflection</button>
+            </div>
+          </form>
+          <p class="privacy">Responses are used to decide whether AI Habit should continue. Email is optional. Individual quotes are not published unless quote permission is present.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

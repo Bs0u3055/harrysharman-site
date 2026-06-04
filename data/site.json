@@ -43,6 +43,13 @@
       "linkText": "Watch the money →"
     },
     {
+      "title": "The Agent Experiment",
+      "status": "In Progress",
+      "description": "A weekly update series following the attempt to make real money with AI agents — including the failures, numbers, prompts, workflows and one-off packs that come out of the experiment.",
+      "link": "projects/agent-experiment/",
+      "linkText": "Get weekly updates →"
+    },
+    {
       "title": "The AI Habit",
       "status": "In Progress",
       "description": "A daily AI practice system for professionals who know they should be using AI but haven’t built a real practice yet. 15 minutes a day. One workout. One tangible output. Built on behavioural science, not hype.",

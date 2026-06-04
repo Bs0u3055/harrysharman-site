@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-labelledby="title desc">
+  <title id="title">The Agent Experiment logo</title>
+  <desc id="desc">A bold square AE mark in red, black and paper cream.</desc>
+  <rect width="1024" height="1024" fill="#e63a25"/>
+  <rect x="72" y="72" width="880" height="880" fill="#fefcf7" stroke="#1a1410" stroke-width="32"/>
+  <rect x="130" y="130" width="764" height="764" fill="#ffd84d" stroke="#1a1410" stroke-width="18"/>
+  <path d="M170 812 L360 220 H496 L686 812 H560 L528 700 H328 L296 812 Z M358 594 H498 L430 340 Z" fill="#1a1410"/>
+  <path d="M690 812 V220 H860 V340 H812 V692 H860 V812 Z" fill="#1a1410"/>
+  <rect x="660" y="452" width="154" height="98" fill="#e63a25" stroke="#1a1410" stroke-width="14"/>
+  <circle cx="814" cy="452" r="28" fill="#2434ff" stroke="#1a1410" stroke-width="12"/>
+  <path d="M152 874 H872" stroke="#1a1410" stroke-width="18" stroke-linecap="square"/>
+  <path d="M512 118 V178" stroke="#1a1410" stroke-width="18" stroke-linecap="square"/>
+</svg>

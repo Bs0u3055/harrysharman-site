@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Agent Experiment - Harry Sharman</title>
+  <meta name="description" content="A weekly field report from the real attempt to build revenue with autonomous AI agents, starting from GBP 0 spend and a locked GBP 100 reserve.">
+  <meta property="og:title" content="The Agent Experiment">
+  <meta property="og:description" content="Real rules, real failures, real receipts: what happens when AI agents try to make money without spending first.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --agent-paper: #fefcf7;
+      --agent-ink: #1a1410;
+      --agent-red: #e63a25;
+      --agent-blue: #2434ff;
+      --agent-yellow: #ffd84d;
+      --agent-line: rgba(26, 20, 16, 0.2);
+      --agent-muted: rgba(26, 20, 16, 0.68);
+    }
+
+    html,
+    body {
+      background: var(--agent-paper);
+      color: var(--agent-ink);
+      font-family: var(--f-sans);
+    }
+
+    .agent-page {
+      background: var(--agent-paper);
+      min-height: 100vh;
+    }
+
+    .agent-page,
+    .agent-page * {
+      box-sizing: border-box;
+    }
+
+    .agent-section {
+      border-bottom: 2px solid var(--agent-ink);
+    }
+
+    .agent-container {
+      width: 100%;
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 0 36px;
+    }
+
+    .agent-hero {
+      background: var(--agent-red);
+      min-height: calc(100vh - 44px);
+      display: grid;
+      align-items: center;
+      padding: 56px 0 42px;
+    }
+
+    .agent-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(300px, 0.85fr);
+      gap: 36px;
+      align-items: center;
+    }
+
+    .agent-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 13px;
+      border: 2px solid var(--agent-ink);
+      background: var(--agent-paper);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .agent-brand-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .agent-logo {
+      width: 64px;
+      height: 64px;
+      border: 2px solid var(--agent-ink);
+      box-shadow: 5px 5px 0 var(--agent-ink);
+      background: var(--agent-paper);
+    }
+
+    .agent-brand-name {
+      font-size: 22px;
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .agent-brand-sub {
+      margin-top: 5px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .agent-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--agent-blue);
+      border-radius: 50%;
+      border: 2px solid var(--agent-ink);
+    }
+
+    .agent-title {
+      font-size: clamp(44px, 6.2vw, 84px);
+      line-height: 0.9;
+      letter-spacing: 0;
+      font-weight: 900;
+      max-width: 780px;
+      margin-bottom: 24px;
+    }
+
+    .agent-title span {
+      display: inline-block;
+      max-width: 100%;
+      background: var(--agent-ink);
+      color: var(--agent-paper);
+      padding: 0 12px 4px;
+      white-space: nowrap;
+    }
+
+    .agent-mobile-only {
+      display: none;
+    }
+
+    .agent-lede {
+      max-width: 720px;
+      font-size: clamp(18px, 2.2vw, 24px);
+      line-height: 1.45;
+      color: var(--agent-ink);
+      margin-bottom: 28px;
+    }
+
+    .agent-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 26px;
+    }
+
+    .agent-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 13px 20px;
+      border: 2px solid var(--agent-ink);
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .agent-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--agent-ink);
+    }
+
+    .agent-btn-primary {
+      background: var(--agent-ink);
+      color: var(--agent-paper);
+    }
+
+    .agent-btn-secondary {
+      background: var(--agent-paper);
+      color: var(--agent-ink);
+    }
+
+    .agent-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      color: var(--agent-ink);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .agent-proof span {
+      background: rgba(254, 252, 247, 0.72);
+      border: 2px solid var(--agent-ink);
+      padding: 6px 10px;
+    }
+
+    .agent-board {
+      background: var(--agent-paper);
+      border: 2px solid var(--agent-ink);
+      box-shadow: 8px 8px 0 var(--agent-ink);
+      padding: 18px;
+      transform: none;
+    }
+
+    .agent-board h2 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+
+    .agent-ledger {
+      display: grid;
+      gap: 8px;
+    }
+
+    .agent-ledger-row {
+      display: grid;
+      grid-template-columns: 82px 1fr 76px;
+      gap: 8px;
+      align-items: center;
+      border: 2px solid var(--agent-ink);
+      background: #fff;
+      padding: 10px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+    }
+
+    .agent-ledger-row strong {
+      font-family: var(--f-sans);
+      font-size: 14px;
+    }
+
+    .agent-status {
+      text-align: right;
+      font-weight: 700;
+    }
+
+    .agent-status.locked { color: var(--agent-red); }
+    .agent-status.ready { color: var(--agent-blue); }
+    .agent-status.zero { color: var(--agent-muted); }
+
+    .agent-note {
+      margin-top: 14px;
+      background: var(--agent-yellow);
+      border: 2px solid var(--agent-ink);
+      padding: 12px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .agent-strip {
+      background: var(--agent-ink);
+      color: var(--agent-paper);
+      padding: 18px 0;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .agent-strip-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 34px;
+      padding: 0 36px;
+      white-space: normal;
+    }
+
+    .agent-content {
+      padding: 62px 0;
+    }
+
+    .agent-head {
+      max-width: 760px;
+      margin-bottom: 30px;
+    }
+
+    .agent-eyebrow {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--agent-red);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .agent-heading {
+      font-size: clamp(34px, 4.6vw, 62px);
+      line-height: 0.96;
+      letter-spacing: 0;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    .agent-copy {
+      font-size: 18px;
+      line-height: 1.62;
+      color: var(--agent-muted);
+      max-width: 790px;
+    }
+
+    .agent-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .agent-card {
+      border: 2px solid var(--agent-ink);
+      background: #fff;
+      padding: 22px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .agent-card.alt {
+      background: var(--agent-ink);
+      color: var(--agent-paper);
+    }
+
+    .agent-card.yellow {
+      background: var(--agent-yellow);
+    }
+
+    .agent-card-label {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0.72;
+    }
+
+    .agent-card h3 {
+      font-size: 28px;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+
+    .agent-card p,
+    .agent-card li {
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .agent-card ul {
+      padding-left: 18px;
+      margin-top: 8px;
+    }
+
+    .agent-callout {
+      background: var(--agent-red);
+      color: var(--agent-ink);
+      border-top: 2px solid var(--agent-ink);
+      border-bottom: 2px solid var(--agent-ink);
+      padding: 44px 0;
+    }
+
+    .agent-callout-box {
+      background: var(--agent-paper);
+      border: 2px solid var(--agent-ink);
+      box-shadow: 8px 8px 0 var(--agent-ink);
+      padding: 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(420px, 480px);
+      gap: 28px;
+      align-items: center;
+    }
+
+    .agent-callout h2 {
+      font-size: clamp(28px, 4vw, 52px);
+      line-height: 0.98;
+      margin-bottom: 14px;
+    }
+
+    .agent-form-placeholder {
+      border: 2px dashed var(--agent-ink);
+      padding: 18px;
+      background: #fff;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .agent-substack-embed {
+      display: block;
+      width: 100%;
+      max-width: 480px;
+      height: 320px;
+      border: 2px solid var(--agent-ink);
+      background: #fff;
+    }
+
+    .agent-signup-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 16px;
+      min-height: 44px;
+      padding: 11px 14px;
+      border: 2px solid var(--agent-ink);
+      background: var(--agent-ink);
+      color: var(--agent-paper);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .agent-checklist {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    .agent-list {
+      border-top: 2px solid var(--agent-ink);
+    }
+
+    .agent-list-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 2px solid var(--agent-ink);
+    }
+
+    .agent-list-row strong {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .agent-list-row span {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--agent-muted);
+    }
+
+    .agent-footer-cta {
+      background: var(--agent-ink);
+      color: var(--agent-paper);
+      padding: 58px 0;
+      text-align: center;
+    }
+
+    .agent-footer-cta h2 {
+      font-size: clamp(34px, 5vw, 70px);
+      line-height: 0.94;
+      margin: 0 auto 18px;
+      max-width: 860px;
+    }
+
+    .agent-footer-cta p {
+      max-width: 660px;
+      margin: 0 auto 24px;
+      color: rgba(254, 252, 247, 0.76);
+      font-size: 18px;
+      line-height: 1.55;
+    }
+
+    .agent-footer-cta .agent-btn-primary {
+      background: var(--agent-paper);
+      color: var(--agent-ink);
+    }
+
+    @media (max-width: 920px) {
+      .agent-hero {
+        min-height: auto;
+      }
+
+      .agent-hero-grid,
+      .agent-callout-box,
+      .agent-checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .agent-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .agent-board {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .agent-container {
+        padding: 0 18px;
+      }
+
+      .agent-hero {
+        padding: 38px 0 32px;
+      }
+
+      .agent-title {
+        font-size: 38px;
+        line-height: 0.92;
+        max-width: 100%;
+      }
+
+      .agent-logo {
+        width: 54px;
+        height: 54px;
+        box-shadow: 4px 4px 0 var(--agent-ink);
+      }
+
+      .agent-brand-name {
+        font-size: 19px;
+      }
+
+      .agent-mobile-only {
+        display: block;
+      }
+
+      .agent-title span {
+        white-space: normal;
+      }
+
+      .agent-lede {
+        font-size: 17px;
+      }
+
+      .agent-actions {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .agent-btn {
+        width: 100%;
+        white-space: normal;
+      }
+
+      .agent-board,
+      .agent-callout-box {
+        box-shadow: 5px 5px 0 var(--agent-ink);
+      }
+
+      .agent-callout-box {
+        padding: 18px;
+      }
+
+      .agent-board,
+      .agent-card,
+      .agent-callout-box,
+      .agent-form-placeholder {
+        max-width: 100%;
+      }
+
+      .agent-form-placeholder {
+        padding: 12px;
+      }
+
+      .agent-ledger-row,
+      .agent-list-row {
+        grid-template-columns: 1fr;
+      }
+
+      .agent-ledger-row span,
+      .agent-form-placeholder,
+      .agent-copy {
+        overflow-wrap: anywhere;
+      }
+
+      .agent-status {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="agent-page">
+    <section class="agent-hero agent-section">
+      <div class="agent-container agent-hero-grid">
+        <div>
+          <div class="agent-brand-row">
+            <img class="agent-logo" src="/assets/agent-experiment-logo.svg" alt="The Agent Experiment logo">
+            <div>
+              <div class="agent-brand-name">The Agent Experiment</div>
+              <div class="agent-brand-sub">Harry + Taleb</div>
+            </div>
+          </div>
+          <div class="agent-kicker">Weekly experiment updates</div>
+          <h1 class="agent-title">Can AI agents<br><span>make money?</span></h1>
+          <p class="agent-lede">Follow the weekly experiment as Harry tries to turn Taleb, his AI business-manager bot, and other AI agents into real revenue. Sign up for the field notes: what worked, what failed, the numbers, and the reusable prompts and operating files worth copying.</p>
+          <div class="agent-actions">
+            <a class="agent-btn agent-btn-primary" href="#signup">Get weekly updates</a>
+            <a class="agent-btn agent-btn-secondary" href="#what-you-get">See what you get</a>
+          </div>
+          <div class="agent-proof">
+            <span>Weekly field notes</span>
+            <span>Reusable prompts and files</span>
+            <span>Real numbers only</span>
+          </div>
+        </div>
+
+        <aside class="agent-board" aria-label="What the experiment is testing">
+          <h2>What the experiment is testing</h2>
+          <div class="agent-ledger">
+            <div class="agent-ledger-row">
+              <strong>Money</strong>
+              <span>The agents cannot spend Harry's money until they have made money first</span>
+              <span class="agent-status locked">Locked</span>
+            </div>
+            <div class="agent-ledger-row">
+              <strong>Content</strong>
+              <span>Weekly field notes, useful lessons and reusable prompts from the live experiment</span>
+              <span class="agent-status ready">Ready</span>
+            </div>
+            <div class="agent-ledger-row">
+              <strong>Apps</strong>
+              <span>Small tools, templates and trackers that solve visible workflow problems</span>
+              <span class="agent-status ready">Ready</span>
+            </div>
+            <div class="agent-ledger-row">
+              <strong>Packs</strong>
+              <span>One-off downloads when a prompt set or operating file proves useful</span>
+              <span class="agent-status zero">Planned</span>
+            </div>
+          </div>
+          <div class="agent-note">The weekly notes are the front door. Apps, packs and services only matter if people actually ask for them or buy them.</div>
+        </aside>
+      </div>
+    </section>
+
+    <div class="agent-strip">
+      <div class="agent-strip-inner">
+        <span>Real constraints</span>
+        <span>Real operating files</span>
+        <span>Real mistakes</span>
+        <span>Real capital discipline</span>
+        <span>Real receipts when they exist</span>
+      </div>
+    </div>
+
+    <section class="agent-content agent-section" id="what-you-get">
+      <div class="agent-container">
+        <div class="agent-head">
+          <div class="agent-eyebrow">What you are signing up for</div>
+          <h2 class="agent-heading">A weekly note from the attempt to build businesses with agents.</h2>
+          <p class="agent-copy">This is a public operating diary for the GBP100-to-revenue experiment. Each update explains what the agents tried, what actually happened, what changed in the system, and which prompts, files or decision rules are useful enough to share.</p>
+        </div>
+
+        <div class="agent-grid">
+          <article class="agent-card">
+            <div class="agent-card-label">The story</div>
+            <h3>What happened this week?</h3>
+            <p>Each issue covers the live experiment: what Taleb tried, what broke, what moved, what was abandoned, and what got promoted.</p>
+          </article>
+          <article class="agent-card alt">
+            <div class="agent-card-label">The lesson</div>
+            <h3>The rule that changed.</h3>
+            <p>One reusable decision rule from the week. Not theory. A rule that changed how the system behaves.</p>
+          </article>
+          <article class="agent-card yellow">
+            <div class="agent-card-label">The file</div>
+            <h3>A useful bit to copy.</h3>
+            <p>Cleaned-up templates, checklists, operating notes and agent prompts. Useful, but not private credentials or secret internals.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="agent-content agent-section">
+      <div class="agent-container agent-checklist">
+        <div>
+          <div class="agent-eyebrow">Hard rules</div>
+          <h2 class="agent-heading">The boring rules are the business.</h2>
+          <p class="agent-copy">The experiment only works if the agent is forced to prove things. Otherwise it becomes a very elegant machine for producing confident nonsense.</p>
+        </div>
+        <div class="agent-list">
+          <div class="agent-list-row">
+            <strong>No spend</strong>
+            <span>The GBP 100 reserve stays locked until verified non-Harry revenue exists or Harry explicitly overrides it.</span>
+          </div>
+          <div class="agent-list-row">
+            <strong>No fake proof</strong>
+            <span>No revenue, subscribers, reviews, sends, dashboard status or sales claims without proof.</span>
+          </div>
+          <div class="agent-list-row">
+            <strong>No secrets</strong>
+            <span>No credentials, private logs, personal account details or platform evasion instructions.</span>
+          </div>
+          <div class="agent-list-row">
+            <strong>No cold drift</strong>
+            <span>Buyer intent beats speculative outreach. If people want the work, we look for raised hands first.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="agent-callout" id="signup">
+      <div class="agent-container">
+        <div class="agent-callout-box">
+          <div>
+            <h2>Get the weekly updates.</h2>
+          <p class="agent-copy">Sign up if you want the field notes from the live agent-business experiment: honest failures, working prompts, reusable files, decision rules, and the numbers when there are numbers. Updates go through the dedicated Agent Experiment Substack.</p>
+          </div>
+          <div class="agent-form-placeholder">
+            <iframe
+              class="agent-substack-embed"
+              src="https://agentexperiment.substack.com/embed"
+              title="Subscribe to The Agent Experiment"
+              frameborder="0"
+              scrolling="no"></iframe>
+            <a class="agent-signup-link" href="https://agentexperiment.substack.com/subscribe" target="_blank" rel="noopener">Open signup page</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="agent-content agent-section">
+      <div class="agent-container">
+        <div class="agent-head">
+          <div class="agent-eyebrow">One-off paid packs</div>
+          <h2 class="agent-heading">Buy the useful bits without needing the whole experiment.</h2>
+          <p class="agent-copy">The weekly notes are free. When a file, prompt set or operating template proves useful, it can become a one-off download: practical, bounded, and priced as a small purchase rather than a subscription. Join the updates to hear when the first packs are available.</p>
+        </div>
+        <div class="agent-grid">
+          <article class="agent-card">
+            <div class="agent-card-label">One-off pack</div>
+            <h3>Starter Soul Pack</h3>
+            <p>The starting rules for an agent that has to make money before it spends: role, capital discipline, proof rules, daily rhythm and decision gates.</p>
+          </article>
+          <article class="agent-card">
+            <div class="agent-card-label">One-off pack</div>
+            <h3>Revenue OS Pack</h3>
+            <p>The tracking system behind the experiment: channel ledger, weekly report format, go gates, decision logs and proof-based reporting templates.</p>
+          </article>
+          <article class="agent-card">
+            <div class="agent-card-label">One-off pack</div>
+            <h3>Prompt & Workflow Pack</h3>
+            <p>Reusable prompts, workflows and review checklists from the experiment, cleaned up so another operator can use them without the private machinery.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="agent-footer-cta">
+      <div class="agent-container">
+        <h2>Watch the agent try to earn the right to spend.</h2>
+        <p>The experiment stays honest by publishing only what can be sourced, checked, and safely shared.</p>
+        <a class="agent-btn agent-btn-primary" href="#signup">Get weekly updates</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
