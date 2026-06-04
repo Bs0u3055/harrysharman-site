@@ -115,6 +115,26 @@ async function callOpenAIWithImage(apiKey, model, instructions, inputText, image
   return createResponse(apiKey, payload);
 }
 
+async function callOpenAIJSON(apiKey, model, instructions, input, maxOutputTokens = 1200) {
+  const payload = {
+    model,
+    instructions,
+    input,
+    max_output_tokens: maxOutputTokens,
+    text: {
+      verbosity: 'low',
+      format: { type: 'json_object' }
+    }
+  };
+  const result = await createResponse(apiKey, payload);
+  try {
+    result.json = JSON.parse(result.text);
+  } catch (error) {
+    throw new Error('The model returned invalid JSON: ' + error.message);
+  }
+  return result;
+}
+
 async function requestMultipartJSON(url, apiKey, form, attempts = 2) {
   let lastError = null;
   for (let attempt = 1; attempt <= attempts; attempt += 1) {
@@ -174,6 +194,7 @@ async function transcribeOpenAIAudio(apiKey, audio, model = 'gpt-4o-mini-transcr
 module.exports = {
   callOpenAI,
   callOpenAIWithImage,
+  callOpenAIJSON,
   transcribeOpenAIAudio,
   validateOpenAIKey,
   requestJSON

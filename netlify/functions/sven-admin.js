@@ -47,6 +47,18 @@ function usageRows(rows) {
   }).join('');
 }
 
+function autoLearningRows(rows) {
+  if (!rows.length) return '<tr><td colspan="6">Nothing yet.</td></tr>';
+  return rows.map((row) => `<tr>
+    <td>${escapeHTML(row.created_at)}</td>
+    <td>${escapeHTML(row.status)}</td>
+    <td>${escapeHTML(row.input_signal_count)}</td>
+    <td>${escapeHTML(row.promoted_count)}</td>
+    <td>${escapeHTML(row.skipped_count)}</td>
+    <td>${escapeHTML(row.summary)}</td>
+  </tr>`).join('');
+}
+
 function creditOperationsCard(config, token) {
   if (!config.enablePrepaidCredits) {
     return `<div class="card">
@@ -81,6 +93,7 @@ async function adminPage(config, token) {
   const flags = await db.rowsFromIndex('safety', 20);
   const learning = await db.rowsFromIndex('learning', 30);
   const coreLearnings = await db.activeCoreLearnings(20);
+  const autoLearningRuns = await db.recentAutoLearningRuns(10);
   const reports = await db.rowsFromIndex('reports', 5);
   return htmlResponse(200, 'Sven Admin', `<h1>Sven Admin</h1>
     <div class="grid">${statCards(stats)}</div>
@@ -136,6 +149,10 @@ async function adminPage(config, token) {
 
     <h2>Sven Core Learnings</h2>
     <table><tr><th>Time</th><th>Category</th><th>Source</th><th>Status</th><th>Note</th></tr>${genericRows(coreLearnings, ['created_at', 'category', 'source', 'status', 'note'])}</table>
+
+    <h2>Automatic Learning Runs</h2>
+    <p>Daily behind-the-scenes distillation of anonymised beta signals into safe, general Sven Core lessons.</p>
+    <table><tr><th>Time</th><th>Status</th><th>Signals</th><th>Promoted</th><th>Skipped</th><th>Summary</th></tr>${autoLearningRows(autoLearningRuns)}</table>
 
     <h2>Support Inbox</h2>
     <table><tr><th>Time</th><th>User</th><th>Status</th><th>Issue</th></tr>${genericRows(support, ['created_at', 'telegram_chat_id', 'status', 'note'])}</table>

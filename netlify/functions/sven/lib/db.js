@@ -35,6 +35,10 @@ function coreLearningKey() {
   return `core-learning:${Date.now()}:${Math.random().toString(16).slice(2)}`;
 }
 
+function autoLearningRunKey() {
+  return `auto-learning-run:${Date.now()}:${Math.random().toString(16).slice(2)}`;
+}
+
 async function ensureUser(chatId, displayName, config) {
   const key = userKey(chatId);
   let user = await getJSON(key, null);
@@ -306,6 +310,24 @@ async function activeCoreLearnings(limit = 20) {
   return rows.filter((row) => row.status === 'active' && row.note);
 }
 
+async function saveAutoLearningRun(run) {
+  const key = autoLearningRunKey();
+  await setJSON(key, {
+    status: run.status || 'completed',
+    promoted_count: Number(run.promoted_count || 0),
+    skipped_count: Number(run.skipped_count || 0),
+    input_signal_count: Number(run.input_signal_count || 0),
+    summary: String(run.summary || '').slice(0, 2000),
+    raw: run.raw || {},
+    created_at: nowISO()
+  });
+  await addToIndex('auto-learning-run', key, 100);
+}
+
+async function recentAutoLearningRuns(limit = 10) {
+  return rowsFromIndex('auto-learning-run', limit);
+}
+
 async function addSafetyFlag(chatId, source, term, textExcerpt) {
   const key = `safety:${Date.now()}:${chatId}:${Math.random().toString(16).slice(2)}`;
   await setJSON(key, {
@@ -422,6 +444,8 @@ module.exports = {
   addLearningSignal,
   addCoreLearning,
   activeCoreLearnings,
+  saveAutoLearningRun,
+  recentAutoLearningRuns,
   addSafetyFlag,
   deleteUser,
   deleteUserData,

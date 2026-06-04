@@ -33,9 +33,16 @@ Optional BYOK beta tuning:
 ```text
 OPENAI_TRANSCRIPTION_MODEL=gpt-4o-mini-transcribe
 ADMIN_TELEGRAM_CHAT_ID
+SVEN_LEARNING_OPENAI_KEY
+SVEN_LEARNING_MODEL=gpt-5-nano
+SVEN_AUTO_PROMOTE_CORE_LEARNINGS=true
+SVEN_AUTO_LEARNING_MIN_SIGNALS=3
+SVEN_AUTO_LEARNING_MAX_PROMOTIONS=4
 ```
 
 `ADMIN_TELEGRAM_CHAT_ID` enables admin-only Telegram commands such as `/core`. To find it, message Sven with `/whoami`, then add the returned ID to Netlify environment variables and redeploy.
+
+`SVEN_LEARNING_OPENAI_KEY` enables the daily background Sven Core learner. It is used only for low-volume admin learning distillation, not friend chat replies.
 
 Optional future prepaid credits:
 
@@ -81,5 +88,6 @@ CREDIT_TOKENS_STANDARD=750000
 - Telegram text, voice notes, food photos, and screenshots are supported.
 - Sven is not directly connected to Apple Health or Google Fit yet. Users should send screenshots or context messages for health, workout, sleep, and recovery data.
 - Raw Telegram photos, screenshots, and audio files are downloaded temporarily for model calls and are not stored by Sven.
+- Daily automatic learning runs can promote safe, general, anonymised lessons into Sven Core when `SVEN_LEARNING_OPENAI_KEY` is configured.
 - Prepaid Stripe checkout is disabled for the beta unless `SVEN_ENABLE_PREPAID_CREDITS=true` is deliberately configured.
 - Friends can report broken flows with `/bug what happened`; these appear in the admin Support Inbox and weekly report.

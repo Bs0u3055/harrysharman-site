@@ -51,7 +51,15 @@ Sven now has three layers:
 
 ## Central Learning Loop
 
-There are two routes into the central Sven Core repository:
+There are now three routes into the central Sven Core repository:
+
+0. Automatic background distillation
+   - A scheduled Netlify function runs daily behind the scenes.
+   - It reads redacted learning signals, feedback, support tickets, and existing Sven Core lessons.
+   - It uses `SVEN_LEARNING_OPENAI_KEY`, not a tester's API key, to propose safe general lessons.
+   - It auto-promotes only validated, non-identifying, high-confidence lessons into Sven Core with source `auto_learning`.
+   - It skips one-off, private, unsafe, medical, duplicate, or low-confidence lessons.
+   - Runs are visible in Sven Admin under "Automatic Learning Runs" and in the weekly report.
 
 1. Harry's personal Sven improvements
    - When Harry finds a reusable coaching rule in his own Sven, he can send it to the Telegram bot as admin:
@@ -70,7 +78,22 @@ There are two routes into the central Sven Core repository:
    - Sven also creates redacted learning signals in the Learning Queue.
    - Harry reviews those signals and turns repeated useful patterns into general Sven Core learnings.
 
-This means the system improves centrally, but only through reviewed general lessons. Raw user details do not automatically flow into everyone else's Sven.
+This means the system improves centrally, but only through compressed general lessons. Raw user details do not automatically flow into everyone else's Sven.
+
+Required environment variable for full automation:
+
+```text
+SVEN_LEARNING_OPENAI_KEY
+```
+
+Optional controls:
+
+```text
+SVEN_LEARNING_MODEL=gpt-5-nano
+SVEN_AUTO_PROMOTE_CORE_LEARNINGS=true
+SVEN_AUTO_LEARNING_MIN_SIGNALS=3
+SVEN_AUTO_LEARNING_MAX_PROMOTIONS=4
+```
 
 ## Admin Workflow
 

@@ -20,6 +20,7 @@ async function buildWeeklyReport() {
   const flags = await db.rowsFromIndex('safety', 50);
   const learning = await db.rowsFromIndex('learning', 50);
   const coreLearnings = await db.activeCoreLearnings(20);
+  const autoLearningRuns = await db.recentAutoLearningRuns(5);
   const users = await db.recentUsers(100);
   const ratings = countBy(feedback, 'rating');
   const funding = countBy(users, 'funding_mode');
@@ -62,6 +63,14 @@ async function buildWeeklyReport() {
     for (const row of coreLearnings.slice(0, 10)) lines.push(`- ${row.category}: ${String(row.note || '').slice(0, 160)}`);
   } else {
     lines.push('- No reviewed shared lessons yet.');
+  }
+  lines.push('', 'Automatic learning runs:');
+  if (autoLearningRuns.length) {
+    for (const row of autoLearningRuns.slice(0, 5)) {
+      lines.push(`- ${row.status}: promoted=${row.promoted_count}, skipped=${row.skipped_count}, signals=${row.input_signal_count} - ${String(row.summary || '').slice(0, 160)}`);
+    }
+  } else {
+    lines.push('- No automatic learning runs yet.');
   }
   lines.push('', 'Recent safety flags:');
   if (flags.length) {

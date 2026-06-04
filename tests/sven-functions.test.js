@@ -9,6 +9,7 @@ process.env.SVEN_PUBLIC_BASE_URL = 'https://example.com';
 process.env.SVEN_WEBHOOK_SECRET_PATH = 'secret-path';
 process.env.SVEN_SKIP_KEY_VALIDATION = '1';
 process.env.ADMIN_TELEGRAM_CHAT_ID = 'admin-chat';
+process.env.SVEN_LEARNING_OPENAI_KEY = 'sk-learning';
 
 const storageDir = path.join(process.cwd(), '.sven-data');
 
@@ -70,6 +71,86 @@ async function testCoreLearningAndUserIsolationInPrompt() {
   assert(prompt.includes('Prefer repeatable progressions'));
   assert(prompt.includes('blue kettlebell'));
   assert(!prompt.includes('another user private detail'));
+}
+
+async function testAutoLearningPromotesSafeGeneralLessons() {
+  await resetStorage();
+  const originalFetch = global.fetch;
+  let payload = null;
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target === 'https://api.openai.com/v1/responses') {
+      payload = JSON.parse(options.body || '{}');
+      assert.strictEqual(payload.text.format.type, 'json_object');
+      return new Response(JSON.stringify({
+        id: 'resp_learning',
+        status: 'completed',
+        output: [{ type: 'message', content: [{ type: 'output_text', text: JSON.stringify({
+          summary: 'Hotel/travel constraints are repeating, so Sven should adapt defaults.',
+          promote: [{
+            category: 'coaching',
+            note: 'When a user is travelling or in a hotel, adapt food and training to available defaults before asking for ideal routines.',
+            confidence: 0.86,
+            supporting_signal_count: 4,
+            rationale: 'Repeated travel/hotel signals in learning and feedback.'
+          }],
+          skip: []
+        }) }] }],
+        usage: { input_tokens: 500, output_tokens: 120 }
+      }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const db = require('../netlify/functions/sven/lib/db');
+    const { learningSignal } = require('../netlify/functions/sven/lib/learning');
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { autoRefreshCoreLearnings } = require('../netlify/functions/sven/lib/autolearning');
+    const config = getConfig();
+    await db.addLearningSignal(learningSignal(config, 'chat-a', 'message', 'user_message', 'I am in a hotel and breakfast is buffet food.'));
+    await db.addLearningSignal(learningSignal(config, 'chat-b', 'message', 'user_message', 'Travel week, only hotel gym available.'));
+    await db.addLearningSignal(learningSignal(config, 'chat-c', 'media', 'image_message', 'Hotel breakfast photo, unsure portions.'));
+    await db.addFeedback('chat-d', 'good', 'Travel context was useful when Sven made the plan fit the hotel.');
+    const run = await autoRefreshCoreLearnings(config);
+    assert(payload.input.includes('Return JSON only'));
+    assert.strictEqual(run.status, 'completed');
+    assert.strictEqual(run.promoted_count, 1);
+    const core = await db.activeCoreLearnings(10);
+    assert.strictEqual(core.length, 1);
+    assert.strictEqual(core[0].source, 'auto_learning');
+    assert(core[0].note.includes('travelling'));
+    const runs = await db.recentAutoLearningRuns(10);
+    assert.strictEqual(runs.length, 1);
+    assert.strictEqual(runs[0].promoted_count, 1);
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
+async function testAutoLearningSkipsWithoutLearningKey() {
+  await resetStorage();
+  const originalLearningKey = process.env.SVEN_LEARNING_OPENAI_KEY;
+  const originalCentralKey = process.env.CENTRAL_OPENAI_API_KEY;
+  process.env.SVEN_LEARNING_OPENAI_KEY = '';
+  process.env.CENTRAL_OPENAI_API_KEY = '';
+  try {
+    const db = require('../netlify/functions/sven/lib/db');
+    const { learningSignal } = require('../netlify/functions/sven/lib/learning');
+    const { getConfig } = require('../netlify/functions/sven/lib/config');
+    const { autoRefreshCoreLearnings } = require('../netlify/functions/sven/lib/autolearning');
+    const config = getConfig();
+    await db.addLearningSignal(learningSignal(config, 'chat-a', 'message', 'user_message', 'Lots of useful learning.'));
+    await db.addLearningSignal(learningSignal(config, 'chat-b', 'message', 'user_message', 'More useful learning.'));
+    await db.addLearningSignal(learningSignal(config, 'chat-c', 'message', 'user_message', 'Another useful learning.'));
+    const run = await autoRefreshCoreLearnings(config);
+    assert.strictEqual(run.status, 'skipped');
+    assert(run.summary.includes('SVEN_LEARNING_OPENAI_KEY'));
+    assert.strictEqual((await db.activeCoreLearnings(10)).length, 0);
+  } finally {
+    restoreEnv('SVEN_LEARNING_OPENAI_KEY', originalLearningKey);
+    restoreEnv('CENTRAL_OPENAI_API_KEY', originalCentralKey);
+  }
 }
 
 async function testPrepaidCreditsDisabledByDefault() {
@@ -695,6 +776,8 @@ async function run() {
   await testPromptTrimming();
   await testSvenPersonalityPrompt();
   await testCoreLearningAndUserIsolationInPrompt();
+  await testAutoLearningPromotesSafeGeneralLessons();
+  await testAutoLearningSkipsWithoutLearningKey();
   await testPrepaidCreditsDisabledByDefault();
   await testLearningRedactionAndHashing();
   await testIdempotentMessages();
