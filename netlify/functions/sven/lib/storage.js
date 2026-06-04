@@ -1,12 +1,16 @@
 const fs = require('fs/promises');
 const path = require('path');
 
+let lastBlobError = '';
+
 function connectStorage(event) {
   if (!event || !event.blobs) return;
   try {
     const { connectLambda } = require('@netlify/blobs');
     connectLambda(event);
+    lastBlobError = '';
   } catch {
+    lastBlobError = 'connectLambda failed';
     // Local/dev environments can fall back to the filesystem store.
   }
 }
@@ -21,6 +25,10 @@ function localDir() {
 
 function keyToFilename(key) {
   return encodeURIComponent(key).replace(/%/g, '_') + '.json';
+}
+
+function hasBlobContext() {
+  return Boolean(globalThis.netlifyBlobsContext || process.env.NETLIFY_BLOBS_CONTEXT);
 }
 
 async function localPath(key) {
@@ -44,10 +52,33 @@ async function blobStore() {
     if (explicitSiteId && explicitToken) {
       return getStore({ name: 'sven', siteID: explicitSiteId, token: explicitToken });
     }
+    if (explicitSiteId && hasBlobContext()) {
+      return getStore({ name: 'sven', siteID: explicitSiteId });
+    }
     return getStore('sven');
-  } catch {
+  } catch (error) {
+    lastBlobError = error && error.message ? error.message : 'Blob store unavailable';
     return null;
   }
+}
+
+async function storageDiagnostics() {
+  const store = await blobStore();
+  const backend = store ? 'netlify_blobs' : 'local_fallback';
+  const key = 'diagnostics:storage_probe';
+  const probe = {
+    id: Math.random().toString(36).slice(2),
+    created_at: new Date().toISOString()
+  };
+  await setJSON(key, probe);
+  const readBack = await getJSON(key, null);
+  return {
+    backend,
+    ok: Boolean(readBack && readBack.id === probe.id),
+    has_blob_context: hasBlobContext(),
+    local_dir: backend === 'local_fallback' ? localDir() : '',
+    last_blob_error: backend === 'local_fallback' ? lastBlobError : ''
+  };
 }
 
 async function getJSON(key, fallback = null) {
@@ -108,6 +139,7 @@ async function readIndex(indexName, max = 100) {
 
 module.exports = {
   connectStorage,
+  storageDiagnostics,
   getJSON,
   setJSON,
   deleteKey,
