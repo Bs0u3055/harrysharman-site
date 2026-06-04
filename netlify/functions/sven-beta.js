@@ -44,7 +44,7 @@ function shell(title, body) {
     .sven-kicker{display:inline-flex;align-items:center;gap:9px;font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;background:var(--cream);border:2px solid var(--ink);border-radius:999px;padding:8px 14px;margin-bottom:20px}
     .sven-kicker span{width:7px;height:7px;background:var(--ink);border-radius:999px;display:inline-block}
     .sven-title{font-family:var(--f-sans);font-weight:900;font-size:clamp(46px,7vw,92px);line-height:.88;letter-spacing:-.04em;max-width:880px}
-    .sven-title strong{display:inline-block;background:var(--ink);color:var(--cream);padding:2px 13px 4px;border-radius:4px}
+    .sven-title strong{display:inline;background:var(--ink);color:var(--cream);padding:2px 13px 4px;border-radius:4px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
     .sven-copy{font-size:17px;line-height:1.55;max-width:620px;margin-top:24px}
     .sven-note{font-family:var(--f-hand);font-size:30px;font-weight:700;color:var(--cream);transform:rotate(-3deg);display:inline-block;margin-top:18px}
     .sven-panel{background:var(--cream);border:2px solid var(--ink);box-shadow:8px 8px 0 var(--ink);padding:24px}
@@ -77,6 +77,14 @@ function shell(title, body) {
       .sven-hero-grid,.sven-grid{grid-template-columns:1fr}
       .sven-card,.sven-card:nth-child(3n){border-right:0}
       .sven-private-mark{display:none}
+    }
+    @media (max-width:520px){
+      .sven-hero{padding:36px 0 34px}
+      .sven-title{font-size:clamp(38px,12vw,52px);letter-spacing:-.035em}
+      .sven-copy{font-size:16px}
+      .sven-panel{padding:20px}
+      .sven-step{grid-template-columns:48px minmax(0,1fr);gap:12px}
+      .sven-code{max-width:100%;white-space:normal;word-break:break-word}
     }
   </style>
 </head>
