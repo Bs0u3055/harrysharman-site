@@ -378,6 +378,41 @@
       line-height: 1.5;
     }
 
+    .habit-programme {
+      background: var(--habit-yellow);
+    }
+
+    .habit-programme-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+      gap: 36px;
+      align-items: start;
+    }
+
+    .habit-programme-list {
+      border-top: 2px solid var(--habit-ink);
+    }
+
+    .habit-programme-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 2px solid var(--habit-ink);
+    }
+
+    .habit-programme-item strong {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .habit-programme-item span {
+      font-size: 17px;
+      line-height: 1.48;
+    }
+
     .habit-final {
       text-align: center;
     }
@@ -406,6 +441,10 @@
 
       .habit-signup-grid,
       .habit-list {
+        grid-template-columns: 1fr;
+      }
+
+      .habit-programme-grid {
         grid-template-columns: 1fr;
       }
 
@@ -486,6 +525,11 @@
         gap: 6px;
       }
 
+      .habit-programme-item {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
       .habit-step {
         min-height: auto;
       }
@@ -511,7 +555,7 @@
         <div>
           <div class="habit-eyebrow">Habit before hype</div>
           <h2 class="habit-heading">Build the working habit first.</h2>
-          <p class="habit-copy">The first 14 days are free. They are a starter block for people who want chat-based AI to become useful in real work rather than another tab they feel guilty about not opening. If it starts to stick, the paid continuation takes the practice deeper.</p>
+          <p class="habit-copy">The first 14 days are free. They are a starter block for people who want chat-based AI to become useful in real work rather than another tab they feel guilty about not opening. If it starts to stick, The 90-Day AI Habit takes the practice deeper.</p>
           <p class="habit-scope-note">Scope note: when this project says AI, it mostly means text-first large language models: ChatGPT, Claude, Gemini, Copilot, Perplexity, or an approved workplace assistant. Not every kind of AI. Not image generation. Not voice cloning. Not automation theatre.</p>
         </div>
         <aside class="habit-substack-panel" aria-label="AI Habit signup">
@@ -548,6 +592,34 @@
       </div>
     </section>
 
+    <section class="habit-section habit-programme">
+      <div class="habit-container habit-programme-grid">
+        <div>
+          <div class="habit-eyebrow">The paid continuation</div>
+          <h2 class="habit-heading">The 90-Day AI Habit.</h2>
+          <p class="habit-copy">Fourteen days gets you moving. The 90-day programme is the serious version: a structured run of applied LLM practice across the work that actually matters.</p>
+        </div>
+        <div class="habit-programme-list">
+          <div class="habit-programme-item">
+            <strong>Practice</strong>
+            <span>Daily workouts across writing and editing, strategy and decision-making, research and assessment, management and delegation, and personal productivity.</span>
+          </div>
+          <div class="habit-programme-item">
+            <strong>Outputs</strong>
+            <span>A growing pack of useful work artefacts: briefs, prompts, decision tools, synthesis templates, delegation notes, and reusable workflows.</span>
+          </div>
+          <div class="habit-programme-item">
+            <strong>Proof</strong>
+            <span>A completion badge and LinkedIn-ready write-up for people who finish the 90 days: credible proof of applied practice, not a fake certification.</span>
+          </div>
+          <div class="habit-programme-item">
+            <strong>Workplace</strong>
+            <span>A launch pack you can take to your employer: the business case, suggested rollout, internal comms, sample workouts, and a group sign-up route.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="habit-section ink">
       <div class="habit-container habit-list">
         <div>
@@ -580,7 +652,7 @@
       <div class="habit-container">
         <div class="habit-eyebrow">Start free, then keep going</div>
         <h2 class="habit-heading">Fourteen mornings is the start, not the whole habit.</h2>
-        <p class="habit-copy">The free block helps you build momentum. The paid continuation is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Habit research suggests automaticity often takes weeks, not days — closer to two or three months than a fortnight.</p>
+        <p class="habit-copy">The free block helps you build momentum. The 90-Day AI Habit is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Habit research suggests automaticity often takes weeks, not days — closer to two or three months than a fortnight.</p>
         <div class="habit-actions">
           <a class="habit-btn habit-btn-primary" href="#signup">Join free</a>
           <a class="habit-btn habit-btn-secondary" href="https://aihabit.substack.com/" rel="noopener">Open Substack</a>
