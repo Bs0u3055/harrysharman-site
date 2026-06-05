@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The AI Habit - Harry Sharman</title>
+  <meta name="description" content="A free 14-day AI practice system for professionals who want to build a daily working habit with AI, one useful workflow at a time.">
+  <meta property="og:title" content="The AI Habit">
+  <meta property="og:description" content="14 days. 15 minutes each morning. One useful AI workflow at a time. Built on habit, not hype.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://harrysharman.com/assets/uploads/were-going-to-need-brain-gyms.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --habit-paper: #fefcf7;
+      --habit-ink: #1a1410;
+      --habit-red: #e63a25;
+      --habit-blue: #2434ff;
+      --habit-yellow: #ffd84d;
+      --habit-line: rgba(26, 20, 16, 0.2);
+      --habit-muted: rgba(26, 20, 16, 0.68);
+    }
+
+    html,
+    body {
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font-family: var(--f-sans);
+    }
+
+    .habit-page,
+    .habit-page * {
+      box-sizing: border-box;
+    }
+
+    .habit-page {
+      min-height: 100vh;
+      background: var(--habit-paper);
+      overflow-x: hidden;
+    }
+
+    .habit-container {
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 36px;
+    }
+
+    .habit-hero {
+      position: relative;
+      min-height: clamp(560px, 78vh, 720px);
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      border-bottom: 2px solid var(--habit-ink);
+      background: var(--habit-ink);
+    }
+
+    .habit-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(26, 20, 16, 0.9) 0%, rgba(26, 20, 16, 0.74) 46%, rgba(26, 20, 16, 0.36) 100%),
+        url("/assets/uploads/were-going-to-need-brain-gyms.png") center right / cover no-repeat;
+    }
+
+    .habit-hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 18px;
+      background: repeating-linear-gradient(90deg, var(--habit-yellow) 0 48px, var(--habit-red) 48px 96px, var(--habit-blue) 96px 144px);
+      border-top: 2px solid var(--habit-ink);
+    }
+
+    .habit-hero-inner {
+      position: relative;
+      z-index: 1;
+      padding-top: 56px;
+      padding-bottom: 70px;
+      color: var(--habit-paper);
+    }
+
+    .habit-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 13px;
+      border: 2px solid var(--habit-paper);
+      background: rgba(254, 252, 247, 0.08);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .habit-kicker::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      background: var(--habit-yellow);
+      border: 2px solid var(--habit-paper);
+      border-radius: 50%;
+    }
+
+    .habit-title {
+      max-width: 760px;
+      margin: 0 0 24px;
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: 0.9;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    .habit-lede {
+      max-width: 660px;
+      margin: 0 0 30px;
+      color: rgba(254, 252, 247, 0.86);
+      font-size: clamp(19px, 2.2vw, 25px);
+      line-height: 1.42;
+    }
+
+    .habit-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .habit-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 13px 20px;
+      border: 2px solid var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+
+    .habit-btn:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0 var(--habit-ink);
+    }
+
+    .habit-btn-primary {
+      background: var(--habit-ink);
+      color: var(--habit-paper);
+    }
+
+    .habit-btn-secondary {
+      background: transparent;
+      color: var(--habit-ink);
+    }
+
+    .habit-hero .habit-btn {
+      border-color: var(--habit-paper);
+    }
+
+    .habit-hero .habit-btn:hover {
+      box-shadow: 4px 4px 0 var(--habit-paper);
+    }
+
+    .habit-hero .habit-btn-primary {
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+    }
+
+    .habit-hero .habit-btn-secondary {
+      color: var(--habit-paper);
+    }
+
+    .habit-section {
+      border-bottom: 2px solid var(--habit-ink);
+      padding: 62px 0;
+    }
+
+    .habit-section.red {
+      background: var(--habit-red);
+    }
+
+    .habit-section.ink {
+      background: var(--habit-ink);
+      color: var(--habit-paper);
+    }
+
+    .habit-signup-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(360px, 480px);
+      gap: 38px;
+      align-items: center;
+    }
+
+    .habit-signup-grid > *,
+    .habit-list > * {
+      min-width: 0;
+    }
+
+    .habit-eyebrow {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--habit-blue);
+      margin-bottom: 12px;
+    }
+
+    .habit-section.red .habit-eyebrow {
+      color: var(--habit-paper);
+    }
+
+    .habit-heading {
+      max-width: 760px;
+      margin: 0 0 18px;
+      font-size: clamp(34px, 4.7vw, 64px);
+      line-height: 0.96;
+      letter-spacing: 0;
+      font-weight: 900;
+      overflow-wrap: break-word;
+    }
+
+    .habit-copy {
+      max-width: 760px;
+      font-size: 18px;
+      line-height: 1.62;
+      color: var(--habit-muted);
+    }
+
+    .habit-section.red .habit-copy,
+    .habit-section.red .habit-meta,
+    .habit-section.ink .habit-copy {
+      color: rgba(254, 252, 247, 0.82);
+    }
+
+    .habit-substack-panel {
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      box-shadow: 8px 8px 0 var(--habit-ink);
+      padding: 18px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .habit-substack-panel h2 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.05;
+      color: var(--habit-ink);
+    }
+
+    .habit-substack-panel p {
+      margin: 0 0 14px;
+      color: var(--habit-muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .habit-substack-embed {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      height: 320px;
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+    }
+
+    .habit-substack-link {
+      display: inline-flex;
+      margin-top: 12px;
+      color: var(--habit-blue);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .habit-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 2px solid var(--habit-ink);
+      border-left: 2px solid var(--habit-ink);
+      margin-top: 34px;
+    }
+
+    .habit-step {
+      min-height: 250px;
+      padding: 24px;
+      border-right: 2px solid var(--habit-ink);
+      border-bottom: 2px solid var(--habit-ink);
+      background: #fff;
+    }
+
+    .habit-step:nth-child(2) {
+      background: var(--habit-yellow);
+    }
+
+    .habit-step:nth-child(3) {
+      background: var(--habit-ink);
+      color: var(--habit-paper);
+    }
+
+    .habit-step-number {
+      display: block;
+      margin-bottom: 32px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      opacity: 0.72;
+    }
+
+    .habit-step h3 {
+      margin: 0 0 12px;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .habit-step p {
+      font-size: 15px;
+      line-height: 1.55;
+      opacity: 0.76;
+    }
+
+    .habit-list {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .habit-row-list {
+      border-top: 2px solid var(--habit-paper);
+    }
+
+    .habit-row {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 18px;
+      padding: 18px 0;
+      border-bottom: 2px solid var(--habit-paper);
+    }
+
+    .habit-row strong {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .habit-row span {
+      color: rgba(254, 252, 247, 0.78);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .habit-final {
+      text-align: center;
+    }
+
+    .habit-final .habit-heading,
+    .habit-final .habit-copy {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .habit-final .habit-actions {
+      justify-content: center;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 920px) {
+      .habit-hero {
+        min-height: auto;
+      }
+
+      .habit-hero::before {
+        background:
+          linear-gradient(180deg, rgba(26, 20, 16, 0.9) 0%, rgba(26, 20, 16, 0.74) 58%, rgba(26, 20, 16, 0.46) 100%),
+          url("/assets/uploads/were-going-to-need-brain-gyms.png") center / cover no-repeat;
+      }
+
+      .habit-signup-grid,
+      .habit-list {
+        grid-template-columns: 1fr;
+      }
+
+      .habit-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      html,
+      body {
+        overflow-x: hidden;
+      }
+
+      .habit-container {
+        padding: 0 18px;
+      }
+
+      .habit-hero-inner {
+        padding-top: 42px;
+        padding-bottom: 62px;
+      }
+
+      .habit-title {
+        font-size: 42px;
+        line-height: 0.94;
+      }
+
+      .habit-section {
+        padding: 44px 0;
+      }
+
+      .habit-heading {
+        font-size: 34px;
+        line-height: 1;
+      }
+
+      .habit-copy {
+        font-size: 16px;
+        overflow-wrap: break-word;
+      }
+
+      .habit-substack-panel {
+        padding: 14px;
+        box-shadow: 5px 5px 0 var(--habit-ink);
+      }
+
+      .habit-substack-embed {
+        height: 300px;
+      }
+
+      .habit-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .habit-step {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="habit-page">
+    <section class="habit-hero">
+      <div class="habit-container habit-hero-inner">
+        <div class="habit-kicker">Free 14-day practice</div>
+        <h1 class="habit-title">The AI Habit</h1>
+        <p class="habit-lede">Most AI advice gives you more tools. This gives you a working rhythm: 15 minutes each morning, one useful workflow, one tangible output.</p>
+        <div class="habit-actions">
+          <a class="habit-btn habit-btn-primary" href="#signup">Start the 14 days</a>
+          <a class="habit-btn habit-btn-secondary" href="#how-it-works">How it works</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="habit-section red" id="signup">
+      <div class="habit-container habit-signup-grid">
+        <div>
+          <div class="habit-eyebrow">Habit before hype</div>
+          <h2 class="habit-heading">Can you make AI part of an ordinary working week?</h2>
+          <p class="habit-copy">That is the experiment. Fourteen short daily prompts and exercises, written for people who want AI to become useful in real work rather than another tab they feel guilty about not opening.</p>
+        </div>
+        <aside class="habit-substack-panel" aria-label="AI Habit signup">
+          <h2>Join The AI Habit</h2>
+          <p>Get the daily 15-minute practice by email. Free while the experiment is running.</p>
+          <iframe class="habit-substack-embed" src="https://aihabit.substack.com/embed" title="Subscribe to The AI Habit" frameborder="0" scrolling="no"></iframe>
+          <a class="habit-substack-link" href="https://aihabit.substack.com/" rel="noopener">Open on Substack</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="habit-section" id="how-it-works">
+      <div class="habit-container">
+        <div class="habit-eyebrow">The daily workout</div>
+        <h2 class="habit-heading">A tiny gym for your AI working muscles.</h2>
+        <p class="habit-copy">Each day is deliberately small. Learn one pattern, use it on something real, and finish with an output you can keep, adapt, or throw away with dignity.</p>
+        <div class="habit-steps">
+          <article class="habit-step">
+            <span class="habit-step-number">01 / READ</span>
+            <h3>One useful pattern</h3>
+            <p>A plain-English explanation of one AI workflow that can fit into a normal job, not a theoretical tour of every possible tool.</p>
+          </article>
+          <article class="habit-step">
+            <span class="habit-step-number">02 / DO</span>
+            <h3>One short exercise</h3>
+            <p>A focused 15-minute prompt workout that asks you to make something: a plan, a draft, a sharper question, a better decision.</p>
+          </article>
+          <article class="habit-step">
+            <span class="habit-step-number">03 / KEEP</span>
+            <h3>One working habit</h3>
+            <p>By the end, you should know which uses of AI actually survive contact with your calendar, inbox, meetings, and attention span.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="habit-section ink">
+      <div class="habit-container habit-list">
+        <div>
+          <div class="habit-eyebrow">Who it is for</div>
+          <h2 class="habit-heading">People who know AI matters, but have not made it daily yet.</h2>
+          <p class="habit-copy">This is not a certification course, a prompt library, or a productivity guilt trip. It is a low-friction practice loop for people who want to get better by actually doing the thing.</p>
+        </div>
+        <div class="habit-row-list">
+          <div class="habit-row">
+            <strong>Strategy</strong>
+            <span>Turn messy thinking into clearer questions, options, arguments, and next steps.</span>
+          </div>
+          <div class="habit-row">
+            <strong>Leadership</strong>
+            <span>Use AI to prepare, decide, communicate, and reflect without outsourcing your judgement.</span>
+          </div>
+          <div class="habit-row">
+            <strong>Creation</strong>
+            <span>Draft faster, improve sharper, and build useful first versions instead of staring at blank pages.</span>
+          </div>
+          <div class="habit-row">
+            <strong>Behaviour</strong>
+            <span>Build the repetition that most AI training skips, because knowing about AI is not the same as using it.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="habit-section habit-final">
+      <div class="habit-container">
+        <div class="habit-eyebrow">Start small</div>
+        <h2 class="habit-heading">Fourteen mornings is enough to find out.</h2>
+        <p class="habit-copy">If the habit sticks, you will have a practical AI routine. If it does not, that is useful data too. Either way, the experiment is designed to be small enough to actually finish.</p>
+        <div class="habit-actions">
+          <a class="habit-btn habit-btn-primary" href="#signup">Join free</a>
+          <a class="habit-btn habit-btn-secondary" href="https://aihabit.substack.com/" rel="noopener">Open Substack</a>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
