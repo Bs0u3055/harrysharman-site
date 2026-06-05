@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Habit Day 14 Reflection - Harry Sharman</title>
-  <meta name="description" content="A short AI Habit reflection form to decide whether the experiment should stay free, pause, or become a paid programme.">
+  <meta name="description" content="A short AI Habit reflection form for people who have completed the free 14-day starter block and want to help shape the paid continuation.">
   <meta name="robots" content="noindex, nofollow">
   <meta property="og:title" content="AI Habit Day 14 Reflection">
-  <meta property="og:description" content="Help decide the next step for AI Habit by sharing what you actually used, what was useful, and what should happen next.">
+  <meta property="og:description" content="Finished the free AI Habit starter block? Share what worked and help shape the paid continuation.">
   <meta property="og:type" content="website">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,6 +31,12 @@
       background: var(--ai-paper);
       color: var(--ai-ink);
       font-family: var(--f-sans);
+      overflow-x: hidden;
+    }
+
+    .ai-page,
+    .ai-page * {
+      box-sizing: border-box;
     }
 
     .ai-page {
@@ -253,31 +259,61 @@
     @media (max-width: 900px) {
       .ai-wrap {
         padding: 36px 18px 52px;
+        max-width: 100vw;
       }
 
       .ai-grid {
         grid-template-columns: 1fr;
+        width: 100%;
+        min-width: 0;
+      }
+
+      h1 {
+        font-size: 38px;
+        line-height: 0.96;
+        max-width: 100%;
+        overflow-wrap: anywhere;
+      }
+
+      .ai-lede,
+      .ai-note,
+      .ai-form-shell,
+      fieldset,
+      input[type="email"],
+      input[type="text"],
+      select,
+      textarea {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
       }
 
       .ai-form-shell {
         padding: 18px;
         box-shadow: 5px 5px 0 var(--ai-ink);
       }
+
+      legend,
+      label,
+      .hint,
+      .ai-note {
+        overflow-wrap: anywhere;
+      }
     }
   </style>
 </head>
 <body>
   <main class="ai-page">
-    <div class="ai-alert">AI Habit reflection</div>
+    <div class="ai-alert">AI Habit next step</div>
     <div class="ai-wrap">
       <div class="ai-grid">
         <section aria-labelledby="page-title">
-          <div class="ai-kicker">AI Habit validation</div>
+          <div class="ai-kicker">Free block complete</div>
           <h1 id="page-title">Day 14 reflection</h1>
-          <p class="ai-lede">Thanks for trying AI Habit. This short reflection helps decide whether the experiment should stay free, pause, or become a paid programme.</p>
+          <p class="ai-lede">You have finished the free starter block. This short reflection helps shape the paid continuation: the next layer of AI workouts for people who want the habit to properly stick.</p>
           <div class="ai-note">
-            <strong>No trick questions.</strong>
-            Please answer honestly. The useful signal is what people actually did, what helped at work, and whether there is real appetite for a paid next step.
+            <strong>Fourteen days is a start.</strong>
+            Habit research does not say a working habit magically appears after two weeks. Repetition usually needs longer — often closer to two or three months than a fortnight. This is where you tell us what would make the next block worth paying for.
           </div>
         </section>
 
@@ -293,7 +329,7 @@
             <div class="form-grid">
               <div class="field">
                 <label for="email">Email, optional</label>
-                <span class="hint">Only needed if you want an update about Phase 2.</span>
+                <span class="hint">Only needed if you want the paid continuation link or future updates.</span>
                 <input id="email" name="email" type="email" autocomplete="email">
               </div>
 
@@ -346,27 +382,27 @@
               </div>
 
               <fieldset>
-                <legend>If AI Habit continued, which next step would be most useful?</legend>
+                <legend>If AI Habit continued as a paid subscription, which next step would be most useful?</legend>
                 <div class="choices">
-                  <label class="choice"><input type="radio" name="next_step_interest" value="GBP 9-19 template or workout pack" required> GBP 9-19 template or workout pack</label>
-                  <label class="choice"><input type="radio" name="next_step_interest" value="GBP 29-49 guided 14-day challenge"> GBP 29-49 guided 14-day challenge</label>
-                  <label class="choice"><input type="radio" name="next_step_interest" value="GBP 99+ setup or team help"> GBP 99+ setup or team help</label>
-                  <label class="choice"><input type="radio" name="next_step_interest" value="Not interested in a paid next step"> Not interested in a paid next step</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="Monthly AI Habit subscription" required> Monthly AI Habit subscription with continuing workouts</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="60-90 day structured programme"> 60-90 day structured programme to make the habit stick</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="One-off workbook or prompt pack"> One-off workbook or prompt pack</label>
+                  <label class="choice"><input type="radio" name="next_step_interest" value="Not interested in a paid continuation"> Not interested in a paid continuation</label>
                   <label class="choice"><input type="radio" name="next_step_interest" value="Not sure yet"> Not sure yet</label>
                 </div>
               </fieldset>
 
               <div class="field">
-                <label for="paid_condition">What would make a paid next step worth it?</label>
-                <span class="hint">A specific outcome, format, support level, or "nothing yet" are all useful answers.</span>
+                <label for="paid_condition">What would make a paid continuation worth it?</label>
+                <span class="hint">A specific outcome, workout format, support level, price point, or "nothing yet" are all useful answers.</span>
                 <textarea id="paid_condition" name="paid_condition"></textarea>
               </div>
 
               <fieldset>
-                <legend>Would you like to be told if Phase 2 opens?</legend>
+                <legend>Would you like to be told when the paid continuation opens?</legend>
                 <span class="hint">If you choose yes or maybe, add an email above so Harry can send the update.</span>
                 <div class="choices">
-                  <label class="choice"><input type="radio" name="waitlist" value="Yes, add me to the waitlist" required> Yes, add me to the waitlist</label>
+                  <label class="choice"><input type="radio" name="waitlist" value="Yes, send me the paid continuation" required> Yes, send me the paid continuation</label>
                   <label class="choice"><input type="radio" name="waitlist" value="Maybe, send me one update"> Maybe, send me one update</label>
                   <label class="choice"><input type="radio" name="waitlist" value="No thanks"> No thanks</label>
                 </div>
@@ -399,7 +435,7 @@
               <button class="ai-submit" type="submit">Send reflection</button>
             </div>
           </form>
-          <p class="privacy">Responses are used to decide whether AI Habit should continue. Email is optional. Individual quotes are not published unless quote permission is present.</p>
+          <p class="privacy">Responses are used to shape the paid AI Habit continuation. Email is optional. Individual quotes are not published unless quote permission is present.</p>
         </section>
       </div>
     </div>
