@@ -105,6 +105,7 @@
     '</div>' +
     '<nav id="hs-links">' +
       '<a href="/blog.html">Writing</a>' +
+      '<a href="/projects/ai-habit/">AI Habit</a>' +
       '<a href="/#building">Building</a>' +
       '<a href="https://linkedin.com/in/harrysharman" target="_blank" rel="noopener" class="hs-pill">say hi ↗</a>' +
     '</nav>';

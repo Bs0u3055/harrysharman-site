@@ -1,6 +1,13 @@
 {
   "projects": [
     {
+      "title": "The AI Habit",
+      "status": "Live",
+      "description": "A free 14-day starter and paid 90-day practice track for professionals who want to make chat-based AI part of how they actually work. 15 minutes a day. One workout. One tangible output. Built on behavioural science, not hype.",
+      "link": "projects/ai-habit/",
+      "linkText": "Start the habit →"
+    },
+    {
       "title": "Dream Property",
       "status": "Live",
       "description": "A data-mapping project that fuses Ordnance Survey, Land Registry, Companies House, planning data and OpenStreetMap into a single map — scoring and filtering 1,800+ rural holdings across Cheshire. Built to answer one question: how do you find your dream place?",
@@ -48,13 +55,6 @@
       "description": "A weekly update series following the attempt to make real money with AI agents — including the failures, numbers, prompts, workflows and one-off packs that come out of the experiment.",
       "link": "projects/agent-experiment/",
       "linkText": "Get weekly updates →"
-    },
-    {
-      "title": "The AI Habit",
-      "status": "In Progress",
-      "description": "A daily AI practice system for professionals who know they should be using AI but haven’t built a real practice yet. 15 minutes a day. One workout. One tangible output. Built on behavioural science, not hype.",
-      "link": "projects/ai-habit/",
-      "linkText": "Start the habit →"
     },
     {
       "title": "Beautiful Thinking Blog",
