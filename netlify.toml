@@ -16,6 +16,16 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
 [[redirects]]
+  from = "/subscribe"
+  to = "/thanks.html"
+  status = 301
+
+[[redirects]]
+  from = "/subscribed"
+  to = "/thanks.html"
+  status = 301
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
