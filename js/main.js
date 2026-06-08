@@ -44,6 +44,40 @@
     } catch (e) { console.warn('loadMarkdown:', e.message); return null; }
   }
 
+  function trackPageview() {
+    if (!window.fetch || !window.location) return;
+    if (window.location.protocol === 'file:') return;
+    if (window.navigator && window.navigator.doNotTrack === '1') return;
+
+    window.setTimeout(function () {
+      var payload = {
+        path: window.location.pathname,
+        url: window.location.href,
+        title: document.title,
+        referrer: document.referrer,
+        screen_width: window.screen ? window.screen.width : 0,
+        screen_height: window.screen ? window.screen.height : 0,
+        language: window.navigator ? window.navigator.language : ''
+      };
+      var body = JSON.stringify(payload);
+      if (window.navigator && typeof window.navigator.sendBeacon === 'function') {
+        try {
+          var blob = new Blob([body], { type: 'application/json' });
+          if (window.navigator.sendBeacon('/api/traffic-track', blob)) return;
+        } catch (e) {
+          // Fall back to fetch below.
+        }
+      }
+      fetch('/api/traffic-track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: body,
+        keepalive: true,
+        credentials: 'omit'
+      }).catch(function () {});
+    }, 800);
+  }
+
   function stripFrontmatter(md) {
     if (!md || !md.startsWith('---')) return md;
     var end = md.indexOf('\n---', 3);
@@ -289,5 +323,6 @@
     renderPost();
     renderProjects();
     initPostPage();
+    trackPageview();
   });
 })();

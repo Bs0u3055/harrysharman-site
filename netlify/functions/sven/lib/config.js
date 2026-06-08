@@ -29,6 +29,7 @@ function getConfig() {
     svenSecret: env('SVEN_SECRET'),
     adminToken: env('SVEN_ADMIN_TOKEN'),
     adminTelegramChatId: env('ADMIN_TELEGRAM_CHAT_ID'),
+    trafficReportTelegramChatId: env('TRAFFIC_REPORT_TELEGRAM_CHAT_ID') || env('ADMIN_TELEGRAM_CHAT_ID'),
     betaAccessCode: env('SVEN_BETA_ACCESS_CODE'),
     openaiDefaultModel: env('OPENAI_DEFAULT_MODEL', 'gpt-5-nano'),
     openaiTranscriptionModel: env('OPENAI_TRANSCRIPTION_MODEL', 'gpt-4o-mini-transcribe'),
