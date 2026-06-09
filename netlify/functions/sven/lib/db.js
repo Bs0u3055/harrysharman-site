@@ -203,6 +203,11 @@ async function getMessages(chatId, limit = 12) {
   return (Array.isArray(messages) ? messages : []).slice(-limit);
 }
 
+async function getCoachIntelligenceMessages(chatId, limit = 80) {
+  const safeLimit = Math.max(12, Math.min(200, Number(limit || 80)));
+  return getMessages(chatId, safeLimit);
+}
+
 async function addMessage(chatId, role, text, telegramMessageId = null) {
   const messages = await getJSON(messagesKey(chatId), []);
   messages.push({ role, text, telegram_message_id: telegramMessageId, created_at: nowISO() });
@@ -434,6 +439,7 @@ module.exports = {
   getCheckoutSession,
   markCheckoutPaid,
   getMessages,
+  getCoachIntelligenceMessages,
   addMessage,
   addUserMessageOnce,
   updateUserMessageText,

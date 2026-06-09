@@ -6,6 +6,7 @@ const { callOpenAI, callOpenAIWithImage, transcribeOpenAIAudio } = require('./op
 const { detectSafetyTerms } = require('./safety');
 const { sendMessage, sendTyping, getTelegramFile, downloadTelegramFile } = require('./telegram');
 const { learningSignal, userHash } = require('./learning');
+const { buildNutritionLookupContext } = require('./nutrition');
 
 const MIN_CREDIT_TOKENS_TO_START = 1500;
 const MAX_OUTPUT_TOKENS = 700;
@@ -54,6 +55,18 @@ function betaInviteMatches(config, value) {
 
 function isAdminTelegram(config, chatId) {
   return Boolean(config.adminTelegramChatId && String(config.adminTelegramChatId) === String(chatId));
+}
+
+function svenInstance(config, chatId) {
+  const primary = String(config.primarySvenTelegramChatId || config.adminTelegramChatId || '').trim();
+  return primary && String(primary) === String(chatId) ? 'harry_primary' : 'friend_beta';
+}
+
+function userForPrompt(user, config, chatId) {
+  return {
+    ...(user || {}),
+    sven_instance: svenInstance(config, chatId)
+  };
 }
 
 function betaAccessAllowed(config, user, chatId) {
@@ -522,13 +535,14 @@ async function processImage(config, chatId, text, attachment, telegramMessageId 
   }
 
   const recent = await db.getMessages(chatId, 12);
+  const intelligenceMessages = await db.getCoachIntelligenceMessages(chatId);
   const coreLearnings = await db.activeCoreLearnings(20);
   const latest = [
     `The user sent a ${attachment.label}.`,
     text ? `Caption/context: ${text}` : 'No caption/context was provided.',
     'Read the visible image carefully. If it is food, estimate calories and macros with uncertainty and ask for weights/volumes when that would materially improve accuracy. If it is an Apple Health, Google Fit, workout, sleep, weight, heart-rate, or recovery screenshot, extract only what is visible and connect it to the user profile, fatigue, sleep debt, training, nutrition, and goals. If it is travel, hotel, restaurant, or schedule context, adapt training and food choices to that constraint. Do not pretend to see data that is not visible.'
   ].join('\n');
-  const prompt = buildChatPrompt(user, recent, latest, 12000, coreLearnings);
+  const prompt = buildChatPrompt(userForPrompt(user, config, chatId), recent, latest, 12000, coreLearnings, intelligenceMessages);
   if (!(await ensureCreditReserve(config, chatId, user, funding, prompt))) return;
 
   let result;
@@ -581,8 +595,9 @@ async function processAudio(config, chatId, text, attachment, telegramMessageId 
   }
 
   const recent = await db.getMessages(chatId, 12);
+  const intelligenceMessages = await db.getCoachIntelligenceMessages(chatId);
   const coreLearnings = await db.activeCoreLearnings(20);
-  const prompt = buildChatPrompt(user, recent, combinedText, 12000, coreLearnings);
+  const prompt = buildChatPrompt(userForPrompt(user, config, chatId), recent, combinedText, 12000, coreLearnings, intelligenceMessages);
   if (!(await ensureCreditReserve(config, chatId, user, funding, prompt))) return;
 
   let result;
@@ -619,37 +634,22 @@ async function processText(config, chatId, text, telegramMessageId = null) {
   if (!inserted) return;
   await db.addLearningSignal(learningSignal(config, chatId, 'message', 'user_message', text, 'redacted_user_input'));
   const recent = await db.getMessages(chatId, 12);
+  const intelligenceMessages = await db.getCoachIntelligenceMessages(chatId);
   const coreLearnings = await db.activeCoreLearnings(20);
-  const prompt = buildChatPrompt(user, recent, text, 12000, coreLearnings);
-  if (funding.mode === 'credits') {
-    const estimatedTokens = estimatePromptTokens(prompt) + MAX_OUTPUT_TOKENS + CREDIT_SAFETY_MARGIN_TOKENS;
-    if (Number(user.credit_balance_tokens || 0) < estimatedTokens) {
-      const url = await setupUrl(config, chatId);
-      await sendMessage(config, chatId, `Your Sven credit balance is too low for the next safe reply.\n\nBalance: ${user.credit_balance_tokens} tokens\nEstimated reserve needed: ${estimatedTokens} tokens\n\nTop up or connect your own OpenAI key here:\n${url}`);
-      return;
-    }
-  }
+  const nutritionContext = await buildNutritionLookupContext(config, text);
+  const latestText = nutritionContext ? `${text}\n\nSven tool context (not user-written):\n${nutritionContext}` : text;
+  const prompt = buildChatPrompt(userForPrompt(user, config, chatId), recent, latestText, 12000, coreLearnings, intelligenceMessages);
+  if (!(await ensureCreditReserve(config, chatId, user, funding, prompt))) return;
   await sendTyping(config, chatId);
   let result;
   try {
-    const apiKey = keyRecord ? decryptText(config.svenSecret, keyRecord.key_ciphertext) : funding.apiKey;
+    const apiKey = apiKeyForFunding(config, funding, keyRecord);
     result = await callOpenAI(apiKey, funding.model, SVEN_SYSTEM_PROMPT, prompt, MAX_OUTPUT_TOKENS);
   } catch (error) {
     await sendMessage(config, chatId, 'Sven could not call the model: ' + error.message);
     return;
   }
-  const reply = result.text;
-  await db.addMessage(chatId, 'assistant', reply);
-  await db.addLearningSignal(learningSignal(config, chatId, 'message', 'assistant_response', reply, 'redacted_assistant_output'));
-  await db.addUsage(chatId, funding.provider, funding.model, funding.mode, result.usage.input_tokens, result.usage.output_tokens, result.raw);
-  if (funding.mode === 'credits') {
-    await db.consumeCredits(chatId, Number(result.usage.input_tokens || 0) + Number(result.usage.output_tokens || 0), 'model_usage');
-  }
-  for (const term of detectSafetyTerms(reply)) {
-    await db.addSafetyFlag(chatId, 'assistant', term, reply);
-    await db.addLearningSignal(learningSignal(config, chatId, 'safety', term, reply, 'redacted_safety_excerpt'));
-  }
-  await sendMessage(config, chatId, reply);
+  await storeAssistantReply(config, chatId, funding, result);
 }
 
 module.exports = {

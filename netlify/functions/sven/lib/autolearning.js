@@ -8,6 +8,10 @@ Return JSON only.
 Your job is to read redacted beta signals and propose durable, general coaching lessons for Sven Core.
 
 Rules:
+- There are two Sven instances: Harry's primary Sven and the friend beta Sven.
+- Harry's primary Sven is the leading product/coaching signal. Use it to prioritize what Sven should become.
+- Friend beta signals widen the evidence base and reveal repeated usability/coaching patterns.
+- Shared learning must still be generalized. Never promote Harry's private details or a friend's private details.
 - Promote only general lessons that can safely help many users.
 - Never include names, contact details, Telegram IDs, exact private stories, medical specifics, or direct quotes from users.
 - Do not promote diagnosis, treatment, injury rehab, eating-disorder coaching, extreme dieting, supplement protocols, or medical advice.
@@ -76,6 +80,8 @@ function duplicateLesson(note, existing) {
 
 function learningRowsForPrompt(rows) {
   return rows.map((row) => ({
+    sven_instance: row.sven_instance || 'unknown',
+    learning_priority: row.learning_priority || 'unknown',
     source: row.source || '',
     signal: row.signal || '',
     privacy: row.privacy || '',

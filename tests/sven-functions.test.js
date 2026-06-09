@@ -42,14 +42,23 @@ async function testPromptTrimming() {
 
 async function testSvenPersonalityPrompt() {
   const { SVEN_SYSTEM_PROMPT } = require('../netlify/functions/sven/lib/prompts');
+  assert(SVEN_SYSTEM_PROMPT.includes('Swedish'));
+  assert(SVEN_SYSTEM_PROMPT.includes('Icelandic CrossFit and powerlifting champion'));
   assert(SVEN_SYSTEM_PROMPT.includes('real coach'));
   assert(SVEN_SYSTEM_PROMPT.includes('lightly funny'));
   assert(SVEN_SYSTEM_PROMPT.includes('no corporate wellness fog'));
   assert(SVEN_SYSTEM_PROMPT.includes('not judged'));
   assert(SVEN_SYSTEM_PROMPT.includes('Sound like Sven'));
+  assert(SVEN_SYSTEM_PROMPT.includes('hidden coach scan'));
+  assert(SVEN_SYSTEM_PROMPT.includes('think deeply, then speak compactly'));
+  assert(SVEN_SYSTEM_PROMPT.includes("Harry's primary Sven"));
+  assert(SVEN_SYSTEM_PROMPT.includes('friend beta Sven'));
   assert(SVEN_SYSTEM_PROMPT.includes('food photos'));
+  assert(SVEN_SYSTEM_PROMPT.includes('local nutrition lookup tool'));
   assert(SVEN_SYSTEM_PROMPT.includes('Apple Health'));
   assert(SVEN_SYSTEM_PROMPT.includes('voice-note transcripts'));
+  assert(SVEN_SYSTEM_PROMPT.includes('Behavioural science should show up as coaching behaviour'));
+  assert(SVEN_SYSTEM_PROMPT.includes('one compact behaviour-change move'));
   assert(SVEN_SYSTEM_PROMPT.includes('implementation intentions'));
   assert(SVEN_SYSTEM_PROMPT.includes('if-then plans'));
   assert(SVEN_SYSTEM_PROMPT.includes('Founder Sven Core'));
@@ -57,6 +66,46 @@ async function testSvenPersonalityPrompt() {
   assert(SVEN_SYSTEM_PROMPT.includes('System 1 and System 2'));
   assert(SVEN_SYSTEM_PROMPT.includes('HealthKit companion app'));
   assert(SVEN_SYSTEM_PROMPT.includes('Health Connect'));
+}
+
+async function testCoachIntelligencePromptSurfacesMetricsAndBehaviour() {
+  const { buildChatPrompt, buildCoachIntelligenceBlock } = require('../netlify/functions/sven/lib/prompts');
+  const profile = {
+    answers: {
+      primary_goal: 'fat loss and consistency',
+      schedule_constraints: 'childcare and travel',
+      recovery_sleep: 'patchy sleep',
+      coaching_style: 'direct and funny'
+    }
+  };
+  const messages = [
+    { role: 'user', text: 'Slept 5 hours and feel flat.' },
+    { role: 'user', text: 'Breakfast was eggs and toast, probably low protein.' },
+    { role: 'assistant', text: 'Keep lunch simple.' },
+    { role: 'user', text: 'Hotel gym today, maybe dumbbells only.' },
+    { role: 'user', text: 'I skipped yesterday and felt guilty, very all or nothing.' }
+  ];
+  const block = buildCoachIntelligenceBlock(profile, messages);
+  assert(block.includes('Sven coach intelligence snapshot'));
+  assert(block.includes('nutrition'));
+  assert(block.includes('training'));
+  assert(block.includes('recovery'));
+  assert(block.includes('behaviour'));
+  assert(block.includes('Behaviour-change cue'));
+  assert(block.includes('tiny reset or if-then plan'));
+  assert(block.includes('childcare and travel'));
+
+  const prompt = buildChatPrompt(profile, messages.slice(-2), 'What do I do today?', 2400, [], messages);
+  assert(prompt.includes('Coach intelligence:'));
+  assert(prompt.includes('Sven instance:'));
+  assert(prompt.includes('friend beta Sven'));
+  assert(prompt.includes('Hotel gym'));
+  assert(prompt.includes('Slept 5 hours'));
+  assert(prompt.includes('Potential blind spots'));
+
+  const primaryPrompt = buildChatPrompt({ ...profile, sven_instance: 'harry_primary' }, messages, 'What do I do today?', 2400, [], messages);
+  assert(primaryPrompt.includes("Harry's primary Sven"));
+  assert(primaryPrompt.includes("Harry's profile, goals, recent history, and preferences take precedence"));
 }
 
 async function testCoreLearningAndUserIsolationInPrompt() {
@@ -71,6 +120,60 @@ async function testCoreLearningAndUserIsolationInPrompt() {
   assert(prompt.includes('Prefer repeatable progressions'));
   assert(prompt.includes('blue kettlebell'));
   assert(!prompt.includes('another user private detail'));
+}
+
+async function testNutritionLookupContextUsesUSDA() {
+  const {
+    buildNutritionLookupContext,
+    cleanFoodQuery,
+    nutritionLookupLikelyNeeded
+  } = require('../netlify/functions/sven/lib/nutrition');
+
+  assert.strictEqual(nutritionLookupLikelyNeeded('I ate chicken breast and rice for lunch'), true);
+  assert.strictEqual(nutritionLookupLikelyNeeded('/status'), false);
+  assert(cleanFoodQuery('I ate 200g chicken breast at lunch, calories?').includes('chicken breast'));
+
+  let requestedUrl = '';
+  const context = await buildNutritionLookupContext(
+    {
+      enableNutritionLookup: true,
+      nutritionUsdaApiKey: 'test-usda-key'
+    },
+    'I ate 200g chicken breast at lunch, calories and protein?',
+    {
+      fetch: async (url) => {
+        requestedUrl = String(url);
+        const parsed = new URL(requestedUrl);
+        assert.strictEqual(parsed.searchParams.get('api_key'), 'test-usda-key');
+        assert(parsed.searchParams.get('query').includes('chicken breast'));
+        return new Response(JSON.stringify({
+          foods: [{
+            description: 'CHICKEN BREAST, COOKED',
+            fdcId: 123456,
+            foodNutrients: [
+              { nutrientId: 1008, nutrientName: 'Energy', unitName: 'KCAL', value: 165 },
+              { nutrientId: 1003, nutrientName: 'Protein', unitName: 'G', value: 31 },
+              { nutrientId: 1005, nutrientName: 'Carbohydrate, by difference', unitName: 'G', value: 0 },
+              { nutrientId: 1004, nutrientName: 'Total lipid (fat)', unitName: 'G', value: 3.6 }
+            ]
+          }]
+        }), { status: 200 });
+      }
+    }
+  );
+
+  assert(requestedUrl.includes('api.nal.usda.gov'));
+  assert(context.includes('Nutrition lookup tool result'));
+  assert(context.includes('Source: usda'));
+  assert(context.includes('CHICKEN BREAST, COOKED'));
+  assert(context.includes('31g protein'));
+
+  const disabled = await buildNutritionLookupContext(
+    { enableNutritionLookup: false, nutritionUsdaApiKey: 'test-usda-key' },
+    'I ate chicken breast for lunch',
+    { fetch: async () => { throw new Error('fetch should not run'); } }
+  );
+  assert.strictEqual(disabled, '');
 }
 
 async function testAutoLearningPromotesSafeGeneralLessons() {
@@ -114,6 +217,7 @@ async function testAutoLearningPromotesSafeGeneralLessons() {
     await db.addFeedback('chat-d', 'good', 'Travel context was useful when Sven made the plan fit the hotel.');
     const run = await autoRefreshCoreLearnings(config);
     assert(payload.input.includes('Return JSON only'));
+    assert(payload.input.includes('sven_instance'));
     assert.strictEqual(run.status, 'completed');
     assert.strictEqual(run.promoted_count, 1);
     const core = await db.activeCoreLearnings(10);
@@ -186,7 +290,7 @@ async function testPrepaidCreditsDisabledByDefault() {
 
 async function testLearningRedactionAndHashing() {
   const { learningSignal, userHash } = require('../netlify/functions/sven/lib/learning');
-  const config = { svenSecret: 'hash-secret' };
+  const config = { svenSecret: 'hash-secret', primarySvenTelegramChatId: 'chat-1' };
   const signal = learningSignal(
     config,
     'chat-1',
@@ -195,11 +299,18 @@ async function testLearningRedactionAndHashing() {
     'Email me at person@example.com, call +44 7700 900123, key sk-abc123abc123abc123abc123 token=secret'
   );
   assert.strictEqual(signal.user_hash, userHash(config, 'chat-1'));
+  assert.strictEqual(signal.sven_instance, 'harry_primary');
+  assert.strictEqual(signal.learning_priority, 'primary');
+  assert.strictEqual(signal.shared_learning_policy, 'reviewed_general_lessons_only');
   assert(!signal.text_excerpt.includes('person@example.com'));
   assert(!signal.text_excerpt.includes('+44 7700 900123'));
   assert(!signal.text_excerpt.includes('sk-abc'));
   assert(!signal.text_excerpt.includes('token=secret'));
   assert(!Object.prototype.hasOwnProperty.call(signal, 'telegram_chat_id'));
+
+  const friendSignal = learningSignal(config, 'chat-2', 'message', 'user_message', 'normal beta note');
+  assert.strictEqual(friendSignal.sven_instance, 'friend_beta');
+  assert.strictEqual(friendSignal.learning_priority, 'beta');
 }
 
 async function testIdempotentMessages() {
@@ -211,6 +322,9 @@ async function testIdempotentMessages() {
   const messages = await db.getMessages('chat-1', 10);
   assert.strictEqual(messages.length, 1);
   assert.strictEqual(messages[0].text, 'hello');
+  const intelligenceMessages = await db.getCoachIntelligenceMessages('chat-1');
+  assert.strictEqual(intelligenceMessages.length, 1);
+  assert.strictEqual(intelligenceMessages[0].text, 'hello');
 }
 
 async function testIdempotentStripeCredits() {
@@ -918,7 +1032,9 @@ async function testTrafficReportEndpointRequiresAdmin() {
 async function run() {
   await testPromptTrimming();
   await testSvenPersonalityPrompt();
+  await testCoachIntelligencePromptSurfacesMetricsAndBehaviour();
   await testCoreLearningAndUserIsolationInPrompt();
+  await testNutritionLookupContextUsesUSDA();
   await testAutoLearningPromotesSafeGeneralLessons();
   await testAutoLearningSkipsWithoutLearningKey();
   await testPrepaidCreditsDisabledByDefault();
