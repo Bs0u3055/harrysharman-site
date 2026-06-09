@@ -23,11 +23,13 @@ async function runSequence(event, options = {}) {
   const dailyLimit = Math.max(1, Math.min(100, Number(process.env.AI_HABIT_DAILY_SEND_LIMIT || 90)));
   let liveSendCount = 0;
   const subscriberKeys = await readIndex('ai-habit-subscribers', 5000);
+  let activeSubscriberCount = 0;
   const results = [];
 
   for (const key of subscriberKeys) {
     const subscriber = await getJSON(key, null);
     if (!subscriber || subscriber.status !== 'active') continue;
+    activeSubscriberCount += 1;
 
     const day = businessDayNumber(subscriber.start_date, today);
     if (day < 1) {
@@ -93,7 +95,8 @@ async function runSequence(event, options = {}) {
     live,
     daily_limit: dailyLimit,
     live_send_count: liveSendCount,
-    subscriber_count: subscriberKeys.length,
+    subscriber_count: activeSubscriberCount,
+    total_subscriber_records: subscriberKeys.length,
     results
   };
   await setJSON(`ai-habit:sequence-run:${run.created_at}`, run);
@@ -117,6 +120,7 @@ exports.handler = async (event) => {
       ok: true,
       live: run.live,
       subscriber_count: run.subscriber_count,
+      total_subscriber_records: run.total_subscriber_records,
       result_count: run.results.length,
       storage: diagnostics || undefined
     })
