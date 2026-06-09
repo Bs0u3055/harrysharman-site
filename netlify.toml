@@ -9,6 +9,9 @@
 [functions."ai-habit-sequence-send"]
   schedule = "0 7 * * 1-5"
 
+[functions."ai-habit-paid-sequence-send"]
+  schedule = "15 7 * * 1-5"
+
 
 [[headers]]
   for = "/*"

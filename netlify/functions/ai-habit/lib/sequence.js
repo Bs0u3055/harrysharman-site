@@ -3,6 +3,7 @@ const path = require('path');
 
 const CONTENT_DIR = path.join(process.cwd(), 'data', 'ai-habit-sequence');
 const MAX_STARTER_DAY = 14;
+const MAX_PAID_DAY = 90;
 
 function normaliseEmail(email) {
   return String(email || '').trim().toLowerCase();
@@ -45,6 +46,18 @@ function businessDayNumber(startDate, todayDate) {
     cursor.setUTCDate(cursor.getUTCDate() + 1);
   }
   return count;
+}
+
+function addBusinessDays(startDateValue, businessDaysToAdd) {
+  const start = parseDateOnly(startDateValue);
+  if (!start) return nextWeekday(new Date());
+  const cursor = new Date(start);
+  let added = 0;
+  while (added < businessDaysToAdd) {
+    cursor.setUTCDate(cursor.getUTCDate() + 1);
+    if (isWeekday(cursor)) added += 1;
+  }
+  return dateOnly(cursor);
 }
 
 function escapeHtml(value) {
@@ -112,6 +125,13 @@ async function loadDay(day) {
   };
 }
 
+function formatEmailSubject(day, subject) {
+  const clean = String(subject || '').trim();
+  if (/^AI Gym Day\s+\d+:/i.test(clean)) return clean;
+  if (/^The AI Habit Day\s+\d+:/i.test(clean)) return clean;
+  return `The AI Habit Day ${day}: ${clean || 'Your AI workout'}`;
+}
+
 async function sendWithResend({ to, subject, html, text, headers }) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.AI_HABIT_FROM || process.env.RESEND_FROM;
@@ -144,9 +164,12 @@ async function sendWithResend({ to, subject, html, text, headers }) {
 }
 
 module.exports = {
+  MAX_PAID_DAY,
   MAX_STARTER_DAY,
+  addBusinessDays,
   businessDayNumber,
   dateOnly,
+  formatEmailSubject,
   isValidEmail,
   loadDay,
   nextWeekday,

@@ -1,0 +1,88 @@
+{
+  "day_number": 15,
+  "title": "The raw material rule",
+  "phase": "Creation and Editing",
+  "generated_at": "2026-06-09T18:45:00.000Z",
+  "spec": {
+    "day_number": 15,
+    "phase": "Creation and Editing",
+    "title": "The raw material rule",
+    "task_type": "Creation & Drafting",
+    "domain": "Writing & editing",
+    "difficulty": 2,
+    "difficulty_label": "Steady State",
+    "prompt_complexity": 3,
+    "scaffolding": "Guided",
+    "notes_for_generator": "Turn rough notes into a first draft without letting the model invent the substance.",
+    "professional_theme": "Creation and Editing",
+    "behaviour_layer": "Implementation intention, small daily output, retrieval through weekly artefacts, visible proof portfolio.",
+    "community_link": "https://harrysharman.com/projects/ai-habit/",
+    "tracking_link": "https://harrysharman.com/projects/ai-habit/"
+  },
+  "source_influences": [
+    {
+      "label": "OpenAI prompt engineering best practices",
+      "url": "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt",
+      "use": "clarity, context, specificity, iteration"
+    },
+    {
+      "label": "Anthropic prompt engineering overview",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+      "use": "examples, structure, role prompting, prompt chaining"
+    },
+    {
+      "label": "Microsoft 365 Copilot prompt framework",
+      "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/write-a-great-prompt-in-microsoft-365-copilot",
+      "use": "goal, context, source, expectations"
+    },
+    {
+      "label": "Google AI Essentials",
+      "url": "https://www.coursera.org/specializations/ai-essentials-google",
+      "use": "workplace productivity, responsible use, practical outputs"
+    },
+    {
+      "label": "Fogg Behavior Model",
+      "url": "https://www.behaviormodel.org/",
+      "use": "motivation, ability, prompt design"
+    },
+    {
+      "label": "UCL habit formation summary",
+      "url": "https://www.ucl.ac.uk/news/2009/aug/how-long-does-it-take-form-habit",
+      "use": "longer habit runway than 14 days"
+    },
+    {
+      "label": "Gollwitzer and Sheeran implementation intentions",
+      "url": "https://cancercontrol.cancer.gov/sites/default/files/2020-06/goal_intent_attain.pdf",
+      "use": "if-then planning and follow-through"
+    },
+    {
+      "label": "Roediger and Karpicke retrieval practice",
+      "url": "https://journals.sagepub.com/doi/abs/10.1111/j.1467-9280.2006.01693.x",
+      "use": "recall, testing, durable learning"
+    }
+  ],
+  "content": "SUBJECT: AI Gym Day 15: The raw material rule\n\nThe free 14 days got the reps moving. The paid track is where the habit has to become professionally useful. Today belongs to creation and editing: one practical workout, one usable output, one more piece of your AI working system.\n\nTODAY'S WORKOUT\n---------------\nCREATION & DRAFTING | STEADY STATE | 18 min\n\nTHE BRIEF:\nTurn rough notes into a first draft without letting the model invent the substance.\n\nTHE SITUATION:\nBring a messy paragraph, voice note transcript, or bullet list from real work. Ask your LLM to produce a first draft that preserves your facts, names assumptions, and leaves gaps visible.\n\nPROMPT SCAFFOLD:\nDo not copy this blindly. Adapt it to your work.\n\n\"I am working on [real situation]. My goal is [specific outcome]. The audience or user is [person/team/customer/reader]. Here is the source material or context I am allowed to share: [paste safe material]. The constraints are [length, tone, deadline, format, privacy, things to avoid]. Help me with: Turn rough notes into a first draft without letting the model invent the substance. Before producing the final output, tell me what assumptions you are making and what information would improve the result.\"\n\nYOUR REPS:\n1. Give the model the raw material and the intended reader before asking for prose.\n\n2. Ask it to produce a draft plus a short list of claims it had to infer.\n\n3. Revise one inferred claim yourself before asking for a cleaner second draft.\n\nSUCCESS CRITERIA:\nYour output is good if:\n- The second draft contains your facts, not model decoration.\n- The model marks at least one assumption or gap instead of hiding it.\n- You can point to one sentence you improved because the AI made the rough structure visible.\n\nTRANSFER:\nThis transfers to emails, updates, proposals, posts, reports, scripts, briefs, and all the places where a first draft normally arrives late wearing a suspicious hat.\n\nCOACHING NOTE:\nCreation becomes safer when the model is treated as a shaper of supplied material, not a generator of convenient reality.\n\nBEHAVIOURAL DESIGN:\nPut one reusable raw-material prompt in your prompt bank. This is your implementation intention for today: after you finish the workout, decide exactly where this output will live and when you will use it again.\n\nMINIMUM VIABLE REP:\nIf today is chaos, do the smallest honest version: spend five minutes creating the input and five minutes reviewing the output. Do not aim for a masterpiece. Aim for a usable artefact and one clear improvement. Keeping the chain alive matters because skill comes from repeated contact with real work, not from admiring the concept from a safe distance.\n\n---------------\nUse only material you are allowed to share with your chosen LLM. Anonymise anything sensitive. Treat AI outputs as drafts, not authority. Verify factual claims before using them in public, financial, medical, legal, HR, or high-stakes contexts.\nThe AI Habit: https://harrysharman.com/projects/ai-habit/",
+  "validation": {
+    "model_agnostic": true,
+    "llm_scope_clear": true,
+    "privacy_safe": true,
+    "no_unverified_confidence_reliance": true,
+    "success_criteria_specific": true,
+    "coaching_note_transferable": true,
+    "behavioural_science_layer": true,
+    "professional_output": true,
+    "time_realistic": true,
+    "voice_correct": true,
+    "pass": true
+  },
+  "status": "draft_paid_track",
+  "audience": "paid-90",
+  "delivery": "email + web/app",
+  "reviewed_at": null,
+  "review_notes": [
+    "Generated as part of the 90-Day AI Habit paid founding track.",
+    "Continues from the free 14-day starter sequence without duplicating the foundation.",
+    "Organised by professional capability themes: creation, research, decisions, creativity, management, communication, productivity, analysis, workflow, judgement, and workplace adoption.",
+    "Draws from official prompt guidance and behavioural science principles without copying source programme content."
+  ]
+}

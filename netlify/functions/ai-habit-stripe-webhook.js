@@ -1,6 +1,13 @@
 const crypto = require('crypto');
 const Stripe = require('stripe');
-const { nextWeekday, normaliseEmail } = require('./ai-habit/lib/sequence');
+const {
+  MAX_STARTER_DAY,
+  addBusinessDays,
+  businessDayNumber,
+  dateOnly,
+  nextWeekday,
+  normaliseEmail
+} = require('./ai-habit/lib/sequence');
 const storage = require('./lib/storage');
 
 const { getJSON, setJSON, addToIndex } = storage;
@@ -27,6 +34,19 @@ async function recordPaidSession(session) {
   const subscriberId = subscriberIdFor(email);
   const key = `ai-habit:subscriber:${subscriberId}`;
   const existing = await getJSON(key, null);
+  const startDate = existing && existing.start_date ? existing.start_date : nextWeekday(new Date());
+  const starterDay = businessDayNumber(startDate, dateOnly(new Date()));
+  const starterComplete = Boolean(
+    existing &&
+    (
+      existing.status === 'completed_starter' ||
+      Number(existing.last_sent_day || 0) >= MAX_STARTER_DAY ||
+      starterDay > MAX_STARTER_DAY
+    )
+  );
+  const paidStartDate = existing && existing.paid_start_date
+    ? existing.paid_start_date
+    : (starterComplete ? nextWeekday(new Date()) : addBusinessDays(startDate, MAX_STARTER_DAY));
   const subscriber = {
     id: subscriberId,
     email,
@@ -41,8 +61,10 @@ async function recordPaidSession(session) {
     stripe_payment_intent_id: session.payment_intent || null,
     source: existing && existing.source ? existing.source : 'ai-habit-stripe',
     status: existing && existing.status ? existing.status : 'active',
-    start_date: existing && existing.start_date ? existing.start_date : nextWeekday(new Date()),
+    start_date: startDate,
+    paid_start_date: paidStartDate,
     last_sent_day: existing && Number.isFinite(Number(existing.last_sent_day)) ? Number(existing.last_sent_day) : 0,
+    last_sent_paid_day: existing && Number.isFinite(Number(existing.last_sent_paid_day)) ? Number(existing.last_sent_paid_day) : MAX_STARTER_DAY,
     created_at: existing && existing.created_at ? existing.created_at : now,
     updated_at: now
   };

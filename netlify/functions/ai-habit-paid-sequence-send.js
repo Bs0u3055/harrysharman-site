@@ -1,5 +1,7 @@
 const {
+  MAX_PAID_DAY,
   MAX_STARTER_DAY,
+  addBusinessDays,
   businessDayNumber,
   dateOnly,
   formatEmailSubject,
@@ -16,35 +18,46 @@ const readIndex = storage.readIndex || ((indexName, max = 100) => (
     .then((items) => (Array.isArray(items) ? items : []).slice(0, max))
 ));
 
-async function runSequence(event, options = {}) {
+function paidStartFor(subscriber) {
+  if (subscriber.paid_start_date) return subscriber.paid_start_date;
+  if (subscriber.start_date) return addBusinessDays(subscriber.start_date, MAX_STARTER_DAY);
+  return subscriber.paid_at ? dateOnly(new Date(subscriber.paid_at)) : dateOnly(new Date());
+}
+
+async function runPaidSequence(event, options = {}) {
   connectStorage(event);
 
   const today = options.today || dateOnly(new Date());
-  const live = process.env.AI_HABIT_SEQUENCE_LIVE === 'true';
-  const dailyLimit = Math.max(1, Math.min(100, Number(process.env.AI_HABIT_DAILY_SEND_LIMIT || 90)));
+  const live = process.env.AI_HABIT_PAID_SEQUENCE_LIVE === 'true';
+  const dailyLimit = Math.max(1, Math.min(100, Number(process.env.AI_HABIT_PAID_DAILY_SEND_LIMIT || 90)));
   let liveSendCount = 0;
   const subscriberKeys = await readIndex('ai-habit-subscribers', 5000);
-  let activeSubscriberCount = 0;
+  let paidSubscriberCount = 0;
   const results = [];
 
   for (const key of subscriberKeys) {
     const subscriber = await getJSON(key, null);
-    if (!subscriber || subscriber.status !== 'active') continue;
-    activeSubscriberCount += 1;
+    if (!subscriber || subscriber.status === 'unsubscribed') continue;
+    if (subscriber.paid_status !== 'paid' || subscriber.paid_track !== 'founding-90') continue;
+    paidSubscriberCount += 1;
 
-    const day = businessDayNumber(subscriber.start_date, today);
-    if (day < 1) {
-      results.push({ email: subscriber.email, status: 'not_started', start_date: subscriber.start_date });
+    const paidStartDate = paidStartFor(subscriber);
+    const paidBusinessDay = businessDayNumber(paidStartDate, today);
+    if (paidBusinessDay < 1) {
+      results.push({ email: subscriber.email, status: 'paid_not_started', paid_start_date: paidStartDate });
       continue;
     }
-    if (day > MAX_STARTER_DAY) {
-      subscriber.status = 'completed_starter';
+
+    const day = MAX_STARTER_DAY + paidBusinessDay;
+    if (day > MAX_PAID_DAY) {
+      subscriber.paid_status = 'completed_paid_90';
       subscriber.updated_at = new Date().toISOString();
       await setJSON(key, subscriber);
-      results.push({ email: subscriber.email, status: 'completed_starter' });
+      results.push({ email: subscriber.email, status: 'completed_paid_90' });
       continue;
     }
-    if (Number(subscriber.last_sent_day || 0) >= day) {
+
+    if (Number(subscriber.last_sent_paid_day || MAX_STARTER_DAY) >= day) {
       results.push({ email: subscriber.email, status: 'already_sent', day });
       continue;
     }
@@ -54,7 +67,7 @@ async function runSequence(event, options = {}) {
     const unsubscribeUrl = `https://harrysharman.com/.netlify/functions/ai-habit-unsubscribe?id=${encodeURIComponent(subscriber.id)}`;
     const html = email.html.replace(
       '</main>',
-      `<p style="font-size:12px;line-height:1.5;color:#5b514b;margin-top:26px;">No longer want these? <a href="${unsubscribeUrl}" style="color:#2434ff;">Unsubscribe from The AI Habit starter sequence</a>.</p></main>`
+      `<p style="font-size:12px;line-height:1.5;color:#5b514b;margin-top:26px;">No longer want these? <a href="${unsubscribeUrl}" style="color:#2434ff;">Unsubscribe from The AI Habit paid sequence</a>.</p></main>`
     );
     const text = `${email.text}\n\nUnsubscribe: ${unsubscribeUrl}`;
 
@@ -79,9 +92,9 @@ async function runSequence(event, options = {}) {
           'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
         }
       });
-      subscriber.last_sent_day = day;
-      subscriber.last_sent_at = new Date().toISOString();
-      subscriber.updated_at = subscriber.last_sent_at;
+      subscriber.last_sent_paid_day = day;
+      subscriber.last_sent_paid_at = new Date().toISOString();
+      subscriber.updated_at = subscriber.last_sent_paid_at;
       await setJSON(key, subscriber);
       liveSendCount += 1;
       results.push({ email: subscriber.email, status: 'sent', day, resend_id: sent.id || null });
@@ -96,19 +109,19 @@ async function runSequence(event, options = {}) {
     live,
     daily_limit: dailyLimit,
     live_send_count: liveSendCount,
-    subscriber_count: activeSubscriberCount,
+    paid_subscriber_count: paidSubscriberCount,
     total_subscriber_records: subscriberKeys.length,
     results
   };
-  await setJSON(`ai-habit:sequence-run:${run.created_at}`, run);
-  await setJSON('ai-habit:sequence-run:latest', run);
+  await setJSON(`ai-habit:paid-sequence-run:${run.created_at}`, run);
+  await setJSON('ai-habit:paid-sequence-run:latest', run);
   return run;
 }
 
-exports.runSequence = runSequence;
+exports.runPaidSequence = runPaidSequence;
 
 exports.handler = async (event) => {
-  const run = await runSequence(event);
+  const run = await runPaidSequence(event);
   const query = event.queryStringParameters || {};
   const diagnostics = query.diagnostics === '1' ? await storageDiagnostics() : null;
   return {
@@ -120,7 +133,7 @@ exports.handler = async (event) => {
     body: JSON.stringify({
       ok: true,
       live: run.live,
-      subscriber_count: run.subscriber_count,
+      paid_subscriber_count: run.paid_subscriber_count,
       total_subscriber_records: run.total_subscriber_records,
       result_count: run.results.length,
       storage: diagnostics || undefined
