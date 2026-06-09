@@ -1,20 +1,9 @@
 const crypto = require('crypto');
 const { isValidEmail, nextWeekday, normaliseEmail } = require('./ai-habit/lib/sequence');
+const storage = require('./lib/storage');
 
-function loadStorage() {
-  let storage;
-  try {
-    storage = require('./lib/storage');
-  } catch {
-    storage = require('./sven/lib/storage');
-  }
-  return {
-    ...storage,
-    connectStorage: storage.connectStorage || (() => {})
-  };
-}
-
-const { connectStorage, getJSON, setJSON, addToIndex } = loadStorage();
+const { getJSON, setJSON, addToIndex } = storage;
+const connectStorage = storage.connectStorage || (() => {});
 
 function parseBody(event) {
   const raw = event.isBase64Encoded

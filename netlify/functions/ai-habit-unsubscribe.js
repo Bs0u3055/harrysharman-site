@@ -1,17 +1,7 @@
-function loadStorage() {
-  let storage;
-  try {
-    storage = require('./lib/storage');
-  } catch {
-    storage = require('./sven/lib/storage');
-  }
-  return {
-    ...storage,
-    connectStorage: storage.connectStorage || (() => {})
-  };
-}
+const storage = require('./lib/storage');
 
-const { connectStorage, getJSON, setJSON } = loadStorage();
+const { getJSON, setJSON } = storage;
+const connectStorage = storage.connectStorage || (() => {});
 
 function html(message) {
   return `<!doctype html>

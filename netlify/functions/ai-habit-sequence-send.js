@@ -5,22 +5,14 @@ const {
   loadDay,
   sendWithResend
 } = require('./ai-habit/lib/sequence');
+const storage = require('./lib/storage');
 
-function loadStorage() {
-  let storage;
-  try {
-    storage = require('./lib/storage');
-  } catch {
-    storage = require('./sven/lib/storage');
-  }
-  return {
-    ...storage,
-    connectStorage: storage.connectStorage || (() => {}),
-    readIndex: storage.readIndex || ((indexName, max = 100) => storage.getJSON('index:' + indexName, []).then((items) => (Array.isArray(items) ? items : []).slice(0, max)))
-  };
-}
-
-const { connectStorage, getJSON, setJSON, readIndex } = loadStorage();
+const { getJSON, setJSON } = storage;
+const connectStorage = storage.connectStorage || (() => {});
+const readIndex = storage.readIndex || ((indexName, max = 100) => (
+  storage.getJSON('index:' + indexName, [])
+    .then((items) => (Array.isArray(items) ? items : []).slice(0, max))
+));
 
 async function runSequence(event, options = {}) {
   connectStorage(event);
