@@ -9,6 +9,7 @@ const storage = require('./lib/storage');
 
 const { getJSON, setJSON } = storage;
 const connectStorage = storage.connectStorage || (() => {});
+const storageDiagnostics = storage.storageDiagnostics || (async () => null);
 const readIndex = storage.readIndex || ((indexName, max = 100) => (
   storage.getJSON('index:' + indexName, [])
     .then((items) => (Array.isArray(items) ? items : []).slice(0, max))
@@ -104,14 +105,20 @@ exports.runSequence = runSequence;
 
 exports.handler = async (event) => {
   const run = await runSequence(event);
+  const query = event.queryStringParameters || {};
+  const diagnostics = query.diagnostics === '1' ? await storageDiagnostics() : null;
   return {
     statusCode: 200,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-store'
+    },
     body: JSON.stringify({
       ok: true,
       live: run.live,
       subscriber_count: run.subscriber_count,
-      result_count: run.results.length
+      result_count: run.results.length,
+      storage: diagnostics || undefined
     })
   };
 };
