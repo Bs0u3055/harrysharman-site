@@ -1,0 +1,110 @@
+const crypto = require('crypto');
+const Stripe = require('stripe');
+const { nextWeekday, normaliseEmail } = require('./ai-habit/lib/sequence');
+const storage = require('./lib/storage');
+
+const { getJSON, setJSON, addToIndex } = storage;
+const connectStorage = storage.connectStorage || (() => {});
+
+function rawBody(event) {
+  if (event.isBase64Encoded) return Buffer.from(event.body || '', 'base64');
+  return Buffer.from(event.body || '', 'utf8');
+}
+
+function subscriberIdFor(email) {
+  return crypto.createHash('sha256').update(email).digest('hex').slice(0, 24);
+}
+
+async function recordPaidSession(session) {
+  const email = normaliseEmail(
+    session.customer_details && session.customer_details.email
+      ? session.customer_details.email
+      : session.customer_email
+  );
+  if (!email) return { recorded: false, reason: 'missing_email' };
+
+  const now = new Date().toISOString();
+  const subscriberId = subscriberIdFor(email);
+  const key = `ai-habit:subscriber:${subscriberId}`;
+  const existing = await getJSON(key, null);
+  const subscriber = {
+    id: subscriberId,
+    email,
+    name: existing && existing.name ? existing.name : '',
+    context: existing && existing.context ? existing.context : '',
+    track: existing && existing.track ? existing.track : 'paid-90',
+    paid_track: 'founding-90',
+    paid_status: 'paid',
+    paid_at: now,
+    stripe_session_id: session.id,
+    stripe_customer_id: session.customer || null,
+    stripe_payment_intent_id: session.payment_intent || null,
+    source: existing && existing.source ? existing.source : 'ai-habit-stripe',
+    status: existing && existing.status ? existing.status : 'active',
+    start_date: existing && existing.start_date ? existing.start_date : nextWeekday(new Date()),
+    last_sent_day: existing && Number.isFinite(Number(existing.last_sent_day)) ? Number(existing.last_sent_day) : 0,
+    created_at: existing && existing.created_at ? existing.created_at : now,
+    updated_at: now
+  };
+
+  await setJSON(key, subscriber);
+  await addToIndex('ai-habit-subscribers', key, 5000);
+  await setJSON(`ai-habit:payment:${session.id}`, {
+    id: session.id,
+    email,
+    amount_total: session.amount_total || null,
+    currency: session.currency || 'gbp',
+    plan: session.metadata && session.metadata.plan ? session.metadata.plan : 'founding-90',
+    created_at: now,
+    stripe_customer_id: session.customer || null,
+    stripe_payment_intent_id: session.payment_intent || null
+  });
+
+  return { recorded: true, email };
+}
+
+exports.handler = async (event) => {
+  connectStorage(event);
+
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method not allowed' };
+  }
+
+  const secretKey = process.env.STRIPE_SECRET_KEY;
+  const webhookSecret = process.env.AI_HABIT_STRIPE_WEBHOOK_SECRET || process.env.STRIPE_WEBHOOK_SECRET;
+  if (!secretKey || !webhookSecret) {
+    return {
+      statusCode: 503,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: 'Stripe webhook is not configured' })
+    };
+  }
+
+  const stripe = new Stripe(secretKey, { apiVersion: '2024-06-20' });
+  const signature = event.headers['stripe-signature'] || event.headers['Stripe-Signature'];
+
+  try {
+    const stripeEvent = stripe.webhooks.constructEvent(rawBody(event), signature, webhookSecret);
+    let result = { ignored: true, type: stripeEvent.type };
+
+    if (stripeEvent.type === 'checkout.session.completed') {
+      const session = stripeEvent.data.object;
+      if (session.metadata && session.metadata.product === 'ai_habit') {
+        result = await recordPaidSession(session);
+      }
+    }
+
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: true, result })
+    };
+  } catch (error) {
+    console.error('ai habit stripe webhook error', error);
+    return {
+      statusCode: 400,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ok: false, error: error.message })
+    };
+  }
+};

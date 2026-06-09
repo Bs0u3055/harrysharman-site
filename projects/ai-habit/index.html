@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The AI Habit - 14 days free, 90 days paid</title>
-  <meta name="description" content="A free 14-day starter programme and paid 90-day practice track for professionals who want a grounded working habit with chat-based AI and large language models.">
+  <title>The AI Habit - 14 days free, then a £49 90-day track</title>
+  <meta name="description" content="A free 14-day starter programme and £49 founding 90-day practice track for professionals who want a grounded working habit with chat-based AI and large language models.">
   <meta property="og:title" content="The AI Habit">
-  <meta property="og:description" content="14 free days. Then a paid 90-day practice track. One useful LLM workflow at a time. Built on habit, not hype.">
+  <meta property="og:description" content="14 free days. Then a £49 founding 90-day practice track. One useful LLM workflow at a time. Built on habit, not hype.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://harrysharman.com/assets/uploads/were-going-to-need-brain-gyms.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -506,13 +506,20 @@
       background: #fff;
     }
 
-    .habit-offer:nth-child(2) {
+    .habit-offer:nth-child(2),
+    .habit-offer.featured {
       background: var(--habit-paper);
     }
 
-    .habit-offer:nth-child(3) {
+    .habit-offer:nth-child(3),
+    .habit-offer.team {
       background: var(--habit-blue);
       color: var(--habit-paper);
+    }
+
+    .habit-offer.featured {
+      position: relative;
+      box-shadow: inset 0 -8px 0 var(--habit-yellow);
     }
 
     .habit-offer strong {
@@ -532,11 +539,44 @@
       letter-spacing: 0;
     }
 
+    .habit-price {
+      display: block;
+      margin: 0 0 14px;
+      font-size: 46px;
+      line-height: 0.9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
     .habit-offer p {
       margin: 0;
       font-size: 15px;
       line-height: 1.55;
       opacity: 0.78;
+    }
+
+    .habit-offer .habit-btn {
+      margin-top: 18px;
+      width: 100%;
+    }
+
+    .habit-offer-note {
+      margin-top: 8px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.45;
+      opacity: 0.72;
+    }
+
+    .habit-market-note {
+      margin-top: 28px;
+      padding: 16px 18px;
+      border: 2px solid var(--habit-ink);
+      background: rgba(254, 252, 247, 0.8);
+      font-family: var(--f-mono);
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--habit-ink);
     }
 
     .habit-proof-band {
@@ -715,12 +755,12 @@
   <main class="habit-page">
     <section class="habit-hero">
       <div class="habit-container habit-hero-inner">
-        <div class="habit-kicker">14 days free / 90 days paid</div>
+        <div class="habit-kicker">14 days free / £49 founding track</div>
         <h1 class="habit-title">The AI Habit</h1>
-        <p class="habit-lede">Most AI advice gives you more tools. This gives you a working rhythm for using chat-based LLMs: 14 free mornings to start, then a 90-day paid track for people who want the habit to actually stick.</p>
+        <p class="habit-lede">Most AI advice gives you more tools. This gives you a working rhythm for using chat-based LLMs: 14 free mornings to start, then a £49 founding 90-day track for people who want the habit to actually stick.</p>
         <div class="habit-actions">
           <a class="habit-btn habit-btn-primary" href="#signup">Start the 14 days</a>
-          <a class="habit-btn habit-btn-secondary" href="#ninety-days">See the 90-day track</a>
+          <a class="habit-btn habit-btn-secondary" href="#ninety-days">See the £49 track</a>
         </div>
       </div>
     </section>
@@ -730,7 +770,7 @@
         <div>
           <div class="habit-eyebrow">Habit before hype</div>
           <h2 class="habit-heading">Build the working habit first.</h2>
-          <p class="habit-copy">The first 14 days are free. They are a starter block for people who want chat-based AI to become useful in real work rather than another tab they feel guilty about not opening. If it starts to stick, the paid 90-day track gives you the repetition, harder workflows, and proof pack to keep going.</p>
+          <p class="habit-copy">The first 14 days are free. They are a starter block for people who want chat-based AI to become useful in real work rather than another tab they feel guilty about not opening. If it starts to stick, your first 14 days count towards the full 90-day practice, and £49 unlocks the founding track.</p>
           <p class="habit-scope-note">Scope note: when this project says AI, it mostly means text-first large language models: ChatGPT, Claude, Gemini, Copilot, Perplexity, or an approved workplace assistant. Not every kind of AI. Not image generation. Not voice cloning. Not automation theatre.</p>
         </div>
         <aside class="habit-substack-panel" aria-label="AI Habit signup">
@@ -758,13 +798,13 @@
             <button class="habit-btn habit-btn-primary" type="submit">Start the free 14-day sequence</button>
           </form>
           <p class="habit-form-note">The first cohort is being handled in small batches while the delivery engine is hardened. You will start from Day 1, not whichever post happens to be newest.</p>
-          <div class="habit-price-strip" aria-label="AI Habit paid options">
-            <span>£19/month</span>
-            <span>£180/year</span>
-            <span>group discount</span>
+          <div class="habit-price-strip" aria-label="AI Habit routes">
+            <span>£0 starter</span>
+            <span>£49 founding 90-day track</span>
+            <span>group route next</span>
           </div>
           <div class="habit-substack-actions">
-            <a class="habit-substack-link" href="https://aihabit.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open The AI Habit signup and paid options</a>
+            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=founding-90">Join the 90-day founding cohort</a>
             <a class="habit-substack-link" href="https://aihabit.substack.com/" target="_blank" rel="noopener noreferrer">Read on Substack</a>
           </div>
         </aside>
@@ -802,6 +842,7 @@
           <div class="habit-eyebrow">The paid continuation</div>
           <h2 class="habit-heading">The 90-Day AI Habit.</h2>
           <p class="habit-copy">Fourteen days gets you moving. The 90-day programme is the serious version: a structured run of applied LLM practice across the work that actually matters, with visible outputs you can use inside your job rather than a certificate that mostly proves you endured a webinar.</p>
+          <p class="habit-market-note">Pricing anchor: serious AI training often sits around one-month subscription pricing or much higher cohort fees. The founding offer is intentionally simple: one £49 payment for the 90-day practice, while the programme is being shaped with early users.</p>
         </div>
         <div class="habit-programme-list">
           <div class="habit-programme-item">
@@ -825,17 +866,22 @@
       <div class="habit-container">
         <div class="habit-offer-grid" aria-label="AI Habit routes">
           <article class="habit-offer">
-            <strong>Individual</strong>
-            <h3>Pay monthly</h3>
-            <p>For people who want to keep the daily rhythm after the free block. Small enough to try, substantial enough to become a real practice.</p>
+            <strong>Starter</strong>
+            <span class="habit-price">£0</span>
+            <h3>Fourteen days</h3>
+            <p>Start at Day 1, prove the rhythm works for you, and build enough momentum to make a real decision instead of buying another course on vibes.</p>
           </article>
-          <article class="habit-offer">
-            <strong>Commitment</strong>
-            <h3>Take the year</h3>
-            <p>For people who already know this is the thing they need to build: 90 days of structured work, then enough runway to keep the habit alive.</p>
+          <article class="habit-offer featured">
+            <strong>Founding cohort</strong>
+            <span class="habit-price">£49</span>
+            <h3>The 90-day track</h3>
+            <p>The main offer: the first 14 days count as progress already earned, then the paid track carries you through the full habit-building arc.</p>
+            <a class="habit-btn habit-btn-primary" href="/.netlify/functions/ai-habit-checkout?plan=founding-90">Join for £49</a>
+            <div class="habit-offer-note">One-off founding price. No subscription trap.</div>
           </article>
-          <article class="habit-offer">
+          <article class="habit-offer team">
             <strong>Group / employer</strong>
+            <span class="habit-price">Next</span>
             <h3>Bring people in</h3>
             <p>Use the group route if you want colleagues to do it with you. Use the employer pack if you want a manager-ready case for why this belongs at work.</p>
           </article>
@@ -851,6 +897,10 @@
           <p class="habit-copy">The paid track is built around outputs, not vibes. By the end, you should have a small personal operating system for using LLMs in real work.</p>
         </div>
         <div class="habit-proof-list">
+          <div class="habit-proof-row">
+            <strong>Day 14</strong>
+            <span>A momentum check: what has actually started to change, and whether this deserves a proper 90-day run.</span>
+          </div>
           <div class="habit-proof-row">
             <strong>Day 30</strong>
             <span>A portfolio checkpoint: what you have actually changed, improved, delegated, drafted, researched, or decided with AI.</span>
@@ -903,10 +953,10 @@
       <div class="habit-container">
         <div class="habit-eyebrow">Start free, then keep going</div>
         <h2 class="habit-heading">Fourteen mornings is the start, not the whole habit.</h2>
-        <p class="habit-copy">The free block helps you build momentum. The 90-Day AI Habit is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Join individually, bring a small group, or get your employer to pay.</p>
+        <p class="habit-copy">The free block helps you build momentum. The £49 90-Day AI Habit is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Join individually now; group and employer routes come next.</p>
         <div class="habit-actions">
           <a class="habit-btn habit-btn-primary" href="#signup">Join The AI Habit free</a>
-          <a class="habit-btn habit-btn-secondary" href="https://aihabit.substack.com/subscribe" target="_blank" rel="noopener noreferrer">See paid options</a>
+          <a class="habit-btn habit-btn-secondary" href="/.netlify/functions/ai-habit-checkout?plan=founding-90">Join the 90-day track - £49</a>
         </div>
       </div>
     </section>
