@@ -6,6 +6,9 @@
 [build.environment]
   NODE_VERSION = "18"
 
+[functions."ai-habit-sequence-send"]
+  schedule = "0 7 * * 1-5"
+
 
 [[headers]]
   for = "/*"

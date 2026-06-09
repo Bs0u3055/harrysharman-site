@@ -17,7 +17,7 @@
   <style>
     :root {
       --habit-paper: #fefcf7;
-      --habit-ink: #1a1410;
+      --habit-ink: #120d0a;
       --habit-red: #e63a25;
       --habit-blue: #2434ff;
       --habit-yellow: #ffd84d;
@@ -216,7 +216,7 @@
     }
 
     .habit-section.red .habit-eyebrow {
-      color: var(--habit-paper);
+      color: var(--habit-ink);
     }
 
     .habit-heading {
@@ -306,6 +306,54 @@
 
     .habit-substack-actions .habit-substack-link {
       margin-top: 0;
+    }
+
+    .habit-form {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .habit-form label {
+      display: block;
+      margin-bottom: 6px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--habit-ink);
+    }
+
+    .habit-form input,
+    .habit-form textarea {
+      width: 100%;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.3;
+      padding: 13px 14px;
+      border-radius: 0;
+    }
+
+    .habit-form textarea {
+      min-height: 86px;
+      resize: vertical;
+    }
+
+    .habit-form button {
+      justify-self: start;
+      cursor: pointer;
+    }
+
+    .habit-form-note {
+      margin-top: 12px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--habit-muted);
     }
 
     .habit-price-strip {
@@ -687,16 +735,37 @@
         </div>
         <aside class="habit-substack-panel" aria-label="AI Habit signup">
           <h2>Join The AI Habit</h2>
-          <p>Get the first 14 daily workouts by email. Free, practical, and deliberately small. Paid continuation is available when you are ready to turn the starter block into a 90-day practice.</p>
-          <iframe class="habit-substack-embed" src="https://aihabit.substack.com/embed" title="Subscribe to The AI Habit" frameborder="0" scrolling="no"></iframe>
+          <p>Start at Day 1. The first 14 workouts are free, practical, and deliberately small. This list is for the proper sequence, not the rolling Substack feed.</p>
+          <form class="habit-form" name="ai-habit-starter" method="POST" netlify-honeypot="bot-field" action="/.netlify/functions/ai-habit-start">
+            <input type="hidden" name="form-name" value="ai-habit-starter">
+            <input type="hidden" name="track" value="starter-14">
+            <input type="hidden" name="source" value="ai-habit-website">
+            <p style="display:none;">
+              <label>Do not fill this in: <input name="bot-field"></label>
+            </p>
+            <div>
+              <label for="ai-habit-name">Name</label>
+              <input id="ai-habit-name" type="text" name="name" autocomplete="name" placeholder="Your name">
+            </div>
+            <div>
+              <label for="ai-habit-email">Email</label>
+              <input id="ai-habit-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+            </div>
+            <div>
+              <label for="ai-habit-context">What do you want AI to help with?</label>
+              <textarea id="ai-habit-context" name="context" placeholder="Writing, strategy, research, productivity, management, delegation..."></textarea>
+            </div>
+            <button class="habit-btn habit-btn-primary" type="submit">Start the free 14-day sequence</button>
+          </form>
+          <p class="habit-form-note">The first cohort is being handled in small batches while the delivery engine is hardened. You will start from Day 1, not whichever post happens to be newest.</p>
           <div class="habit-price-strip" aria-label="AI Habit paid options">
             <span>£19/month</span>
             <span>£180/year</span>
             <span>group discount</span>
           </div>
           <div class="habit-substack-actions">
-            <a class="habit-substack-link" href="https://aihabit.substack.com/subscribe" rel="noopener">Open signup and paid options</a>
-            <a class="habit-substack-link" href="https://aihabit.substack.com/" rel="noopener">Read on Substack</a>
+            <a class="habit-substack-link" href="https://aihabit.substack.com/subscribe" target="_blank" rel="noopener noreferrer">Open The AI Habit signup and paid options</a>
+            <a class="habit-substack-link" href="https://aihabit.substack.com/" target="_blank" rel="noopener noreferrer">Read on Substack</a>
           </div>
         </aside>
       </div>
@@ -836,8 +905,8 @@
         <h2 class="habit-heading">Fourteen mornings is the start, not the whole habit.</h2>
         <p class="habit-copy">The free block helps you build momentum. The 90-Day AI Habit is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Join individually, bring a small group, or get your employer to pay.</p>
         <div class="habit-actions">
-          <a class="habit-btn habit-btn-primary" href="#signup">Join free</a>
-          <a class="habit-btn habit-btn-secondary" href="https://aihabit.substack.com/subscribe" rel="noopener">See paid options</a>
+          <a class="habit-btn habit-btn-primary" href="#signup">Join The AI Habit free</a>
+          <a class="habit-btn habit-btn-secondary" href="https://aihabit.substack.com/subscribe" target="_blank" rel="noopener noreferrer">See paid options</a>
         </div>
       </div>
     </section>
