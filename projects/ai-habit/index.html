@@ -560,6 +560,16 @@
       width: 100%;
     }
 
+    .habit-offer.featured #habit-pay-link {
+      border-color: var(--habit-blue);
+      background: var(--habit-blue);
+      color: #fff;
+    }
+
+    .habit-offer.featured #habit-pay-link:hover {
+      box-shadow: 4px 4px 0 var(--habit-ink);
+    }
+
     .habit-offer-note {
       margin-top: 8px;
       font-family: var(--f-mono);
@@ -571,7 +581,10 @@
     .habit-pay-control {
       margin-top: 18px;
       display: grid;
-      gap: 12px;
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid rgba(18, 13, 10, 0.16);
+      background: rgba(255, 255, 255, 0.5);
     }
 
     .habit-pay-row {
@@ -584,14 +597,16 @@
       font-weight: 800;
       letter-spacing: 0.04em;
       text-transform: uppercase;
+      color: rgba(26, 20, 16, 0.62);
     }
 
     .habit-pay-current {
       font-family: var(--f-sans);
-      font-size: 34px;
+      font-size: 30px;
       line-height: 1.12;
       font-weight: 900;
       letter-spacing: 0;
+      color: var(--habit-ink);
     }
 
     .habit-pay-range {
@@ -608,25 +623,29 @@
 
     .habit-pay-marker {
       min-height: 34px;
-      border: 2px solid var(--habit-ink);
-      background: #fff;
-      color: var(--habit-ink);
+      border: 1px solid rgba(18, 13, 10, 0.18);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.66);
+      color: rgba(26, 20, 16, 0.68);
       font-family: var(--f-mono);
       font-size: 10px;
-      font-weight: 900;
+      font-weight: 800;
       cursor: pointer;
     }
 
     .habit-pay-marker.active {
+      border-color: rgba(18, 13, 10, 0.2);
       background: var(--habit-yellow);
+      color: var(--habit-ink);
     }
 
     .habit-payment-reassurance {
       display: grid;
-      gap: 9px;
+      gap: 8px;
       margin-top: 12px;
-      padding-top: 12px;
-      border-top: 2px solid var(--habit-ink);
+      padding: 12px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.66);
     }
 
     .habit-secure-line {
@@ -650,12 +669,12 @@
       justify-content: center;
       min-height: 25px;
       padding: 5px 8px;
-      border: 2px solid var(--habit-ink);
-      background: #fff;
-      color: var(--habit-ink);
+      border-radius: 4px;
+      background: rgba(18, 13, 10, 0.08);
+      color: rgba(26, 20, 16, 0.78);
       font-family: var(--f-mono);
       font-size: 9px;
-      font-weight: 900;
+      font-weight: 800;
       letter-spacing: 0.04em;
       line-height: 1;
       text-transform: uppercase;
@@ -1031,9 +1050,7 @@
               <span class="habit-secure-line">One-off payment. Secure Stripe checkout.</span>
               <div class="habit-payment-logos" aria-label="Payment methods shown by Stripe at checkout">
                 <span class="habit-payment-logo stripe">stripe</span>
-                <span class="habit-payment-logo">Visa</span>
-                <span class="habit-payment-logo">Mastercard</span>
-                <span class="habit-payment-logo">Amex</span>
+                <span class="habit-payment-logo">Cards</span>
                 <span class="habit-payment-logo">Apple Pay</span>
                 <span class="habit-payment-logo">Google Pay</span>
               </div>
