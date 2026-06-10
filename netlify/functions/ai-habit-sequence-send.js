@@ -2,6 +2,8 @@ const {
   MAX_STARTER_DAY,
   businessDayNumber,
   dateOnly,
+  feedbackEmailBlock,
+  feedbackTextBlock,
   formatEmailSubject,
   loadDay,
   sendWithResend
@@ -54,9 +56,9 @@ async function runSequence(event, options = {}) {
     const unsubscribeUrl = `https://harrysharman.com/.netlify/functions/ai-habit-unsubscribe?id=${encodeURIComponent(subscriber.id)}`;
     const html = email.html.replace(
       '</main>',
-      `<p style="font-size:12px;line-height:1.5;color:#5b514b;margin-top:26px;">No longer want these? <a href="${unsubscribeUrl}" style="color:#2434ff;">Unsubscribe from The AI Habit starter sequence</a>.</p></main>`
+      `${feedbackEmailBlock({ day, subscriberId: subscriber.id, track: 'starter' })}<p style="font-size:12px;line-height:1.5;color:#5b514b;margin-top:26px;">No longer want these? <a href="${unsubscribeUrl}" style="color:#2434ff;">Unsubscribe from The AI Habit starter sequence</a>.</p></main>`
     );
-    const text = `${email.text}\n\nUnsubscribe: ${unsubscribeUrl}`;
+    const text = `${email.text}\n\n${feedbackTextBlock({ day, subscriberId: subscriber.id, track: 'starter' })}\n\nUnsubscribe: ${unsubscribeUrl}`;
 
     if (!live) {
       results.push({ email: subscriber.email, status: 'dry_run', day, subject });

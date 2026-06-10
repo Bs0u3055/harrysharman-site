@@ -132,6 +132,35 @@ function formatEmailSubject(day, subject) {
   return `The AI Habit Day ${day}: ${clean || 'Your AI workout'}`;
 }
 
+function feedbackUrl({ day, rating, subscriberId, track = 'starter' }) {
+  const params = new URLSearchParams({
+    day: String(day),
+    rating,
+    track
+  });
+  if (subscriberId) params.set('sid', subscriberId);
+  return `https://harrysharman.com/projects/ai-habit/feedback/?${params.toString()}`;
+}
+
+function feedbackEmailBlock({ day, subscriberId, track = 'starter' }) {
+  const upUrl = feedbackUrl({ day, rating: 'up', subscriberId, track });
+  const downUrl = feedbackUrl({ day, rating: 'down', subscriberId, track });
+  return `<div style="border:2px solid #120d0a;background:#fff;margin:30px 0 0;padding:16px;">
+        <p style="font-size:14px;line-height:1.45;color:#241b16;margin:0 0 12px;font-weight:700;">Was this lesson useful?</p>
+        <a href="${upUrl}" style="display:inline-block;border:2px solid #120d0a;background:#ffd84d;color:#120d0a;text-decoration:none;font-size:13px;font-weight:700;padding:9px 11px;margin:0 8px 8px 0;">Thumbs up</a>
+        <a href="${downUrl}" style="display:inline-block;border:2px solid #120d0a;background:#fefcf7;color:#120d0a;text-decoration:none;font-size:13px;font-weight:700;padding:9px 11px;margin:0 0 8px 0;">Thumbs down</a>
+        <p style="font-size:12px;line-height:1.45;color:#5b514b;margin:4px 0 0;">One tap opens a feedback page with this lesson prefilled. Comments are optional, but useful.</p>
+      </div>`;
+}
+
+function feedbackTextBlock({ day, subscriberId, track = 'starter' }) {
+  return [
+    'Was this lesson useful?',
+    `Thumbs up: ${feedbackUrl({ day, rating: 'up', subscriberId, track })}`,
+    `Thumbs down: ${feedbackUrl({ day, rating: 'down', subscriberId, track })}`
+  ].join('\n');
+}
+
 async function sendWithResend({ to, subject, html, text, headers }) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.AI_HABIT_FROM || process.env.RESEND_FROM;
@@ -169,6 +198,9 @@ module.exports = {
   addBusinessDays,
   businessDayNumber,
   dateOnly,
+  feedbackEmailBlock,
+  feedbackTextBlock,
+  feedbackUrl,
   formatEmailSubject,
   isValidEmail,
   loadDay,

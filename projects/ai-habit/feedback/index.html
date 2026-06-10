@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson Feedback - The AI Habit</title>
+  <meta name="description" content="Give feedback on an AI Habit lesson.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --habit-paper: #fefcf7;
+      --habit-ink: #120d0a;
+      --habit-blue: #2434ff;
+      --habit-yellow: #ffd84d;
+      --habit-red: #e63a25;
+      --habit-muted: #5b514b;
+    }
+
+    html,
+    body {
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font-family: var(--f-sans);
+    }
+
+    .feedback-page {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 44px 18px;
+      background:
+        linear-gradient(90deg, rgba(18, 13, 10, 0.045) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18, 13, 10, 0.045) 1px, transparent 1px),
+        var(--habit-paper);
+      background-size: 28px 28px;
+    }
+
+    .feedback-box {
+      width: min(780px, 100%);
+      margin: 0 auto;
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      box-shadow: 8px 8px 0 var(--habit-ink);
+      padding: clamp(24px, 5vw, 48px);
+    }
+
+    .feedback-kicker {
+      display: inline-flex;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-yellow);
+      color: var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 10px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 0.92;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    .feedback-copy {
+      margin: 0 0 22px;
+      max-width: 620px;
+      color: var(--habit-muted);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .feedback-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 2px solid var(--habit-ink);
+      border-left: 2px solid var(--habit-ink);
+      margin: 22px 0;
+    }
+
+    .feedback-meta div {
+      border-right: 2px solid var(--habit-ink);
+      border-bottom: 2px solid var(--habit-ink);
+      padding: 13px;
+      background: var(--habit-paper);
+    }
+
+    .feedback-meta strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .feedback-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .feedback-choice {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .feedback-choice label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-paper);
+      padding: 13px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .feedback-choice label.active {
+      background: var(--habit-yellow);
+    }
+
+    .feedback-form label span {
+      display: block;
+      margin-bottom: 7px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    textarea,
+    input[type="email"] {
+      width: 100%;
+      border: 2px solid var(--habit-ink);
+      border-radius: 0;
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.45;
+      padding: 12px;
+    }
+
+    textarea {
+      min-height: 122px;
+      resize: vertical;
+    }
+
+    .feedback-btn {
+      justify-self: start;
+      min-height: 48px;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-ink);
+      color: #fff;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 12px 18px;
+      cursor: pointer;
+    }
+
+    .feedback-small {
+      margin: 12px 0 0;
+      color: var(--habit-muted);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .feedback-small a {
+      color: var(--habit-blue);
+      font-weight: 900;
+    }
+
+    @media (max-width: 620px) {
+      .feedback-meta,
+      .feedback-choice {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="feedback-page">
+    <section class="feedback-box">
+      <div class="feedback-kicker">The AI Habit / Lesson feedback</div>
+      <h1>Useful, or not?</h1>
+      <p class="feedback-copy">One tap is enough. A sentence is better. The point is to find which lessons are helping, which are too vague, and which need the small mercy of being rewritten.</p>
+
+      <div class="feedback-meta">
+        <div>
+          <strong>Lesson</strong>
+          <span id="lesson-label">Day unknown</span>
+        </div>
+        <div>
+          <strong>Your first signal</strong>
+          <span id="rating-label">Not selected</span>
+        </div>
+      </div>
+
+      <form class="feedback-form" action="/.netlify/functions/ai-habit-feedback" method="POST">
+        <input type="hidden" id="feedback-day" name="day" value="">
+        <input type="hidden" id="feedback-track" name="track" value="">
+        <input type="hidden" id="feedback-sid" name="sid" value="">
+        <input type="hidden" name="source" value="lesson-email">
+
+        <div class="feedback-choice" id="rating-choice">
+          <label>
+            <input type="radio" name="rating" value="up" required>
+            Thumbs up
+          </label>
+          <label>
+            <input type="radio" name="rating" value="down" required>
+            Thumbs down
+          </label>
+        </div>
+
+        <label>
+          <span>Optional comment</span>
+          <textarea name="comment" placeholder="What should change? Too easy, too hard, unclear, useful, boring, surprisingly good..."></textarea>
+        </label>
+
+        <label>
+          <span>Email, optional</span>
+          <input type="email" name="email" autocomplete="email" placeholder="Only if you want a reply">
+        </label>
+
+        <button class="feedback-btn" type="submit">Send feedback</button>
+      </form>
+
+      <p class="feedback-small">
+        Feedback is used to improve the sequence. <a href="/projects/ai-habit/">Back to The AI Habit</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const day = Math.max(1, Math.min(90, Number(params.get('day') || 0)));
+    const rating = params.get('rating') === 'down' ? 'down' : (params.get('rating') === 'up' ? 'up' : '');
+    const track = params.get('track') || '';
+    const sid = params.get('sid') || '';
+
+    document.getElementById('feedback-day').value = day || '';
+    document.getElementById('feedback-track').value = track;
+    document.getElementById('feedback-sid').value = sid;
+    document.getElementById('lesson-label').textContent = day ? `Day ${day}` : 'Day unknown';
+    document.getElementById('rating-label').textContent = rating === 'up'
+      ? 'Thumbs up'
+      : rating === 'down'
+        ? 'Thumbs down'
+        : 'Not selected';
+
+    const labels = Array.from(document.querySelectorAll('#rating-choice label'));
+    labels.forEach((label) => {
+      const input = label.querySelector('input');
+      if (input.value === rating) input.checked = true;
+      label.classList.toggle('active', input.checked);
+      input.addEventListener('change', () => {
+        labels.forEach((item) => item.classList.toggle('active', item.querySelector('input').checked));
+        document.getElementById('rating-label').textContent = input.value === 'up' ? 'Thumbs up' : 'Thumbs down';
+      });
+    });
+  </script>
+  <script src="/js/main.js"></script>
+</body>
+</html>
