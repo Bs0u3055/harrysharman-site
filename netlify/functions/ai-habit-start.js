@@ -56,6 +56,10 @@ exports.handler = async (event) => {
     status: 'active',
     start_date: existing && existing.start_date ? existing.start_date : nextWeekday(new Date()),
     last_sent_day: existing && Number.isFinite(Number(existing.last_sent_day)) ? Number(existing.last_sent_day) : 0,
+    ai_coach_interest_answered: Boolean(existing && existing.ai_coach_interest_answered),
+    ai_coach_interest_response: existing && existing.ai_coach_interest_response ? existing.ai_coach_interest_response : '',
+    ai_coach_interest_price: existing && existing.ai_coach_interest_price ? existing.ai_coach_interest_price : '',
+    ai_coach_interest_at: existing && existing.ai_coach_interest_at ? existing.ai_coach_interest_at : '',
     created_at: existing && existing.created_at ? existing.created_at : now,
     updated_at: now
   };
