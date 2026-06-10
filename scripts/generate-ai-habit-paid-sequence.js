@@ -95,7 +95,7 @@ function main() {
 
   const curriculum = {
     generated_at: GENERATED_AT,
-    product: 'The AI Habit - 90-day founding track',
+    product: 'The AI Habit - 90-day pay-what-it-is-worth track',
     description: 'Paid continuation curriculum for Days 15-90.',
     themes: [...new Set(days.map((day) => day.phase))],
     source_influences: SOURCE_INFLUENCES,

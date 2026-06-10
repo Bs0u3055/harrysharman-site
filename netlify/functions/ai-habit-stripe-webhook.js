@@ -47,6 +47,8 @@ async function recordPaidSession(session) {
   const paidStartDate = existing && existing.paid_start_date
     ? existing.paid_start_date
     : (starterComplete ? nextWeekday(new Date()) : addBusinessDays(startDate, MAX_STARTER_DAY));
+  const metadata = session.metadata || {};
+  const plan = metadata.plan || 'pay-what-worth-90';
   const subscriber = {
     id: subscriberId,
     email,
@@ -56,6 +58,9 @@ async function recordPaidSession(session) {
     paid_track: 'founding-90',
     paid_status: 'paid',
     paid_at: now,
+    paid_plan: plan,
+    paid_amount_pence: metadata.chosen_amount_pence || String(session.amount_total || ''),
+    paid_suggested_amount_pence: metadata.suggested_amount_pence || null,
     stripe_session_id: session.id,
     stripe_customer_id: session.customer || null,
     stripe_payment_intent_id: session.payment_intent || null,
@@ -76,8 +81,13 @@ async function recordPaidSession(session) {
     email,
     amount_total: session.amount_total || null,
     currency: session.currency || 'gbp',
-    plan: session.metadata && session.metadata.plan ? session.metadata.plan : 'founding-90',
+    plan,
+    chosen_amount_pence: metadata.chosen_amount_pence || String(session.amount_total || ''),
+    suggested_amount_pence: metadata.suggested_amount_pence || null,
+    min_amount_pence: metadata.min_amount_pence || '100',
+    max_amount_pence: metadata.max_amount_pence || '20000',
     created_at: now,
+    updated_at: now,
     stripe_customer_id: session.customer || null,
     stripe_payment_intent_id: session.payment_intent || null
   });

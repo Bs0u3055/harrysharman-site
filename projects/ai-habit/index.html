@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The AI Habit - 14 days free, then a £49 90-day track</title>
-  <meta name="description" content="A free 14-day starter programme and £49 founding 90-day practice track for professionals who want a grounded working habit with chat-based AI and large language models.">
+  <title>The AI Habit - 14 days free, then pay what it is worth</title>
+  <meta name="description" content="A free 14-day starter programme and pay-what-it-is-worth 90-day practice track for professionals who want a grounded working habit with chat-based AI and large language models.">
   <meta property="og:title" content="The AI Habit">
-  <meta property="og:description" content="14 free days. Then a £49 founding 90-day practice track. One useful LLM workflow at a time. Built on habit, not hype.">
+  <meta property="og:description" content="14 free days. Then a pay-what-it-is-worth 90-day practice track. One useful LLM workflow at a time. Built on habit, not hype.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://harrysharman.com/assets/uploads/were-going-to-need-brain-gyms.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -568,6 +568,88 @@
       opacity: 0.72;
     }
 
+    .habit-pay-control {
+      margin-top: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .habit-pay-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .habit-pay-current {
+      font-family: var(--f-sans);
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .habit-pay-range {
+      width: 100%;
+      accent-color: var(--habit-blue);
+      cursor: pointer;
+    }
+
+    .habit-pay-markers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .habit-pay-marker {
+      min-height: 34px;
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      color: var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 10px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .habit-pay-marker.active {
+      background: var(--habit-yellow);
+    }
+
+    .habit-benchmark-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .habit-benchmark {
+      display: grid;
+      gap: 4px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid rgba(254, 252, 247, 0.35);
+    }
+
+    .habit-benchmark:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .habit-benchmark span {
+      font-size: 13px;
+      line-height: 1.38;
+      color: rgba(254, 252, 247, 0.78);
+    }
+
+    .habit-benchmark a {
+      color: var(--habit-yellow);
+      font-weight: 900;
+    }
+
     .habit-market-note {
       margin-top: 28px;
       padding: 16px 18px;
@@ -755,12 +837,12 @@
   <main class="habit-page">
     <section class="habit-hero">
       <div class="habit-container habit-hero-inner">
-        <div class="habit-kicker">14 days free / £49 founding track</div>
+        <div class="habit-kicker">14 days free / pay what it is worth</div>
         <h1 class="habit-title">The AI Habit</h1>
-        <p class="habit-lede">Most AI advice gives you more tools. This gives you a working rhythm for using chat-based LLMs: 14 free mornings to start, then a £49 founding 90-day track for people who want the habit to actually stick.</p>
+        <p class="habit-lede">Most AI advice gives you more tools. This gives you a working rhythm for using chat-based LLMs: 14 free mornings to start, then a pay-what-it-is-worth 90-day track for people who want the habit to actually stick.</p>
         <div class="habit-actions">
           <a class="habit-btn habit-btn-primary" href="#signup">Start the 14 days</a>
-          <a class="habit-btn habit-btn-secondary" href="#ninety-days">See the £49 track</a>
+          <a class="habit-btn habit-btn-secondary" href="#ninety-days">See the 90-day track</a>
         </div>
       </div>
     </section>
@@ -770,7 +852,7 @@
         <div>
           <div class="habit-eyebrow">Habit before hype</div>
           <h2 class="habit-heading">Build the working habit first.</h2>
-          <p class="habit-copy">The first 14 days are free. They are a starter block for people who want chat-based AI to become useful in real work rather than another tab they feel guilty about not opening. If it starts to stick, your first 14 days count towards the full 90-day practice, and £49 unlocks the founding track.</p>
+          <p class="habit-copy">The first 14 days are free. They are a starter block for people who want chat-based AI to become useful in real work rather than another tab they feel guilty about not opening. If it starts to stick, your first 14 days count towards the full 90-day practice, and you choose what that continuation is worth.</p>
           <p class="habit-scope-note">Scope note: when this project says AI, it mostly means text-first large language models: ChatGPT, Claude, Gemini, Copilot, Perplexity, or an approved workplace assistant. Not every kind of AI. Not image generation. Not voice cloning. Not automation theatre.</p>
         </div>
         <aside class="habit-substack-panel" aria-label="AI Habit signup">
@@ -800,11 +882,11 @@
           <p class="habit-form-note">The first cohort is being handled in small batches while the delivery engine is hardened. You will start from Day 1, not whichever post happens to be newest.</p>
           <div class="habit-price-strip" aria-label="AI Habit routes">
             <span>£0 starter</span>
-            <span>£49 founding 90-day track</span>
-            <span>group route next</span>
+            <span>£49 suggested 90-day track</span>
+            <span>pay £1-£200</span>
           </div>
           <div class="habit-substack-actions">
-            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=founding-90">Join the 90-day founding cohort</a>
+            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=4900">Join the 90-day track</a>
             <a class="habit-substack-link" href="https://aihabit.substack.com/" target="_blank" rel="noopener noreferrer">Read on Substack</a>
           </div>
         </aside>
@@ -842,7 +924,7 @@
           <div class="habit-eyebrow">The paid continuation</div>
           <h2 class="habit-heading">The 90-Day AI Habit.</h2>
           <p class="habit-copy">Fourteen days gets you moving. The 90-day programme is the serious version: a structured run of applied LLM practice across the work that actually matters, with visible outputs you can use inside your job rather than a certificate that mostly proves you endured a webinar.</p>
-          <p class="habit-market-note">Pricing anchor: serious AI training often sits around one-month subscription pricing or much higher cohort fees. The founding offer is intentionally simple: one £49 payment for the 90-day practice, while the programme is being shaped with early users.</p>
+          <p class="habit-market-note">Pricing anchor: Google AI Essentials is listed by Coursera at $49/month after trial, while Google AI Ultra launched in the US at $249.99/month. This is not either of those. It is a 90-day applied practice programme, so choose what you think the habit is worth to your work and career.</p>
         </div>
         <div class="habit-programme-list">
           <div class="habit-programme-item">
@@ -859,7 +941,7 @@
           </div>
           <div class="habit-programme-item">
             <strong>Workplace</strong>
-            <span>Join solo, bring a few friends or colleagues on a discounted group subscription, or use the launch pack to make the case for your employer to pay.</span>
+            <span>Join solo, invite friends or colleagues to pick their own fair price, or use the launch pack to make the case for your employer to pay for the practice properly.</span>
           </div>
         </div>
       </div>
@@ -872,18 +954,47 @@
             <p>Start at Day 1, prove the rhythm works for you, and build enough momentum to make a real decision instead of buying another course on vibes.</p>
           </article>
           <article class="habit-offer featured">
-            <strong>Founding cohort</strong>
-            <span class="habit-price">£49</span>
+            <strong>Pay what it is worth</strong>
+            <span class="habit-price" id="habit-pay-hero">£49</span>
             <h3>The 90-day track</h3>
-            <p>The main offer: the first 14 days count as progress already earned, then the paid track carries you through the full habit-building arc.</p>
-            <a class="habit-btn habit-btn-primary" href="/.netlify/functions/ai-habit-checkout?plan=founding-90">Join for £49</a>
-            <div class="habit-offer-note">One-off founding price. No subscription trap.</div>
+            <p>The main offer: the first 14 days count as progress already earned, then the paid track carries you through the full habit-building arc. Pay what you think that is worth to your work and career.</p>
+            <div class="habit-pay-control" aria-label="Choose your AI Habit contribution">
+              <div class="habit-pay-row">
+                <span>Minimum £1</span>
+                <span class="habit-pay-current" id="habit-pay-current">£49</span>
+                <span>Maximum £200</span>
+              </div>
+              <input class="habit-pay-range" id="habit-pay-slider" type="range" min="1" max="200" value="49" step="1">
+              <div class="habit-pay-markers" aria-label="Suggested payment amounts">
+                <button class="habit-pay-marker" type="button" data-pay="1">£1</button>
+                <button class="habit-pay-marker" type="button" data-pay="19">£19</button>
+                <button class="habit-pay-marker active" type="button" data-pay="49">£49</button>
+                <button class="habit-pay-marker" type="button" data-pay="99">£99</button>
+                <button class="habit-pay-marker" type="button" data-pay="200">£200</button>
+              </div>
+            </div>
+            <a class="habit-btn habit-btn-primary" id="habit-pay-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=4900">Join for £49</a>
+            <div class="habit-offer-note">£49 is the suggested default. Lower is allowed. Higher helps keep the experiment alive and subsidises people paying less.</div>
           </article>
           <article class="habit-offer team">
-            <strong>Group / employer</strong>
-            <span class="habit-price">Next</span>
-            <h3>Bring people in</h3>
-            <p>Use the group route if you want colleagues to do it with you. Use the employer pack if you want a manager-ready case for why this belongs at work.</p>
+            <strong>Reference prices</strong>
+            <span class="habit-price">$249</span>
+            <h3>Anchor sensibly</h3>
+            <p>Pick a price with the alternatives in view, not in a vacuum.</p>
+            <div class="habit-benchmark-list">
+              <div class="habit-benchmark">
+                <b>$49/month</b>
+                <span><a href="https://www.coursera.org/specializations/ai-essentials-google" target="_blank" rel="noopener noreferrer">Google AI Essentials on Coursera</a> lists $49/month after trial in the US and Canada.</span>
+              </div>
+              <div class="habit-benchmark">
+                <b>$249.99/month</b>
+                <span><a href="https://blog.google/products-and-platforms/products/google-one/google-ai-ultra/" target="_blank" rel="noopener noreferrer">Google AI Ultra</a> launched at $249.99/month in the US.</span>
+              </div>
+              <div class="habit-benchmark">
+                <b>£49 default</b>
+                <span>The suggested AI Habit contribution is deliberately lower, but you can choose from £1 to £200.</span>
+              </div>
+            </div>
           </article>
         </div>
       </div>
@@ -953,14 +1064,47 @@
       <div class="habit-container">
         <div class="habit-eyebrow">Start free, then keep going</div>
         <h2 class="habit-heading">Fourteen mornings is the start, not the whole habit.</h2>
-        <p class="habit-copy">The free block helps you build momentum. The £49 90-Day AI Habit is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Join individually now; group and employer routes come next.</p>
+        <p class="habit-copy">The free block helps you build momentum. The 90-Day AI Habit is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Pay what you think that would be worth to your career.</p>
         <div class="habit-actions">
           <a class="habit-btn habit-btn-primary" href="#signup">Join The AI Habit free</a>
-          <a class="habit-btn habit-btn-secondary" href="/.netlify/functions/ai-habit-checkout?plan=founding-90">Join the 90-day track - £49</a>
+          <a class="habit-btn habit-btn-secondary" href="#ninety-days">Choose your 90-day price</a>
         </div>
       </div>
     </section>
   </main>
+  <script>
+    (function () {
+      const slider = document.getElementById('habit-pay-slider');
+      const payHero = document.getElementById('habit-pay-hero');
+      const payCurrent = document.getElementById('habit-pay-current');
+      const payLink = document.getElementById('habit-pay-link');
+      const markers = Array.from(document.querySelectorAll('.habit-pay-marker'));
+      if (!slider || !payHero || !payCurrent || !payLink) return;
+
+      function amountLabel(value) {
+        return '£' + Number(value || 49).toLocaleString('en-GB');
+      }
+
+      function setAmount(value) {
+        const amount = Math.max(1, Math.min(200, Number(value || 49)));
+        const label = amountLabel(amount);
+        slider.value = amount;
+        payHero.textContent = label;
+        payCurrent.textContent = label;
+        payLink.textContent = 'Join for ' + label;
+        payLink.href = '/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=' + (amount * 100);
+        markers.forEach((marker) => {
+          marker.classList.toggle('active', Number(marker.dataset.pay) === amount);
+        });
+      }
+
+      slider.addEventListener('input', () => setAmount(slider.value));
+      markers.forEach((marker) => {
+        marker.addEventListener('click', () => setAmount(marker.dataset.pay));
+      });
+      setAmount(slider.value);
+    })();
+  </script>
   <script src="/js/main.js"></script>
 </body>
 </html>

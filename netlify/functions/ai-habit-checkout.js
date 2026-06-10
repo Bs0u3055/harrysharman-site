@@ -46,6 +46,12 @@ function siteBaseUrl(event) {
   return `${proto}://${host}`;
 }
 
+function boundedAmountPence(value, fallbackPence) {
+  const raw = Number.parseInt(String(value || ''), 10);
+  if (!Number.isFinite(raw)) return fallbackPence;
+  return Math.max(100, Math.min(20000, raw));
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'GET') {
     return { statusCode: 405, body: 'Method not allowed' };
@@ -55,7 +61,7 @@ exports.handler = async (event) => {
   if (!secretKey) {
     return htmlPage(
       'Checkout is nearly ready',
-      'The £49 founding checkout is wired into the site, but Stripe has not been connected to this deployment yet. Add STRIPE_SECRET_KEY in Netlify, then this button will open Stripe Checkout.',
+      'The pay-what-it-is-worth checkout is wired into the site, but Stripe has not been connected to this deployment yet. Add STRIPE_SECRET_KEY in Netlify, then this button will open Stripe Checkout.',
       503
     );
   }
@@ -63,6 +69,10 @@ exports.handler = async (event) => {
   const baseUrl = siteBaseUrl(event);
   const stripe = new Stripe(secretKey, { apiVersion: '2024-06-20' });
   const pricePence = Math.max(100, Number(process.env.AI_HABIT_90_DAY_PRICE_PENCE || 4900));
+  const query = event.queryStringParameters || {};
+  const amountPence = boundedAmountPence(query.amount_pence || query.amount, pricePence);
+  const amountPounds = (amountPence / 100).toFixed(amountPence % 100 === 0 ? 0 : 2);
+  const plan = 'pay-what-worth-90';
 
   try {
     const session = await stripe.checkout.sessions.create({
@@ -75,23 +85,29 @@ exports.handler = async (event) => {
           quantity: 1,
           price_data: {
             currency: 'gbp',
-            unit_amount: pricePence,
+            unit_amount: amountPence,
             product_data: {
-              name: 'The AI Habit - 90-day founding track',
-              description: 'A 90-day applied LLM practice programme for building a grounded working AI habit.'
+              name: 'The AI Habit - 90-day track',
+              description: `Pay-what-you-think-it-is-worth access to the 90-day applied LLM practice programme. Chosen contribution: £${amountPounds}.`
             }
           }
         }
       ],
       metadata: {
         product: 'ai_habit',
-        plan: 'founding-90',
+        plan,
+        chosen_amount_pence: String(amountPence),
+        suggested_amount_pence: String(pricePence),
+        min_amount_pence: '100',
+        max_amount_pence: '20000',
         source: 'ai-habit-site'
       },
       payment_intent_data: {
         metadata: {
           product: 'ai_habit',
-          plan: 'founding-90',
+          plan,
+          chosen_amount_pence: String(amountPence),
+          suggested_amount_pence: String(pricePence),
           source: 'ai-habit-site'
         }
       },
@@ -108,7 +124,7 @@ exports.handler = async (event) => {
     console.error('ai habit checkout error', error);
     return htmlPage(
       'Checkout had a wobble',
-      'Stripe did not create the checkout session. The payment button is in place, but the Stripe configuration needs checking before the founding cohort can take payments.',
+      'Stripe did not create the checkout session. The payment button is in place, but the Stripe configuration needs checking before the 90-day track can take payments.',
       500
     );
   }
