@@ -123,8 +123,8 @@
       max-width: 660px;
       margin: 0 0 30px;
       color: rgba(254, 252, 247, 0.86);
-      font-size: clamp(19px, 2.2vw, 25px);
-      line-height: 1.42;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.45;
     }
 
     .habit-actions {
@@ -231,8 +231,8 @@
 
     .habit-copy {
       max-width: 760px;
-      font-size: 18px;
-      line-height: 1.62;
+      font-size: 17px;
+      line-height: 1.56;
       color: var(--habit-muted);
     }
 
@@ -621,6 +621,59 @@
       background: var(--habit-yellow);
     }
 
+    .habit-payment-reassurance {
+      display: grid;
+      gap: 9px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 2px solid var(--habit-ink);
+    }
+
+    .habit-secure-line {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .habit-payment-logos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .habit-payment-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 25px;
+      padding: 5px 8px;
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      color: var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .habit-payment-logo.stripe {
+      background: #635bff;
+      color: #fff;
+    }
+
+    .habit-payment-note {
+      color: rgba(26, 20, 16, 0.68);
+      font-family: var(--f-mono);
+      font-size: 10px;
+      line-height: 1.45;
+      font-weight: 700;
+    }
+
     .habit-benchmark-list {
       display: grid;
       gap: 10px;
@@ -886,7 +939,7 @@
             <span>pay £1-£200</span>
           </div>
           <div class="habit-substack-actions">
-            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=9000">Join the 90-day track</a>
+            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=9000">Pay securely for the 90-day track</a>
             <a class="habit-substack-link" href="https://aihabit.substack.com/" target="_blank" rel="noopener noreferrer">Read on Substack</a>
           </div>
         </aside>
@@ -924,7 +977,7 @@
           <div class="habit-eyebrow">The paid continuation</div>
           <h2 class="habit-heading">The 90-Day AI Habit.</h2>
           <p class="habit-copy">Fourteen days gets you moving. The 90-day programme is the serious version: a structured run of applied LLM practice across the work that actually matters, with visible outputs you can use inside your job rather than a certificate that mostly proves you endured a webinar.</p>
-          <p class="habit-market-note">Reference price: £1 a day for 90 days. That is £90 to invest in making AI part of your actual working rhythm: not because AI is magic, but because the people who get fluent fastest are likely to get more leverage, more options, and a louder seat on the bandwagon before it becomes normal. And unlike the big AI subscriptions, this is not another monthly payment quietly nesting in your bank statement.</p>
+          <p class="habit-market-note">Reference price: £1 a day for 90 days. That is £90 to invest in making AI part of your actual working rhythm. Unlike the big AI subscriptions, this is not another monthly payment quietly nesting in your bank statement.</p>
         </div>
         <div class="habit-programme-list">
           <div class="habit-programme-item">
@@ -973,7 +1026,19 @@
                 <button class="habit-pay-marker" type="button" data-pay="200">£200</button>
               </div>
             </div>
-            <a class="habit-btn habit-btn-primary" id="habit-pay-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=9000">Join for £90</a>
+            <a class="habit-btn habit-btn-primary" id="habit-pay-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=9000">Pay securely - £90</a>
+            <div class="habit-payment-reassurance" aria-label="Payment reassurance">
+              <span class="habit-secure-line">One-off payment. Secure Stripe checkout.</span>
+              <div class="habit-payment-logos" aria-label="Payment methods shown by Stripe at checkout">
+                <span class="habit-payment-logo stripe">stripe</span>
+                <span class="habit-payment-logo">Visa</span>
+                <span class="habit-payment-logo">Mastercard</span>
+                <span class="habit-payment-logo">Amex</span>
+                <span class="habit-payment-logo">Apple Pay</span>
+                <span class="habit-payment-logo">Google Pay</span>
+              </div>
+              <span class="habit-payment-note">No subscription. Stripe shows available card and wallet options at checkout.</span>
+            </div>
             <div class="habit-offer-note">£90 is the suggested default: £1 a day for the full 90-day habit. Lower is allowed. Higher helps keep the programme alive and subsidises those who cannot afford what they'd like to pay.</div>
           </article>
           <article class="habit-offer team">
@@ -1095,7 +1160,7 @@
         slider.value = amount;
         payHero.textContent = label;
         payCurrent.textContent = label;
-        payLink.textContent = 'Join for ' + label;
+        payLink.textContent = 'Pay securely - ' + label;
         payLink.href = '/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=' + (amount * 100);
         markers.forEach((marker) => {
           marker.classList.toggle('active', Number(marker.dataset.pay) === amount);
