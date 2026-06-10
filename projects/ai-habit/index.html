@@ -543,7 +543,7 @@
       display: block;
       margin: 0 0 14px;
       font-size: 46px;
-      line-height: 0.9;
+      line-height: 1.08;
       font-weight: 900;
       letter-spacing: 0;
     }
@@ -589,7 +589,7 @@
     .habit-pay-current {
       font-family: var(--f-sans);
       font-size: 34px;
-      line-height: 1;
+      line-height: 1.12;
       font-weight: 900;
       letter-spacing: 0;
     }
@@ -882,11 +882,11 @@
           <p class="habit-form-note">The first cohort is being handled in small batches while the delivery engine is hardened. You will start from Day 1, not whichever post happens to be newest.</p>
           <div class="habit-price-strip" aria-label="AI Habit routes">
             <span>£0 starter</span>
-            <span>£49 suggested 90-day track</span>
+            <span>£90 suggested 90-day track</span>
             <span>pay £1-£200</span>
           </div>
           <div class="habit-substack-actions">
-            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=4900">Join the 90-day track</a>
+            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=9000">Join the 90-day track</a>
             <a class="habit-substack-link" href="https://aihabit.substack.com/" target="_blank" rel="noopener noreferrer">Read on Substack</a>
           </div>
         </aside>
@@ -924,7 +924,7 @@
           <div class="habit-eyebrow">The paid continuation</div>
           <h2 class="habit-heading">The 90-Day AI Habit.</h2>
           <p class="habit-copy">Fourteen days gets you moving. The 90-day programme is the serious version: a structured run of applied LLM practice across the work that actually matters, with visible outputs you can use inside your job rather than a certificate that mostly proves you endured a webinar.</p>
-          <p class="habit-market-note">Pricing anchor: Google AI Essentials is listed by Coursera at $49/month after trial, while Google AI Ultra launched in the US at $249.99/month. This is not either of those. It is a 90-day applied practice programme, so choose what you think the habit is worth to your work and career.</p>
+          <p class="habit-market-note">Reference price: £1 a day for 90 days. That is £90 to invest in making AI part of your actual working rhythm: not because AI is magic, but because the people who get fluent fastest are likely to get more leverage, more options, and a louder seat on the bandwagon before it becomes normal.</p>
         </div>
         <div class="habit-programme-list">
           <div class="habit-programme-item">
@@ -955,44 +955,44 @@
           </article>
           <article class="habit-offer featured">
             <strong>Pay what it is worth</strong>
-            <span class="habit-price" id="habit-pay-hero">£49</span>
+            <span class="habit-price" id="habit-pay-hero">£90</span>
             <h3>The 90-day track</h3>
-            <p>The main offer: the first 14 days count as progress already earned, then the paid track carries you through the full habit-building arc. Pay what you think that is worth to your work and career.</p>
+            <p>The main offer: the first 14 days count as progress already earned, then the paid track carries you through the full habit-building arc. The reference price is £1 a day: a small career investment in getting properly fluent with the AI shift instead of watching it happen from the pavement.</p>
             <div class="habit-pay-control" aria-label="Choose your AI Habit contribution">
               <div class="habit-pay-row">
                 <span>Minimum £1</span>
-                <span class="habit-pay-current" id="habit-pay-current">£49</span>
+                <span class="habit-pay-current" id="habit-pay-current">£90</span>
                 <span>Maximum £200</span>
               </div>
-              <input class="habit-pay-range" id="habit-pay-slider" type="range" min="1" max="200" value="49" step="1">
+              <input class="habit-pay-range" id="habit-pay-slider" type="range" min="1" max="200" value="90" step="1">
               <div class="habit-pay-markers" aria-label="Suggested payment amounts">
                 <button class="habit-pay-marker" type="button" data-pay="1">£1</button>
                 <button class="habit-pay-marker" type="button" data-pay="19">£19</button>
-                <button class="habit-pay-marker active" type="button" data-pay="49">£49</button>
-                <button class="habit-pay-marker" type="button" data-pay="99">£99</button>
+                <button class="habit-pay-marker active" type="button" data-pay="90">£90</button>
+                <button class="habit-pay-marker" type="button" data-pay="150">£150</button>
                 <button class="habit-pay-marker" type="button" data-pay="200">£200</button>
               </div>
             </div>
-            <a class="habit-btn habit-btn-primary" id="habit-pay-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=4900">Join for £49</a>
-            <div class="habit-offer-note">£49 is the suggested default. Lower is allowed. Higher helps keep the experiment alive and subsidises people paying less.</div>
+            <a class="habit-btn habit-btn-primary" id="habit-pay-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=9000">Join for £90</a>
+            <div class="habit-offer-note">£90 is the suggested default: £1 a day for the full 90-day habit. Lower is allowed. Higher helps keep the programme alive and subsidises people paying less.</div>
           </article>
           <article class="habit-offer team">
-            <strong>Reference prices</strong>
-            <span class="habit-price">$249</span>
-            <h3>Anchor sensibly</h3>
-            <p>Pick a price with the alternatives in view, not in a vacuum.</p>
+            <strong>Reference price</strong>
+            <span class="habit-price">£1/day</span>
+            <h3>Invest in the bandwagon</h3>
+            <p>The question is not "what is another email course worth?" It is "what is it worth to accelerate your career while AI fluency is still unevenly distributed?"</p>
             <div class="habit-benchmark-list">
               <div class="habit-benchmark">
-                <b>$49/month</b>
-                <span><a href="https://www.coursera.org/specializations/ai-essentials-google" target="_blank" rel="noopener noreferrer">Google AI Essentials on Coursera</a> lists $49/month after trial in the US and Canada.</span>
+                <b>£1 a day</b>
+                <span>The reference price is deliberately simple: one pound for each day of the 90-day practice.</span>
               </div>
               <div class="habit-benchmark">
-                <b>$249.99/month</b>
-                <span><a href="https://blog.google/products-and-platforms/products/google-one/google-ai-ultra/" target="_blank" rel="noopener noreferrer">Google AI Ultra</a> launched at $249.99/month in the US.</span>
+                <b>£90 total</b>
+                <span>A career-sized commitment, not a giant training budget. Enough to make the decision feel real.</span>
               </div>
               <div class="habit-benchmark">
-                <b>£49 default</b>
-                <span>The suggested AI Habit contribution is deliberately lower, but you can choose from £1 to £200.</span>
+                <b>£1-£200</b>
+                <span>You can still pay what you think it is worth. The anchor is £90 because the ambition is career acceleration, not bargain-bin prompting.</span>
               </div>
             </div>
           </article>
@@ -1082,11 +1082,11 @@
       if (!slider || !payHero || !payCurrent || !payLink) return;
 
       function amountLabel(value) {
-        return '£' + Number(value || 49).toLocaleString('en-GB');
+        return '£' + Number(value || 90).toLocaleString('en-GB');
       }
 
       function setAmount(value) {
-        const amount = Math.max(1, Math.min(200, Number(value || 49)));
+        const amount = Math.max(1, Math.min(200, Number(value || 90)));
         const label = amountLabel(amount);
         slider.value = amount;
         payHero.textContent = label;

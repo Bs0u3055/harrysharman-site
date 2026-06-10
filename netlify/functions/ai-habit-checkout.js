@@ -68,7 +68,7 @@ exports.handler = async (event) => {
 
   const baseUrl = siteBaseUrl(event);
   const stripe = new Stripe(secretKey, { apiVersion: '2024-06-20' });
-  const pricePence = Math.max(100, Number(process.env.AI_HABIT_90_DAY_PRICE_PENCE || 4900));
+  const pricePence = Math.max(100, Number(process.env.AI_HABIT_90_DAY_PRICE_PENCE || 9000));
   const query = event.queryStringParameters || {};
   const amountPence = boundedAmountPence(query.amount_pence || query.amount, pricePence);
   const amountPounds = (amountPence / 100).toFixed(amountPence % 100 === 0 ? 0 : 2);
@@ -88,7 +88,7 @@ exports.handler = async (event) => {
             unit_amount: amountPence,
             product_data: {
               name: 'The AI Habit - 90-day track',
-              description: `Pay-what-you-think-it-is-worth access to the 90-day applied LLM practice programme. Chosen contribution: £${amountPounds}.`
+              description: `Pay-what-you-think-it-is-worth access to the 90-day applied LLM practice programme. Reference price: £1 a day, £90 total. Chosen contribution: £${amountPounds}.`
             }
           }
         }
