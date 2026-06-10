@@ -94,6 +94,52 @@
     });
   }
 
+  function shouldOpenInNewTab(anchor) {
+    var href = (anchor.getAttribute('href') || '').trim();
+    if (!href || href.charAt(0) === '#') return false;
+    if (/^(mailto:|tel:|javascript:)/i.test(href)) return false;
+    if (href.indexOf('/.netlify/functions/ai-habit-checkout') === 0) return true;
+
+    try {
+      var url = new URL(href, window.location.href);
+      return url.origin !== window.location.origin;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  function applyNewTabLinkPolicy(root) {
+    (root || document).querySelectorAll('a[href]').forEach(function (anchor) {
+      if (!shouldOpenInNewTab(anchor)) return;
+      anchor.setAttribute('target', '_blank');
+      var rel = (anchor.getAttribute('rel') || '').split(/\s+/).filter(Boolean);
+      ['noopener', 'noreferrer'].forEach(function (value) {
+        if (rel.indexOf(value) === -1) rel.push(value);
+      });
+      anchor.setAttribute('rel', rel.join(' '));
+    });
+  }
+
+  function initNewTabLinkPolicy() {
+    applyNewTabLinkPolicy(document);
+    if (!window.MutationObserver || !document.body) return;
+
+    var observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        mutation.addedNodes.forEach(function (node) {
+          if (!node || node.nodeType !== 1) return;
+          if (node.matches && node.matches('a[href]')) {
+            applyNewTabLinkPolicy(node.parentNode || document);
+          } else if (node.querySelectorAll) {
+            applyNewTabLinkPolicy(node);
+          }
+        });
+      });
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
   // ── renderEssayList (index.html) ───────────
   async function renderEssayList() {
     var container = document.getElementById('essay-list');
@@ -318,6 +364,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    initNewTabLinkPolicy();
     renderEssayList();
     renderBlogList();
     renderPost();
