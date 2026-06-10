@@ -43,6 +43,11 @@
       overflow-x: hidden;
     }
 
+    .habit-section,
+    .habit-choice {
+      scroll-margin-top: 82px;
+    }
+
     .habit-container {
       width: 100%;
       max-width: 1180px;
@@ -139,12 +144,15 @@
       justify-content: center;
       min-height: 50px;
       padding: 13px 20px;
-      border: 2px solid var(--habit-ink);
+      border: 1px solid var(--habit-ink);
+      border-radius: 6px;
       font-family: var(--f-mono);
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.04em;
-      transition: transform 0.15s, box-shadow 0.15s;
+      text-align: center;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
     }
 
     .habit-btn:hover {
@@ -180,8 +188,8 @@
     }
 
     .habit-section {
-      border-bottom: 2px solid var(--habit-ink);
-      padding: 62px 0;
+      border-bottom: 1px solid rgba(18, 13, 10, 0.12);
+      padding: clamp(58px, 7vw, 88px) 0;
     }
 
     .habit-section.red {
@@ -328,14 +336,20 @@
     .habit-form input,
     .habit-form textarea {
       width: 100%;
-      border: 2px solid var(--habit-ink);
-      background: var(--habit-paper);
+      border: 1px solid rgba(18, 13, 10, 0.2);
+      background: #fff;
       color: var(--habit-ink);
       font: inherit;
       font-size: 16px;
       line-height: 1.3;
       padding: 13px 14px;
-      border-radius: 0;
+      border-radius: 6px;
+    }
+
+    .habit-form input:focus,
+    .habit-form textarea:focus {
+      outline: 3px solid rgba(36, 52, 255, 0.16);
+      border-color: var(--habit-blue);
     }
 
     .habit-form textarea {
@@ -780,6 +794,216 @@
       margin-top: 28px;
     }
 
+    .habit-hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 760px;
+      margin-top: 20px;
+    }
+
+    .habit-hero-points span {
+      display: inline-flex;
+      border: 1px solid rgba(254, 252, 247, 0.42);
+      background: rgba(254, 252, 247, 0.1);
+      color: rgba(254, 252, 247, 0.88);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      line-height: 1.3;
+      text-transform: uppercase;
+      padding: 8px 10px;
+    }
+
+    .habit-choice-section {
+      background: #fff;
+    }
+
+    .habit-section-intro {
+      max-width: 780px;
+      margin-bottom: 30px;
+    }
+
+    .habit-choice-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: clamp(22px, 3vw, 34px);
+      align-items: stretch;
+    }
+
+    .habit-choice {
+      min-width: 0;
+      border: 1px solid rgba(18, 13, 10, 0.13);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 18px 50px rgba(18, 13, 10, 0.08);
+      padding: clamp(22px, 4vw, 34px);
+    }
+
+    .habit-choice.paid {
+      background: #fbf6ea;
+      box-shadow: none;
+    }
+
+    .habit-tag {
+      display: inline-flex;
+      margin-bottom: 14px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--habit-yellow);
+      color: var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      text-transform: uppercase;
+      padding: 8px 11px;
+    }
+
+    .habit-choice h2 {
+      margin: 0 0 12px;
+      font-size: clamp(30px, 3.8vw, 46px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .habit-choice-copy {
+      margin: 0 0 18px;
+      color: var(--habit-muted);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .habit-choice.paid #habit-pay-link {
+      width: 100%;
+      margin-top: 14px;
+      border-color: var(--habit-blue);
+      background: var(--habit-blue);
+      color: #fff;
+    }
+
+    .habit-choice.paid #habit-pay-link:hover {
+      box-shadow: 0 10px 24px rgba(36, 52, 255, 0.2);
+    }
+
+    .habit-takeaway {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 42px;
+      align-items: start;
+    }
+
+    .habit-takeaway-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .habit-takeaway-item {
+      border-top: 2px solid var(--habit-ink);
+      padding-top: 14px;
+    }
+
+    .habit-takeaway-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .habit-takeaway-item span {
+      display: block;
+      color: var(--habit-muted);
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    .habit-detail-section {
+      background: #fff;
+    }
+
+    .habit-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 28px 0 24px;
+      padding: 6px;
+      border-radius: 8px;
+      background: rgba(18, 13, 10, 0.05);
+    }
+
+    .habit-tab {
+      min-height: 42px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 10px 13px;
+      cursor: pointer;
+    }
+
+    .habit-tab[aria-selected="true"] {
+      background: #fff;
+      color: var(--habit-ink);
+      box-shadow: 0 8px 24px rgba(18, 13, 10, 0.08);
+    }
+
+    .habit-tab-panel {
+      display: none;
+      border-top: 0;
+      padding-top: 6px;
+    }
+
+    .habit-tab-panel.active {
+      display: block;
+    }
+
+    .habit-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .habit-detail-card {
+      min-width: 0;
+      border: 1px solid rgba(18, 13, 10, 0.1);
+      border-radius: 8px;
+      background: var(--habit-paper);
+      padding: 20px;
+    }
+
+    .habit-detail-card h3 {
+      margin: 0 0 9px;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .habit-detail-card p,
+    .habit-detail-card li {
+      color: var(--habit-muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .habit-detail-card ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+
+    .habit-detail-card a {
+      color: var(--habit-blue);
+      font-weight: 900;
+    }
+
     @media (max-width: 920px) {
       .habit-hero {
         min-height: auto;
@@ -792,7 +1016,10 @@
       }
 
       .habit-signup-grid,
-      .habit-list {
+      .habit-list,
+      .habit-choice-grid,
+      .habit-takeaway,
+      .habit-detail-grid {
         grid-template-columns: 1fr;
       }
 
@@ -909,127 +1136,63 @@
   <main class="habit-page">
     <section class="habit-hero">
       <div class="habit-container habit-hero-inner">
-        <div class="habit-kicker">14 days free / pay what it is worth</div>
+        <div class="habit-kicker">Free starter / optional 90-day track</div>
         <h1 class="habit-title">The AI Habit</h1>
-        <p class="habit-lede">Most AI advice gives you more tools. This gives you a working rhythm for using chat-based LLMs: 14 free mornings to start, then a pay-what-it-is-worth 90-day track for people who want the habit to actually stick.</p>
+        <p class="habit-lede">A practical email programme for professionals who want to get genuinely useful with chat-based AI. Start with 14 free daily workouts, or go straight into the full 90-day practice track.</p>
         <div class="habit-actions">
-          <a class="habit-btn habit-btn-primary" href="#signup">Start the 14 days</a>
-          <a class="habit-btn habit-btn-secondary" href="#ninety-days">See the 90-day track</a>
+          <a class="habit-btn habit-btn-primary" href="#signup">Start free for 14 days</a>
+          <a class="habit-btn habit-btn-secondary" href="#ninety-days">Pay for the 90-day track</a>
+        </div>
+        <div class="habit-hero-points" aria-label="AI Habit summary">
+          <span>Daily email workouts</span>
+          <span>15 minutes a day</span>
+          <span>For ChatGPT, Claude, Gemini, Copilot</span>
         </div>
       </div>
     </section>
 
-    <section class="habit-section red" id="signup">
-      <div class="habit-container habit-signup-grid">
-        <div>
-          <div class="habit-eyebrow">Habit before hype</div>
-          <h2 class="habit-heading">Build the working habit first.</h2>
-          <p class="habit-copy">The first 14 days are free. They are a starter block for people who want chat-based AI to become useful in real work rather than another tab they feel guilty about not opening. If it starts to stick, your first 14 days count towards the full 90-day practice, and you choose what that continuation is worth.</p>
-          <p class="habit-scope-note">Scope note: when this project says AI, it mostly means text-first large language models: ChatGPT, Claude, Gemini, Copilot, Perplexity, or an approved workplace assistant. Not every kind of AI. Not image generation. Not voice cloning. Not automation theatre.</p>
-        </div>
-        <aside class="habit-substack-panel" aria-label="AI Habit signup">
-          <h2>Join The AI Habit</h2>
-          <p>Start at Day 1. The first 14 workouts are free, practical, and deliberately small. This list is for the proper sequence, not the rolling Substack feed.</p>
-          <form class="habit-form" name="ai-habit-starter" method="POST" netlify-honeypot="bot-field" action="/.netlify/functions/ai-habit-start">
-            <input type="hidden" name="form-name" value="ai-habit-starter">
-            <input type="hidden" name="track" value="starter-14">
-            <input type="hidden" name="source" value="ai-habit-website">
-            <p style="display:none;">
-              <label>Do not fill this in: <input name="bot-field"></label>
-            </p>
-            <div>
-              <label for="ai-habit-name">Name</label>
-              <input id="ai-habit-name" type="text" name="name" autocomplete="name" placeholder="Your name">
-            </div>
-            <div>
-              <label for="ai-habit-email">Email</label>
-              <input id="ai-habit-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
-            </div>
-            <div>
-              <label for="ai-habit-context">What do you want AI to help with?</label>
-              <textarea id="ai-habit-context" name="context" placeholder="Writing, strategy, research, productivity, management, delegation..."></textarea>
-            </div>
-            <button class="habit-btn habit-btn-primary" type="submit">Start the free 14-day sequence</button>
-          </form>
-          <p class="habit-form-note">The first cohort is being handled in small batches while the delivery engine is hardened. You will start from Day 1, not whichever post happens to be newest.</p>
-          <div class="habit-price-strip" aria-label="AI Habit routes">
-            <span>£0 starter</span>
-            <span>£90 suggested 90-day track</span>
-            <span>pay £1-£200</span>
-          </div>
-          <div class="habit-substack-actions">
-            <a class="habit-substack-link" href="/.netlify/functions/ai-habit-checkout?plan=pay-what-worth-90&amount_pence=9000">Pay securely for the 90-day track</a>
-            <a class="habit-substack-link" href="https://aihabit.substack.com/" target="_blank" rel="noopener noreferrer">Read on Substack</a>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <section class="habit-section" id="how-it-works">
+    <section class="habit-section habit-choice-section" id="signup">
       <div class="habit-container">
-        <div class="habit-eyebrow">The daily workout</div>
-        <h2 class="habit-heading">A tiny gym for your AI working muscles.</h2>
-        <p class="habit-copy">Each day is deliberately small. Learn one LLM pattern, use it on something real, and finish with an output you can keep, adapt, or throw away with dignity. Fourteen days gets you moving; a real habit usually needs longer repetition.</p>
-        <div class="habit-steps">
-          <article class="habit-step">
-            <span class="habit-step-number">01 / READ</span>
-            <h3>One useful pattern</h3>
-            <p>A plain-English explanation of one AI workflow that can fit into a normal job, not a theoretical tour of every possible tool.</p>
-          </article>
-          <article class="habit-step">
-            <span class="habit-step-number">02 / DO</span>
-            <h3>One short exercise</h3>
-            <p>A focused 15-minute prompt workout that asks you to make something: a plan, a draft, a sharper question, a better decision.</p>
-          </article>
-          <article class="habit-step">
-            <span class="habit-step-number">03 / KEEP</span>
-            <h3>One working habit</h3>
-            <p>By the end, you should know which uses of AI actually survive contact with your calendar, inbox, meetings, and attention span.</p>
-          </article>
+        <div class="habit-section-intro">
+          <div class="habit-eyebrow">Choose your route</div>
+          <h2 class="habit-heading">Start small, or commit to the full practice.</h2>
+          <p class="habit-copy">The simplest path is the free 14-day starter. If you already know you want the full run, the 90-day track is a one-off payment, not another subscription.</p>
         </div>
-      </div>
-    </section>
 
-    <section class="habit-section habit-programme" id="ninety-days">
-      <div class="habit-container habit-programme-grid">
-        <div>
-          <div class="habit-eyebrow">The paid continuation</div>
-          <h2 class="habit-heading">The 90-Day AI Habit.</h2>
-          <p class="habit-copy">Fourteen days gets you moving. The 90-day programme is the serious version: a structured run of applied LLM practice across the work that actually matters, with visible outputs you can use inside your job rather than a certificate that mostly proves you endured a webinar.</p>
-          <p class="habit-market-note">Reference price: £1 a day for 90 days. That is £90 to invest in making AI part of your actual working rhythm. Unlike the big AI subscriptions, this is not another monthly payment quietly nesting in your bank statement.</p>
-        </div>
-        <div class="habit-programme-list">
-          <div class="habit-programme-item">
-            <strong>Practice</strong>
-            <span>Daily workouts across writing and editing, strategy and decision-making, research and assessment, management and delegation, and personal productivity.</span>
-          </div>
-          <div class="habit-programme-item">
-            <strong>Outputs</strong>
-            <span>A growing pack of useful work artefacts: briefs, prompts, decision tools, synthesis templates, delegation notes, and reusable workflows.</span>
-          </div>
-          <div class="habit-programme-item">
-            <strong>Proof</strong>
-            <span>Day 90 includes a completion proof kit: badge maker, LinkedIn-ready write-up, evidence checklist, and maintenance plan. Credible proof of applied practice, not a fake certification.</span>
-          </div>
-          <div class="habit-programme-item">
-            <strong>Workplace</strong>
-            <span>Join solo, invite friends or colleagues to pick their own fair price, or use the launch pack to make the case for your employer to pay for the practice properly.</span>
-          </div>
-        </div>
-      </div>
-      <div class="habit-container">
-        <div class="habit-offer-grid" aria-label="AI Habit routes">
-          <article class="habit-offer">
-            <strong>Starter</strong>
-            <span class="habit-price">£0</span>
-            <h3>Fourteen days</h3>
-            <p>Start at Day 1, prove the rhythm works for you, and build enough momentum to make a real decision instead of buying another course on vibes.</p>
+        <div class="habit-choice-grid">
+          <article class="habit-choice" aria-label="Start The AI Habit free">
+            <span class="habit-tag">Free starter</span>
+            <h2>Try it for 14 days.</h2>
+            <p class="habit-choice-copy">Start at Day 1. Each workout teaches one LLM pattern and asks you to use it on something real from your work.</p>
+            <form class="habit-form" name="ai-habit-starter" method="POST" netlify-honeypot="bot-field" action="/.netlify/functions/ai-habit-start">
+              <input type="hidden" name="form-name" value="ai-habit-starter">
+              <input type="hidden" name="track" value="starter-14">
+              <input type="hidden" name="source" value="ai-habit-website">
+              <p style="display:none;">
+                <label>Do not fill this in: <input name="bot-field"></label>
+              </p>
+              <div>
+                <label for="ai-habit-name">Name</label>
+                <input id="ai-habit-name" type="text" name="name" autocomplete="name" placeholder="Your name">
+              </div>
+              <div>
+                <label for="ai-habit-email">Email</label>
+                <input id="ai-habit-email" type="email" name="email" autocomplete="email" placeholder="you@example.com" required>
+              </div>
+              <div>
+                <label for="ai-habit-context">What do you want AI to help with?</label>
+                <textarea id="ai-habit-context" name="context" placeholder="Writing, strategy, research, productivity, management, delegation..."></textarea>
+              </div>
+              <button class="habit-btn habit-btn-primary" type="submit">Start the free 14-day sequence</button>
+            </form>
+            <p class="habit-form-note">You will get the first 14 emails in order. You do not just join the latest post.</p>
           </article>
-          <article class="habit-offer featured">
-            <strong>Pay what it is worth</strong>
+
+          <article class="habit-choice paid" id="ninety-days" aria-label="Pay for The AI Habit 90-day track">
+            <span class="habit-tag">90-day track</span>
+            <h2>Go straight to the full habit.</h2>
             <span class="habit-price" id="habit-pay-hero">£90</span>
-            <h3>The 90-day track</h3>
-            <p>The main offer: the first 14 days count as progress already earned, then the paid track carries you through the full habit-building arc. The reference price is £1 a day: a small career investment in getting properly fluent with the AI shift instead of watching it happen from the pavement.</p>
+            <p class="habit-choice-copy">Suggested at £1 a day. Pay what you think it is worth, from £1 to £200. One-off payment. No subscription.</p>
             <div class="habit-pay-control" aria-label="Choose your AI Habit contribution">
               <div class="habit-pay-row">
                 <span>Minimum £1</span>
@@ -1054,93 +1217,122 @@
                 <span class="habit-payment-logo">Apple Pay</span>
                 <span class="habit-payment-logo">Google Pay</span>
               </div>
-              <span class="habit-payment-note">No subscription. Stripe shows available card and wallet options at checkout.</span>
+              <span class="habit-payment-note">The first 14 free days count towards the 90-day run if you start there first.</span>
             </div>
-            <div class="habit-offer-note">£90 is the suggested default: £1 a day for the full 90-day habit. Lower is allowed. Higher helps keep the programme alive and subsidises those who cannot afford what they'd like to pay.</div>
-          </article>
-          <article class="habit-offer team">
-            <strong>Reference frame</strong>
-            <span class="habit-price">$200/mo</span>
-            <h3>Who needs another subscription?</h3>
-            <p>A lot of AI products want monthly money from you forever. The AI Habit is a one-off 90-day practice track: less "yet another subscription", more "am I investing enough in staying useful?"</p>
-            <div class="habit-benchmark-list">
-              <div class="habit-benchmark">
-                <b>ChatGPT Pro</b>
-                <span><a href="https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers" target="_blank" rel="noopener noreferrer">OpenAI's Pro tiers</a> are listed at $100/month and $200/month.</span>
-              </div>
-              <div class="habit-benchmark">
-                <b>Claude Max</b>
-                <span><a href="https://support.claude.com/en/articles/11049741-what-is-the-max-plan" target="_blank" rel="noopener noreferrer">Anthropic's Max plan</a> is listed at $100/month or $200/month.</span>
-              </div>
-              <div class="habit-benchmark">
-                <b>Google AI Ultra</b>
-                <span><a href="https://blog.google/products-and-platforms/products/google-one/google-ai-subscriptions/" target="_blank" rel="noopener noreferrer">Google's own update</a> says its top Ultra tier moved from $250 to $200, with Ultra starting at $100/month. Ouch, Google.</span>
-              </div>
-              <div class="habit-benchmark">
-                <b>The AI Habit</b>
-                <span>Suggested at £90 once: £1 a day for a 90-day career-practice sprint. You can still choose from £1 to £200.</span>
-              </div>
-            </div>
+            <div class="habit-offer-note">Higher payments help keep the programme alive and subsidise those who cannot afford what they'd like to pay.</div>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="habit-section ink">
-      <div class="habit-container habit-proof-band">
+    <section class="habit-section" id="what-it-is">
+      <div class="habit-container habit-takeaway">
         <div>
-          <div class="habit-eyebrow">Why keep going?</div>
-          <h2 class="habit-heading">Because knowing about AI is not the same as using it.</h2>
-          <p class="habit-copy">The paid track is built around outputs, not vibes. By the end, you should have a small personal operating system for using LLMs in real work.</p>
+          <div class="habit-eyebrow">The simple version</div>
+          <h2 class="habit-heading">It is a daily practice system for using LLMs at work.</h2>
+          <p class="habit-copy">Not a giant course. Not a prompt library. Not a certificate pretending to be a qualification. The AI Habit gives you small, repeatable exercises so AI becomes part of how you write, think, research, plan, decide, and delegate.</p>
         </div>
-        <div class="habit-proof-list">
-          <div class="habit-proof-row">
-            <strong>Day 14</strong>
-            <span>A momentum check: what has actually started to change, and whether this deserves a proper 90-day run.</span>
+        <div class="habit-takeaway-list">
+          <div class="habit-takeaway-item">
+            <strong>What arrives</strong>
+            <span>One email workout at a time, starting from Day 1.</span>
           </div>
-          <div class="habit-proof-row">
-            <strong>Day 30</strong>
-            <span>A portfolio checkpoint: what you have actually changed, improved, delegated, drafted, researched, or decided with AI.</span>
+          <div class="habit-takeaway-item">
+            <strong>What you do</strong>
+            <span>Spend about 15 minutes using your preferred LLM on a real piece of work.</span>
           </div>
-          <div class="habit-proof-row">
-            <strong>Day 60</strong>
-            <span>A manager-ready checkpoint: where AI is saving time, sharpening thinking, or improving quality without pretending judgement has disappeared.</span>
-          </div>
-          <div class="habit-proof-row">
-            <strong>Day 75</strong>
-            <span>An employer-adoption pack: a simple case for bringing the habit into a team without turning it into another doomed transformation programme.</span>
-          </div>
-          <div class="habit-proof-row">
-            <strong>Day 90</strong>
-            <span>A completion proof kit: badge, LinkedIn-ready write-up, evidence checklist, and maintenance plan so the habit has somewhere to live after the programme ends.</span>
+          <div class="habit-takeaway-item">
+            <strong>What you build</strong>
+            <span>A pack of useful outputs: briefs, prompts, decision tools, research notes, workflows, and proof of practice.</span>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="habit-section ink">
-      <div class="habit-container habit-list">
-        <div>
-          <div class="habit-eyebrow">Who it is for</div>
-          <h2 class="habit-heading">People who know AI matters, but have not made it daily yet.</h2>
-          <p class="habit-copy">This is not a certification course, a prompt library, or a productivity guilt trip. It is a low-friction practice loop for people who want to get better by actually doing the thing.</p>
+    <section class="habit-section habit-detail-section" id="details">
+      <div class="habit-container">
+        <div class="habit-section-intro">
+          <div class="habit-eyebrow">Want the detail?</div>
+          <h2 class="habit-heading">Dig in only where you need to.</h2>
+          <p class="habit-copy">The main decision is simple: start free or pay for the full 90 days. The tabs below are for people who want to inspect the mechanics before they decide.</p>
         </div>
-        <div class="habit-row-list">
-          <div class="habit-row">
-            <strong>Strategy</strong>
-            <span>Turn messy thinking into clearer questions, options, arguments, and next steps.</span>
+
+        <div class="habit-tabs" role="tablist" aria-label="AI Habit details">
+          <button class="habit-tab" type="button" role="tab" aria-selected="true" aria-controls="tab-how" id="tab-how-button" data-tab="tab-how">How it works</button>
+          <button class="habit-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-get" id="tab-get-button" data-tab="tab-get">What you get</button>
+          <button class="habit-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-price" id="tab-price-button" data-tab="tab-price">Pricing</button>
+          <button class="habit-tab" type="button" role="tab" aria-selected="false" aria-controls="tab-proof" id="tab-proof-button" data-tab="tab-proof">Proof</button>
+        </div>
+
+        <div class="habit-tab-panel active" role="tabpanel" id="tab-how" aria-labelledby="tab-how-button">
+          <div class="habit-detail-grid">
+            <article class="habit-detail-card">
+              <h3>Read</h3>
+              <p>A short explanation of one useful LLM workflow. No grand tour of every tool on earth.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>Do</h3>
+              <p>A focused prompt workout that asks you to make something: a plan, a draft, a sharper question, or a better decision.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>Keep</h3>
+              <p>You finish with an output you can reuse, improve, or sensibly throw away after learning from it.</p>
+            </article>
           </div>
-          <div class="habit-row">
-            <strong>Leadership</strong>
-            <span>Use AI to prepare, decide, communicate, and reflect without outsourcing your judgement.</span>
+        </div>
+
+        <div class="habit-tab-panel" role="tabpanel" id="tab-get" aria-labelledby="tab-get-button">
+          <div class="habit-detail-grid">
+            <article class="habit-detail-card">
+              <h3>Work skills</h3>
+              <p>Writing and editing, strategy, decision-making, research, assessment, management, delegation, and productivity.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>Useful artefacts</h3>
+              <p>Briefs, prompt wrappers, synthesis templates, delegation notes, research checks, decision frames, and reusable workflows.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>Workplace pack</h3>
+              <p>By the end, you have material you can show your employer or team: what changed, what worked, and how to spread it responsibly.</p>
+            </article>
           </div>
-          <div class="habit-row">
-            <strong>Creation</strong>
-            <span>Draft faster, improve sharper, and build useful first versions instead of staring at blank pages.</span>
+        </div>
+
+        <div class="habit-tab-panel" role="tabpanel" id="tab-price" aria-labelledby="tab-price-button">
+          <div class="habit-detail-grid">
+            <article class="habit-detail-card">
+              <h3>£1 a day</h3>
+              <p>The reference price is £90 for 90 days. You can choose between £1 and £200.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>No subscription</h3>
+              <p>A lot of AI products want monthly money forever. This is a one-off payment for the 90-day practice track.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>Benchmarks</h3>
+              <ul>
+                <li><a href="https://help.openai.com/en/articles/9793128-about-chatgpt-pro-tiers" target="_blank" rel="noopener noreferrer">ChatGPT Pro tiers</a>: $100/month and $200/month.</li>
+                <li><a href="https://support.claude.com/en/articles/11049741-what-is-the-max-plan" target="_blank" rel="noopener noreferrer">Claude Max</a>: $100/month or $200/month.</li>
+                <li><a href="https://blog.google/products-and-platforms/products/google-one/google-ai-subscriptions/" target="_blank" rel="noopener noreferrer">Google AI Ultra</a>: top tier moved from $250 to $200. Ouch, Google.</li>
+              </ul>
+            </article>
           </div>
-          <div class="habit-row">
-            <strong>Behaviour</strong>
-            <span>Build the repetition that most AI training skips, because knowing about AI is not the same as using it.</span>
+        </div>
+
+        <div class="habit-tab-panel" role="tabpanel" id="tab-proof" aria-labelledby="tab-proof-button">
+          <div class="habit-detail-grid">
+            <article class="habit-detail-card">
+              <h3>Day 14</h3>
+              <p>A momentum check: what has actually started to change, and whether this deserves a proper 90-day run.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>Day 60</h3>
+              <p>A manager-ready checkpoint: where AI is saving time, sharpening thinking, or improving quality without pretending judgement has disappeared.</p>
+            </article>
+            <article class="habit-detail-card">
+              <h3>Day 90</h3>
+              <p>A completion proof kit: badge maker, LinkedIn-ready write-up, evidence checklist, and maintenance plan. Credible proof of practice, not a fake certification.</p>
+            </article>
           </div>
         </div>
       </div>
@@ -1148,12 +1340,12 @@
 
     <section class="habit-section habit-final">
       <div class="habit-container">
-        <div class="habit-eyebrow">Start free, then keep going</div>
-        <h2 class="habit-heading">Fourteen mornings is the start, not the whole habit.</h2>
-        <p class="habit-copy">The free block helps you build momentum. The 90-Day AI Habit is for people who want the next level: more reps, harder workflows, and enough repetition to make AI feel like part of the way they work. Pay what you think that would be worth to your career.</p>
+        <div class="habit-eyebrow">Start where you are</div>
+        <h2 class="habit-heading">Fourteen days free. Ninety days if it matters.</h2>
+        <p class="habit-copy">Start free if you want to test the rhythm. Pay for the 90-day track if you already know this is a skill you need to build properly.</p>
         <div class="habit-actions">
-          <a class="habit-btn habit-btn-primary" href="#signup">Join The AI Habit free</a>
-          <a class="habit-btn habit-btn-secondary" href="#ninety-days">Choose your 90-day price</a>
+          <a class="habit-btn habit-btn-primary" href="#signup">Start free for 14 days</a>
+          <a class="habit-btn habit-btn-secondary" href="#ninety-days">Pay for the 90-day track</a>
         </div>
       </div>
     </section>
@@ -1189,6 +1381,37 @@
         marker.addEventListener('click', () => setAmount(marker.dataset.pay));
       });
       setAmount(slider.value);
+    })();
+
+    (function () {
+      const tabs = Array.from(document.querySelectorAll('.habit-tab'));
+      const panels = Array.from(document.querySelectorAll('.habit-tab-panel'));
+      if (!tabs.length || !panels.length) return;
+
+      function activate(id) {
+        tabs.forEach((tab) => {
+          const selected = tab.dataset.tab === id;
+          tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+          tab.setAttribute('tabindex', selected ? '0' : '-1');
+        });
+        panels.forEach((panel) => {
+          panel.classList.toggle('active', panel.id === id);
+        });
+      }
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => activate(tab.dataset.tab));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          const nextTab = tabs[(index + direction + tabs.length) % tabs.length];
+          nextTab.focus();
+          activate(nextTab.dataset.tab);
+        });
+      });
+
+      activate(tabs.find((tab) => tab.getAttribute('aria-selected') === 'true')?.dataset.tab || tabs[0].dataset.tab);
     })();
   </script>
   <script src="/js/main.js"></script>
