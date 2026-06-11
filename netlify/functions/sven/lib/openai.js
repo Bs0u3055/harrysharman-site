@@ -57,7 +57,15 @@ function outputText(body) {
   return String(body.output_text || '').trim();
 }
 
-async function createResponse(apiKey, payload) {
+function clippedRetryPayload(payload) {
+  return {
+    ...payload,
+    instructions: `${payload.instructions || ''}\n\nSven runtime note: If the answer would be long, do not think through every possible detail. Reply with the practical short version in 8 bullets or fewer, then ask one follow-up question if needed.`,
+    max_output_tokens: Math.max(Number(payload.max_output_tokens || 0) * 2, 3000)
+  };
+}
+
+async function createResponse(apiKey, payload, allowClippedRetry = true) {
   const { response, body } = await requestJSON('https://api.openai.com/v1/responses', {
     method: 'POST',
     headers: {
@@ -73,10 +81,24 @@ async function createResponse(apiKey, payload) {
   const text = outputText(body);
   if (body.status === 'incomplete') {
     const reason = body.incomplete_details && body.incomplete_details.reason ? body.incomplete_details.reason : 'unknown reason';
+    if (reason === 'max_output_tokens' && !text && allowClippedRetry) {
+      return createResponse(apiKey, clippedRetryPayload(payload), false);
+    }
     if (reason === 'max_output_tokens' && text) {
       const usage = body.usage || {};
       return {
         text: `${text}\n\nSven ran out of reply room there. Send "continue" and I will carry on from this point.`,
+        usage: {
+          input_tokens: usage.input_tokens || 0,
+          output_tokens: usage.output_tokens || 0
+        },
+        raw: { id: body.id, status: body.status, incomplete_reason: reason, usage }
+      };
+    }
+    if (reason === 'max_output_tokens') {
+      const usage = body.usage || {};
+      return {
+        text: 'Sven ran out of reply room before producing a useful answer. Annoying, but fixable. Send: "short version please" and I will answer more tightly.',
         usage: {
           input_tokens: usage.input_tokens || 0,
           output_tokens: usage.output_tokens || 0

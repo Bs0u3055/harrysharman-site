@@ -9,7 +9,7 @@ const { learningSignal, userHash } = require('./learning');
 const { buildNutritionLookupContext } = require('./nutrition');
 
 const MIN_CREDIT_TOKENS_TO_START = 1500;
-const MAX_OUTPUT_TOKENS = 1400;
+const MAX_OUTPUT_TOKENS = 2200;
 const CREDIT_SAFETY_MARGIN_TOKENS = 5000;
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const MAX_AUDIO_BYTES = 24 * 1024 * 1024;

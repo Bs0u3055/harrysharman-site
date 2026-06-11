@@ -215,6 +215,50 @@ async function testIncompleteOpenAIResponseReturnsPartialText() {
   }
 }
 
+async function testIncompleteOpenAIResponseRetriesWhenNoText() {
+  const originalFetch = global.fetch;
+  let calls = 0;
+  const requestedTokens = [];
+  global.fetch = async (url, options = {}) => {
+    const target = String(url);
+    if (target === 'https://api.openai.com/v1/responses') {
+      calls += 1;
+      const payload = JSON.parse(options.body || '{}');
+      requestedTokens.push(payload.max_output_tokens);
+      if (calls === 1) {
+        return new Response(JSON.stringify({
+          id: 'resp_no_text',
+          status: 'incomplete',
+          incomplete_details: { reason: 'max_output_tokens' },
+          output: [],
+          usage: { input_tokens: 100, output_tokens: 10 }
+        }), { status: 200 });
+      }
+      assert(payload.instructions.includes('practical short version'));
+      return new Response(JSON.stringify({
+        id: 'resp_retry',
+        status: 'completed',
+        output: [{
+          type: 'message',
+          content: [{ type: 'output_text', text: 'Short version: do the useful thing first.' }]
+        }],
+        usage: { input_tokens: 120, output_tokens: 25 }
+      }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const { callOpenAI } = require('../netlify/functions/sven/lib/openai');
+    const result = await callOpenAI('sk-test', 'gpt-5-nano', 'coach', 'make a plan', 10);
+    assert.strictEqual(calls, 2);
+    assert(requestedTokens[1] > requestedTokens[0]);
+    assert(result.text.includes('Short version'));
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
 async function testLearningRedactionAndHashing() {
   const { learningSignal, userHash } = require('../netlify/functions/sven/lib/learning');
   const config = { svenSecret: 'hash-secret' };
@@ -884,6 +928,7 @@ async function run() {
   await testAutoLearningSkipsWithoutLearningKey();
   await testPrepaidCreditsDisabledByDefault();
   await testIncompleteOpenAIResponseReturnsPartialText();
+  await testIncompleteOpenAIResponseRetriesWhenNoText();
   await testLearningRedactionAndHashing();
   await testIdempotentMessages();
   await testIdempotentStripeCredits();
