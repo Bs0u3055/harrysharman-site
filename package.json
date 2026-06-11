@@ -4,7 +4,8 @@
   "private": true,
   "description": "Static site with Netlify Functions.",
   "scripts": {
-    "test:traffic": "node tests/site-traffic.test.js"
+    "test:traffic": "node tests/site-traffic.test.js",
+    "test:sven": "node tests/sven-functions.test.js"
   },
   "dependencies": {
     "@netlify/blobs": "^9.1.2",

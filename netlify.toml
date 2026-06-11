@@ -21,10 +21,38 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
+[[headers]]
+  for = "/sven-beta"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store, max-age=0"
+
+[[headers]]
+  for = "/SVEN-FRIEND-BETA-MESSAGE.md"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store, max-age=0"
+
+[[redirects]]
+  from = "/sven-beta"
+  to = "/.netlify/functions/sven-beta"
+  status = 200
+
+[[redirects]]
+  from = "/sven-beta/"
+  to = "/.netlify/functions/sven-beta"
+  status = 200
+
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[[redirects]]
+  from = "/SVEN-FRIEND-BETA-MESSAGE.md"
+  to = "/sven-beta"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/feed.xml"
