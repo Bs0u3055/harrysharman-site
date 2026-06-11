@@ -70,11 +70,22 @@ async function createResponse(apiKey, payload) {
     const message = body && body.error && body.error.message ? body.error.message : 'OpenAI request failed.';
     throw new Error(message);
   }
+  const text = outputText(body);
   if (body.status === 'incomplete') {
     const reason = body.incomplete_details && body.incomplete_details.reason ? body.incomplete_details.reason : 'unknown reason';
+    if (reason === 'max_output_tokens' && text) {
+      const usage = body.usage || {};
+      return {
+        text: `${text}\n\nSven ran out of reply room there. Send "continue" and I will carry on from this point.`,
+        usage: {
+          input_tokens: usage.input_tokens || 0,
+          output_tokens: usage.output_tokens || 0
+        },
+        raw: { id: body.id, status: body.status, incomplete_reason: reason, usage }
+      };
+    }
     throw new Error('The model response was incomplete: ' + reason);
   }
-  const text = outputText(body);
   if (!text) throw new Error('The model returned no text.');
   const usage = body.usage || {};
   return {

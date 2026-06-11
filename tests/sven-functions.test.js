@@ -184,6 +184,37 @@ async function testPrepaidCreditsDisabledByDefault() {
   }
 }
 
+async function testIncompleteOpenAIResponseReturnsPartialText() {
+  const originalFetch = global.fetch;
+  global.fetch = async (url) => {
+    const target = String(url);
+    if (target === 'https://api.openai.com/v1/responses') {
+      return new Response(JSON.stringify({
+        id: 'resp_partial',
+        status: 'incomplete',
+        incomplete_details: { reason: 'max_output_tokens' },
+        output: [{
+          type: 'message',
+          content: [{ type: 'output_text', text: 'Here is the useful first half of the plan.' }]
+        }],
+        usage: { input_tokens: 100, output_tokens: 20 }
+      }), { status: 200 });
+    }
+    throw new Error(`Unexpected fetch target ${target}`);
+  };
+
+  try {
+    const { callOpenAI } = require('../netlify/functions/sven/lib/openai');
+    const result = await callOpenAI('sk-test', 'gpt-5-nano', 'coach', 'make a plan', 10);
+    assert(result.text.includes('Here is the useful first half'));
+    assert(result.text.includes('Send "continue"'));
+    assert.strictEqual(result.raw.status, 'incomplete');
+    assert.strictEqual(result.raw.incomplete_reason, 'max_output_tokens');
+  } finally {
+    global.fetch = originalFetch;
+  }
+}
+
 async function testLearningRedactionAndHashing() {
   const { learningSignal, userHash } = require('../netlify/functions/sven/lib/learning');
   const config = { svenSecret: 'hash-secret' };
@@ -852,6 +883,7 @@ async function run() {
   await testAutoLearningPromotesSafeGeneralLessons();
   await testAutoLearningSkipsWithoutLearningKey();
   await testPrepaidCreditsDisabledByDefault();
+  await testIncompleteOpenAIResponseReturnsPartialText();
   await testLearningRedactionAndHashing();
   await testIdempotentMessages();
   await testIdempotentStripeCredits();
