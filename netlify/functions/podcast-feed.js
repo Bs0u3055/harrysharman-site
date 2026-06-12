@@ -15,9 +15,10 @@
 const https = require('https');
 
 const PODBEAN_FEED = 'https://feed.podbean.com/harrysharman/feed.xml';
+const PUBLIC_FEED = 'https://harrysharman.com/feed.xml';
 const OWNER_EMAIL  = 'harrysharman@gmail.com';
 const FETCH_TIMEOUT_MS = 10_000;
-const CACHE_TTL_SECONDS = 600; // 10 minutes — feed updates infrequently
+const CACHE_TTL_SECONDS = 300; // Keep crawlers close to the latest Podbean feed
 
 function fetchUpstream(url) {
   return new Promise((resolve, reject) => {
@@ -50,17 +51,49 @@ function fetchUpstream(url) {
 }
 
 function patchFeed(xml) {
-  if (xml.includes('<itunes:email>')) return xml;
-  return xml.replace(
-    '</itunes:owner>',
-    `    <itunes:email>${OWNER_EMAIL}</itunes:email>\n    </itunes:owner>`
+  let patched = xml;
+
+  if (!patched.includes('<itunes:email>')) {
+    patched = patched.replace(
+      '</itunes:owner>',
+      `    <itunes:email>${OWNER_EMAIL}</itunes:email>
+    </itunes:owner>`
+    );
+  }
+
+  // When served from harrysharman.com, keep the feed's self reference aligned
+  // with the URL crawlers are actually polling.
+  patched = patched.replace(
+    '<atom:link href="https://feed.podbean.com/harrysharman/feed.xml" rel="self" type="application/rss+xml"/>',
+    `<atom:link href="${PUBLIC_FEED}" rel="self" type="application/rss+xml"/>`
   );
+
+  if (!patched.includes('<lastBuildDate>')) {
+    const pubDate = patched.match(/<pubDate>([^<]+)<\/pubDate>/);
+    if (pubDate) {
+      patched = patched.replace(
+        pubDate[0],
+        `${pubDate[0]}
+    <lastBuildDate>${pubDate[1]}</lastBuildDate>`
+      );
+    }
+  }
+
+  return patched;
+}
+
+function lastModifiedFromFeed(xml) {
+  const pubDate = xml.match(/<pubDate>([^<]+)<\/pubDate>/);
+  if (!pubDate) return null;
+  const parsed = new Date(pubDate[1]);
+  return Number.isNaN(parsed.getTime()) ? null : parsed.toUTCString();
 }
 
 exports.handler = async (event, context) => {
   try {
     const xml = await fetchUpstream(PODBEAN_FEED);
     const patched = patchFeed(xml);
+    const lastModified = lastModifiedFromFeed(patched);
 
     return {
       statusCode: 200,
@@ -68,6 +101,7 @@ exports.handler = async (event, context) => {
         'Content-Type': 'application/rss+xml; charset=utf-8',
         'Cache-Control': `public, max-age=${CACHE_TTL_SECONDS}`,
         'Access-Control-Allow-Origin': '*',
+        ...(lastModified ? { 'Last-Modified': lastModified } : {}),
       },
       body: patched,
     };
