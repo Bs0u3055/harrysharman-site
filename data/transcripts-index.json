@@ -1,284 +1,368 @@
 [
-  {
-    "date": "2026-05-28",
-    "title": "Google Can't Spell, Agents Can Trade, and the Pope Has Notes | Briefly, AI",
-    "words": 967,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-27",
-    "title": "The Day Google Search Fought Back | Briefly, AI",
-    "words": 820,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-26",
-    "title": "ClickUp Fires Hundreds, Hires Thousands of AI Agents | Briefly, AI",
-    "words": 748,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-25",
-    "title": "Google's Search Box Dies After 25 Years | Briefly, AI",
-    "words": 895,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-24",
-    "title": "Why We Need AI to Fail Us Sometimes | Briefly, AI",
-    "words": 823,
-    "mode": "weekend-preview"
-  },
-  {
-    "date": "2026-05-23",
-    "title": "The Week Trust Became the Product | Briefly, AI",
-    "words": 869,
-    "mode": "weekend-roundup"
-  },
-  {
-    "date": "2026-05-22",
-    "title": "Spotify's AI Remix Deal and Trump's Regulation Reversal | Briefly, AI",
-    "words": 773,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-21",
-    "title": "Google Redesigns Search, Anthropic Hits Profit, Meta Cuts Deep | Briefly, AI",
-    "words": 597,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-20",
-    "title": "Google Redesigns Search for the AI Era | Briefly, AI",
-    "words": 798,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-19",
-    "title": "Anthropic Buys Dev Tools, Musk Loses to Altman | Briefly, AI",
-    "words": 620,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-18",
-    "title": "ArXiv Bans AI Slop, Siri Deletes Your Secrets | Briefly, AI",
-    "words": 698,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-17",
-    "title": "Why We Trusted AI With Everything Except Judgment | Briefly, AI",
-    "words": 764,
-    "mode": "weekend-preview"
-  },
-  {
-    "date": "2026-05-16",
-    "title": "The Week Platforms Reasserted Control | Briefly, AI",
-    "words": 696,
-    "mode": "weekend-roundup"
-  },
-  {
-    "date": "2026-05-15",
-    "title": "Anthropic Hits $900B, OpenAI Sues Apple, and Microsoft Kills Claude | Briefly, AI",
-    "words": 631,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-14",
-    "title": "Notion Becomes an Agent Hub, Clio Hits Half a Billion | Briefly, AI",
-    "words": 699,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-13",
-    "title": "Medicare Just Paid for an AI Agent \u2014 and Nobody Noticed | Briefly, AI",
-    "words": 855,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-12",
-    "title": "The AI That Listens While It Talks | Briefly, AI",
-    "words": 783,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-11",
-    "title": "Whisper-Filled Offices and Fiction-Trained Blackmailers | Briefly, AI",
-    "words": 752,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-10",
-    "title": "Why We Panic When AI Takes Jobs We Never Wanted | Briefly, AI",
-    "words": 934,
-    "mode": "weekend-preview"
-  },
-  {
-    "date": "2026-05-09",
-    "title": "The Week AI Got Serious About Jobs \u2014 Both Ways | Briefly, AI",
-    "words": 645,
-    "mode": "weekend-roundup"
-  },
-  {
-    "date": "2026-05-08",
-    "title": "OpenAI Launches Crisis Alerts and Voice APIs | Briefly, AI",
-    "words": 768,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-07",
-    "title": "Google Kills Its Own AI Agent, and What That Tells Us | Briefly, AI",
-    "words": 818,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-06",
-    "title": "When Your iPhone Comes With Five Different AIs | Briefly, AI",
-    "words": 709,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-05",
-    "title": "Sierra Raises $950M and Jensen Says AI Creates Jobs | Briefly, AI",
-    "words": 755,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-04",
-    "title": "Oscars Ban AI, Anthropic Makes a Billion-Dollar Bet | Briefly, AI",
-    "words": 893,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-05-03",
-    "title": "Why AI Labs Are Choosing Sides \u2014 And What It Tells Us About Power | Briefly, AI",
-    "words": 1129,
-    "mode": "weekend-preview"
-  },
-  {
-    "date": "2026-05-02",
-    "title": "The Week AI Chose Sides | Briefly, AI",
-    "words": 678,
-    "mode": "weekend-roundup"
-  },
-  {
-    "date": "2026-04-30",
-    "title": "Anthropic's $900 Billion Bet and the Slackbot Revolution | Briefly, AI",
-    "words": 772,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-29",
-    "title": "Google Takes What Anthropic Won't Touch | Briefly, AI",
-    "words": 739,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-28",
-    "title": "The Breakup, the Billion, and the Billboard | Briefly, AI",
-    "words": 652,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-27",
-    "title": "When AI Agents Start Buying and Selling Alone | Briefly, AI",
-    "words": 854,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-26",
-    "title": "Google's Compute Empire and the Coming Agent Economy | Briefly, AI",
-    "words": 704,
-    "mode": "weekend-preview"
-  },
-  {
-    "date": "2026-04-25",
-    "title": "Google Bets $40B on Anthropic's Mythos Moment | Briefly, AI",
-    "words": 719,
-    "mode": "weekend-roundup"
-  },
-  {
-    "date": "2026-04-24",
-    "title": "China's 1.6 Trillion Parameter Play and OpenAI's Super App | Briefly, AI",
-    "words": 777,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-23",
-    "title": "Tesla's $25B Bet and the Chip Wars Nobody's Watching | Briefly, AI",
-    "words": 695,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-22",
-    "title": "AI Briefing Wednesday 22 April | Briefly, AI",
-    "words": 933,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-21",
-    "title": "AI Briefing Tuesday 21 April | Briefly, AI",
-    "words": 235,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-20",
-    "title": "Why We'd Rather Talk to Machines Than People | Briefly, AI",
-    "words": 599,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-18",
-    "title": "The Words Don't Fit Anymore | Briefly, AI",
-    "words": 821,
-    "mode": "weekend-roundup"
-  },
-  {
-    "date": "2026-04-17",
-    "title": "Briefly, AI \u2014 Friday Reflection",
-    "words": 716,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-16",
-    "title": "Briefly, AI \u2014 Thursday 16th April 2026",
-    "words": 754,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-15",
-    "title": "Briefly, AI \u2014 Wednesday 15th April 2026",
-    "words": 750,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-14",
-    "title": "Briefly, AI \u2014 Tuesday, 14th April 2026",
-    "words": 868,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-13",
-    "title": "Briefly, AI \u2014 Monday 13th April 2026",
-    "words": 693,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-10",
-    "title": "Briefly, AI \u2014 Episode Script",
-    "words": 806,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-09",
-    "title": "Briefly, AI \u2014 Episode Script",
-    "words": 694,
-    "mode": "weekday"
-  },
-  {
-    "date": "2026-04-07",
-    "title": "Briefly, AI \u2014 Episode Script",
-    "words": 729,
-    "mode": "weekday"
-  }
+    {
+        "date": "2026-06-12",
+        "title": "Hidden Rules, Booing Graduates, and Admitting You Use AI | Briefly, AI",
+        "words": 1092,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-11",
+        "title": "Anthropic's Secret Sabotage, xAI's Fired Whistleblower, and the AI Skills Bubble | Briefly, AI",
+        "words": 1080,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-10",
+        "title": "Claude Fable, Microsoft Walks It Back, and the Fear of Obsolescence | Briefly, AI",
+        "words": 1051,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-09",
+        "title": "Apple's Big AI Bet, OpenAI Goes Public, and the AI Trust Gap | Briefly, AI",
+        "words": 1053,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-07",
+        "title": "The Week AI Stopped Being Theoretical | Briefly, AI",
+        "words": 1240,
+        "mode": "weekend-preview"
+    },
+    {
+        "date": "2026-06-06",
+        "title": "Why Doing Less Still Feels Like Losing | Briefly, AI",
+        "words": 1110,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-06-05",
+        "title": "Mira's Back, Apple's Agent Door, and Biosecurity | Briefly, AI",
+        "words": 1067,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-04",
+        "title": "DeepSeek's Billions, Google's Privacy Cartoon, and a Prompt Injection Trap | Briefly, AI",
+        "words": 1063,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-03",
+        "title": "Microsoft Builds a Brain, Trump Blinks on AI Safety | Briefly, AI",
+        "words": 1040,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-02",
+        "title": "Anthropic Goes Public, Meta's AI Hacked Its Own Users | Briefly, AI",
+        "words": 919,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-06-01",
+        "title": "Agents, Anthropic, and a Very Awkward Book | Briefly, AI",
+        "words": 985,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-31",
+        "title": "The Illusion of Making Something | Briefly, AI",
+        "words": 1105,
+        "mode": "weekend-preview"
+    },
+    {
+        "date": "2026-05-30",
+        "title": "The Week AI Started Doing the Work | Briefly, AI",
+        "words": 946,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-05-29",
+        "title": "Honest Machines, A Trillion Dollars, and Illinois Draws a Line | Briefly, AI",
+        "words": 1016,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-28",
+        "title": "Google Can't Spell, Agents Can Trade, and the Pope Has Notes | Briefly, AI",
+        "words": 967,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-27",
+        "title": "The Day Google Search Fought Back | Briefly, AI",
+        "words": 820,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-26",
+        "title": "ClickUp Fires Hundreds, Hires Thousands of AI Agents | Briefly, AI",
+        "words": 748,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-25",
+        "title": "Google's Search Box Dies After 25 Years | Briefly, AI",
+        "words": 895,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-24",
+        "title": "Why We Need AI to Fail Us Sometimes | Briefly, AI",
+        "words": 823,
+        "mode": "weekend-preview"
+    },
+    {
+        "date": "2026-05-23",
+        "title": "The Week Trust Became the Product | Briefly, AI",
+        "words": 869,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-05-22",
+        "title": "Spotify's AI Remix Deal and Trump's Regulation Reversal | Briefly, AI",
+        "words": 773,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-21",
+        "title": "Google Redesigns Search, Anthropic Hits Profit, Meta Cuts Deep | Briefly, AI",
+        "words": 597,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-20",
+        "title": "Google Redesigns Search for the AI Era | Briefly, AI",
+        "words": 798,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-19",
+        "title": "Anthropic Buys Dev Tools, Musk Loses to Altman | Briefly, AI",
+        "words": 620,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-18",
+        "title": "ArXiv Bans AI Slop, Siri Deletes Your Secrets | Briefly, AI",
+        "words": 698,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-17",
+        "title": "Why We Trusted AI With Everything Except Judgment | Briefly, AI",
+        "words": 764,
+        "mode": "weekend-preview"
+    },
+    {
+        "date": "2026-05-16",
+        "title": "The Week Platforms Reasserted Control | Briefly, AI",
+        "words": 696,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-05-15",
+        "title": "Anthropic Hits $900B, OpenAI Sues Apple, and Microsoft Kills Claude | Briefly, AI",
+        "words": 631,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-14",
+        "title": "Notion Becomes an Agent Hub, Clio Hits Half a Billion | Briefly, AI",
+        "words": 699,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-13",
+        "title": "Medicare Just Paid for an AI Agent — and Nobody Noticed | Briefly, AI",
+        "words": 855,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-12",
+        "title": "The AI That Listens While It Talks | Briefly, AI",
+        "words": 783,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-11",
+        "title": "Whisper-Filled Offices and Fiction-Trained Blackmailers | Briefly, AI",
+        "words": 752,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-10",
+        "title": "Why We Panic When AI Takes Jobs We Never Wanted | Briefly, AI",
+        "words": 934,
+        "mode": "weekend-preview"
+    },
+    {
+        "date": "2026-05-09",
+        "title": "The Week AI Got Serious About Jobs — Both Ways | Briefly, AI",
+        "words": 645,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-05-08",
+        "title": "OpenAI Launches Crisis Alerts and Voice APIs | Briefly, AI",
+        "words": 768,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-07",
+        "title": "Google Kills Its Own AI Agent, and What That Tells Us | Briefly, AI",
+        "words": 818,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-06",
+        "title": "When Your iPhone Comes With Five Different AIs | Briefly, AI",
+        "words": 709,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-05",
+        "title": "Sierra Raises $950M and Jensen Says AI Creates Jobs | Briefly, AI",
+        "words": 755,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-04",
+        "title": "Oscars Ban AI, Anthropic Makes a Billion-Dollar Bet | Briefly, AI",
+        "words": 893,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-05-03",
+        "title": "Why AI Labs Are Choosing Sides — And What It Tells Us About Power | Briefly, AI",
+        "words": 1129,
+        "mode": "weekend-preview"
+    },
+    {
+        "date": "2026-05-02",
+        "title": "The Week AI Chose Sides | Briefly, AI",
+        "words": 678,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-04-30",
+        "title": "Anthropic's $900 Billion Bet and the Slackbot Revolution | Briefly, AI",
+        "words": 772,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-29",
+        "title": "Google Takes What Anthropic Won't Touch | Briefly, AI",
+        "words": 739,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-28",
+        "title": "The Breakup, the Billion, and the Billboard | Briefly, AI",
+        "words": 652,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-27",
+        "title": "When AI Agents Start Buying and Selling Alone | Briefly, AI",
+        "words": 854,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-26",
+        "title": "Google's Compute Empire and the Coming Agent Economy | Briefly, AI",
+        "words": 704,
+        "mode": "weekend-preview"
+    },
+    {
+        "date": "2026-04-25",
+        "title": "Google Bets $40B on Anthropic's Mythos Moment | Briefly, AI",
+        "words": 719,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-04-24",
+        "title": "China's 1.6 Trillion Parameter Play and OpenAI's Super App | Briefly, AI",
+        "words": 777,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-23",
+        "title": "Tesla's $25B Bet and the Chip Wars Nobody's Watching | Briefly, AI",
+        "words": 695,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-22",
+        "title": "AI Briefing Wednesday 22 April | Briefly, AI",
+        "words": 933,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-21",
+        "title": "AI Briefing Tuesday 21 April | Briefly, AI",
+        "words": 235,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-20",
+        "title": "Why We'd Rather Talk to Machines Than People | Briefly, AI",
+        "words": 599,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-18",
+        "title": "The Words Don't Fit Anymore | Briefly, AI",
+        "words": 821,
+        "mode": "weekend-roundup"
+    },
+    {
+        "date": "2026-04-17",
+        "title": "Briefly, AI — Friday Reflection",
+        "words": 716,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-16",
+        "title": "Briefly, AI — Thursday 16th April 2026",
+        "words": 754,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-15",
+        "title": "Briefly, AI — Wednesday 15th April 2026",
+        "words": 750,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-14",
+        "title": "Briefly, AI — Tuesday, 14th April 2026",
+        "words": 868,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-13",
+        "title": "Briefly, AI — Monday 13th April 2026",
+        "words": 693,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-10",
+        "title": "Briefly, AI — Episode Script",
+        "words": 806,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-09",
+        "title": "Briefly, AI — Episode Script",
+        "words": 694,
+        "mode": "weekday"
+    },
+    {
+        "date": "2026-04-07",
+        "title": "Briefly, AI — Episode Script",
+        "words": 729,
+        "mode": "weekday"
+    }
 ]
