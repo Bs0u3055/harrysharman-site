@@ -37,11 +37,13 @@
   from = "/sven-beta"
   to = "/.netlify/functions/sven-beta"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/sven-beta/"
   to = "/.netlify/functions/sven-beta"
   status = 200
+  force = true
 
 [[redirects]]
   from = "/subscribe"
