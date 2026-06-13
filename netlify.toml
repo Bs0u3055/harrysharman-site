@@ -6,6 +6,12 @@
 [build.environment]
   NODE_VERSION = "18"
 
+[functions."ai-habit-sequence-send"]
+  schedule = "0 7 * * 1-5"
+
+[functions."ai-habit-paid-sequence-send"]
+  schedule = "15 7 * * 1-5"
+
 
 [[headers]]
   for = "/*"
@@ -14,6 +20,28 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/sven-beta"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store, max-age=0"
+
+[[headers]]
+  for = "/SVEN-FRIEND-BETA-MESSAGE.md"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+    Cache-Control = "no-store, max-age=0"
+
+[[redirects]]
+  from = "/sven-beta"
+  to = "/.netlify/functions/sven-beta"
+  status = 200
+
+[[redirects]]
+  from = "/sven-beta/"
+  to = "/.netlify/functions/sven-beta"
+  status = 200
 
 [[redirects]]
   from = "/subscribe"
@@ -29,6 +57,12 @@
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+
+[[redirects]]
+  from = "/SVEN-FRIEND-BETA-MESSAGE.md"
+  to = "/sven-beta"
+  status = 302
+  force = true
 
 [[redirects]]
   from = "/feed.xml"

@@ -1,0 +1,89 @@
+{
+  "day_number": 90,
+  "title": "The completion proof pack",
+  "phase": "Capstone and Workplace Adoption",
+  "generated_at": "2026-06-09T18:45:00.000Z",
+  "spec": {
+    "day_number": 90,
+    "phase": "Capstone and Workplace Adoption",
+    "title": "The completion proof pack",
+    "task_type": "Planning & Prioritisation",
+    "domain": "Personal productivity",
+    "difficulty": 3,
+    "difficulty_label": "Push",
+    "prompt_complexity": 4,
+    "scaffolding": "Independent",
+    "notes_for_generator": "Assemble the completion badge, LinkedIn-ready proof note, evidence checklist, and maintenance plan.",
+    "professional_theme": "Capstone and Workplace Adoption",
+    "behaviour_layer": "Implementation intention, small daily output, retrieval through weekly artefacts, visible proof portfolio.",
+    "community_link": "https://harrysharman.com/projects/ai-habit/",
+    "tracking_link": "https://harrysharman.com/projects/ai-habit/"
+  },
+  "source_influences": [
+    {
+      "label": "OpenAI prompt engineering best practices",
+      "url": "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt",
+      "use": "clarity, context, specificity, iteration"
+    },
+    {
+      "label": "Anthropic prompt engineering overview",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+      "use": "examples, structure, role prompting, prompt chaining"
+    },
+    {
+      "label": "Microsoft 365 Copilot prompt framework",
+      "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/write-a-great-prompt-in-microsoft-365-copilot",
+      "use": "goal, context, source, expectations"
+    },
+    {
+      "label": "Google AI Essentials",
+      "url": "https://www.coursera.org/specializations/ai-essentials-google",
+      "use": "workplace productivity, responsible use, practical outputs"
+    },
+    {
+      "label": "Fogg Behavior Model",
+      "url": "https://www.behaviormodel.org/",
+      "use": "motivation, ability, prompt design"
+    },
+    {
+      "label": "UCL habit formation summary",
+      "url": "https://www.ucl.ac.uk/news/2009/aug/how-long-does-it-take-form-habit",
+      "use": "longer habit runway than 14 days"
+    },
+    {
+      "label": "Gollwitzer and Sheeran implementation intentions",
+      "url": "https://cancercontrol.cancer.gov/sites/default/files/2020-06/goal_intent_attain.pdf",
+      "use": "if-then planning and follow-through"
+    },
+    {
+      "label": "Roediger and Karpicke retrieval practice",
+      "url": "https://journals.sagepub.com/doi/abs/10.1111/j.1467-9280.2006.01693.x",
+      "use": "recall, testing, durable learning"
+    }
+  ],
+  "content": "SUBJECT: AI Gym Day 90: The completion proof pack\n\nYou made it to the end of the 90-day track. The final job is not to declare yourself transformed by a magic rectangle on the internet. The final job is to assemble credible proof of applied practice: what you made, what changed, what you can repeat, and what you will maintain.\n\nTODAY'S WORKOUT\n---------------\nPLANNING & PRIORITISATION | PUSH | 30 min\n\nTHE BRIEF:\nCreate your completion proof pack: badge, LinkedIn-ready write-up, evidence list, and maintenance plan.\n\nTHE SITUATION:\nYou have reached the end of the 90-day track. Use the work from Days 85-89: portfolio audit, personal AI operating system, employer case, peer session plan, and LinkedIn proof note.\n\nPROMPT SCAFFOLD:\nDo not copy this blindly. Adapt it to your work.\n\n\"I have completed a 90-day applied LLM practice programme. This is not a certification. I want to create credible proof of practice. Here are the artefacts I built: [list five to seven real outputs]. Here is what changed in my work: [specific behaviour changes]. Help me assemble: 1. a short proof statement, 2. a LinkedIn-ready write-up, 3. a five-item evidence checklist, and 4. a 30-day maintenance plan. Make it specific, modest, and grounded in artefacts rather than hype.\"\n\nYOUR REPS:\n1. Build the evidence list: choose five artefacts from the 90 days, covering creation, research, decisions, workflow, and judgement/risk.\n\n2. Open the completion proof kit and generate your badge and LinkedIn note: https://harrysharman.com/projects/ai-habit/completion-proof/\n\n3. Edit the write-up so it sounds like you and makes the badge credible. The badge should support the evidence, not replace it.\n\n4. Create a weekly maintenance rhythm: one creation rep, one research rep, one decision rep, one workflow improvement, and one judgement check.\n\nSUCCESS CRITERIA:\nYour output is good if:\n- The badge is paired with actual proof, not used as a fake qualification.\n- The LinkedIn note names what changed in your behaviour.\n- The evidence list includes real artefacts, not vague effort.\n- The next 30 days have a clear trigger, rhythm, and output.\n\nTRANSFER:\nThis transfers to portfolios, employer conversations, peer teaching, LinkedIn proof, workplace launch packs, and the practical question of what this habit is worth after the course ends.\n\nCOACHING NOTE:\nProof beats performance. A badge can be useful as a signal, but only when it points to evidence. Otherwise it is just graphic design having a little confidence episode.\n\nBEHAVIOURAL DESIGN:\nPut the first maintenance session in your calendar before you download the badge. That keeps the final reward attached to the next behaviour, not just the end of the programme.\n\nMINIMUM VIABLE REP:\nIf today is chaos, do the smallest honest version: list three artefacts, write three sentences about what changed, and save the badge link for later. Completion should create a next step, not a dramatic collapse onto the sofa.\n\n---------------\nCompletion proof kit: https://harrysharman.com/projects/ai-habit/completion-proof/\nUse only material you are allowed to share with your chosen LLM. Anonymise anything sensitive. Treat AI outputs as drafts, not authority. Verify factual claims before using them in public, financial, medical, legal, HR, or high-stakes contexts.\nThe AI Habit: https://harrysharman.com/projects/ai-habit/",
+  "validation": {
+    "model_agnostic": true,
+    "llm_scope_clear": true,
+    "privacy_safe": true,
+    "no_unverified_confidence_reliance": true,
+    "success_criteria_specific": true,
+    "coaching_note_transferable": true,
+    "behavioural_science_layer": true,
+    "professional_output": true,
+    "time_realistic": true,
+    "voice_correct": true,
+    "pass": true
+  },
+  "status": "draft_paid_track",
+  "audience": "paid-90",
+  "delivery": "email + web/app",
+  "reviewed_at": null,
+  "review_notes": [
+    "Generated as part of the 90-Day AI Habit paid founding track.",
+    "Continues from the free 14-day starter sequence without duplicating the foundation.",
+    "Organised by professional capability themes: creation, research, decisions, creativity, management, communication, productivity, analysis, workflow, judgement, and workplace adoption.",
+    "Draws from official prompt guidance and behavioural science principles without copying source programme content.",
+    "Day 90 now fulfils the landing-page promise: completion badge, LinkedIn-ready write-up, evidence checklist, and maintenance plan."
+  ]
+}

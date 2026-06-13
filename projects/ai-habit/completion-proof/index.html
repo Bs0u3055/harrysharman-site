@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Completion Proof Kit - The AI Habit</title>
+  <meta name="description" content="Create a completion badge and LinkedIn-ready proof note for The AI Habit 90-day track.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --habit-paper: #fefcf7;
+      --habit-ink: #120d0a;
+      --habit-blue: #2434ff;
+      --habit-yellow: #ffd84d;
+      --habit-red: #e63a25;
+      --habit-muted: #5b514b;
+    }
+
+    html,
+    body {
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font-family: var(--f-sans);
+    }
+
+    .proof-page {
+      min-height: 100vh;
+      padding: 34px 18px 56px;
+      background:
+        linear-gradient(90deg, rgba(18, 13, 10, 0.045) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18, 13, 10, 0.045) 1px, transparent 1px),
+        var(--habit-paper);
+      background-size: 28px 28px;
+    }
+
+    .proof-wrap {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+
+    .proof-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 28px;
+      align-items: end;
+      margin-bottom: 30px;
+    }
+
+    .proof-kicker {
+      display: inline-flex;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-yellow);
+      color: var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 10px;
+      margin-bottom: 18px;
+      box-shadow: 4px 4px 0 var(--habit-ink);
+    }
+
+    h1 {
+      margin: 0 0 16px;
+      max-width: 820px;
+      font-size: clamp(46px, 8vw, 92px);
+      line-height: 0.92;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    .proof-copy {
+      margin: 0;
+      max-width: 740px;
+      font-size: clamp(17px, 2vw, 23px);
+      line-height: 1.45;
+      color: var(--habit-ink);
+    }
+
+    .proof-warning {
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      box-shadow: 7px 7px 0 var(--habit-ink);
+      padding: 20px;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .proof-warning strong {
+      display: block;
+      margin-bottom: 8px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .proof-grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.1fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .proof-panel {
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      box-shadow: 7px 7px 0 var(--habit-ink);
+      padding: clamp(18px, 3vw, 28px);
+    }
+
+    .proof-panel h2 {
+      margin: 0 0 14px;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .proof-panel p {
+      margin: 0 0 18px;
+      color: var(--habit-muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .proof-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 2px solid var(--habit-ink);
+      border-radius: 0;
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font-family: var(--f-sans);
+      font-size: 16px;
+      line-height: 1.4;
+      padding: 12px;
+      outline: none;
+    }
+
+    textarea {
+      min-height: 96px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus {
+      box-shadow: 0 0 0 4px rgba(36, 52, 255, 0.16);
+    }
+
+    .proof-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .proof-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-ink);
+      color: #fff;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 10px 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .proof-btn.secondary {
+      background: #fff;
+      color: var(--habit-ink);
+    }
+
+    .badge-preview {
+      aspect-ratio: 1.62 / 1;
+      border: 3px solid var(--habit-ink);
+      background:
+        linear-gradient(135deg, var(--habit-yellow) 0 32%, #fff 32% 68%, var(--habit-blue) 68% 100%);
+      box-shadow: 9px 9px 0 var(--habit-ink);
+      padding: clamp(18px, 4vw, 34px);
+      display: grid;
+      align-content: space-between;
+      min-height: 270px;
+      overflow: hidden;
+    }
+
+    .badge-topline,
+    .badge-footer {
+      font-family: var(--f-mono);
+      font-size: clamp(10px, 1.5vw, 13px);
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .badge-title {
+      max-width: 78%;
+      font-size: clamp(34px, 6vw, 66px);
+      line-height: 0.9;
+      font-weight: 900;
+      letter-spacing: 0;
+    }
+
+    .badge-name {
+      display: inline-block;
+      max-width: 100%;
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      padding: 8px 10px;
+      font-family: var(--f-mono);
+      font-size: clamp(12px, 2vw, 18px);
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+
+    .proof-output {
+      width: 100%;
+      min-height: 240px;
+      margin-top: 12px;
+      background: var(--habit-paper);
+    }
+
+    .proof-checklist {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .proof-checklist li {
+      border-left: 5px solid var(--habit-blue);
+      background: var(--habit-paper);
+      padding: 10px 12px;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .proof-footer {
+      margin-top: 28px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .proof-footer a {
+      color: var(--habit-blue);
+      font-weight: 900;
+    }
+
+    @media (max-width: 860px) {
+      .proof-top,
+      .proof-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .proof-warning {
+        order: -1;
+      }
+
+      .badge-title {
+        max-width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="proof-page">
+    <div class="proof-wrap">
+      <section class="proof-top">
+        <div>
+          <div class="proof-kicker">The AI Habit / Completion proof</div>
+          <h1>Make the proof useful.</h1>
+          <p class="proof-copy">This is for people who finish the 90-day track. The badge is a signal, not a qualification. The credibility comes from the artefacts you can point to and the way your work changed.</p>
+        </div>
+        <aside class="proof-warning">
+          <strong>Not a certification</strong>
+          This badge does not claim accreditation, expertise, or official assessment. Use it only with honest proof of applied practice: examples, reflections, workflows, and what you now do differently.
+        </aside>
+      </section>
+
+      <section class="proof-grid">
+        <div class="proof-panel">
+          <h2>Your proof inputs</h2>
+          <p>Fill this in after Day 90. Keep it specific. "I used AI" is air. "I built a reusable decision memo workflow and used it twice" is proof.</p>
+          <form class="proof-form" id="proof-form">
+            <label>
+              Name for badge
+              <input id="proof-name" autocomplete="name" value="Your name">
+            </label>
+            <label>
+              Completion month
+              <input id="proof-date" value="June 2026">
+            </label>
+            <label>
+              Strongest artefact
+              <input id="proof-artefact" value="A reusable AI workflow for real work">
+            </label>
+            <label>
+              What changed
+              <textarea id="proof-change">I built a daily LLM practice across creation, research, decisions, communication, workflow, and judgement. The useful part was not collecting prompts. It was turning repeatable work into a personal operating system.</textarea>
+            </label>
+          </form>
+          <div class="proof-actions">
+            <button class="proof-btn" type="button" id="download-badge">Download badge</button>
+            <button class="proof-btn secondary" type="button" id="copy-linkedin">Copy LinkedIn note</button>
+          </div>
+        </div>
+
+        <div class="proof-panel">
+          <h2>Completion badge</h2>
+          <div class="badge-preview" id="badge-preview" aria-label="AI Habit completion badge preview">
+            <div class="badge-topline">The AI Habit</div>
+            <div class="badge-title">90 days completed</div>
+            <div>
+              <div class="badge-name" id="badge-name">Your name</div>
+              <div class="badge-footer" id="badge-date">Applied practice / June 2026</div>
+            </div>
+          </div>
+
+          <h2 style="margin-top: 28px;">LinkedIn-ready write-up</h2>
+          <textarea class="proof-output" id="linkedin-output" readonly></textarea>
+
+          <ul class="proof-checklist">
+            <li>Attach or reference five artefacts from the 90 days: one creation, one research, one decision, one workflow, and one judgement/risk example.</li>
+            <li>Say what changed in your behaviour, not just which tool you used.</li>
+            <li>Use the badge only alongside the write-up or proof pack. Badge alone equals suspicious rectangle.</li>
+          </ul>
+        </div>
+      </section>
+
+      <p class="proof-footer">
+        <a href="/projects/ai-habit/">Back to The AI Habit</a>
+      </p>
+    </div>
+  </main>
+
+  <script>
+    const fields = {
+      name: document.getElementById('proof-name'),
+      date: document.getElementById('proof-date'),
+      artefact: document.getElementById('proof-artefact'),
+      change: document.getElementById('proof-change')
+    };
+    const badgeName = document.getElementById('badge-name');
+    const badgeDate = document.getElementById('badge-date');
+    const linkedInOutput = document.getElementById('linkedin-output');
+
+    function clean(value, fallback) {
+      const text = String(value || '').trim();
+      return text || fallback;
+    }
+
+    function buildLinkedInText() {
+      const name = clean(fields.name.value, 'I');
+      const date = clean(fields.date.value, 'this month');
+      const artefact = clean(fields.artefact.value, 'a reusable AI workflow for real work');
+      const change = clean(fields.change.value, 'I built a daily LLM practice and turned it into a more repeatable way of working.');
+      const intro = name === 'I' ? 'I have' : `${name} has`;
+      return `${intro} completed The AI Habit 90-day track in ${date}.\n\nThis is not a certification. It is a proof of applied practice: 90 days of using LLMs on real work across creation, research, decision-making, communication, workflow design, and judgement.\n\nStrongest artefact: ${artefact}.\n\nWhat changed: ${change}\n\nThe useful lesson was simple: AI skill does not come from reading about prompts. It comes from repeated, specific use on work that matters, with enough judgement to know when not to trust the first answer.`;
+    }
+
+    function update() {
+      badgeName.textContent = clean(fields.name.value, 'Your name');
+      badgeDate.textContent = `Applied practice / ${clean(fields.date.value, 'June 2026')}`;
+      linkedInOutput.value = buildLinkedInText();
+    }
+
+    function svgEscape(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function downloadBadge() {
+      const name = svgEscape(clean(fields.name.value, 'Your name'));
+      const date = svgEscape(clean(fields.date.value, 'June 2026'));
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="740" viewBox="0 0 1200 740">
+  <rect width="1200" height="740" fill="#fefcf7"/>
+  <path d="M0 0h460v740H0z" fill="#ffd84d"/>
+  <path d="M780 0h420v740H780z" fill="#2434ff"/>
+  <rect x="30" y="30" width="1140" height="680" fill="none" stroke="#120d0a" stroke-width="10"/>
+  <text x="78" y="110" font-family="Arial, sans-serif" font-size="30" font-weight="800" letter-spacing="4">THE AI HABIT</text>
+  <text x="78" y="280" font-family="Arial, sans-serif" font-size="104" font-weight="900">90 days</text>
+  <text x="78" y="390" font-family="Arial, sans-serif" font-size="104" font-weight="900">completed</text>
+  <rect x="78" y="500" width="760" height="82" fill="#ffffff" stroke="#120d0a" stroke-width="5"/>
+  <text x="105" y="553" font-family="Arial, sans-serif" font-size="38" font-weight="800">${name}</text>
+  <text x="78" y="640" font-family="Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="3">APPLIED PRACTICE / ${date}</text>
+  <text x="790" y="640" font-family="Arial, sans-serif" font-size="22" font-weight="800" fill="#ffffff">PROOF, NOT CERTIFICATION</text>
+</svg>`;
+      const blob = new Blob([svg], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'ai-habit-90-day-completion-badge.svg';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function copyLinkedIn() {
+      linkedInOutput.select();
+      try {
+        await navigator.clipboard.writeText(linkedInOutput.value);
+      } catch {
+        document.execCommand('copy');
+      }
+    }
+
+    Object.values(fields).forEach((field) => field.addEventListener('input', update));
+    document.getElementById('download-badge').addEventListener('click', downloadBadge);
+    document.getElementById('copy-linkedin').addEventListener('click', copyLinkedIn);
+    update();
+  </script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

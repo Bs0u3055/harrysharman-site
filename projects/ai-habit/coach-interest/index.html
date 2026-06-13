@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Coach Interest - The AI Habit</title>
+  <meta name="description" content="Tell us whether an AI Habit coaching layer would be useful.">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/site-nav.js" defer></script>
+  <style>
+    :root {
+      --habit-paper: #fefcf7;
+      --habit-ink: #120d0a;
+      --habit-blue: #2434ff;
+      --habit-yellow: #ffd84d;
+      --habit-red: #e63a25;
+      --habit-muted: #5b514b;
+    }
+
+    html,
+    body {
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font-family: var(--f-sans);
+    }
+
+    .coach-page {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 44px 18px;
+      background:
+        linear-gradient(90deg, rgba(18, 13, 10, 0.045) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18, 13, 10, 0.045) 1px, transparent 1px),
+        var(--habit-paper);
+      background-size: 28px 28px;
+    }
+
+    .coach-box {
+      width: min(860px, 100%);
+      margin: 0 auto;
+      border: 2px solid var(--habit-ink);
+      background: #fff;
+      box-shadow: 8px 8px 0 var(--habit-ink);
+      padding: clamp(24px, 5vw, 48px);
+    }
+
+    .coach-kicker {
+      display: inline-flex;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-yellow);
+      color: var(--habit-ink);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 7px 10px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      max-width: 760px;
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 0.92;
+      letter-spacing: 0;
+      font-weight: 900;
+    }
+
+    .coach-copy {
+      margin: 0 0 22px;
+      max-width: 680px;
+      color: var(--habit-muted);
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .coach-note {
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-paper);
+      padding: 15px;
+      margin: 22px 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .coach-meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      border-top: 2px solid var(--habit-ink);
+      border-left: 2px solid var(--habit-ink);
+      margin: 22px 0;
+    }
+
+    .coach-meta div {
+      border-right: 2px solid var(--habit-ink);
+      border-bottom: 2px solid var(--habit-ink);
+      padding: 13px;
+      background: var(--habit-paper);
+    }
+
+    .coach-meta strong {
+      display: block;
+      margin-bottom: 5px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .coach-form {
+      display: grid;
+      gap: 16px;
+    }
+
+    .coach-choice,
+    .coach-price {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .coach-price {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+
+    .coach-choice label,
+    .coach-price label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-paper);
+      padding: 13px;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .coach-choice label.active,
+    .coach-price label.active {
+      background: var(--habit-yellow);
+    }
+
+    .coach-form label span,
+    .coach-label {
+      display: block;
+      margin-bottom: 7px;
+      font-family: var(--f-mono);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    textarea,
+    input[type="email"] {
+      width: 100%;
+      border: 2px solid var(--habit-ink);
+      border-radius: 0;
+      background: var(--habit-paper);
+      color: var(--habit-ink);
+      font: inherit;
+      font-size: 16px;
+      line-height: 1.45;
+      padding: 12px;
+    }
+
+    textarea {
+      min-height: 132px;
+      resize: vertical;
+    }
+
+    .coach-btn {
+      justify-self: start;
+      min-height: 48px;
+      border: 2px solid var(--habit-ink);
+      background: var(--habit-ink);
+      color: #fff;
+      font-family: var(--f-mono);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 12px 18px;
+      cursor: pointer;
+    }
+
+    .coach-small {
+      margin: 12px 0 0;
+      color: var(--habit-muted);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .coach-small a {
+      color: var(--habit-blue);
+      font-weight: 900;
+    }
+
+    @media (max-width: 820px) {
+      .coach-price {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .coach-meta,
+      .coach-choice,
+      .coach-price {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="coach-page">
+    <section class="coach-box">
+      <div class="coach-kicker">The AI Habit / Future idea</div>
+      <h1>Would you pay for an AI coach?</h1>
+      <p class="coach-copy">This is not built yet. The idea is simple: you send prompts, workflows, or AI-assisted outputs, and get feedback on how to make them sharper, more useful, and less "the model produced a confident pudding".</p>
+      <p class="coach-note">A yes here is not a purchase. It is signal. We will only build this if enough people say it would be useful enough to pay for.</p>
+
+      <div class="coach-meta">
+        <div>
+          <strong>Prompted from</strong>
+          <span id="day-label">Day unknown</span>
+        </div>
+        <div>
+          <strong>Your first answer</strong>
+          <span id="response-label">Not selected</span>
+        </div>
+      </div>
+
+      <form class="coach-form" action="/.netlify/functions/ai-habit-coach-interest" method="POST">
+        <input type="hidden" id="coach-day" name="day" value="">
+        <input type="hidden" id="coach-track" name="track" value="">
+        <input type="hidden" id="coach-sid" name="sid" value="">
+        <input type="hidden" name="source" value="coach-interest-email">
+
+        <div>
+          <span class="coach-label">Would you want this?</span>
+          <div class="coach-choice" id="response-choice">
+            <label>
+              <input type="radio" name="response" value="yes" required>
+              Yes
+            </label>
+            <label>
+              <input type="radio" name="response" value="maybe" required>
+              Maybe
+            </label>
+            <label>
+              <input type="radio" name="response" value="no" required>
+              No
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <span class="coach-label">If it existed, what might it be worth?</span>
+          <div class="coach-price" id="price-choice">
+            <label>
+              <input type="radio" name="price_band" value="0">
+              GBP 0
+            </label>
+            <label>
+              <input type="radio" name="price_band" value="5">
+              GBP 5/mo
+            </label>
+            <label>
+              <input type="radio" name="price_band" value="10">
+              GBP 10/mo
+            </label>
+            <label>
+              <input type="radio" name="price_band" value="19">
+              GBP 19/mo
+            </label>
+            <label>
+              <input type="radio" name="price_band" value="49">
+              GBP 49+/mo
+            </label>
+            <label>
+              <input type="radio" name="price_band" value="employer">
+              Employer pays
+            </label>
+          </div>
+        </div>
+
+        <label>
+          <span>What would make it worth paying for?</span>
+          <textarea name="comment" placeholder="For example: review my prompts, rewrite my workflow, spot where I am using AI lazily, help me build reusable templates, compare before and after outputs..."></textarea>
+        </label>
+
+        <label>
+          <span>Email, optional</span>
+          <input type="email" name="email" autocomplete="email" placeholder="Only if you want to be contacted if this gets built">
+        </label>
+
+        <button class="coach-btn" type="submit">Send signal</button>
+      </form>
+
+      <p class="coach-small">
+        This is product discovery, not a sales page. <a href="/projects/ai-habit/">Back to The AI Habit</a>
+      </p>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const day = Math.max(1, Math.min(90, Number(params.get('day') || 0)));
+    const response = ['yes', 'maybe', 'no'].includes(params.get('response')) ? params.get('response') : '';
+    const track = params.get('track') || '';
+    const sid = params.get('sid') || '';
+
+    document.getElementById('coach-day').value = day || '';
+    document.getElementById('coach-track').value = track;
+    document.getElementById('coach-sid').value = sid;
+    document.getElementById('day-label').textContent = day ? `Day ${day}` : 'Day unknown';
+    document.getElementById('response-label').textContent = response
+      ? response.charAt(0).toUpperCase() + response.slice(1)
+      : 'Not selected';
+
+    function activateGroup(groupId, selectedValue, onChange) {
+      const labels = Array.from(document.querySelectorAll(`#${groupId} label`));
+      labels.forEach((label) => {
+        const input = label.querySelector('input');
+        if (input.value === selectedValue) input.checked = true;
+        label.classList.toggle('active', input.checked);
+        input.addEventListener('change', () => {
+          labels.forEach((item) => item.classList.toggle('active', item.querySelector('input').checked));
+          if (onChange) onChange(input.value);
+        });
+      });
+    }
+
+    activateGroup('response-choice', response, (value) => {
+      document.getElementById('response-label').textContent = value.charAt(0).toUpperCase() + value.slice(1);
+    });
+    activateGroup('price-choice', '', null);
+  </script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

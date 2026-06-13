@@ -1,0 +1,746 @@
+{
+  "generated_at": "2026-06-09T18:45:00.000Z",
+  "product": "The AI Habit - 90-day pay-what-it-is-worth track",
+  "description": "Paid continuation curriculum for Days 15-90.",
+  "themes": [
+    "Creation and Editing",
+    "Research and Evidence",
+    "Strategy and Decision Making",
+    "Creativity and Innovation",
+    "People Management and Delegation",
+    "Communication and Meetings",
+    "Productivity and Operations",
+    "Analysis and Business Case",
+    "Workflow and Automation",
+    "Judgement and Risk",
+    "Capstone and Workplace Adoption"
+  ],
+  "source_influences": [
+    {
+      "label": "OpenAI prompt engineering best practices",
+      "url": "https://help.openai.com/en/articles/10032626-prompt-engineering-best-practices-for-chatgpt",
+      "use": "clarity, context, specificity, iteration"
+    },
+    {
+      "label": "Anthropic prompt engineering overview",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/overview",
+      "use": "examples, structure, role prompting, prompt chaining"
+    },
+    {
+      "label": "Microsoft 365 Copilot prompt framework",
+      "url": "https://support.microsoft.com/en-us/microsoft-365-copilot/write-a-great-prompt-in-microsoft-365-copilot",
+      "use": "goal, context, source, expectations"
+    },
+    {
+      "label": "Google AI Essentials",
+      "url": "https://www.coursera.org/specializations/ai-essentials-google",
+      "use": "workplace productivity, responsible use, practical outputs"
+    },
+    {
+      "label": "Fogg Behavior Model",
+      "url": "https://www.behaviormodel.org/",
+      "use": "motivation, ability, prompt design"
+    },
+    {
+      "label": "UCL habit formation summary",
+      "url": "https://www.ucl.ac.uk/news/2009/aug/how-long-does-it-take-form-habit",
+      "use": "longer habit runway than 14 days"
+    },
+    {
+      "label": "Gollwitzer and Sheeran implementation intentions",
+      "url": "https://cancercontrol.cancer.gov/sites/default/files/2020-06/goal_intent_attain.pdf",
+      "use": "if-then planning and follow-through"
+    },
+    {
+      "label": "Roediger and Karpicke retrieval practice",
+      "url": "https://journals.sagepub.com/doi/abs/10.1111/j.1467-9280.2006.01693.x",
+      "use": "recall, testing, durable learning"
+    }
+  ],
+  "days": [
+    {
+      "day_number": 15,
+      "phase": "Creation and Editing",
+      "title": "The raw material rule",
+      "task_type": "Creation & Drafting",
+      "domain": "Writing & editing",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 16,
+      "phase": "Creation and Editing",
+      "title": "The house style extractor",
+      "task_type": "Editing & Refinement",
+      "domain": "Writing & editing",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 17,
+      "phase": "Creation and Editing",
+      "title": "The ruthless executive summary",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Leadership communication",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 18,
+      "phase": "Creation and Editing",
+      "title": "The argument ladder",
+      "task_type": "Structuring & Organising",
+      "domain": "Persuasion & argument",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 19,
+      "phase": "Creation and Editing",
+      "title": "The edit stack",
+      "task_type": "Editing & Refinement",
+      "domain": "Writing & editing",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 20,
+      "phase": "Creation and Editing",
+      "title": "The reader friction audit",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Customer and colleague communication",
+      "difficulty_label": "Steady State",
+      "minutes": 15
+    },
+    {
+      "day_number": 21,
+      "phase": "Creation and Editing",
+      "title": "The reusable content atom",
+      "task_type": "Creation & Drafting",
+      "domain": "Content and knowledge reuse",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 22,
+      "phase": "Research and Evidence",
+      "title": "The better research question",
+      "task_type": "Research & Discovery",
+      "domain": "Research and assessment",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 23,
+      "phase": "Research and Evidence",
+      "title": "The source ladder",
+      "task_type": "Research & Discovery",
+      "domain": "Research and assessment",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 24,
+      "phase": "Research and Evidence",
+      "title": "The disagreement map",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Research and assessment",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 25,
+      "phase": "Research and Evidence",
+      "title": "The anti-hallucination brief",
+      "task_type": "Research & Discovery",
+      "domain": "Research and assessment",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 26,
+      "phase": "Research and Evidence",
+      "title": "The interview guide",
+      "task_type": "Structuring & Organising",
+      "domain": "Customer and stakeholder research",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 27,
+      "phase": "Research and Evidence",
+      "title": "The synthesis table",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Research and assessment",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 28,
+      "phase": "Research and Evidence",
+      "title": "The evidence brief",
+      "task_type": "Creation & Drafting",
+      "domain": "Research and assessment",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 29,
+      "phase": "Strategy and Decision Making",
+      "title": "The options generator that does not get to decide",
+      "task_type": "Strategy & planning",
+      "domain": "Strategy & decision-making",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 30,
+      "phase": "Strategy and Decision Making",
+      "title": "The decision criteria",
+      "task_type": "Structuring & Organising",
+      "domain": "Strategy & decision-making",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 31,
+      "phase": "Strategy and Decision Making",
+      "title": "The pre-mortem",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Risk and planning",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 32,
+      "phase": "Strategy and Decision Making",
+      "title": "The second-order effects scan",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Strategy & decision-making",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 33,
+      "phase": "Strategy and Decision Making",
+      "title": "The stakeholder lens",
+      "task_type": "Translation & Adaptation",
+      "domain": "Stakeholder management",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 34,
+      "phase": "Strategy and Decision Making",
+      "title": "The one-page decision memo",
+      "task_type": "Creation & Drafting",
+      "domain": "Leadership communication",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 35,
+      "phase": "Strategy and Decision Making",
+      "title": "The decision review",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Leadership practice",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 36,
+      "phase": "Creativity and Innovation",
+      "title": "The problem reframer",
+      "task_type": "Creativity & Ideation",
+      "domain": "Innovation and product thinking",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 37,
+      "phase": "Creativity and Innovation",
+      "title": "The analogy engine",
+      "task_type": "Creativity & Ideation",
+      "domain": "Innovation and product thinking",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 38,
+      "phase": "Creativity and Innovation",
+      "title": "The constraint game",
+      "task_type": "Creativity & Ideation",
+      "domain": "Creative strategy",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 39,
+      "phase": "Creativity and Innovation",
+      "title": "The bad idea mine",
+      "task_type": "Creativity & Ideation",
+      "domain": "Creative strategy",
+      "difficulty_label": "Push",
+      "minutes": 18
+    },
+    {
+      "day_number": 40,
+      "phase": "Creativity and Innovation",
+      "title": "The concept stress test",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Innovation and product thinking",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 41,
+      "phase": "Creativity and Innovation",
+      "title": "The prototype story",
+      "task_type": "Creation & Drafting",
+      "domain": "Product and service design",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 42,
+      "phase": "Creativity and Innovation",
+      "title": "The creative portfolio",
+      "task_type": "Structuring & Organising",
+      "domain": "Creative strategy",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 43,
+      "phase": "People Management and Delegation",
+      "title": "The manager briefing pack",
+      "task_type": "Structuring & Organising",
+      "domain": "People & management",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 44,
+      "phase": "People Management and Delegation",
+      "title": "The delegation brief",
+      "task_type": "Structuring & Organising",
+      "domain": "People & management",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 45,
+      "phase": "People Management and Delegation",
+      "title": "The feedback rehearsal",
+      "task_type": "Translation & Adaptation",
+      "domain": "People & management",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 46,
+      "phase": "People Management and Delegation",
+      "title": "The coaching question bank",
+      "task_type": "Creation & Drafting",
+      "domain": "People & management",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 47,
+      "phase": "People Management and Delegation",
+      "title": "The one-to-one operating system",
+      "task_type": "Structuring & Organising",
+      "domain": "People & management",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 48,
+      "phase": "People Management and Delegation",
+      "title": "The conflict translation",
+      "task_type": "Translation & Adaptation",
+      "domain": "People & management",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 49,
+      "phase": "People Management and Delegation",
+      "title": "The team norm reset",
+      "task_type": "Structuring & Organising",
+      "domain": "Team operations",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 50,
+      "phase": "Communication and Meetings",
+      "title": "The meeting before the meeting",
+      "task_type": "Structuring & Organising",
+      "domain": "Meetings and communication",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 51,
+      "phase": "Communication and Meetings",
+      "title": "The meeting note distiller",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Meetings and communication",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 52,
+      "phase": "Communication and Meetings",
+      "title": "The presentation spine",
+      "task_type": "Structuring & Organising",
+      "domain": "Presentations and storytelling",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 53,
+      "phase": "Communication and Meetings",
+      "title": "The FAQ you wish existed",
+      "task_type": "Creation & Drafting",
+      "domain": "Stakeholder communication",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 54,
+      "phase": "Communication and Meetings",
+      "title": "The difficult email draft",
+      "task_type": "Creation & Drafting",
+      "domain": "Communication",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 55,
+      "phase": "Communication and Meetings",
+      "title": "The audience ladder",
+      "task_type": "Translation & Adaptation",
+      "domain": "Communication",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 56,
+      "phase": "Communication and Meetings",
+      "title": "The narrative checkpoint",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Communication strategy",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 57,
+      "phase": "Productivity and Operations",
+      "title": "The task triage",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Personal productivity",
+      "difficulty_label": "Steady State",
+      "minutes": 15
+    },
+    {
+      "day_number": 58,
+      "phase": "Productivity and Operations",
+      "title": "The weekly review with receipts",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Personal productivity",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 59,
+      "phase": "Productivity and Operations",
+      "title": "The checklist upgrade",
+      "task_type": "Structuring & Organising",
+      "domain": "Operations & process",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 60,
+      "phase": "Productivity and Operations",
+      "title": "The SOP that people might read",
+      "task_type": "Creation & Drafting",
+      "domain": "Operations & process",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 61,
+      "phase": "Productivity and Operations",
+      "title": "The time block negotiation",
+      "task_type": "Planning & Prioritisation",
+      "domain": "Personal productivity",
+      "difficulty_label": "Steady State",
+      "minutes": 15
+    },
+    {
+      "day_number": 62,
+      "phase": "Productivity and Operations",
+      "title": "The follow-up machine",
+      "task_type": "Automation & Workflow",
+      "domain": "Operations & process",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 63,
+      "phase": "Productivity and Operations",
+      "title": "The habit repair plan",
+      "task_type": "Structuring & Organising",
+      "domain": "Behaviour design",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 64,
+      "phase": "Analysis and Business Case",
+      "title": "The question behind the data",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Data & analytics",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 65,
+      "phase": "Analysis and Business Case",
+      "title": "The spreadsheet explainer",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Data & analytics",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 66,
+      "phase": "Analysis and Business Case",
+      "title": "The assumption register",
+      "task_type": "Structuring & Organising",
+      "domain": "Finance & business case",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 67,
+      "phase": "Analysis and Business Case",
+      "title": "The scenario trio",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Finance & business case",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 68,
+      "phase": "Analysis and Business Case",
+      "title": "The benefits map",
+      "task_type": "Structuring & Organising",
+      "domain": "Business case",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 69,
+      "phase": "Analysis and Business Case",
+      "title": "The objection ledger",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Business case",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 70,
+      "phase": "Analysis and Business Case",
+      "title": "The one-page business case",
+      "task_type": "Creation & Drafting",
+      "domain": "Finance & business case",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 71,
+      "phase": "Workflow and Automation",
+      "title": "The repeatable prompt",
+      "task_type": "Automation & Workflow",
+      "domain": "AI workflow design",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 72,
+      "phase": "Workflow and Automation",
+      "title": "The prompt library architecture",
+      "task_type": "Structuring & Organising",
+      "domain": "AI workflow design",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 73,
+      "phase": "Workflow and Automation",
+      "title": "The guardrail wrapper",
+      "task_type": "Risk & QA",
+      "domain": "AI workflow design",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 74,
+      "phase": "Workflow and Automation",
+      "title": "The human-in-the-loop map",
+      "task_type": "Structuring & Organising",
+      "domain": "AI workflow design",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 75,
+      "phase": "Workflow and Automation",
+      "title": "The agent handoff brief",
+      "task_type": "Structuring & Organising",
+      "domain": "Delegation and agents",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 76,
+      "phase": "Workflow and Automation",
+      "title": "The workflow QA checklist",
+      "task_type": "Risk & QA",
+      "domain": "AI workflow design",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 77,
+      "phase": "Workflow and Automation",
+      "title": "The workflow spec",
+      "task_type": "Creation & Drafting",
+      "domain": "AI workflow design",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 78,
+      "phase": "Judgement and Risk",
+      "title": "The privacy line",
+      "task_type": "Risk & QA",
+      "domain": "Responsible AI",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 79,
+      "phase": "Judgement and Risk",
+      "title": "The bias and blind spot scan",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Responsible AI",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 80,
+      "phase": "Judgement and Risk",
+      "title": "The claim audit",
+      "task_type": "Research & Discovery",
+      "domain": "Responsible AI",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 81,
+      "phase": "Judgement and Risk",
+      "title": "The escalation rule",
+      "task_type": "Risk & QA",
+      "domain": "Responsible AI",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 82,
+      "phase": "Judgement and Risk",
+      "title": "The confidence calibration",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Responsible AI",
+      "difficulty_label": "Push",
+      "minutes": 20
+    },
+    {
+      "day_number": 83,
+      "phase": "Judgement and Risk",
+      "title": "The red team pass",
+      "task_type": "Risk & QA",
+      "domain": "Responsible AI",
+      "difficulty_label": "Push",
+      "minutes": 22
+    },
+    {
+      "day_number": 84,
+      "phase": "Judgement and Risk",
+      "title": "The responsible use statement",
+      "task_type": "Creation & Drafting",
+      "domain": "Responsible AI",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 85,
+      "phase": "Capstone and Workplace Adoption",
+      "title": "The portfolio audit",
+      "task_type": "Analysis & Synthesis",
+      "domain": "Career and workplace adoption",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 86,
+      "phase": "Capstone and Workplace Adoption",
+      "title": "The personal AI operating system",
+      "task_type": "Structuring & Organising",
+      "domain": "Career and workplace adoption",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 87,
+      "phase": "Capstone and Workplace Adoption",
+      "title": "The employer case",
+      "task_type": "Creation & Drafting",
+      "domain": "Career and workplace adoption",
+      "difficulty_label": "Push",
+      "minutes": 25
+    },
+    {
+      "day_number": 88,
+      "phase": "Capstone and Workplace Adoption",
+      "title": "The peer session plan",
+      "task_type": "Structuring & Organising",
+      "domain": "Career and workplace adoption",
+      "difficulty_label": "Steady State",
+      "minutes": 20
+    },
+    {
+      "day_number": 89,
+      "phase": "Capstone and Workplace Adoption",
+      "title": "The LinkedIn proof note",
+      "task_type": "Creation & Drafting",
+      "domain": "Career and workplace adoption",
+      "difficulty_label": "Steady State",
+      "minutes": 18
+    },
+    {
+      "day_number": 90,
+      "phase": "Capstone and Workplace Adoption",
+      "title": "The completion proof pack",
+      "task_type": "Planning & Prioritisation",
+      "domain": "Personal productivity",
+      "difficulty_label": "Push",
+      "minutes": 30
+    }
+  ]
+}
